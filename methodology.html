@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Transparent methodology behind the Gold Fear & Greed Index - Open source and data-driven">
+    <title>Methodology - Gold Fear & Greed Index</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        .methodology-content {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .methodology-intro {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 40px;
+            border: 1px solid var(--border-color);
+            text-align: center;
+        }
+
+        .methodology-intro h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .methodology-intro p {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        .badge {
+            display: inline-block;
+            background: rgba(255, 215, 0, 0.1);
+            color: #FFD700;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            margin: 10px 5px;
+            border: 1px solid rgba(255, 215, 0, 0.3);
+        }
+
+        .section {
+            background: var(--card-bg);
+            border-radius: 20px;
+            padding: 40px;
+            margin-bottom: 30px;
+            border: 1px solid var(--border-color);
+        }
+
+        .section h2 {
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            color: #FFD700;
+        }
+
+        .section h3 {
+            font-size: 1.3rem;
+            margin-top: 30px;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .section p, .section li {
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 15px;
+        }
+
+        .components-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 30px 0;
+        }
+
+        .components-table th,
+        .components-table td {
+            padding: 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .components-table th {
+            background: rgba(255, 215, 0, 0.1);
+            color: #FFD700;
+            font-weight: 600;
+        }
+
+        .components-table tr:hover {
+            background: rgba(255, 255, 255, 0.03);
+        }
+
+        .weight-badge {
+            background: rgba(126, 211, 33, 0.2);
+            color: #7ED321;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .formula {
+            background: rgba(255, 215, 0, 0.05);
+            border-left: 3px solid #FFD700;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            font-family: 'Courier New', monospace;
+            overflow-x: auto;
+        }
+
+        .faq-item {
+            margin-bottom: 25px;
+        }
+
+        .faq-question {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-primary);
+            margin-bottom: 10px;
+        }
+
+        .faq-answer {
+            color: var(--text-secondary);
+            line-height: 1.7;
+            padding-left: 20px;
+            border-left: 2px solid var(--border-color);
+        }
+
+        .source-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 15px;
+            margin: 20px 0;
+        }
+
+        .source-item {
+            background: rgba(255, 255, 255, 0.03);
+            padding: 15px 20px;
+            border-radius: 10px;
+            border: 1px solid var(--border-color);
+        }
+
+        .source-item strong {
+            color: #FFD700;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: linear-gradient(135deg, #FFD700, #FFA500);
+            color: #0f0f23;
+            padding: 15px 40px;
+            border-radius: 30px;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin: 20px 10px;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .cta-secondary {
+            background: transparent;
+            color: #FFD700;
+            border: 2px solid #FFD700;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: #FFD700;
+            text-decoration: none;
+            margin-bottom: 20px;
+            font-size: 1rem;
+        }
+
+        .back-link:hover {
+            text-decoration: underline;
+        }
+
+        ul {
+            margin-left: 20px;
+        }
+
+        ul li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="methodology-content">
+            <a href="index.html" class="back-link">← Back to Index</a>
+
+            <div class="methodology-intro">
+                <h1>Our Methodology</h1>
+                <p>
+                    Unlike proprietary black-box indices, we believe in <strong>radical transparency</strong>.
+                    Our Gold Fear & Greed Index is built on publicly available data, clear formulas,
+                    and open-source code that anyone can verify.
+                </p>
+                <div>
+                    <span class="badge">100% Transparent</span>
+                    <span class="badge">Open Source</span>
+                    <span class="badge">Free Data Sources</span>
+                    <span class="badge">Daily Updates</span>
+                </div>
+            </div>
+
+            <!-- Components Section -->
+            <div class="section">
+                <h2>📊 Index Components</h2>
+                <p>
+                    Our index aggregates 7 key indicators that measure different aspects of gold market sentiment.
+                    Each component is scored from 0 (Extreme Fear) to 100 (Extreme Greed).
+                </p>
+
+                <table class="components-table">
+                    <thead>
+                        <tr>
+                            <th>Component</th>
+                            <th>Weight</th>
+                            <th>What It Measures</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Momentum</strong></td>
+                            <td><span class="weight-badge">25%</span></td>
+                            <td>Price vs moving averages (MA50/MA200) + RSI(14). High momentum = Strong gold demand.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Gold vs Stocks</strong></td>
+                            <td><span class="weight-badge">15%</span></td>
+                            <td>14-day relative performance: Gold vs S&P500. Gold outperforms = Higher score.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>ETF Flows</strong></td>
+                            <td><span class="weight-badge">15%</span></td>
+                            <td>GLD (SPDR Gold Trust) volume and price trends. Increasing flows = Higher demand.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Volatility</strong></td>
+                            <td><span class="weight-badge">15%</span></td>
+                            <td>14-day volatility vs 30-day average. Lower volatility = More confidence.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dollar Index</strong></td>
+                            <td><span class="weight-badge">10%</span></td>
+                            <td>DXY 14-day change. Weak dollar = Strong gold (inverse correlation).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>VIX</strong></td>
+                            <td><span class="weight-badge">10%</span></td>
+                            <td>Market volatility index. High VIX = Flight to safe havens like gold.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Real Rates</strong></td>
+                            <td><span class="weight-badge">10%</span></td>
+                            <td>10-Year TIPS yields. Lower real rates = Higher gold appeal (no opportunity cost).</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <h3>Final Score Calculation</h3>
+                <div class="formula">
+Score = (Momentum × 0.25) + (Gold_vs_Stocks × 0.15) + (ETF_Flows × 0.15)
+      + (Volatility × 0.15) + (Dollar_Index × 0.10) + (VIX × 0.10)
+      + (Real_Rates × 0.10)
+                </div>
+
+                <h3>Score Interpretation</h3>
+                <ul>
+                    <li><strong>0-25:</strong> Extreme Fear - Very pessimistic sentiment, potential buying opportunity</li>
+                    <li><strong>26-45:</strong> Fear - Cautious sentiment, investors seeking safety</li>
+                    <li><strong>46-55:</strong> Neutral - Balanced sentiment, no clear trend</li>
+                    <li><strong>56-75:</strong> Greed - Optimistic sentiment, high gold demand</li>
+                    <li><strong>76-100:</strong> Extreme Greed - Market euphoria, potential correction ahead</li>
+                </ul>
+            </div>
+
+            <!-- Data Sources Section -->
+            <div class="section">
+                <h2>🔗 Data Sources</h2>
+                <p>All our data comes from reliable, publicly accessible sources. No proprietary or paid data.</p>
+
+                <div class="source-list">
+                    <div class="source-item">
+                        <strong>Yahoo Finance</strong>
+                        Gold futures (GC=F), SPY, GLD, VIX, DXY, TNX
+                    </div>
+                    <div class="source-item">
+                        <strong>FRED API</strong>
+                        10-Year TIPS real rates (DFII10)
+                    </div>
+                </div>
+
+                <p style="margin-top: 20px;">
+                    <strong>Update frequency:</strong> Daily at 8:00 UTC via automated GitHub Actions workflow.
+                </p>
+            </div>
+
+            <!-- Why Different Section -->
+            <div class="section">
+                <h2>❓ Why Our Score Differs from Others</h2>
+                <p>
+                    You might notice our index shows different values than other gold sentiment indices
+                    (like JM Bullion's). This is <strong>intentional and expected</strong>. Here's why:
+                </p>
+
+                <h3>1. Different Methodologies</h3>
+                <p>
+                    Other indices may use proprietary formulas, different component weights, or access to
+                    non-public data (physical demand, retail surveys, etc.). We focus on publicly verifiable indicators.
+                </p>
+
+                <h3>2. Macro Context Included</h3>
+                <p>
+                    We include macro indicators (VIX, Real Rates, Dollar) that other indices might ignore.
+                    This gives a more complete picture but can result in more conservative scores.
+                </p>
+
+                <h3>3. Balanced Weighting</h3>
+                <p>
+                    We distribute weights across 7 indicators rather than heavily weighting 1-2 metrics.
+                    This reduces the impact of any single anomalous reading.
+                </p>
+
+                <h3>4. No Commercial Bias</h3>
+                <p>
+                    Unlike indices published by gold dealers, we have no incentive to show artificially
+                    high "greed" scores. Our methodology is objective and conservative.
+                </p>
+            </div>
+
+            <!-- FAQ Section -->
+            <div class="section">
+                <h2>💬 Frequently Asked Questions</h2>
+
+                <div class="faq-item">
+                    <div class="faq-question">Q: Is the code really open source?</div>
+                    <div class="faq-answer">
+                        Yes! The entire codebase is available on GitHub. You can review the calculations,
+                        suggest improvements, or even run your own version.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Q: How accurate is this index for trading?</div>
+                    <div class="faq-answer">
+                        This index is designed for <strong>educational and informational purposes</strong>, not as trading advice.
+                        Extreme readings (below 25 or above 75) can signal potential reversals, but should be combined
+                        with your own research and risk management.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Q: Why do you use Yahoo Finance instead of professional data providers?</div>
+                    <div class="faq-answer">
+                        To keep the index 100% free and reproducible. Anyone can verify our calculations without
+                        expensive subscriptions. Yahoo Finance data is reliable and updated in real-time.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Q: Can I use this data for my own project?</div>
+                    <div class="faq-answer">
+                        Absolutely! The data and code are open source. We encourage developers to build on top of it.
+                        Just give attribution and share your improvements with the community.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Q: What happens if a data source fails?</div>
+                    <div class="faq-answer">
+                        We have fallback mechanisms. For example, if FRED API fails for Real Rates, we automatically
+                        switch to using 10-Year Treasury yields (TNX) as a proxy. Robust error handling ensures
+                        the index always calculates.
+                    </div>
+                </div>
+
+                <div class="faq-item">
+                    <div class="faq-question">Q: How can I contribute or suggest improvements?</div>
+                    <div class="faq-answer">
+                        Visit our GitHub repository and open an issue or pull request. We welcome feedback on
+                        methodology, code quality, or new data sources to add.
+                    </div>
+                </div>
+            </div>
+
+            <!-- CTA Section -->
+            <div class="section" style="text-align: center;">
+                <h2>🚀 Get Involved</h2>
+                <p style="font-size: 1.1rem; margin-bottom: 30px;">
+                    This project is community-driven. Help us make it better!
+                </p>
+                <a href="https://github.com/applenostalgeek-sketch/gold-fear-greed-index" class="cta-button" target="_blank">
+                    View on GitHub
+                </a>
+                <a href="index.html" class="cta-button cta-secondary">
+                    Back to Index
+                </a>
+            </div>
+
+        </div>
+
+        <footer style="margin-top: 60px;">
+            <p class="disclaimer">
+                <strong>Disclaimer:</strong> This index is provided for informational purposes only and does not constitute financial advice.
+                Investments carry risks. Consult a financial advisor before making any investment decisions.
+            </p>
+            <p class="credits">
+                Built with Claude Code | Sources: Yahoo Finance, FRED | Updated Daily |
+                <a href="methodology.html" style="color: #FFD700; text-decoration: none;">Methodology</a>
+            </p>
+        </footer>
+    </div>
+</body>
+</html>
