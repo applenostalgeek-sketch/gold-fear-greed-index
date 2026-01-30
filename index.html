@@ -177,7 +177,15 @@
 
             <!-- Historical Chart -->
             <section class="history-section">
-                <h2>30-Day History</h2>
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2 style="margin: 0;">Historical Trend</h2>
+                    <div class="period-selector">
+                        <button class="period-btn active" data-period="30">30D</button>
+                        <button class="period-btn" data-period="90">90D</button>
+                        <button class="period-btn" data-period="180">180D</button>
+                        <button class="period-btn" data-period="365">1Y</button>
+                    </div>
+                </div>
                 <div class="chart-container">
                     <canvas id="historyChart"></canvas>
                 </div>

@@ -120,8 +120,9 @@ function updateComponentCard(key, data) {
 
 /**
  * Draw historical chart
+ * @param {number} days - Number of days to display (default: 30)
  */
-function updateHistoryChart() {
+function updateHistoryChart(days = 30) {
     const history = indexData.history || [];
     if (history.length === 0) return;
 
@@ -138,7 +139,10 @@ function updateHistoryChart() {
         new Date(a.date) - new Date(b.date)
     );
 
-    drawChart(ctx, canvas, sortedHistory);
+    // Limit to last N days
+    const limitedHistory = sortedHistory.slice(-days);
+
+    drawChart(ctx, canvas, limitedHistory);
 }
 
 /**
@@ -363,13 +367,35 @@ function showError() {
     });
 }
 
+// Track current period selection
+let currentPeriod = 30;
+
 // Redraw chart on window resize
 let resizeTimeout;
 window.addEventListener('resize', () => {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(() => {
         if (indexData) {
-            updateHistoryChart();
+            updateHistoryChart(currentPeriod);
         }
     }, 250);
+});
+
+// Period selector event listeners
+document.addEventListener('DOMContentLoaded', () => {
+    const periodButtons = document.querySelectorAll('.period-btn');
+
+    periodButtons.forEach(button => {
+        button.addEventListener('click', () => {
+            // Update active state
+            periodButtons.forEach(btn => btn.classList.remove('active'));
+            button.classList.add('active');
+
+            // Update period and redraw chart
+            currentPeriod = parseInt(button.dataset.period);
+            if (indexData) {
+                updateHistoryChart(currentPeriod);
+            }
+        });
+    });
 });
