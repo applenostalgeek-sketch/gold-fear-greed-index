@@ -144,11 +144,11 @@ class GoldFearGreedIndex:
             gold_return = (gold_hist['Close'].iloc[-1] / gold_hist['Close'].iloc[-14] - 1) * 100
             spy_return = (spy_hist['Close'].iloc[-1] / spy_hist['Close'].iloc[-14] - 1) * 100
 
-            # If gold outperforms stocks = fear/safe haven demand = lower score
-            # If stocks outperform gold = greed/risk-on = higher score
-            relative_perf = spy_return - gold_return
+            # If gold outperforms stocks = greed for gold (everyone wants gold) = higher score
+            # If stocks outperform gold = fear for gold (nobody wants gold) = lower score
+            relative_perf = gold_return - spy_return
 
-            # Normalize: -10% difference = score 100, +10% = score 0
+            # Normalize: +10% difference = score 100, -10% = score 0
             score = 50 + (relative_perf * 2.5)
             score = max(0, min(100, score))
 
@@ -204,7 +204,8 @@ class GoldFearGreedIndex:
     def calculate_vix_score(self) -> Tuple[float, str]:
         """
         Calculate VIX component (10% weight)
-        High VIX = fear, low VIX = greed
+        High VIX = market fear = people buy gold = greed for gold = high score
+        Low VIX = market confidence = less gold demand = fear for gold = low score
 
         Returns:
             Tuple of (score 0-100, detail string)
@@ -219,12 +220,12 @@ class GoldFearGreedIndex:
             current_vix = hist['Close'].iloc[-1]
             avg_vix = hist['Close'].mean()
 
-            # Score: lower VIX = higher score (greed)
-            # VIX at 10 = 100, VIX at 40 = 0
-            score = 100 - (current_vix - 10) * 3.33
+            # Score: higher VIX = higher score (more demand for gold as safe haven)
+            # VIX at 10 = 0, VIX at 40 = 100
+            score = (current_vix - 10) * 3.33
             score = max(0, min(100, score))
 
-            detail = f"VIX: {current_vix:.1f} vs moy: {avg_vix:.1f}"
+            detail = f"VIX: {current_vix:.1f} vs avg: {avg_vix:.1f}"
 
             return score, detail
 
