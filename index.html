@@ -19,19 +19,41 @@
             <section class="main-score-section">
                 <div class="gauge-container">
                     <svg viewBox="0 0 200 120" class="gauge">
-                        <!-- Background arc -->
-                        <path class="gauge-bg" d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="#e0e0e0" stroke-width="20"/>
+                        <!-- Background circle -->
+                        <circle cx="100" cy="100" r="80" fill="none" stroke="#2a2a3e" stroke-width="20"
+                                stroke-dasharray="251.2 251.2" stroke-dashoffset="62.8"
+                                transform="rotate(-180 100 100)" stroke-linecap="round"/>
 
-                        <!-- Colored segments -->
-                        <path class="gauge-segment extreme-fear" d="M 20 100 A 80 80 0 0 1 52 44" fill="none" stroke="#EA3943" stroke-width="20"/>
-                        <path class="gauge-segment fear" d="M 52 44 A 80 80 0 0 1 100 20" fill="none" stroke="#F5A623" stroke-width="20"/>
-                        <path class="gauge-segment neutral" d="M 100 20 A 80 80 0 0 1 148 44" fill="none" stroke="#F8E71C" stroke-width="20"/>
-                        <path class="gauge-segment greed" d="M 148 44 A 80 80 0 0 1 180 100" fill="none" stroke="#7ED321" stroke-width="20"/>
+                        <!-- Colored segments: 5 segments of 36° each (180° total) -->
+                        <!-- Extreme Fear: 0-25 (0° to 45°) -->
+                        <circle cx="100" cy="100" r="80" fill="none" stroke="#EA3943" stroke-width="20"
+                                stroke-dasharray="62.8 188.4" stroke-dashoffset="62.8"
+                                transform="rotate(-180 100 100)" stroke-linecap="round"/>
+
+                        <!-- Fear: 25-45 (45° to 81°) -->
+                        <circle cx="100" cy="100" r="80" fill="none" stroke="#F5A623" stroke-width="20"
+                                stroke-dasharray="50.24 200.96" stroke-dashoffset="0"
+                                transform="rotate(-135 100 100)" stroke-linecap="round"/>
+
+                        <!-- Neutral: 45-55 (81° to 99°) -->
+                        <circle cx="100" cy="100" r="80" fill="none" stroke="#F8E71C" stroke-width="20"
+                                stroke-dasharray="25.12 226.08" stroke-dashoffset="0"
+                                transform="rotate(-99 100 100)" stroke-linecap="round"/>
+
+                        <!-- Greed: 55-75 (99° to 135°) -->
+                        <circle cx="100" cy="100" r="80" fill="none" stroke="#7ED321" stroke-width="20"
+                                stroke-dasharray="50.24 200.96" stroke-dashoffset="0"
+                                transform="rotate(-81 100 100)" stroke-linecap="round"/>
+
+                        <!-- Extreme Greed: 75-100 (135° to 180°) -->
+                        <circle cx="100" cy="100" r="80" fill="none" stroke="#50E3C2" stroke-width="20"
+                                stroke-dasharray="62.8 188.4" stroke-dashoffset="0"
+                                transform="rotate(-45 100 100)" stroke-linecap="round"/>
 
                         <!-- Needle -->
                         <g class="needle" transform="rotate(0 100 100)">
-                            <line x1="100" y1="100" x2="100" y2="30" stroke="#333" stroke-width="3"/>
-                            <circle cx="100" cy="100" r="5" fill="#333"/>
+                            <line x1="100" y1="100" x2="100" y2="30" stroke="#333" stroke-width="3" stroke-linecap="round"/>
+                            <circle cx="100" cy="100" r="6" fill="#333"/>
                         </g>
                     </svg>
 
