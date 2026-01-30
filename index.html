@@ -17,49 +17,38 @@
         <main>
             <!-- Main Score Display -->
             <section class="main-score-section">
-                <div class="gauge-container">
-                    <svg viewBox="0 0 200 120" class="gauge">
-                        <!-- Background circle -->
-                        <circle cx="100" cy="100" r="80" fill="none" stroke="#2a2a3e" stroke-width="20"
-                                stroke-dasharray="251.2 251.2" stroke-dashoffset="62.8"
-                                transform="rotate(-180 100 100)" stroke-linecap="round"/>
+                <div class="score-display-top">
+                    <div class="score-number" id="scoreNumber">--</div>
+                    <div class="score-label" id="scoreLabel">Loading...</div>
+                </div>
 
-                        <!-- Colored segments: 5 segments of 36° each (180° total) -->
-                        <!-- Extreme Fear: 0-25 (0° to 45°) -->
-                        <circle cx="100" cy="100" r="80" fill="none" stroke="#EA3943" stroke-width="20"
-                                stroke-dasharray="62.8 188.4" stroke-dashoffset="62.8"
-                                transform="rotate(-180 100 100)" stroke-linecap="round"/>
+                <div class="progress-bar-container">
+                    <!-- Labels above the bar -->
+                    <div class="bar-labels">
+                        <span class="label-item">Extreme Fear</span>
+                        <span class="label-item">Fear</span>
+                        <span class="label-item">Neutral</span>
+                        <span class="label-item">Greed</span>
+                        <span class="label-item">Extreme Greed</span>
+                    </div>
 
-                        <!-- Fear: 25-45 (45° to 81°) -->
-                        <circle cx="100" cy="100" r="80" fill="none" stroke="#F5A623" stroke-width="20"
-                                stroke-dasharray="50.24 200.96" stroke-dashoffset="0"
-                                transform="rotate(-135 100 100)" stroke-linecap="round"/>
+                    <!-- The gradient bar -->
+                    <div class="progress-bar-track">
+                        <div class="progress-bar-gradient"></div>
+                        <!-- Indicator that moves -->
+                        <div class="progress-indicator" id="progressIndicator">
+                            <div class="indicator-line"></div>
+                            <div class="indicator-dot"></div>
+                        </div>
+                    </div>
 
-                        <!-- Neutral: 45-55 (81° to 99°) -->
-                        <circle cx="100" cy="100" r="80" fill="none" stroke="#F8E71C" stroke-width="20"
-                                stroke-dasharray="25.12 226.08" stroke-dashoffset="0"
-                                transform="rotate(-99 100 100)" stroke-linecap="round"/>
-
-                        <!-- Greed: 55-75 (99° to 135°) -->
-                        <circle cx="100" cy="100" r="80" fill="none" stroke="#7ED321" stroke-width="20"
-                                stroke-dasharray="50.24 200.96" stroke-dashoffset="0"
-                                transform="rotate(-81 100 100)" stroke-linecap="round"/>
-
-                        <!-- Extreme Greed: 75-100 (135° to 180°) -->
-                        <circle cx="100" cy="100" r="80" fill="none" stroke="#50E3C2" stroke-width="20"
-                                stroke-dasharray="62.8 188.4" stroke-dashoffset="0"
-                                transform="rotate(-45 100 100)" stroke-linecap="round"/>
-
-                        <!-- Needle -->
-                        <g class="needle" transform="rotate(0 100 100)">
-                            <line x1="100" y1="100" x2="100" y2="30" stroke="#333" stroke-width="3" stroke-linecap="round"/>
-                            <circle cx="100" cy="100" r="6" fill="#333"/>
-                        </g>
-                    </svg>
-
-                    <div class="score-display">
-                        <div class="score-number" id="scoreNumber">--</div>
-                        <div class="score-label" id="scoreLabel">Loading...</div>
+                    <!-- Value markers below -->
+                    <div class="bar-values">
+                        <span>0</span>
+                        <span>25</span>
+                        <span>50</span>
+                        <span>75</span>
+                        <span>100</span>
                     </div>
                 </div>
 

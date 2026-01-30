@@ -58,50 +58,139 @@ header h1 {
 .main-score-section {
     background: var(--card-bg);
     border-radius: 20px;
-    padding: 40px;
+    padding: 50px 40px;
     margin-bottom: 40px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
     border: 1px solid var(--border-color);
 }
 
-.gauge-container {
-    position: relative;
-    max-width: 400px;
-    margin: 0 auto;
-}
-
-.gauge {
-    width: 100%;
-    height: auto;
-}
-
-.needle {
-    transition: transform 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
-    transform-origin: 100px 100px;
-}
-
-.score-display {
+.score-display-top {
     text-align: center;
-    margin-top: 20px;
+    margin-bottom: 50px;
 }
 
 .score-number {
-    font-size: 4rem;
+    font-size: 5rem;
     font-weight: 700;
     line-height: 1;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
+    text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
 }
 
 .score-label {
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 2px;
+    letter-spacing: 3px;
+}
+
+/* Progress Bar */
+.progress-bar-container {
+    max-width: 800px;
+    margin: 0 auto 30px;
+}
+
+.bar-labels {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    padding: 0 10px;
+}
+
+.label-item {
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-align: center;
+    flex: 1;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+}
+
+.progress-bar-track {
+    position: relative;
+    height: 24px;
+    border-radius: 12px;
+    overflow: hidden;
+    background: rgba(255, 255, 255, 0.05);
+    box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+.progress-bar-gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(to right,
+        #EA3943 0%,
+        #EA3943 25%,
+        #F5A623 25%,
+        #F5A623 45%,
+        #F8E71C 45%,
+        #F8E71C 55%,
+        #7ED321 55%,
+        #7ED321 75%,
+        #50E3C2 75%,
+        #50E3C2 100%
+    );
+    border-radius: 12px;
+}
+
+.progress-indicator {
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    transform: translate(-50%, -50%);
+    transition: left 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
+    z-index: 10;
+}
+
+.indicator-line {
+    width: 3px;
+    height: 40px;
+    background: #ffffff;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8),
+                0 0 20px rgba(255, 255, 255, 0.4);
+    border-radius: 2px;
+    margin: 0 auto 2px;
+}
+
+.indicator-dot {
+    width: 14px;
+    height: 14px;
+    background: #ffffff;
+    border-radius: 50%;
+    margin: 0 auto;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 0.8),
+                0 0 25px rgba(255, 255, 255, 0.4);
+    animation: pulse 2s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        box-shadow: 0 0 15px rgba(255, 255, 255, 0.8),
+                    0 0 25px rgba(255, 255, 255, 0.4);
+    }
+    50% {
+        box-shadow: 0 0 20px rgba(255, 255, 255, 1),
+                    0 0 35px rgba(255, 255, 255, 0.6);
+    }
+}
+
+.bar-values {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    padding: 0 10px;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-weight: 500;
 }
 
 .last-update {
     text-align: center;
-    margin-top: 20px;
+    margin-top: 30px;
     color: var(--text-secondary);
     font-size: 0.9rem;
 }
@@ -338,15 +427,31 @@ footer {
     }
 
     .main-score-section {
-        padding: 24px;
+        padding: 30px 20px;
     }
 
     .score-number {
-        font-size: 3rem;
+        font-size: 3.5rem;
     }
 
     .score-label {
-        font-size: 1.2rem;
+        font-size: 1.3rem;
+    }
+
+    .bar-labels {
+        font-size: 0.65rem;
+    }
+
+    .label-item {
+        font-size: 0.65rem;
+    }
+
+    .progress-bar-track {
+        height: 20px;
+    }
+
+    .indicator-line {
+        height: 35px;
     }
 
     .components-grid {

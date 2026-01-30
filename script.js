@@ -58,8 +58,8 @@ function updateMainScore() {
     scoreNumber.className = `score-number ${colorClass}`;
     scoreLabel.className = `score-label ${colorClass}`;
 
-    // Update gauge needle
-    updateGaugeNeedle(score);
+    // Update progress indicator
+    updateProgressIndicator(score);
 
     // Update timestamp
     const lastUpdate = document.getElementById('lastUpdate');
@@ -67,15 +67,15 @@ function updateMainScore() {
 }
 
 /**
- * Update the gauge needle rotation
+ * Update the progress indicator position
  * @param {number} score - Score from 0 to 100
  */
-function updateGaugeNeedle(score) {
-    const needle = document.querySelector('.needle');
-    // Map score (0-100) to angle (-90 to +90 degrees)
-    const angle = (score / 100) * 180 - 90;
-    needle.style.transform = `rotate(${angle}deg)`;
-    needle.style.transformOrigin = '100px 100px';
+function updateProgressIndicator(score) {
+    const indicator = document.getElementById('progressIndicator');
+    if (indicator) {
+        // Position indicator based on score (0-100%)
+        indicator.style.left = `${score}%`;
+    }
 }
 
 /**
