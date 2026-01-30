@@ -99,38 +99,31 @@ function updateMarketContext() {
     const stocksScore = stocksData.score;
     const divergence = goldScore - stocksScore;
 
-    // Update Gold card
+    // Update Gold bar
     document.getElementById('goldContextScore').textContent = goldScore;
     document.getElementById('goldContextLabel').textContent = indexData.label;
-    document.getElementById('goldMiniIndicator').style.left = `${goldScore}%`;
+    document.getElementById('goldHealthbar').style.width = `${goldScore}%`;
 
-    // Update Stocks card
+    // Update Stocks bar
     document.getElementById('stocksContextScore').textContent = stocksScore;
     document.getElementById('stocksContextLabel').textContent = stocksData.label;
-    document.getElementById('stocksMiniIndicator').style.left = `${stocksScore}%`;
+    document.getElementById('stocksHealthbar').style.width = `${stocksScore}%`;
 
-    // Update Divergence display
-    const divergenceValue = document.getElementById('divergenceValue');
+    // Update Divergence message
     const divergenceMessage = document.getElementById('divergenceMessage');
-    const divergenceIcon = document.querySelector('.divergence-icon');
-
-    divergenceValue.textContent = `${divergence > 0 ? '+' : ''}${divergence.toFixed(1)}`;
 
     // Determine message based on divergence
     if (Math.abs(divergence) < 10) {
-        divergenceIcon.textContent = '⚪';
-        divergenceMessage.textContent = 'Balanced sentiment across markets';
+        divergenceMessage.innerHTML = '⚪ <strong>Balanced</strong> - Similar sentiment across markets';
     } else if (divergence > 10) {
-        divergenceIcon.textContent = '🟢';
-        divergenceMessage.textContent = 'Flight to safety - Capital rotating to gold';
+        divergenceMessage.innerHTML = `🟢 <strong>Flight to Safety</strong> - Gold ${divergence.toFixed(1)} points higher (capital rotating to safe havens)`;
     } else {
-        divergenceIcon.textContent = '🔴';
-        divergenceMessage.textContent = 'Risk-on - Capital rotating to equities';
+        divergenceMessage.innerHTML = `🔴 <strong>Risk-On</strong> - Stocks ${Math.abs(divergence).toFixed(1)} points higher (capital rotating to equities)`;
     }
 
     // Color coding for scores
-    document.getElementById('goldContextScore').className = `index-score-number ${getColorClass(goldScore)}`;
-    document.getElementById('stocksContextScore').className = `index-score-number ${getColorClass(stocksScore)}`;
+    document.getElementById('goldContextScore').className = getColorClass(goldScore);
+    document.getElementById('stocksContextScore').className = getColorClass(stocksScore);
 }
 
 /**

@@ -88,51 +88,48 @@
             <!-- Market Context: Gold vs Stocks -->
             <section class="market-context-section">
                 <h2>Market Context: Gold vs Stocks</h2>
-                <p class="section-subtitle">Compare sentiment across asset classes to identify capital rotation</p>
+                <p class="section-subtitle">Compare sentiment to identify capital rotation</p>
 
-                <div class="dual-index-container">
-                    <!-- Gold Index -->
-                    <div class="index-card gold-card">
-                        <div class="index-icon">🪙</div>
-                        <h3>Gold</h3>
-                        <div class="index-score-display">
-                            <div class="index-score-number" id="goldContextScore">--</div>
-                            <div class="index-score-label" id="goldContextLabel">--</div>
+                <div class="healthbar-container">
+                    <!-- Gold Bar -->
+                    <div class="market-bar">
+                        <div class="bar-header">
+                            <span class="bar-label">🪙 Gold</span>
+                            <span class="bar-value">
+                                <span id="goldContextScore">--</span>
+                                <span class="bar-label-text" id="goldContextLabel">--</span>
+                            </span>
                         </div>
-                        <div class="mini-bar-container">
-                            <div class="mini-bar-gradient"></div>
-                            <div class="mini-bar-indicator" id="goldMiniIndicator"></div>
+                        <div class="healthbar">
+                            <div class="healthbar-fill gold-fill" id="goldHealthbar"></div>
                         </div>
                     </div>
 
-                    <!-- Divergence Display -->
-                    <div class="divergence-display" id="divergenceDisplay">
-                        <div class="divergence-icon">⚖️</div>
-                        <div class="divergence-value" id="divergenceValue">--</div>
-                        <div class="divergence-message" id="divergenceMessage">Loading...</div>
+                    <!-- Stocks Bar -->
+                    <div class="market-bar">
+                        <div class="bar-header">
+                            <span class="bar-label">📈 Stocks</span>
+                            <span class="bar-value">
+                                <span id="stocksContextScore">--</span>
+                                <span class="bar-label-text" id="stocksContextLabel">--</span>
+                            </span>
+                        </div>
+                        <div class="healthbar">
+                            <div class="healthbar-fill stocks-fill" id="stocksHealthbar"></div>
+                        </div>
                     </div>
+                </div>
 
-                    <!-- Stocks Index -->
-                    <div class="index-card stocks-card">
-                        <div class="index-icon">📈</div>
-                        <h3>Stocks</h3>
-                        <div class="index-score-display">
-                            <div class="index-score-number" id="stocksContextScore">--</div>
-                            <div class="index-score-label" id="stocksContextLabel">--</div>
-                        </div>
-                        <div class="mini-bar-container">
-                            <div class="mini-bar-gradient"></div>
-                            <div class="mini-bar-indicator" id="stocksMiniIndicator"></div>
-                        </div>
-                    </div>
+                <div class="divergence-info" id="divergenceInfo">
+                    <span id="divergenceMessage">Loading...</span>
                 </div>
 
                 <div class="context-explanation">
                     <p><strong>What does this mean?</strong></p>
                     <ul>
-                        <li>🟢 <strong>Gold > Stocks:</strong> Flight to safety - investors rotating from equities to gold</li>
-                        <li>🔴 <strong>Stocks > Gold:</strong> Risk-on sentiment - investors preferring equities over safe havens</li>
-                        <li>⚪ <strong>Similar scores:</strong> Balanced risk sentiment across markets</li>
+                        <li>🟢 <strong>Gold > Stocks:</strong> Flight to safety - capital rotating to gold</li>
+                        <li>🔴 <strong>Stocks > Gold:</strong> Risk-on - capital rotating to equities</li>
+                        <li>⚪ <strong>Similar scores:</strong> Balanced risk sentiment</li>
                     </ul>
                 </div>
             </section>
