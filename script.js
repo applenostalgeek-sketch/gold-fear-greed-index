@@ -1,12 +1,14 @@
-// Gold Fear & Greed Index - Frontend JavaScript
+// Fear & Greed Central - Frontend JavaScript
 
 // Configuration
 const GOLD_DATA_URL = 'data/gold-fear-greed.json';
 const STOCKS_DATA_URL = 'data/stocks-fear-greed.json';
+const CRYPTO_DATA_URL = 'data/crypto-fear-greed.json';
 
 // Global state
-let indexData = null;
+let goldData = null;
 let stocksData = null;
+let cryptoData = null;
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
@@ -14,22 +16,24 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 /**
- * Load both Gold and Stocks index data
+ * Load all three indices data
  */
 async function loadAllData() {
     try {
-        // Load both indices in parallel
-        const [goldResponse, stocksResponse] = await Promise.all([
+        // Load all three indices in parallel
+        const [goldResponse, stocksResponse, cryptoResponse] = await Promise.all([
             fetch(GOLD_DATA_URL),
-            fetch(STOCKS_DATA_URL)
+            fetch(STOCKS_DATA_URL),
+            fetch(CRYPTO_DATA_URL)
         ]);
 
-        if (!goldResponse.ok || !stocksResponse.ok) {
+        if (!goldResponse.ok || !stocksResponse.ok || !cryptoResponse.ok) {
             throw new Error('HTTP error loading data');
         }
 
-        indexData = await goldResponse.json();
+        goldData = await goldResponse.json();
         stocksData = await stocksResponse.json();
+        cryptoData = await cryptoResponse.json();
 
         updateUI();
     } catch (error) {
@@ -42,12 +46,126 @@ async function loadAllData() {
  * Update all UI elements with loaded data
  */
 function updateUI() {
-    if (!indexData) return;
+    if (!goldData || !stocksData || !cryptoData) return;
 
-    updateMainScore();
-    updateMarketContext();
-    updateComponents();
+    updateIndexCards();
+    updateMarketRotation();
     updateHistoryChart();
+    updateLastUpdate();
+}
+
+/**
+ * Update the three index cards
+ */
+function updateIndexCards() {
+    // Gold Card
+    document.getElementById('goldCardScore').textContent = Math.round(goldData.score);
+    document.getElementById('goldCardLabel').textContent = goldData.label;
+    document.getElementById('goldMiniBar').style.width = `${goldData.score}%`;
+
+    const goldScoreEl = document.getElementById('goldCardScore');
+    const goldLabelEl = document.getElementById('goldCardLabel');
+    const colorClass = getColorClass(goldData.score);
+    goldScoreEl.className = `card-score ${colorClass}`;
+    goldLabelEl.className = `card-label ${colorClass}`;
+
+    // Stocks Card
+    document.getElementById('stocksCardScore').textContent = Math.round(stocksData.score);
+    document.getElementById('stocksCardLabel').textContent = stocksData.label;
+    document.getElementById('stocksMiniBar').style.width = `${stocksData.score}%`;
+
+    const stocksScoreEl = document.getElementById('stocksCardScore');
+    const stocksLabelEl = document.getElementById('stocksCardLabel');
+    const stocksColorClass = getColorClass(stocksData.score);
+    stocksScoreEl.className = `card-score ${stocksColorClass}`;
+    stocksLabelEl.className = `card-label ${stocksColorClass}`;
+
+    // Crypto Card
+    document.getElementById('cryptoCardScore').textContent = Math.round(cryptoData.score);
+    document.getElementById('cryptoCardLabel').textContent = cryptoData.label;
+    document.getElementById('cryptoMiniBar').style.width = `${cryptoData.score}%`;
+
+    const cryptoScoreEl = document.getElementById('cryptoCardScore');
+    const cryptoLabelEl = document.getElementById('cryptoCardLabel');
+    const cryptoColorClass = getColorClass(cryptoData.score);
+    cryptoScoreEl.className = `card-score ${cryptoColorClass}`;
+    cryptoLabelEl.className = `card-label ${cryptoColorClass}`;
+}
+
+/**
+ * Update Market Rotation Analysis section
+ */
+function updateMarketRotation() {
+    const gold = goldData.score;
+    const stocks = stocksData.score;
+    const crypto = cryptoData.score;
+
+    const analysisBox = document.getElementById('rotationAnalysisBox');
+    const iconEl = document.getElementById('analysisIcon');
+    const titleEl = document.getElementById('analysisTitle');
+    const detailEl = document.getElementById('analysisDetail');
+
+    // Remove all regime classes
+    analysisBox.classList.remove('flight-to-safety', 'risk-on', 'altcoin-season', 'balanced');
+
+    // Determine market regime
+    const goldVsStocks = gold - stocks;
+    const goldVsCrypto = gold - crypto;
+    const cryptoVsStocks = crypto - stocks;
+    const cryptoVsGold = crypto - gold;
+
+    // Flight to Safety: Gold significantly higher than both
+    if (gold > stocks + 10 && gold > crypto + 10) {
+        analysisBox.classList.add('flight-to-safety');
+        iconEl.textContent = '🟢';
+        titleEl.textContent = 'Flight to Safety';
+        detailEl.innerHTML = `
+            <strong>Gold is significantly outperforming</strong> (${gold.toFixed(1)} vs Stocks ${stocks.toFixed(1)} vs Crypto ${crypto.toFixed(1)}).<br>
+            Capital is rotating away from risk assets (stocks, crypto) into safe havens.
+            This typically happens during market uncertainty, geopolitical tensions, or economic concerns.
+        `;
+    }
+    // Altcoin Season: Crypto significantly higher than both
+    else if (crypto > gold + 15 && crypto > stocks + 10) {
+        analysisBox.classList.add('altcoin-season');
+        iconEl.textContent = '🟡';
+        titleEl.textContent = 'Altcoin Season / Peak Speculation';
+        detailEl.innerHTML = `
+            <strong>Crypto sentiment is extremely elevated</strong> (${crypto.toFixed(1)} vs Gold ${gold.toFixed(1)} vs Stocks ${stocks.toFixed(1)}).<br>
+            This indicates peak speculation and risk appetite. Historically, extreme crypto greed can signal market tops.
+            Proceed with caution.
+        `;
+    }
+    // Risk-On: Stocks/Crypto higher than Gold
+    else if ((stocks > gold + 8 || crypto > gold + 8) && Math.abs(stocks - crypto) < 15) {
+        analysisBox.classList.add('risk-on');
+        iconEl.textContent = '🔴';
+        titleEl.textContent = 'Risk-On Environment';
+        detailEl.innerHTML = `
+            <strong>Risk assets are favored</strong> (Stocks ${stocks.toFixed(1)}, Crypto ${crypto.toFixed(1)} vs Gold ${gold.toFixed(1)}).<br>
+            Investors are optimistic and seeking returns over safety.
+            This environment favors growth assets but can be vulnerable to sudden shifts in sentiment.
+        `;
+    }
+    // Balanced: Similar scores
+    else {
+        analysisBox.classList.add('balanced');
+        iconEl.textContent = '⚪';
+        titleEl.textContent = 'Balanced Sentiment';
+        detailEl.innerHTML = `
+            <strong>No clear trend across markets</strong> (Gold ${gold.toFixed(1)}, Stocks ${stocks.toFixed(1)}, Crypto ${crypto.toFixed(1)}).<br>
+            Sentiment is relatively balanced across asset classes.
+            Markets are in a transitional phase with no dominant capital flow direction.
+        `;
+    }
+}
+
+/**
+ * Update last update timestamp
+ */
+function updateLastUpdate() {
+    const lastUpdate = document.getElementById('lastUpdate');
+    lastUpdate.textContent = formatTimestamp(goldData.timestamp);
 }
 
 /**
@@ -171,10 +289,11 @@ function updateComponentCard(key, data) {
  * @param {number} days - Number of days to display (default: 30)
  */
 function updateHistoryChart(days = 30) {
-    const goldHistory = indexData.history || [];
+    const goldHistory = goldData?.history || [];
     const stocksHistory = stocksData?.history || [];
+    const cryptoHistory = cryptoData?.history || [];
 
-    if (goldHistory.length === 0 && stocksHistory.length === 0) return;
+    if (goldHistory.length === 0 && stocksHistory.length === 0 && cryptoHistory.length === 0) return;
 
     const canvas = document.getElementById('historyChart');
     const ctx = canvas.getContext('2d');
@@ -184,7 +303,7 @@ function updateHistoryChart(days = 30) {
     canvas.width = container.offsetWidth;
     canvas.height = container.offsetHeight;
 
-    // Prepare Gold data (reverse to show oldest first)
+    // Prepare Gold data
     const sortedGoldHistory = [...goldHistory].sort((a, b) =>
         new Date(a.date) - new Date(b.date)
     );
@@ -196,11 +315,18 @@ function updateHistoryChart(days = 30) {
     );
     const limitedStocksHistory = sortedStocksHistory.slice(-days);
 
+    // Prepare Crypto data
+    const sortedCryptoHistory = [...cryptoHistory].sort((a, b) =>
+        new Date(a.date) - new Date(b.date)
+    );
+    const limitedCryptoHistory = sortedCryptoHistory.slice(-days);
+
     // Check which curves to show
     const showGold = document.getElementById('toggleGold')?.checked !== false;
     const showStocks = document.getElementById('toggleStocks')?.checked !== false;
+    const showCrypto = document.getElementById('toggleCrypto')?.checked !== false;
 
-    drawChart(ctx, canvas, limitedGoldHistory, limitedStocksHistory, showGold, showStocks);
+    drawChart(ctx, canvas, limitedGoldHistory, limitedStocksHistory, limitedCryptoHistory, showGold, showStocks, showCrypto);
 }
 
 /**
@@ -209,10 +335,12 @@ function updateHistoryChart(days = 30) {
  * @param {HTMLCanvasElement} canvas - Canvas element
  * @param {Array} goldData - Gold historical data
  * @param {Array} stocksData - Stocks historical data
+ * @param {Array} cryptoData - Crypto historical data
  * @param {boolean} showGold - Whether to show gold line
  * @param {boolean} showStocks - Whether to show stocks line
+ * @param {boolean} showCrypto - Whether to show crypto line
  */
-function drawChart(ctx, canvas, goldData, stocksData, showGold, showStocks) {
+function drawChart(ctx, canvas, goldData, stocksData, cryptoData, showGold, showStocks, showCrypto) {
     const width = canvas.width;
     const height = canvas.height;
     const padding = 40;
@@ -225,28 +353,29 @@ function drawChart(ctx, canvas, goldData, stocksData, showGold, showStocks) {
     // Draw background zones
     drawBackgroundZones(ctx, padding, chartHeight, chartWidth);
 
-    // Draw subtle divergence zones (gold vs stocks)
-    if (showGold && showStocks && goldData.length > 0 && stocksData.length > 0) {
-        drawDivergenceZones(ctx, goldData, stocksData, padding, chartHeight, chartWidth);
-    }
-
     // Draw grid
     drawGrid(ctx, padding, chartHeight, chartWidth);
 
-    // Draw Stocks line first (behind gold)
+    // Draw Crypto line first (bottom layer) - Orange
+    if (showCrypto && cryptoData.length > 0) {
+        drawLine(ctx, cryptoData, padding, chartHeight, chartWidth, '#F7931A', 4);
+        drawPoints(ctx, cryptoData, padding, chartHeight, chartWidth, '#F7931A');
+    }
+
+    // Draw Stocks line (middle layer) - Blue
     if (showStocks && stocksData.length > 0) {
         drawLine(ctx, stocksData, padding, chartHeight, chartWidth, '#4A90E2', 4);
         drawPoints(ctx, stocksData, padding, chartHeight, chartWidth, '#4A90E2');
     }
 
-    // Draw Gold line on top
+    // Draw Gold line on top - Gold
     if (showGold && goldData.length > 0) {
         drawLine(ctx, goldData, padding, chartHeight, chartWidth, '#FFD700', 4);
         drawPoints(ctx, goldData, padding, chartHeight, chartWidth, '#FFD700');
     }
 
     // Draw axes labels (use whichever dataset has data)
-    const labelData = goldData.length > 0 ? goldData : stocksData;
+    const labelData = goldData.length > 0 ? goldData : (stocksData.length > 0 ? stocksData : cryptoData);
     if (labelData.length > 0) {
         drawLabels(ctx, labelData, padding, chartHeight, chartWidth, height);
     }
@@ -493,7 +622,7 @@ let resizeTimeout;
 window.addEventListener('resize', () => {
     clearTimeout(resizeTimeout);
     resizeTimeout = setTimeout(() => {
-        if (indexData) {
+        if (goldData) {
             updateHistoryChart(currentPeriod);
         }
     }, 250);
@@ -511,7 +640,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             // Update period and redraw chart
             currentPeriod = parseInt(button.dataset.period);
-            if (indexData) {
+            if (goldData) {
                 updateHistoryChart(currentPeriod);
             }
         });
@@ -520,10 +649,11 @@ document.addEventListener('DOMContentLoaded', () => {
     // Chart toggle checkboxes
     const toggleGold = document.getElementById('toggleGold');
     const toggleStocks = document.getElementById('toggleStocks');
+    const toggleCrypto = document.getElementById('toggleCrypto');
 
     if (toggleGold) {
         toggleGold.addEventListener('change', () => {
-            if (indexData) {
+            if (goldData) {
                 updateHistoryChart(currentPeriod);
             }
         });
@@ -531,7 +661,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (toggleStocks) {
         toggleStocks.addEventListener('change', () => {
-            if (indexData) {
+            if (stocksData) {
+                updateHistoryChart(currentPeriod);
+            }
+        });
+    }
+
+    if (toggleCrypto) {
+        toggleCrypto.addEventListener('change', () => {
+            if (cryptoData) {
                 updateHistoryChart(currentPeriod);
             }
         });

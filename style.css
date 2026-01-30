@@ -742,3 +742,210 @@ footer {
         padding: 16px;
     }
 }
+
+/* ===========================================
+   3-INDEX CARDS SECTION
+   =========================================== */
+
+.indices-cards-section {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 25px;
+    margin: 40px 0;
+}
+
+.index-card {
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 35px 25px;
+    border: 2px solid var(--border-color);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.index-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    opacity: 0.8;
+}
+
+.gold-card::before {
+    background: linear-gradient(90deg, #FFA500, #FFD700, #FFED4E);
+}
+
+.stocks-card::before {
+    background: linear-gradient(90deg, #2E5C8A, #4A90E2, #6BA3E8);
+}
+
+.crypto-card::before {
+    background: linear-gradient(90deg, #E87811, #F7931A, #FFA726);
+}
+
+.index-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255, 215, 0, 0.5);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+}
+
+.card-icon {
+    font-size: 3.5rem;
+    margin-bottom: 15px;
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+}
+
+.card-title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+}
+
+.card-score {
+    font-size: 4rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+    line-height: 1;
+    transition: color 0.5s ease;
+}
+
+.card-label {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 25px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    transition: color 0.5s ease;
+}
+
+.card-mini-bar {
+    height: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    overflow: hidden;
+    position: relative;
+}
+
+.mini-bar-fill {
+    height: 100%;
+    width: 0%;
+    transition: width 1.2s cubic-bezier(0.4, 0.0, 0.2, 1);
+    border-radius: 10px;
+}
+
+.gold-mini-fill {
+    background: linear-gradient(90deg, #FFA500, #FFD700, #FFED4E);
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.6);
+}
+
+.stocks-mini-fill {
+    background: linear-gradient(90deg, #2E5C8A, #4A90E2, #6BA3E8);
+    box-shadow: 0 0 15px rgba(74, 144, 226, 0.6);
+}
+
+.crypto-mini-fill {
+    background: linear-gradient(90deg, #E87811, #F7931A, #FFA726);
+    box-shadow: 0 0 15px rgba(247, 147, 26, 0.6);
+}
+
+/* ===========================================
+   MARKET ROTATION ANALYSIS
+   =========================================== */
+
+.market-rotation-section {
+    background: var(--card-bg);
+    border-radius: 25px;
+    padding: 40px;
+    margin: 40px 0;
+    border: 1px solid var(--border-color);
+}
+
+.rotation-analysis-box {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 15px;
+    padding: 30px;
+    margin: 25px 0;
+    border: 2px solid var(--border-color);
+    transition: border-color 0.3s ease;
+}
+
+.rotation-analysis-box.flight-to-safety {
+    border-color: rgba(255, 215, 0, 0.5);
+    background: rgba(255, 215, 0, 0.05);
+}
+
+.rotation-analysis-box.risk-on {
+    border-color: rgba(74, 144, 226, 0.5);
+    background: rgba(74, 144, 226, 0.05);
+}
+
+.rotation-analysis-box.altcoin-season {
+    border-color: rgba(247, 147, 26, 0.5);
+    background: rgba(247, 147, 26, 0.05);
+}
+
+.rotation-analysis-box.balanced {
+    border-color: rgba(200, 200, 200, 0.3);
+    background: rgba(200, 200, 200, 0.03);
+}
+
+.analysis-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+.analysis-icon {
+    font-size: 2rem;
+}
+
+.analysis-title {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.analysis-detail {
+    font-size: 1.1rem;
+    line-height: 1.7;
+    color: var(--text-secondary);
+    margin-left: 50px;
+}
+
+/* Crypto toggle */
+.crypto-toggle {
+    color: #F7931A;
+    background: rgba(247, 147, 26, 0.1);
+}
+
+/* Mobile responsiveness for 3 cards */
+@media (max-width: 768px) {
+    .indices-cards-section {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .card-score {
+        font-size: 3.5rem;
+    }
+
+    .card-icon {
+        font-size: 3rem;
+    }
+
+    .analysis-title {
+        font-size: 1.2rem;
+    }
+
+    .analysis-detail {
+        margin-left: 0;
+        font-size: 1rem;
+    }
+}

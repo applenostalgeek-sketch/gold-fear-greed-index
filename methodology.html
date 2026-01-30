@@ -386,6 +386,78 @@ Score = (Momentum × 0.25) + (VIX × 0.20) + (Market_Breadth × 0.15)
                 </p>
             </div>
 
+            <!-- Crypto Index Section -->
+            <div class="section">
+                <h2>₿ Crypto Fear & Greed Index</h2>
+                <p>
+                    Our <strong>Crypto Fear & Greed Index</strong> completes the picture by tracking sentiment in cryptocurrency markets.
+                    This allows for comprehensive capital rotation analysis across traditional safe havens (gold), equities (stocks),
+                    and digital assets (crypto).
+                </p>
+
+                <h3>Why Track Crypto Separately?</h3>
+                <ul>
+                    <li><strong>Different Asset Behavior:</strong> Crypto currently behaves as a high-risk asset (correlated with stocks during crashes)</li>
+                    <li><strong>Speculation Indicator:</strong> Extreme crypto greed often signals peak speculation and potential market tops</li>
+                    <li><strong>"Digital Gold" Evolution:</strong> Track if/when crypto decouples from stocks and becomes a true safe haven</li>
+                    <li><strong>Altcoin Seasons:</strong> Identify periods when crypto sentiment exceeds all other assets (historically risky)</li>
+                </ul>
+
+                <h3>Crypto Index Components</h3>
+                <table class="components-table">
+                    <thead>
+                        <tr>
+                            <th>Component</th>
+                            <th>Weight</th>
+                            <th>What It Measures</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Momentum</strong></td>
+                            <td><span class="weight-badge">25%</span></td>
+                            <td>BTC price vs MA50/MA200 + RSI(14). Strong momentum = Greed.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Volatility</strong></td>
+                            <td><span class="weight-badge">15%</span></td>
+                            <td>14-day volatility vs 30-day avg (inverted). Lower volatility = Confidence.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Volume</strong></td>
+                            <td><span class="weight-badge">15%</span></td>
+                            <td>BTC volume vs avg + price momentum. High volume + rising price = Greed.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>BTC Dominance</strong></td>
+                            <td><span class="weight-badge">15%</span></td>
+                            <td>BTC vs ETH performance. BTC outperforms = Flight to quality within crypto.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Altcoin Season</strong></td>
+                            <td><span class="weight-badge">15%</span></td>
+                            <td>ETH+SOL avg vs BTC. Alts outperform = Peak speculation (Greed).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Market Cap Growth</strong></td>
+                            <td><span class="weight-badge">15%</span></td>
+                            <td>BTC 14-day price change (proxy for market cap). Growth = Capital inflow.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="formula">
+Score = (Momentum × 0.25) + (Volatility × 0.15) + (Volume × 0.15)
+      + (BTC_Dominance × 0.15) + (Altcoin_Season × 0.15) + (Market_Cap × 0.15)
+                </div>
+
+                <p style="margin-top: 20px;">
+                    <strong>Important Note:</strong> Unlike Gold (safe haven) and Stocks (established risk asset),
+                    crypto sentiment is highly volatile and often leads or lags traditional markets.
+                    Extreme crypto greed (>75) has historically preceded corrections.
+                </p>
+            </div>
+
             <!-- Data Sources Section -->
             <div class="section">
                 <h2>🔗 Data Sources</h2>
@@ -399,6 +471,10 @@ Score = (Momentum × 0.25) + (VIX × 0.20) + (Market_Breadth × 0.15)
                     <div class="source-item">
                         <strong>Yahoo Finance - Stocks Index</strong>
                         SPY, RSP, VIX, HYG, TLT
+                    </div>
+                    <div class="source-item">
+                        <strong>Yahoo Finance - Crypto Index</strong>
+                        BTC-USD, ETH-USD, SOL-USD
                     </div>
                     <div class="source-item">
                         <strong>FRED API</strong>

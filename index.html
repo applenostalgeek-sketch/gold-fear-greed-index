@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Gold Fear & Greed Index - Market sentiment indicator for gold">
-    <title>Gold Fear & Greed Index</title>
+    <meta name="description" content="Fear & Greed Central - Track market sentiment across Gold, Stocks, and Crypto. 100% transparent indices with capital rotation analysis.">
+    <title>Fear & Greed Central - Gold, Stocks & Crypto Sentiment</title>
 
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -12,20 +12,20 @@
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://gold-fear-greed-index.netlify.app/">
-    <meta property="og:title" content="Gold Fear & Greed Index">
-    <meta property="og:description" content="Real-time market sentiment indicator for gold. 100% transparent, open-source methodology. Track fear and greed in the gold market.">
+    <meta property="og:title" content="Fear & Greed Central - Gold, Stocks & Crypto Sentiment">
+    <meta property="og:description" content="Compare market sentiment across Gold, Stocks, and Crypto. 100% transparent, open-source methodology. Track capital rotation and market regime.">
     <meta property="og:image" content="https://gold-fear-greed-index.netlify.app/og-image.png">
 
     <!-- Twitter -->
     <meta property="twitter:card" content="summary_large_image">
     <meta property="twitter:url" content="https://gold-fear-greed-index.netlify.app/">
-    <meta property="twitter:title" content="Gold Fear & Greed Index">
-    <meta property="twitter:description" content="Real-time market sentiment indicator for gold. 100% transparent, open-source methodology.">
+    <meta property="twitter:title" content="Fear & Greed Central - Gold, Stocks & Crypto">
+    <meta property="twitter:description" content="Track sentiment across Gold, Stocks, and Crypto. Transparent methodology, capital rotation analysis.">
     <meta property="twitter:image" content="https://gold-fear-greed-index.netlify.app/og-image.png">
 
     <!-- Additional SEO -->
-    <meta name="keywords" content="gold, fear and greed index, market sentiment, gold price, investment, trading, technical analysis">
-    <meta name="author" content="Gold Fear & Greed Index">
+    <meta name="keywords" content="fear and greed index, market sentiment, gold sentiment, stocks sentiment, crypto sentiment, bitcoin, capital rotation, risk on risk off, market regime">
+    <meta name="author" content="Fear & Greed Central">
     <link rel="canonical" href="https://gold-fear-greed-index.netlify.app/">
 
     <link rel="stylesheet" href="style.css">
@@ -33,8 +33,8 @@
 <body>
     <div class="container">
         <header>
-            <h1>Gold Fear & Greed Index</h1>
-            <p class="subtitle">Market Sentiment Indicator for Gold</p>
+            <h1>Fear & Greed Central</h1>
+            <p class="subtitle">Track Market Sentiment Across Gold, Stocks, and Crypto</p>
             <p style="text-align: center; margin-top: 15px;">
                 <a href="methodology.html" style="color: #FFD700; text-decoration: none; font-size: 0.95rem; opacity: 0.9;">
                     📊 How it works
@@ -43,93 +43,66 @@
         </header>
 
         <main>
-            <!-- Main Score Display -->
-            <section class="main-score-section">
-                <div class="score-display-top">
-                    <div class="score-number" id="scoreNumber">--</div>
-                    <div class="score-label" id="scoreLabel">Loading...</div>
-                </div>
-
-                <div class="progress-bar-container">
-                    <!-- Labels above the bar -->
-                    <div class="bar-labels">
-                        <span class="label-item">Extreme Fear</span>
-                        <span class="label-item">Fear</span>
-                        <span class="label-item">Neutral</span>
-                        <span class="label-item">Greed</span>
-                        <span class="label-item">Extreme Greed</span>
-                    </div>
-
-                    <!-- The gradient bar -->
-                    <div class="progress-bar-track">
-                        <div class="progress-bar-gradient"></div>
-                        <!-- Indicator that moves -->
-                        <div class="progress-indicator" id="progressIndicator">
-                            <div class="indicator-line"></div>
-                            <div class="indicator-dot"></div>
-                        </div>
-                    </div>
-
-                    <!-- Value markers below -->
-                    <div class="bar-values">
-                        <span>0</span>
-                        <span>25</span>
-                        <span>50</span>
-                        <span>75</span>
-                        <span>100</span>
+            <!-- Three Index Cards -->
+            <section class="indices-cards-section">
+                <!-- Gold Card -->
+                <div class="index-card gold-card">
+                    <div class="card-icon">🪙</div>
+                    <div class="card-title">Gold</div>
+                    <div class="card-score" id="goldCardScore">--</div>
+                    <div class="card-label" id="goldCardLabel">Loading...</div>
+                    <div class="card-mini-bar">
+                        <div class="mini-bar-fill gold-mini-fill" id="goldMiniBar"></div>
                     </div>
                 </div>
 
-                <div class="last-update">
-                    Last updated: <span id="lastUpdate">--</span>
+                <!-- Stocks Card -->
+                <div class="index-card stocks-card">
+                    <div class="card-icon">📈</div>
+                    <div class="card-title">Stocks</div>
+                    <div class="card-score" id="stocksCardScore">--</div>
+                    <div class="card-label" id="stocksCardLabel">Loading...</div>
+                    <div class="card-mini-bar">
+                        <div class="mini-bar-fill stocks-mini-fill" id="stocksMiniBar"></div>
+                    </div>
+                </div>
+
+                <!-- Crypto Card -->
+                <div class="index-card crypto-card">
+                    <div class="card-icon">₿</div>
+                    <div class="card-title">Crypto</div>
+                    <div class="card-score" id="cryptoCardScore">--</div>
+                    <div class="card-label" id="cryptoCardLabel">Loading...</div>
+                    <div class="card-mini-bar">
+                        <div class="mini-bar-fill crypto-mini-fill" id="cryptoMiniBar"></div>
+                    </div>
                 </div>
             </section>
 
-            <!-- Market Context: Gold vs Stocks -->
-            <section class="market-context-section">
-                <h2>Market Context: Gold vs Stocks</h2>
-                <p class="section-subtitle">Compare sentiment to identify capital rotation</p>
+            <div class="last-update" style="text-align: center; margin-top: 20px;">
+                Last updated: <span id="lastUpdate">--</span>
+            </div>
 
-                <div class="healthbar-container">
-                    <!-- Gold Bar -->
-                    <div class="market-bar">
-                        <div class="bar-header">
-                            <span class="bar-label">🪙 Gold</span>
-                            <span class="bar-value">
-                                <span id="goldContextScore">--</span>
-                                <span class="bar-label-text" id="goldContextLabel">--</span>
-                            </span>
-                        </div>
-                        <div class="healthbar">
-                            <div class="healthbar-fill gold-fill" id="goldHealthbar"></div>
-                        </div>
+            <!-- Market Rotation Analysis -->
+            <section class="market-rotation-section">
+                <h2>📊 Market Rotation Analysis</h2>
+                <p class="section-subtitle">Understanding capital flows across asset classes</p>
+
+                <div class="rotation-analysis-box" id="rotationAnalysisBox">
+                    <div class="analysis-header">
+                        <span class="analysis-icon" id="analysisIcon">⏳</span>
+                        <span class="analysis-title" id="analysisTitle">Analyzing market regime...</span>
                     </div>
-
-                    <!-- Stocks Bar -->
-                    <div class="market-bar">
-                        <div class="bar-header">
-                            <span class="bar-label">📈 Stocks</span>
-                            <span class="bar-value">
-                                <span id="stocksContextScore">--</span>
-                                <span class="bar-label-text" id="stocksContextLabel">--</span>
-                            </span>
-                        </div>
-                        <div class="healthbar">
-                            <div class="healthbar-fill stocks-fill" id="stocksHealthbar"></div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="divergence-info" id="divergenceInfo">
-                    <span id="divergenceMessage">Loading...</span>
+                    <div class="analysis-detail" id="analysisDetail">Loading data...</div>
                 </div>
 
                 <div class="context-explanation">
-                    <p><strong>What does this mean?</strong></p>
+                    <p><strong>How to read capital rotation:</strong></p>
                     <ul>
-                        <li>🟢 <strong>Gold > Stocks:</strong> Flight to safety - capital rotating to gold</li>
-                        <li>🔴 <strong>Stocks > Gold:</strong> Risk-on - capital rotating to equities</li>
-                        <li>⚪ <strong>Similar scores:</strong> Balanced risk sentiment</li>
+                        <li>🟢 <strong>Flight to Safety:</strong> Gold sentiment significantly higher than Stocks/Crypto → Capital flowing to safe havens</li>
+                        <li>🔴 <strong>Risk-On:</strong> Stocks/Crypto sentiment higher than Gold → Investors seeking returns over safety</li>
+                        <li>🟡 <strong>Altcoin Season:</strong> Crypto outperforming all → Peak speculation (often near tops)</li>
+                        <li>⚪ <strong>Balanced:</strong> Similar sentiment across assets → No clear trend, market indecision</li>
                     </ul>
                 </div>
             </section>
@@ -237,6 +210,10 @@
                             <label class="chart-toggle">
                                 <input type="checkbox" id="toggleStocks" checked>
                                 <span class="toggle-label stocks-toggle">📈 Stocks</span>
+                            </label>
+                            <label class="chart-toggle">
+                                <input type="checkbox" id="toggleCrypto" checked>
+                                <span class="toggle-label crypto-toggle">₿ Crypto</span>
                             </label>
                         </div>
                         <div class="period-selector">
