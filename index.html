@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Gold Fear & Greed Index - Market sentiment indicator for gold">
+    <title>Gold Fear & Greed Index</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Gold Fear & Greed Index</h1>
+            <p class="subtitle">Market Sentiment Indicator for Gold</p>
+        </header>
+
+        <main>
+            <!-- Main Score Display -->
+            <section class="main-score-section">
+                <div class="gauge-container">
+                    <svg viewBox="0 0 200 120" class="gauge">
+                        <!-- Background arc -->
+                        <path class="gauge-bg" d="M 20 100 A 80 80 0 0 1 180 100" fill="none" stroke="#e0e0e0" stroke-width="20"/>
+
+                        <!-- Colored segments -->
+                        <path class="gauge-segment extreme-fear" d="M 20 100 A 80 80 0 0 1 52 44" fill="none" stroke="#EA3943" stroke-width="20"/>
+                        <path class="gauge-segment fear" d="M 52 44 A 80 80 0 0 1 100 20" fill="none" stroke="#F5A623" stroke-width="20"/>
+                        <path class="gauge-segment neutral" d="M 100 20 A 80 80 0 0 1 148 44" fill="none" stroke="#F8E71C" stroke-width="20"/>
+                        <path class="gauge-segment greed" d="M 148 44 A 80 80 0 0 1 180 100" fill="none" stroke="#7ED321" stroke-width="20"/>
+
+                        <!-- Needle -->
+                        <g class="needle" transform="rotate(0 100 100)">
+                            <line x1="100" y1="100" x2="100" y2="30" stroke="#333" stroke-width="3"/>
+                            <circle cx="100" cy="100" r="5" fill="#333"/>
+                        </g>
+                    </svg>
+
+                    <div class="score-display">
+                        <div class="score-number" id="scoreNumber">--</div>
+                        <div class="score-label" id="scoreLabel">Loading...</div>
+                    </div>
+                </div>
+
+                <div class="last-update">
+                    Last updated: <span id="lastUpdate">--</span>
+                </div>
+            </section>
+
+            <!-- Components Breakdown -->
+            <section class="components-section">
+                <h2>Index Components</h2>
+                <div class="components-grid">
+                    <div class="component-card" data-component="volatility">
+                        <div class="component-header">
+                            <h3>Volatility</h3>
+                            <span class="component-weight">20%</span>
+                        </div>
+                        <div class="component-score" id="volatility-score">--</div>
+                        <div class="component-detail" id="volatility-detail">--</div>
+                        <div class="component-bar">
+                            <div class="component-bar-fill" id="volatility-bar"></div>
+                        </div>
+                    </div>
+
+                    <div class="component-card" data-component="momentum">
+                        <div class="component-header">
+                            <h3>Momentum</h3>
+                            <span class="component-weight">25%</span>
+                        </div>
+                        <div class="component-score" id="momentum-score">--</div>
+                        <div class="component-detail" id="momentum-detail">--</div>
+                        <div class="component-bar">
+                            <div class="component-bar-fill" id="momentum-bar"></div>
+                        </div>
+                    </div>
+
+                    <div class="component-card" data-component="gold_vs_spy">
+                        <div class="component-header">
+                            <h3>Gold vs Stocks</h3>
+                            <span class="component-weight">15%</span>
+                        </div>
+                        <div class="component-score" id="gold_vs_spy-score">--</div>
+                        <div class="component-detail" id="gold_vs_spy-detail">--</div>
+                        <div class="component-bar">
+                            <div class="component-bar-fill" id="gold_vs_spy-bar"></div>
+                        </div>
+                    </div>
+
+                    <div class="component-card" data-component="etf_flows">
+                        <div class="component-header">
+                            <h3>ETF Flows</h3>
+                            <span class="component-weight">20%</span>
+                        </div>
+                        <div class="component-score" id="etf_flows-score">--</div>
+                        <div class="component-detail" id="etf_flows-detail">--</div>
+                        <div class="component-bar">
+                            <div class="component-bar-fill" id="etf_flows-bar"></div>
+                        </div>
+                    </div>
+
+                    <div class="component-card" data-component="vix">
+                        <div class="component-header">
+                            <h3>VIX</h3>
+                            <span class="component-weight">10%</span>
+                        </div>
+                        <div class="component-score" id="vix-score">--</div>
+                        <div class="component-detail" id="vix-detail">--</div>
+                        <div class="component-bar">
+                            <div class="component-bar-fill" id="vix-bar"></div>
+                        </div>
+                    </div>
+
+                    <div class="component-card" data-component="real_rates">
+                        <div class="component-header">
+                            <h3>Real Rates</h3>
+                            <span class="component-weight">10%</span>
+                        </div>
+                        <div class="component-score" id="real_rates-score">--</div>
+                        <div class="component-detail" id="real_rates-detail">--</div>
+                        <div class="component-bar">
+                            <div class="component-bar-fill" id="real_rates-bar"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Historical Chart -->
+            <section class="history-section">
+                <h2>30-Day History</h2>
+                <div class="chart-container">
+                    <canvas id="historyChart"></canvas>
+                </div>
+            </section>
+
+            <!-- Explanation -->
+            <section class="explanation-section">
+                <h2>How to Read This Index?</h2>
+                <div class="explanation-grid">
+                    <div class="explanation-item extreme-fear-bg">
+                        <strong>0-25: Extreme Fear</strong>
+                        <p>Very pessimistic sentiment. Potential buying opportunity.</p>
+                    </div>
+                    <div class="explanation-item fear-bg">
+                        <strong>26-45: Fear</strong>
+                        <p>Cautious sentiment. Investors seeking safety.</p>
+                    </div>
+                    <div class="explanation-item neutral-bg">
+                        <strong>46-55: Neutral</strong>
+                        <p>Balanced sentiment. No clear trend.</p>
+                    </div>
+                    <div class="explanation-item greed-bg">
+                        <strong>56-75: Greed</strong>
+                        <p>Optimistic sentiment. Investors taking risks.</p>
+                    </div>
+                    <div class="explanation-item extreme-greed-bg">
+                        <strong>76-100: Extreme Greed</strong>
+                        <p>Market euphoria. Potential correction ahead.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p class="disclaimer">
+                <strong>Disclaimer:</strong> This index is provided for informational purposes only and does not constitute financial advice.
+                Investments carry risks. Consult a financial advisor before making any investment decisions.
+            </p>
+            <p class="credits">
+                Built with Claude Code | Sources: Yahoo Finance, FRED |
+                Updated Daily
+            </p>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
