@@ -1,4 +1,4 @@
-name: Update Gold Fear & Greed Index
+name: Update Gold & Stocks Fear & Greed Indices
 
 on:
   schedule:
@@ -7,7 +7,7 @@ on:
   workflow_dispatch:  # Allow manual trigger
 
 jobs:
-  update-index:
+  update-indices:
     runs-on: ubuntu-latest
     permissions:
       contents: write
@@ -29,35 +29,50 @@ jobs:
           python -m pip install --upgrade pip
           pip install -r requirements.txt
 
-      - name: Run index calculation
+      - name: Run Gold index calculation
         env:
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
         run: |
           python gold_fear_greed.py
 
+      - name: Run Stocks index calculation
+        run: |
+          python stocks_fear_greed.py
+
       - name: Check for changes
         id: git-check
         run: |
-          git diff --exit-code data/gold-fear-greed.json || echo "changed=true" >> $GITHUB_OUTPUT
+          git diff --exit-code data/gold-fear-greed.json data/stocks-fear-greed.json || echo "changed=true" >> $GITHUB_OUTPUT
 
       - name: Commit and push changes
         if: steps.git-check.outputs.changed == 'true'
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add data/gold-fear-greed.json
-          git commit -m "Update Gold Fear & Greed Index - $(date -u +'%Y-%m-%d %H:%M UTC')"
+          git add data/gold-fear-greed.json data/stocks-fear-greed.json
+          git commit -m "Update Gold & Stocks Fear & Greed Indices - $(date -u +'%Y-%m-%d %H:%M UTC')"
           git push
 
       - name: Summary
         run: |
-          echo "### Gold Fear & Greed Index Updated ✅" >> $GITHUB_STEP_SUMMARY
+          echo "### Gold & Stocks Fear & Greed Indices Updated ✅" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**Timestamp:** $(date -u +'%Y-%m-%d %H:%M UTC')" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
+
           if [ -f data/gold-fear-greed.json ]; then
-            SCORE=$(python -c "import json; data=json.load(open('data/gold-fear-greed.json')); print(data['score'])")
-            LABEL=$(python -c "import json; data=json.load(open('data/gold-fear-greed.json')); print(data['label'])")
-            echo "**Score:** $SCORE" >> $GITHUB_STEP_SUMMARY
-            echo "**Label:** $LABEL" >> $GITHUB_STEP_SUMMARY
+            GOLD_SCORE=$(python -c "import json; data=json.load(open('data/gold-fear-greed.json')); print(data['score'])")
+            GOLD_LABEL=$(python -c "import json; data=json.load(open('data/gold-fear-greed.json')); print(data['label'])")
+            echo "### 🪙 Gold Index" >> $GITHUB_STEP_SUMMARY
+            echo "**Score:** $GOLD_SCORE" >> $GITHUB_STEP_SUMMARY
+            echo "**Label:** $GOLD_LABEL" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          if [ -f data/stocks-fear-greed.json ]; then
+            STOCKS_SCORE=$(python -c "import json; data=json.load(open('data/stocks-fear-greed.json')); print(data['score'])")
+            STOCKS_LABEL=$(python -c "import json; data=json.load(open('data/stocks-fear-greed.json')); print(data['label'])")
+            echo "### 📈 Stocks Index" >> $GITHUB_STEP_SUMMARY
+            echo "**Score:** $STOCKS_SCORE" >> $GITHUB_STEP_SUMMARY
+            echo "**Label:** $STOCKS_LABEL" >> $GITHUB_STEP_SUMMARY
           fi
