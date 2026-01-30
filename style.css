@@ -195,6 +195,178 @@ header h1 {
     font-size: 0.9rem;
 }
 
+/* Market Context Section */
+.market-context-section {
+    background: var(--card-bg);
+    border-radius: 20px;
+    padding: 40px;
+    margin-bottom: 40px;
+    border: 1px solid var(--border-color);
+}
+
+.market-context-section h2 {
+    font-size: 1.8rem;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.section-subtitle {
+    text-align: center;
+    color: var(--text-secondary);
+    margin-bottom: 30px;
+    font-size: 1rem;
+}
+
+.dual-index-container {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 30px;
+    align-items: center;
+    margin-bottom: 30px;
+}
+
+.index-card {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 15px;
+    padding: 25px;
+    border: 1px solid var(--border-color);
+    text-align: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.index-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 30px rgba(255, 215, 0, 0.2);
+}
+
+.gold-card {
+    border-left: 3px solid #FFD700;
+}
+
+.stocks-card {
+    border-left: 3px solid #4A90E2;
+}
+
+.index-icon {
+    font-size: 3rem;
+    margin-bottom: 10px;
+}
+
+.index-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: var(--text-secondary);
+}
+
+.index-score-display {
+    margin-bottom: 20px;
+}
+
+.index-score-number {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+}
+
+.index-score-label {
+    font-size: 1.1rem;
+    font-weight: 600;
+    opacity: 0.9;
+}
+
+.mini-bar-container {
+    position: relative;
+    width: 100%;
+    height: 12px;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-top: 10px;
+}
+
+.mini-bar-gradient {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right,
+        #EA3943 0%, #EA3943 25%,
+        #F5A623 25%, #F5A623 45%,
+        #F8E71C 45%, #F8E71C 55%,
+        #7ED321 55%, #7ED321 75%,
+        #50E3C2 75%, #50E3C2 100%
+    );
+}
+
+.mini-bar-indicator {
+    position: absolute;
+    top: 50%;
+    left: 0%;
+    transform: translate(-50%, -50%);
+    width: 4px;
+    height: 18px;
+    background: #FFFFFF;
+    border-radius: 2px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+    transition: left 0.8s cubic-bezier(0.4, 0.0, 0.2, 1);
+}
+
+.divergence-display {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(255, 215, 0, 0.05);
+    border-radius: 15px;
+    border: 2px solid rgba(255, 215, 0, 0.3);
+    min-width: 200px;
+}
+
+.divergence-icon {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+.divergence-value {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #FFD700;
+    margin-bottom: 10px;
+}
+
+.divergence-message {
+    font-size: 0.95rem;
+    color: var(--text-secondary);
+    text-align: center;
+    line-height: 1.4;
+}
+
+.context-explanation {
+    background: rgba(255, 255, 255, 0.03);
+    border-radius: 12px;
+    padding: 20px;
+    border: 1px solid var(--border-color);
+}
+
+.context-explanation p {
+    margin-bottom: 12px;
+    font-weight: 600;
+}
+
+.context-explanation ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.context-explanation li {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border-color);
+    line-height: 1.6;
+}
+
+.context-explanation li:last-child {
+    border-bottom: none;
+}
+
 /* Components Section */
 .components-section {
     margin-bottom: 40px;

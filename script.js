@@ -1,29 +1,39 @@
 // Gold Fear & Greed Index - Frontend JavaScript
 
 // Configuration
-const DATA_URL = 'data/gold-fear-greed.json';
+const GOLD_DATA_URL = 'data/gold-fear-greed.json';
+const STOCKS_DATA_URL = 'data/stocks-fear-greed.json';
 
 // Global state
 let indexData = null;
+let stocksData = null;
 
 // Initialize on page load
 document.addEventListener('DOMContentLoaded', () => {
-    loadIndexData();
+    loadAllData();
 });
 
 /**
- * Load index data from JSON file
+ * Load both Gold and Stocks index data
  */
-async function loadIndexData() {
+async function loadAllData() {
     try {
-        const response = await fetch(DATA_URL);
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
+        // Load both indices in parallel
+        const [goldResponse, stocksResponse] = await Promise.all([
+            fetch(GOLD_DATA_URL),
+            fetch(STOCKS_DATA_URL)
+        ]);
+
+        if (!goldResponse.ok || !stocksResponse.ok) {
+            throw new Error('HTTP error loading data');
         }
-        indexData = await response.json();
+
+        indexData = await goldResponse.json();
+        stocksData = await stocksResponse.json();
+
         updateUI();
     } catch (error) {
-        console.error('Error loading index data:', error);
+        console.error('Error loading data:', error);
         showError();
     }
 }
@@ -35,6 +45,7 @@ function updateUI() {
     if (!indexData) return;
 
     updateMainScore();
+    updateMarketContext();
     updateComponents();
     updateHistoryChart();
 }
@@ -76,6 +87,50 @@ function updateProgressIndicator(score) {
         // Position indicator based on score (0-100%)
         indicator.style.left = `${score}%`;
     }
+}
+
+/**
+ * Update Market Context section (Gold vs Stocks comparison)
+ */
+function updateMarketContext() {
+    if (!indexData || !stocksData) return;
+
+    const goldScore = indexData.score;
+    const stocksScore = stocksData.score;
+    const divergence = goldScore - stocksScore;
+
+    // Update Gold card
+    document.getElementById('goldContextScore').textContent = goldScore;
+    document.getElementById('goldContextLabel').textContent = indexData.label;
+    document.getElementById('goldMiniIndicator').style.left = `${goldScore}%`;
+
+    // Update Stocks card
+    document.getElementById('stocksContextScore').textContent = stocksScore;
+    document.getElementById('stocksContextLabel').textContent = stocksData.label;
+    document.getElementById('stocksMiniIndicator').style.left = `${stocksScore}%`;
+
+    // Update Divergence display
+    const divergenceValue = document.getElementById('divergenceValue');
+    const divergenceMessage = document.getElementById('divergenceMessage');
+    const divergenceIcon = document.querySelector('.divergence-icon');
+
+    divergenceValue.textContent = `${divergence > 0 ? '+' : ''}${divergence.toFixed(1)}`;
+
+    // Determine message based on divergence
+    if (Math.abs(divergence) < 10) {
+        divergenceIcon.textContent = '⚪';
+        divergenceMessage.textContent = 'Balanced sentiment across markets';
+    } else if (divergence > 10) {
+        divergenceIcon.textContent = '🟢';
+        divergenceMessage.textContent = 'Flight to safety - Capital rotating to gold';
+    } else {
+        divergenceIcon.textContent = '🔴';
+        divergenceMessage.textContent = 'Risk-on - Capital rotating to equities';
+    }
+
+    // Color coding for scores
+    document.getElementById('goldContextScore').className = `index-score-number ${getColorClass(goldScore)}`;
+    document.getElementById('stocksContextScore').className = `index-score-number ${getColorClass(stocksScore)}`;
 }
 
 /**
