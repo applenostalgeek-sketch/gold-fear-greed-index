@@ -403,32 +403,118 @@ class GoldFearGreedIndex:
             'components': self.components
         }
 
+    def calculate_simple_historical_score(self, target_date: datetime) -> float:
+        """
+        Calculate a simplified historical score for a past date
+        Uses only price-based components that have reliable historical data
+
+        Args:
+            target_date: The date to calculate the score for
+
+        Returns:
+            Historical score (0-100)
+        """
+        try:
+            print(f"  Calculating for {target_date.strftime('%Y-%m-%d')}...", end=" ")
+
+            # Fetch historical data up to target date
+            end_date = target_date
+            start_date = target_date - timedelta(days=90)
+
+            # Get gold and SPY data
+            gold = yf.Ticker("GC=F")
+            spy = yf.Ticker("SPY")
+            vix = yf.Ticker("^VIX")
+
+            gold_hist = gold.history(start=start_date, end=end_date + timedelta(days=1))
+            spy_hist = spy.history(start=start_date, end=end_date + timedelta(days=1))
+            vix_hist = vix.history(start=start_date, end=end_date + timedelta(days=1))
+
+            if len(gold_hist) < 20 or len(spy_hist) < 20:
+                print("insufficient data")
+                return 50.0
+
+            # Calculate Gold vs SPY (40% weight - increased importance)
+            gold_return = (gold_hist['Close'].iloc[-1] / gold_hist['Close'].iloc[-14] - 1) * 100
+            spy_return = (spy_hist['Close'].iloc[-1] / spy_hist['Close'].iloc[-14] - 1) * 100
+            relative_perf = gold_return - spy_return
+            gold_spy_score = 50 + (relative_perf * 2.5)
+            gold_spy_score = max(0, min(100, gold_spy_score))
+
+            # Calculate Momentum (40% weight)
+            close_prices = gold_hist['Close']
+            if len(close_prices) >= 50:
+                ma50 = close_prices.rolling(window=50).mean().iloc[-1]
+                current_price = close_prices.iloc[-1]
+
+                delta = close_prices.diff()
+                gain = (delta.where(delta > 0, 0)).rolling(window=14).mean()
+                loss = (-delta.where(delta < 0, 0)).rolling(window=14).mean()
+                rs = gain / loss
+                rsi = 100 - (100 / (1 + rs))
+                current_rsi = rsi.iloc[-1]
+
+                ma_score = 40 if current_price > ma50 else 0
+                rsi_score = current_rsi * 0.6
+                momentum_score = ma_score + rsi_score
+            else:
+                momentum_score = 50
+
+            # Calculate VIX (20% weight)
+            if len(vix_hist) > 0:
+                current_vix = vix_hist['Close'].iloc[-1]
+                vix_score = (current_vix - 10) * 3.33
+                vix_score = max(0, min(100, vix_score))
+            else:
+                vix_score = 50
+
+            # Weighted average
+            total_score = (
+                gold_spy_score * 0.40 +
+                momentum_score * 0.40 +
+                vix_score * 0.20
+            )
+
+            print(f"Score: {total_score:.1f}")
+            return round(total_score, 1)
+
+        except Exception as e:
+            print(f"error: {e}")
+            return 50.0
+
     def save_to_file(self, filepath: str = 'data/gold-fear-greed.json'):
         """
-        Save the index to JSON file and maintain history
+        Save the index to JSON file and generate 30-day history
 
         Args:
             filepath: Path to the JSON file
         """
         try:
-            # Load existing data if it exists
-            if os.path.exists(filepath):
-                with open(filepath, 'r') as f:
-                    existing_data = json.load(f)
-                    history = existing_data.get('history', [])
-            else:
-                history = []
+            print("\nGenerating 30-day historical data...")
 
-            # Add current score to history
-            today = datetime.utcnow().strftime('%Y-%m-%d')
+            # Generate history for last 30 days
+            history = []
+            today = datetime.utcnow().date()
 
-            # Update history (keep last 30 days)
-            history = [h for h in history if h['date'] != today]  # Remove today if exists
-            history.append({
-                'date': today,
-                'score': self.score
-            })
-            history = sorted(history, key=lambda x: x['date'], reverse=True)[:30]
+            for i in range(29, -1, -1):
+                historical_date = today - timedelta(days=i)
+
+                if i == 0:
+                    # Use today's full calculation
+                    score = self.score
+                else:
+                    # Calculate historical score
+                    score = self.calculate_simple_historical_score(
+                        datetime.combine(historical_date, datetime.min.time())
+                    )
+
+                history.append({
+                    'date': historical_date.strftime('%Y-%m-%d'),
+                    'score': score
+                })
+
+            # Sort by date descending
+            history = sorted(history, key=lambda x: x['date'], reverse=True)
 
             # Build complete data
             result = self.get_result()
@@ -441,7 +527,7 @@ class GoldFearGreedIndex:
             with open(filepath, 'w') as f:
                 json.dump(result, f, indent=2)
 
-            print(f"Index saved to {filepath}")
+            print(f"\n✅ Index saved to {filepath} with 30-day history")
 
         except Exception as e:
             print(f"Error saving to file: {e}")
