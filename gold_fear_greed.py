@@ -580,36 +580,68 @@ class GoldFearGreedIndex:
             print(f"error: {e}")
             return 50.0
 
-    def save_to_file(self, filepath: str = 'data/gold-fear-greed.json'):
+    def save_to_file(self, filepath: str = 'data/gold-fear-greed.json', force_rebuild: bool = False):
         """
-        Save the index to JSON file and generate 30-day history
+        Save the index to JSON file with incremental history updates
 
         Args:
             filepath: Path to the JSON file
+            force_rebuild: If True, regenerate all 365 days of history (slow)
         """
         try:
-            print("\nGenerating 30-day historical data...")
-
-            # Generate history for last 30 days
-            history = []
             today = datetime.utcnow().date()
+            today_str = today.strftime('%Y-%m-%d')
 
-            for i in range(29, -1, -1):
-                historical_date = today - timedelta(days=i)
+            # Load existing history if available
+            existing_history = []
+            if os.path.exists(filepath) and not force_rebuild:
+                try:
+                    with open(filepath, 'r') as f:
+                        existing_data = json.load(f)
+                        existing_history = existing_data.get('history', [])
+                    print(f"📂 Loaded {len(existing_history)} existing historical records")
+                except Exception as e:
+                    print(f"⚠️  Could not load existing history: {e}")
 
-                if i == 0:
-                    # Use today's full calculation
-                    score = self.score
-                else:
-                    # Calculate historical score
-                    score = self.calculate_simple_historical_score(
-                        datetime.combine(historical_date, datetime.min.time())
-                    )
+            # Check if today's score already exists
+            history_dict = {item['date']: item['score'] for item in existing_history}
 
-                history.append({
-                    'date': historical_date.strftime('%Y-%m-%d'),
-                    'score': score
-                })
+            if force_rebuild:
+                print("\n🔄 Force rebuilding 365-day history (this may take 2-3 minutes)...")
+                history = []
+                for i in range(364, -1, -1):
+                    historical_date = today - timedelta(days=i)
+                    historical_date_str = historical_date.strftime('%Y-%m-%d')
+
+                    if i == 0:
+                        score = self.score
+                    else:
+                        score = self.calculate_simple_historical_score(
+                            datetime.combine(historical_date, datetime.min.time())
+                        )
+
+                    history.append({
+                        'date': historical_date_str,
+                        'score': score
+                    })
+
+                    if (i + 1) % 50 == 0:
+                        print(f"  Calculated {365 - i}/365 days...")
+            else:
+                # Incremental update: only add today's score
+                print(f"📊 Updating index for {today_str}...")
+
+                # Update or add today's score
+                history_dict[today_str] = self.score
+
+                # Convert back to list and sort
+                history = [{'date': date, 'score': score} for date, score in history_dict.items()]
+                history = sorted(history, key=lambda x: x['date'], reverse=True)
+
+                # Keep only last 365 days
+                if len(history) > 365:
+                    history = history[:365]
+                    print(f"  Trimmed history to 365 days")
 
             # Sort by date descending
             history = sorted(history, key=lambda x: x['date'], reverse=True)
@@ -625,7 +657,7 @@ class GoldFearGreedIndex:
             with open(filepath, 'w') as f:
                 json.dump(result, f, indent=2)
 
-            print(f"\n✅ Index saved to {filepath} with 30-day history")
+            print(f"\n✅ Index saved to {filepath} with {len(history)} days of history")
 
         except Exception as e:
             print(f"Error saving to file: {e}")
@@ -633,6 +665,13 @@ class GoldFearGreedIndex:
 
 def main():
     """Main execution function"""
+    import argparse
+
+    parser = argparse.ArgumentParser(description='Calculate Gold Fear & Greed Index')
+    parser.add_argument('--force-rebuild', action='store_true',
+                        help='Force rebuild all 365 days of history (slow, 2-3 minutes)')
+    args = parser.parse_args()
+
     # Get FRED API key from environment
     fred_key = os.environ.get('FRED_API_KEY')
 
@@ -648,7 +687,7 @@ def main():
     calculator.calculate_index()
 
     # Save to file
-    calculator.save_to_file('data/gold-fear-greed.json')
+    calculator.save_to_file('data/gold-fear-greed.json', force_rebuild=args.force_rebuild)
 
 
 if __name__ == "__main__":
