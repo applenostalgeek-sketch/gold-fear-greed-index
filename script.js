@@ -353,59 +353,63 @@ function updateHistoryChart(days = 30) {
 function drawChart(ctx, canvas, goldData, stocksData, cryptoData, showGold, showStocks, showCrypto) {
     const width = canvas.width;
     const height = canvas.height;
-    const padding = 40;
-    const chartWidth = width - padding * 2;
-    const chartHeight = height - padding * 2;
+    const paddingTop = 40;
+    const paddingBottom = 60; // Extra space for rotated labels
+    const paddingSide = 40;
+    const chartWidth = width - paddingSide * 2;
+    const chartHeight = height - paddingTop - paddingBottom;
+    const padding = paddingSide; // For compatibility with existing code
 
     // Clear canvas
     ctx.clearRect(0, 0, width, height);
 
     // Draw background zones
-    drawBackgroundZones(ctx, padding, chartHeight, chartWidth);
+    drawBackgroundZones(ctx, paddingTop, chartHeight, chartWidth, paddingSide);
 
     // Draw grid
-    drawGrid(ctx, padding, chartHeight, chartWidth);
+    drawGrid(ctx, paddingTop, chartHeight, chartWidth, paddingSide);
 
     // Draw Crypto line first (bottom layer) - Orange
     if (showCrypto && cryptoData.length > 0) {
-        drawLine(ctx, cryptoData, padding, chartHeight, chartWidth, '#F7931A', 4);
-        drawPoints(ctx, cryptoData, padding, chartHeight, chartWidth, '#F7931A');
+        drawLine(ctx, cryptoData, paddingTop, paddingSide, chartHeight, chartWidth, '#F7931A', 2);
+        drawPoints(ctx, cryptoData, paddingTop, paddingSide, chartHeight, chartWidth, '#F7931A', 3);
     }
 
     // Draw Stocks line (middle layer) - Blue
     if (showStocks && stocksData.length > 0) {
-        drawLine(ctx, stocksData, padding, chartHeight, chartWidth, '#4A90E2', 4);
-        drawPoints(ctx, stocksData, padding, chartHeight, chartWidth, '#4A90E2');
+        drawLine(ctx, stocksData, paddingTop, paddingSide, chartHeight, chartWidth, '#4A90E2', 2);
+        drawPoints(ctx, stocksData, paddingTop, paddingSide, chartHeight, chartWidth, '#4A90E2', 3);
     }
 
     // Draw Gold line on top - Gold
     if (showGold && goldData.length > 0) {
-        drawLine(ctx, goldData, padding, chartHeight, chartWidth, '#FFD700', 4);
-        drawPoints(ctx, goldData, padding, chartHeight, chartWidth, '#FFD700');
+        drawLine(ctx, goldData, paddingTop, paddingSide, chartHeight, chartWidth, '#FFD700', 2);
+        drawPoints(ctx, goldData, paddingTop, paddingSide, chartHeight, chartWidth, '#FFD700', 3);
     }
 
     // Draw axes labels (use whichever dataset has data)
     const labelData = goldData.length > 0 ? goldData : (stocksData.length > 0 ? stocksData : cryptoData);
     if (labelData.length > 0) {
-        drawLabels(ctx, labelData, padding, chartHeight, chartWidth, height);
+        drawLabels(ctx, labelData, paddingSide, chartWidth, height);
     }
 }
 
 /**
  * Draw background fear/greed zones
  */
-function drawBackgroundZones(ctx, padding, chartHeight, chartWidth) {
+function drawBackgroundZones(ctx, paddingTop, chartHeight, chartWidth, paddingSide) {
+    const padding = paddingSide;
     const zones = [
-        { max: 25, color: 'rgba(234, 57, 67, 0.1)' },   // Extreme Fear
-        { max: 45, color: 'rgba(245, 166, 35, 0.1)' },  // Fear
-        { max: 55, color: 'rgba(248, 231, 28, 0.1)' },  // Neutral
-        { max: 75, color: 'rgba(126, 211, 33, 0.1)' },  // Greed
-        { max: 100, color: 'rgba(80, 227, 194, 0.1)' }  // Extreme Greed
+        { max: 25, color: 'rgba(234, 57, 67, 0.03)' },   // Extreme Fear
+        { max: 45, color: 'rgba(245, 166, 35, 0.03)' },  // Fear
+        { max: 55, color: 'rgba(248, 231, 28, 0.03)' },  // Neutral
+        { max: 75, color: 'rgba(126, 211, 33, 0.03)' },  // Greed
+        { max: 100, color: 'rgba(80, 227, 194, 0.03)' }  // Extreme Greed
     ];
 
-    let prevY = padding + chartHeight;
+    let prevY = paddingTop + chartHeight;
     zones.forEach(zone => {
-        const y = padding + chartHeight - (zone.max / 100) * chartHeight;
+        const y = paddingTop + chartHeight - (zone.max / 100) * chartHeight;
         ctx.fillStyle = zone.color;
         ctx.fillRect(padding, y, chartWidth, prevY - y);
         prevY = y;
@@ -415,13 +419,14 @@ function drawBackgroundZones(ctx, padding, chartHeight, chartWidth) {
 /**
  * Draw grid lines
  */
-function drawGrid(ctx, padding, chartHeight, chartWidth) {
+function drawGrid(ctx, paddingTop, chartHeight, chartWidth, paddingSide) {
+    const padding = paddingSide;
     ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
     ctx.lineWidth = 1;
 
     // Horizontal lines (score levels)
     [0, 25, 50, 75, 100].forEach(score => {
-        const y = padding + chartHeight - (score / 100) * chartHeight;
+        const y = paddingTop + chartHeight - (score / 100) * chartHeight;
         ctx.beginPath();
         ctx.moveTo(padding, y);
         ctx.lineTo(padding + chartWidth, y);
@@ -481,7 +486,7 @@ function drawDivergenceZones(ctx, goldData, stocksData, padding, chartHeight, ch
 /**
  * Draw the main line
  */
-function drawLine(ctx, data, padding, chartHeight, chartWidth, color = '#FFD700', lineWidth = 4) {
+function drawLine(ctx, data, paddingTop, paddingSide, chartHeight, chartWidth, color = '#FFD700', lineWidth = 4) {
     if (data.length < 2) return;
 
     ctx.strokeStyle = color;
@@ -489,8 +494,8 @@ function drawLine(ctx, data, padding, chartHeight, chartWidth, color = '#FFD700'
     ctx.beginPath();
 
     data.forEach((point, index) => {
-        const x = padding + (index / (data.length - 1)) * chartWidth;
-        const y = padding + chartHeight - (point.score / 100) * chartHeight;
+        const x = paddingSide + (index / (data.length - 1)) * chartWidth;
+        const y = paddingTop + chartHeight - (point.score / 100) * chartHeight;
 
         if (index === 0) {
             ctx.moveTo(x, y);
@@ -505,20 +510,26 @@ function drawLine(ctx, data, padding, chartHeight, chartWidth, color = '#FFD700'
 /**
  * Draw data points
  */
-function drawPoints(ctx, data, padding, chartHeight, chartWidth, lineColor = '#FFD700') {
+function drawPoints(ctx, data, paddingTop, paddingSide, chartHeight, chartWidth, lineColor = '#FFD700', radius = 3) {
+    // Subsample for long periods to reduce visual clutter
+    const step = data.length > 180 ? Math.ceil(data.length / 100) : 1;
+
     data.forEach((point, index) => {
-        const x = padding + (index / (data.length - 1)) * chartWidth;
-        const y = padding + chartHeight - (point.score / 100) * chartHeight;
+        // Skip points based on subsampling
+        if (index % step !== 0 && index !== data.length - 1) return;
+
+        const x = paddingSide + (index / (data.length - 1)) * chartWidth;
+        const y = paddingTop + chartHeight - (point.score / 100) * chartHeight;
 
         // Point - use the line color for consistency
         ctx.fillStyle = lineColor;
         ctx.beginPath();
-        ctx.arc(x, y, 5, 0, Math.PI * 2); // Slightly larger for mobile
+        ctx.arc(x, y, radius, 0, Math.PI * 2);
         ctx.fill();
 
-        // Outline
-        ctx.strokeStyle = '#1a1a2e';
-        ctx.lineWidth = 2;
+        // Subtle outline
+        ctx.strokeStyle = 'rgba(26, 26, 46, 0.3)';
+        ctx.lineWidth = 1;
         ctx.stroke();
     });
 }
@@ -526,27 +537,31 @@ function drawPoints(ctx, data, padding, chartHeight, chartWidth, lineColor = '#F
 /**
  * Draw axis labels
  */
-function drawLabels(ctx, data, padding, chartHeight, chartWidth, height) {
+function drawLabels(ctx, data, paddingSide, chartWidth, height) {
     ctx.fillStyle = '#a0a0a0';
     ctx.font = '11px sans-serif';
-    ctx.textAlign = 'center';
 
-    // Show date labels for first, middle, and last points
-    const showIndices = [
-        0,
-        Math.floor(data.length / 2),
-        data.length - 1
-    ];
+    // Determine number of labels based on data length
+    const numLabels = data.length > 180 ? 8 : 5;
+    const step = Math.floor(data.length / (numLabels - 1));
 
-    showIndices.forEach(index => {
+    for (let i = 0; i < numLabels; i++) {
+        const index = i === numLabels - 1 ? data.length - 1 : i * step;
         if (index < data.length) {
             const point = data[index];
-            const x = padding + (index / (data.length - 1)) * chartWidth;
+            const x = paddingSide + (index / (data.length - 1)) * chartWidth;
             const date = new Date(point.date);
             const label = formatDateShort(date);
-            ctx.fillText(label, x, height - padding + 20);
+
+            // Rotate labels for better readability
+            ctx.save();
+            ctx.translate(x, height - 20);
+            ctx.rotate(-Math.PI / 6); // -30 degrees
+            ctx.textAlign = 'right';
+            ctx.fillText(label, 0, 0);
+            ctx.restore();
         }
-    });
+    }
 }
 
 /**
