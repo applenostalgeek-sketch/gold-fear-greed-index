@@ -295,46 +295,6 @@ function updateMarketContext() {
 }
 
 /**
- * Update all component cards
- */
-function updateComponents() {
-    const { components } = indexData;
-
-    Object.keys(components).forEach(key => {
-        const component = components[key];
-        updateComponentCard(key, component);
-    });
-}
-
-/**
- * Update a single component card
- * @param {string} key - Component key
- * @param {object} data - Component data
- */
-function updateComponentCard(key, data) {
-    const { score, detail } = data;
-
-    // Update score
-    const scoreElement = document.getElementById(`${key}-score`);
-    if (scoreElement) {
-        scoreElement.textContent = Math.round(score);
-        scoreElement.className = `component-score ${getColorClass(score)}`;
-    }
-
-    // Update detail
-    const detailElement = document.getElementById(`${key}-detail`);
-    if (detailElement) {
-        detailElement.textContent = detail;
-    }
-
-    // Update bar
-    const barElement = document.getElementById(`${key}-bar`);
-    if (barElement) {
-        barElement.style.width = `${score}%`;
-    }
-}
-
-/**
  * Draw historical chart
  * @param {number} days - Number of days to display (default: 30)
  */
