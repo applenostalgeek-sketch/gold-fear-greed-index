@@ -233,7 +233,7 @@
                 <h1>Our Methodology</h1>
                 <p>
                     Unlike proprietary black-box indices, we believe in <strong>radical transparency</strong>.
-                    Our Gold Fear & Greed Index is built on publicly available data, clear formulas,
+                    Our Gold & Stocks Fear & Greed Indices are built on publicly available data, clear formulas,
                     and open-source code that anyone can verify.
                 </p>
                 <div>
@@ -316,6 +316,76 @@ Score = (Momentum × 0.25) + (Gold_vs_Stocks × 0.15) + (ETF_Flows × 0.15)
                 </ul>
             </div>
 
+            <!-- Stocks Index Section -->
+            <div class="section">
+                <h2>📈 Stocks Fear & Greed Index</h2>
+                <p>
+                    To provide deeper market context, we also calculate a <strong>Stocks Fear & Greed Index</strong>.
+                    By comparing Gold vs Stocks sentiment, you can identify capital rotation patterns between risk-on
+                    and risk-off assets.
+                </p>
+
+                <h3>Why Compare Gold and Stocks?</h3>
+                <ul>
+                    <li><strong>Flight to Safety:</strong> When Gold sentiment > Stocks sentiment, it signals investors rotating capital to safe havens</li>
+                    <li><strong>Risk-On:</strong> When Stocks sentiment > Gold sentiment, it signals capital flowing to risk assets</li>
+                    <li><strong>Balanced:</strong> Similar scores suggest balanced risk sentiment across markets</li>
+                </ul>
+
+                <h3>Stocks Index Components</h3>
+                <table class="components-table">
+                    <thead>
+                        <tr>
+                            <th>Component</th>
+                            <th>Weight</th>
+                            <th>What It Measures</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Momentum</strong></td>
+                            <td><span class="weight-badge">25%</span></td>
+                            <td>SPY price vs MA50/MA200 + RSI(14). Strong momentum = Greed.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>VIX</strong></td>
+                            <td><span class="weight-badge">20%</span></td>
+                            <td>Market volatility (inverted). High VIX = Fear, Low VIX = Complacency/Greed.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Market Breadth</strong></td>
+                            <td><span class="weight-badge">15%</span></td>
+                            <td>RSP (equal weight) vs SPY (cap weight). Broad participation = Greed.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Junk Bonds</strong></td>
+                            <td><span class="weight-badge">15%</span></td>
+                            <td>HYG vs TLT performance. High yield outperforms = Risk appetite (Greed).</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Safe Haven Demand</strong></td>
+                            <td><span class="weight-badge">15%</span></td>
+                            <td>TLT 14-day flows (inverted). Rising treasuries = Fear, Falling = Greed.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Price Strength</strong></td>
+                            <td><span class="weight-badge">10%</span></td>
+                            <td>SPY 14-day momentum. Positive momentum = Greed.</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="formula">
+Score = (Momentum × 0.25) + (VIX × 0.20) + (Market_Breadth × 0.15)
+      + (Junk_Bonds × 0.15) + (Safe_Haven × 0.15) + (Price_Strength × 0.10)
+                </div>
+
+                <p style="margin-top: 20px;">
+                    The Stocks Index uses the same 0-100 scale and interpretation as the Gold Index,
+                    allowing direct comparison on the homepage chart.
+                </p>
+            </div>
+
             <!-- Data Sources Section -->
             <div class="section">
                 <h2>🔗 Data Sources</h2>
@@ -323,8 +393,12 @@ Score = (Momentum × 0.25) + (Gold_vs_Stocks × 0.15) + (ETF_Flows × 0.15)
 
                 <div class="source-list">
                     <div class="source-item">
-                        <strong>Yahoo Finance</strong>
+                        <strong>Yahoo Finance - Gold Index</strong>
                         Gold futures (GC=F), SPY, GLD, VIX, DXY, TNX
+                    </div>
+                    <div class="source-item">
+                        <strong>Yahoo Finance - Stocks Index</strong>
+                        SPY, RSP, VIX, HYG, TLT
                     </div>
                     <div class="source-item">
                         <strong>FRED API</strong>

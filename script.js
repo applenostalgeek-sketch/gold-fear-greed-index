@@ -171,8 +171,10 @@ function updateComponentCard(key, data) {
  * @param {number} days - Number of days to display (default: 30)
  */
 function updateHistoryChart(days = 30) {
-    const history = indexData.history || [];
-    if (history.length === 0) return;
+    const goldHistory = indexData.history || [];
+    const stocksHistory = stocksData?.history || [];
+
+    if (goldHistory.length === 0 && stocksHistory.length === 0) return;
 
     const canvas = document.getElementById('historyChart');
     const ctx = canvas.getContext('2d');
@@ -182,24 +184,35 @@ function updateHistoryChart(days = 30) {
     canvas.width = container.offsetWidth;
     canvas.height = container.offsetHeight;
 
-    // Prepare data (reverse to show oldest first)
-    const sortedHistory = [...history].sort((a, b) =>
+    // Prepare Gold data (reverse to show oldest first)
+    const sortedGoldHistory = [...goldHistory].sort((a, b) =>
         new Date(a.date) - new Date(b.date)
     );
+    const limitedGoldHistory = sortedGoldHistory.slice(-days);
 
-    // Limit to last N days
-    const limitedHistory = sortedHistory.slice(-days);
+    // Prepare Stocks data
+    const sortedStocksHistory = [...stocksHistory].sort((a, b) =>
+        new Date(a.date) - new Date(b.date)
+    );
+    const limitedStocksHistory = sortedStocksHistory.slice(-days);
 
-    drawChart(ctx, canvas, limitedHistory);
+    // Check which curves to show
+    const showGold = document.getElementById('toggleGold')?.checked !== false;
+    const showStocks = document.getElementById('toggleStocks')?.checked !== false;
+
+    drawChart(ctx, canvas, limitedGoldHistory, limitedStocksHistory, showGold, showStocks);
 }
 
 /**
  * Draw the line chart
  * @param {CanvasRenderingContext2D} ctx - Canvas context
  * @param {HTMLCanvasElement} canvas - Canvas element
- * @param {Array} data - Historical data
+ * @param {Array} goldData - Gold historical data
+ * @param {Array} stocksData - Stocks historical data
+ * @param {boolean} showGold - Whether to show gold line
+ * @param {boolean} showStocks - Whether to show stocks line
  */
-function drawChart(ctx, canvas, data) {
+function drawChart(ctx, canvas, goldData, stocksData, showGold, showStocks) {
     const width = canvas.width;
     const height = canvas.height;
     const padding = 40;
@@ -212,17 +225,31 @@ function drawChart(ctx, canvas, data) {
     // Draw background zones
     drawBackgroundZones(ctx, padding, chartHeight, chartWidth);
 
+    // Draw subtle divergence zones (gold vs stocks)
+    if (showGold && showStocks && goldData.length > 0 && stocksData.length > 0) {
+        drawDivergenceZones(ctx, goldData, stocksData, padding, chartHeight, chartWidth);
+    }
+
     // Draw grid
     drawGrid(ctx, padding, chartHeight, chartWidth);
 
-    // Draw line
-    drawLine(ctx, data, padding, chartHeight, chartWidth);
+    // Draw Stocks line first (behind gold)
+    if (showStocks && stocksData.length > 0) {
+        drawLine(ctx, stocksData, padding, chartHeight, chartWidth, '#4A90E2', 4);
+        drawPoints(ctx, stocksData, padding, chartHeight, chartWidth, '#4A90E2');
+    }
 
-    // Draw points
-    drawPoints(ctx, data, padding, chartHeight, chartWidth);
+    // Draw Gold line on top
+    if (showGold && goldData.length > 0) {
+        drawLine(ctx, goldData, padding, chartHeight, chartWidth, '#FFD700', 4);
+        drawPoints(ctx, goldData, padding, chartHeight, chartWidth, '#FFD700');
+    }
 
-    // Draw axes labels
-    drawLabels(ctx, data, padding, chartHeight, chartWidth, height);
+    // Draw axes labels (use whichever dataset has data)
+    const labelData = goldData.length > 0 ? goldData : stocksData;
+    if (labelData.length > 0) {
+        drawLabels(ctx, labelData, padding, chartHeight, chartWidth, height);
+    }
 }
 
 /**
@@ -270,13 +297,56 @@ function drawGrid(ctx, padding, chartHeight, chartWidth) {
 }
 
 /**
+ * Draw divergence zones (gold vs stocks background shading)
+ */
+function drawDivergenceZones(ctx, goldData, stocksData, padding, chartHeight, chartWidth) {
+    if (goldData.length < 2 || stocksData.length < 2) return;
+
+    // Align datasets by matching dates or using same length
+    const minLength = Math.min(goldData.length, stocksData.length);
+
+    ctx.globalAlpha = 0.08; // Very subtle
+
+    for (let i = 0; i < minLength - 1; i++) {
+        const goldScore = goldData[i].score;
+        const stocksScore = stocksData[i].score;
+
+        const x1 = padding + (i / (minLength - 1)) * chartWidth;
+        const x2 = padding + ((i + 1) / (minLength - 1)) * chartWidth;
+
+        const y1 = padding + chartHeight - (goldScore / 100) * chartHeight;
+        const y2 = padding + chartHeight - (stocksScore / 100) * chartHeight;
+        const y1Next = padding + chartHeight - (goldData[i + 1].score / 100) * chartHeight;
+        const y2Next = padding + chartHeight - (stocksData[i + 1].score / 100) * chartHeight;
+
+        // Fill area between curves
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y1Next);
+        ctx.lineTo(x2, y2Next);
+        ctx.lineTo(x1, y2);
+        ctx.closePath();
+
+        // Color based on which is higher
+        if (goldScore > stocksScore) {
+            ctx.fillStyle = '#FFD700'; // Gold tint
+        } else {
+            ctx.fillStyle = '#4A90E2'; // Blue tint
+        }
+        ctx.fill();
+    }
+
+    ctx.globalAlpha = 1.0; // Reset
+}
+
+/**
  * Draw the main line
  */
-function drawLine(ctx, data, padding, chartHeight, chartWidth) {
+function drawLine(ctx, data, padding, chartHeight, chartWidth, color = '#FFD700', lineWidth = 4) {
     if (data.length < 2) return;
 
-    ctx.strokeStyle = '#FFD700';
-    ctx.lineWidth = 3;
+    ctx.strokeStyle = color;
+    ctx.lineWidth = lineWidth;
     ctx.beginPath();
 
     data.forEach((point, index) => {
@@ -296,19 +366,19 @@ function drawLine(ctx, data, padding, chartHeight, chartWidth) {
 /**
  * Draw data points
  */
-function drawPoints(ctx, data, padding, chartHeight, chartWidth) {
+function drawPoints(ctx, data, padding, chartHeight, chartWidth, lineColor = '#FFD700') {
     data.forEach((point, index) => {
         const x = padding + (index / (data.length - 1)) * chartWidth;
         const y = padding + chartHeight - (point.score / 100) * chartHeight;
 
-        // Point
-        ctx.fillStyle = getChartPointColor(point.score);
+        // Point - use the line color for consistency
+        ctx.fillStyle = lineColor;
         ctx.beginPath();
-        ctx.arc(x, y, 4, 0, Math.PI * 2);
+        ctx.arc(x, y, 5, 0, Math.PI * 2); // Slightly larger for mobile
         ctx.fill();
 
         // Outline
-        ctx.strokeStyle = '#fff';
+        ctx.strokeStyle = '#1a1a2e';
         ctx.lineWidth = 2;
         ctx.stroke();
     });
@@ -429,7 +499,7 @@ window.addEventListener('resize', () => {
     }, 250);
 });
 
-// Period selector event listeners
+// Period selector and chart toggle event listeners
 document.addEventListener('DOMContentLoaded', () => {
     const periodButtons = document.querySelectorAll('.period-btn');
 
@@ -446,4 +516,24 @@ document.addEventListener('DOMContentLoaded', () => {
             }
         });
     });
+
+    // Chart toggle checkboxes
+    const toggleGold = document.getElementById('toggleGold');
+    const toggleStocks = document.getElementById('toggleStocks');
+
+    if (toggleGold) {
+        toggleGold.addEventListener('change', () => {
+            if (indexData) {
+                updateHistoryChart(currentPeriod);
+            }
+        });
+    }
+
+    if (toggleStocks) {
+        toggleStocks.addEventListener('change', () => {
+            if (indexData) {
+                updateHistoryChart(currentPeriod);
+            }
+        });
+    }
 });

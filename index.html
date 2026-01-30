@@ -226,13 +226,25 @@
 
             <!-- Historical Chart -->
             <section class="history-section">
-                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 20px;">
                     <h2 style="margin: 0;">Historical Trend</h2>
-                    <div class="period-selector">
-                        <button class="period-btn active" data-period="30">30D</button>
-                        <button class="period-btn" data-period="90">90D</button>
-                        <button class="period-btn" data-period="180">180D</button>
-                        <button class="period-btn" data-period="365">1Y</button>
+                    <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+                        <div class="chart-toggles">
+                            <label class="chart-toggle">
+                                <input type="checkbox" id="toggleGold" checked>
+                                <span class="toggle-label gold-toggle">🪙 Gold</span>
+                            </label>
+                            <label class="chart-toggle">
+                                <input type="checkbox" id="toggleStocks" checked>
+                                <span class="toggle-label stocks-toggle">📈 Stocks</span>
+                            </label>
+                        </div>
+                        <div class="period-selector">
+                            <button class="period-btn active" data-period="30">30D</button>
+                            <button class="period-btn" data-period="90">90D</button>
+                            <button class="period-btn" data-period="180">180D</button>
+                            <button class="period-btn" data-period="365">1Y</button>
+                        </div>
                     </div>
                 </div>
                 <div class="chart-container">

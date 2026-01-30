@@ -326,15 +326,179 @@ class StocksFearGreedIndex:
             'components': self.components
         }
 
-    def save_to_file(self, filepath: str = 'data/stocks-fear-greed.json'):
+    def calculate_simple_historical_score(self, target_date: datetime) -> float:
         """
-        Save the index to JSON file
+        Calculate a simplified historical score for a past date
+        Uses only price-based components that have reliable historical data
+
         Args:
-            filepath: Path to the JSON file
+            target_date: The date to calculate the score for
+
+        Returns:
+            Historical score (0-100)
         """
         try:
-            # Build data
+            print(f"  Calculating for {target_date.strftime('%Y-%m-%d')}...", end=" ")
+
+            # Fetch historical data up to target date
+            end_date = target_date
+            start_date = target_date - timedelta(days=90)
+
+            # Get historical data
+            spy = yf.Ticker("SPY")
+            vix = yf.Ticker("^VIX")
+            rsp = yf.Ticker("RSP")
+            hyg = yf.Ticker("HYG")
+            tlt = yf.Ticker("TLT")
+
+            spy_hist = spy.history(start=start_date, end=end_date + timedelta(days=1))
+            vix_hist = vix.history(start=start_date, end=end_date + timedelta(days=1))
+            rsp_hist = rsp.history(start=start_date, end=end_date + timedelta(days=1))
+            hyg_hist = hyg.history(start=start_date, end=end_date + timedelta(days=1))
+            tlt_hist = tlt.history(start=start_date, end=end_date + timedelta(days=1))
+
+            if len(spy_hist) < 20:
+                print("insufficient data")
+                return 50.0
+
+            # Calculate Momentum (35% weight)
+            close_prices = spy_hist['Close']
+            if len(close_prices) >= 50:
+                ma50 = close_prices.rolling(window=50).mean().iloc[-1]
+                current_price = close_prices.iloc[-1]
+
+                delta = close_prices.diff()
+                gain = (delta.where(delta > 0, 0)).rolling(window=14).mean()
+                loss = (-delta.where(delta < 0, 0)).rolling(window=14).mean()
+                rs = gain / loss
+                rsi = 100 - (100 / (1 + rs))
+                current_rsi = rsi.iloc[-1]
+
+                rsi_score = current_rsi
+                ma_score = 75 if current_price > ma50 else 25
+                momentum_score = (rsi_score * 0.6) + (ma_score * 0.4)
+                momentum_score = max(0, min(100, momentum_score))
+            else:
+                momentum_score = 50
+
+            # Calculate VIX (25% weight)
+            if len(vix_hist) > 0:
+                current_vix = vix_hist['Close'].iloc[-1]
+                if current_vix < 12:
+                    vix_score = 85
+                elif current_vix < 20:
+                    vix_score = 55
+                elif current_vix < 30:
+                    vix_score = 25
+                else:
+                    vix_score = 10
+            else:
+                vix_score = 50
+
+            # Calculate Market Breadth (15% weight)
+            if len(rsp_hist) >= 14 and len(spy_hist) >= 14:
+                spy_return = ((spy_hist['Close'].iloc[-1] - spy_hist['Close'].iloc[-14]) / spy_hist['Close'].iloc[-14]) * 100
+                rsp_return = ((rsp_hist['Close'].iloc[-1] - rsp_hist['Close'].iloc[-14]) / rsp_hist['Close'].iloc[-14]) * 100
+                relative_perf = rsp_return - spy_return
+                breadth_score = 50 + (relative_perf * 20)
+                breadth_score = max(0, min(100, breadth_score))
+            else:
+                breadth_score = 50
+
+            # Calculate Price Strength (25% weight)
+            if len(spy_hist) >= 14:
+                current_price = spy_hist['Close'].iloc[-1]
+                price_14d_ago = spy_hist['Close'].iloc[-14]
+                momentum = ((current_price - price_14d_ago) / price_14d_ago) * 100
+                strength_score = 50 + (momentum * 5)
+                strength_score = max(0, min(100, strength_score))
+            else:
+                strength_score = 50
+
+            # Weighted average (simplified for historical calculation)
+            total_score = (
+                momentum_score * 0.35 +
+                vix_score * 0.25 +
+                breadth_score * 0.15 +
+                strength_score * 0.25
+            )
+
+            print(f"Score: {total_score:.1f}")
+            return round(total_score, 1)
+
+        except Exception as e:
+            print(f"error: {e}")
+            return 50.0
+
+    def save_to_file(self, filepath: str = 'data/stocks-fear-greed.json', force_rebuild: bool = False):
+        """
+        Save the index to JSON file with incremental history updates
+
+        Args:
+            filepath: Path to the JSON file
+            force_rebuild: If True, regenerate all 365 days of history (slow)
+        """
+        try:
+            today = datetime.utcnow().date()
+            today_str = today.strftime('%Y-%m-%d')
+
+            # Load existing history if available
+            existing_history = []
+            if os.path.exists(filepath) and not force_rebuild:
+                try:
+                    with open(filepath, 'r') as f:
+                        existing_data = json.load(f)
+                        existing_history = existing_data.get('history', [])
+                    print(f"📂 Loaded {len(existing_history)} existing historical records")
+                except Exception as e:
+                    print(f"⚠️  Could not load existing history: {e}")
+
+            # Check if today's score already exists
+            history_dict = {item['date']: item['score'] for item in existing_history}
+
+            if force_rebuild:
+                print("\n🔄 Force rebuilding 365-day history (this may take 2-3 minutes)...")
+                history = []
+                for i in range(364, -1, -1):
+                    historical_date = today - timedelta(days=i)
+                    historical_date_str = historical_date.strftime('%Y-%m-%d')
+
+                    if i == 0:
+                        score = self.score
+                    else:
+                        score = self.calculate_simple_historical_score(
+                            datetime.combine(historical_date, datetime.min.time())
+                        )
+
+                    history.append({
+                        'date': historical_date_str,
+                        'score': score
+                    })
+
+                    if (i + 1) % 50 == 0:
+                        print(f"  Calculated {365 - i}/365 days...")
+            else:
+                # Incremental update: only add today's score
+                print(f"📊 Updating index for {today_str}...")
+
+                # Update or add today's score
+                history_dict[today_str] = self.score
+
+                # Convert back to list and sort
+                history = [{'date': date, 'score': score} for date, score in history_dict.items()]
+                history = sorted(history, key=lambda x: x['date'], reverse=True)
+
+                # Keep only last 365 days
+                if len(history) > 365:
+                    history = history[:365]
+                    print(f"  Trimmed history to 365 days")
+
+            # Sort by date descending
+            history = sorted(history, key=lambda x: x['date'], reverse=True)
+
+            # Build complete data
             result = self.get_result()
+            result['history'] = history
 
             # Ensure directory exists
             os.makedirs(os.path.dirname(filepath), exist_ok=True)
@@ -343,7 +507,7 @@ class StocksFearGreedIndex:
             with open(filepath, 'w') as f:
                 json.dump(result, f, indent=2)
 
-            print(f"\n✅ Stocks Index saved to {filepath}")
+            print(f"\n✅ Stocks Index saved to {filepath} with {len(history)} days of history")
 
         except Exception as e:
             print(f"Error saving to file: {e}")
@@ -351,6 +515,13 @@ class StocksFearGreedIndex:
 
 def main():
     """Main execution function"""
+    import argparse
+
+    parser = argparse.ArgumentParser(description='Calculate Stocks Fear & Greed Index')
+    parser.add_argument('--force-rebuild', action='store_true',
+                        help='Force rebuild all 365 days of history (slow, 2-3 minutes)')
+    args = parser.parse_args()
+
     # Create calculator instance
     calculator = StocksFearGreedIndex()
 
@@ -358,7 +529,7 @@ def main():
     calculator.calculate_index()
 
     # Save to file
-    calculator.save_to_file('data/stocks-fear-greed.json')
+    calculator.save_to_file('data/stocks-fear-greed.json', force_rebuild=args.force_rebuild)
 
 
 if __name__ == "__main__":

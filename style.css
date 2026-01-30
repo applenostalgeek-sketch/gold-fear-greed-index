@@ -572,6 +572,53 @@ footer {
     50% { opacity: 1; }
 }
 
+/* Chart Toggles */
+.chart-toggles {
+    display: flex;
+    gap: 12px;
+    background: rgba(255, 255, 255, 0.05);
+    padding: 8px 12px;
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+}
+
+.chart-toggle {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    user-select: none;
+}
+
+.chart-toggle input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: #FFD700;
+}
+
+.toggle-label {
+    font-size: 0.95rem;
+    font-weight: 600;
+    padding: 4px 8px;
+    border-radius: 6px;
+    transition: all 0.2s ease;
+}
+
+.gold-toggle {
+    color: #FFD700;
+    background: rgba(255, 215, 0, 0.1);
+}
+
+.stocks-toggle {
+    color: #4A90E2;
+    background: rgba(74, 144, 226, 0.1);
+}
+
+.chart-toggle:hover .toggle-label {
+    opacity: 0.8;
+}
+
 /* Period Selector */
 .period-selector {
     display: flex;
