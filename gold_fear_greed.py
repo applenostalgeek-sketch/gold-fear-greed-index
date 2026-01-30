@@ -236,53 +236,128 @@ class GoldFearGreedIndex:
     def calculate_real_rates_score(self) -> Tuple[float, str]:
         """
         Calculate real rates component (10% weight)
-        Based on 10Y TIPS yields via FRED API
+        Primary: 10Y TIPS via FRED API
+        Fallback: Calculate from nominal yields and inflation expectations
+
+        Returns:
+            Tuple of (score 0-100, detail string)
+        """
+        # Try FRED API first
+        if self.fred_api_key:
+            try:
+                # FRED series for 10Y TIPS
+                url = f"https://api.stlouisfed.org/fred/series/observations"
+                params = {
+                    'series_id': 'DFII10',  # 10-Year Treasury Inflation-Indexed Security
+                    'api_key': self.fred_api_key,
+                    'file_type': 'json',
+                    'sort_order': 'desc',
+                    'limit': 30
+                }
+
+                response = requests.get(url, params=params, timeout=15)
+                response.raise_for_status()
+                data = response.json()
+
+                # Check for API errors
+                if 'error_message' in data:
+                    print(f"FRED API error: {data['error_message']}")
+                    raise ValueError(f"FRED API error: {data['error_message']}")
+
+                if 'observations' not in data or len(data['observations']) == 0:
+                    raise ValueError("No TIPS observations in response")
+
+                # Get latest non-null value
+                tips_rate = None
+                for obs in data['observations']:
+                    if obs['value'] != '.':
+                        tips_rate = float(obs['value'])
+                        break
+
+                if tips_rate is None:
+                    raise ValueError("All TIPS values are null")
+
+                # Calculate average from valid observations
+                valid_obs = [float(obs['value']) for obs in data['observations']
+                            if obs['value'] != '.']
+                avg_tips = np.mean(valid_obs) if valid_obs else tips_rate
+
+                # Score: lower real rates = higher gold appeal = higher score
+                # Real rate at -1% = 100, at 3% = 0
+                score = 75 - (tips_rate * 18.75)
+                score = max(0, min(100, score))
+
+                detail = f"TIPS 10Y: {tips_rate:.2f}% (avg: {avg_tips:.2f}%)"
+
+                return score, detail
+
+            except Exception as e:
+                print(f"FRED API failed ({type(e).__name__}: {e}), using fallback...")
+
+        # Fallback: Use TNX (10Y Treasury Yield) as proxy
+        # Lower nominal yields generally = more gold appeal
+        try:
+            tnx = yf.Ticker("^TNX")
+            hist = tnx.history(period="3mo")
+
+            if hist.empty:
+                raise ValueError("No TNX data")
+
+            current_yield = hist['Close'].iloc[-1]
+            avg_yield = hist['Close'].mean()
+
+            # Score: lower yields = higher score (more gold demand)
+            # Yield at 2% = 100, at 6% = 0
+            score = 100 - ((current_yield - 2) * 25)
+            score = max(0, min(100, score))
+
+            detail = f"10Y Yield: {current_yield:.2f}% (proxy, avg: {avg_yield:.2f}%)"
+
+            return score, detail
+
+        except Exception as e:
+            print(f"Error calculating real rates (all methods): {e}")
+            return 50.0, "Data unavailable"
+
+    def calculate_dollar_index_score(self) -> Tuple[float, str]:
+        """
+        Calculate Dollar Index component (10% weight)
+        DXY measures USD strength vs basket of currencies
+        Inverse correlation: Weak dollar = Strong gold = Higher score
 
         Returns:
             Tuple of (score 0-100, detail string)
         """
         try:
-            if not self.fred_api_key:
-                print("Warning: No FRED API key provided")
-                return 50.0, "API key required"
+            dxy = yf.Ticker("DX-Y.NYB")  # US Dollar Index
+            hist = dxy.history(period="3mo")
 
-            # FRED series for 10Y TIPS
-            url = f"https://api.stlouisfed.org/fred/series/observations"
-            params = {
-                'series_id': 'DFII10',  # 10-Year Treasury Inflation-Indexed Security
-                'api_key': self.fred_api_key,
-                'file_type': 'json',
-                'sort_order': 'desc',
-                'limit': 30
-            }
+            if hist.empty:
+                raise ValueError("No DXY data available")
 
-            response = requests.get(url, params=params, timeout=10)
-            response.raise_for_status()
-            data = response.json()
+            current_dxy = hist['Close'].iloc[-1]
 
-            if 'observations' not in data or len(data['observations']) == 0:
-                raise ValueError("No TIPS data available")
+            # Calculate 30-day moving average
+            ma_30 = hist['Close'].tail(30).mean()
 
-            # Get latest value
-            latest_obs = data['observations'][0]
-            tips_rate = float(latest_obs['value'])
+            # Calculate 14-day change
+            if len(hist) >= 14:
+                dxy_14d_ago = hist['Close'].iloc[-14]
+                dxy_change = ((current_dxy - dxy_14d_ago) / dxy_14d_ago) * 100
+            else:
+                dxy_change = 0
 
-            # Calculate average
-            valid_obs = [float(obs['value']) for obs in data['observations']
-                        if obs['value'] != '.']
-            avg_tips = np.mean(valid_obs) if valid_obs else tips_rate
-
-            # Score: lower real rates = higher gold appeal = higher score
-            # Real rate at -1% = 100, at 3% = 0
-            score = 75 - (tips_rate * 18.75)
+            # Score: Dollar FALLS = Gold RISES = Higher score
+            # DXY down 5% = 100, DXY up 5% = 0
+            score = 50 - (dxy_change * 10)
             score = max(0, min(100, score))
 
-            detail = f"TIPS 10Y: {tips_rate:.2f}% (moy: {avg_tips:.2f}%)"
+            detail = f"DXY: {current_dxy:.2f} ({dxy_change:+.1f}% 14d, MA30: {ma_30:.2f})"
 
             return score, detail
 
         except Exception as e:
-            print(f"Error calculating real rates: {e}")
+            print(f"Error calculating Dollar Index: {e}")
             return 50.0, "Data unavailable"
 
     def calculate_index(self) -> Dict:
@@ -292,14 +367,15 @@ class GoldFearGreedIndex:
         Returns:
             Dictionary with score, label, components, and history
         """
-        # Define weights
+        # Define weights (total must equal 1.0)
         weights = {
-            'volatility': 0.20,
-            'momentum': 0.25,
-            'gold_vs_spy': 0.15,
-            'etf_flows': 0.20,
-            'vix': 0.10,
-            'real_rates': 0.10
+            'volatility': 0.15,      # Reduced from 0.20
+            'momentum': 0.25,        # Unchanged - most important
+            'gold_vs_spy': 0.15,     # Unchanged
+            'etf_flows': 0.15,       # Reduced from 0.20
+            'vix': 0.10,             # Unchanged
+            'real_rates': 0.10,      # Unchanged
+            'dollar_index': 0.10     # NEW - critical for gold
         }
 
         # Calculate each component
@@ -323,6 +399,9 @@ class GoldFearGreedIndex:
         real_rates_score, real_rates_detail = self.calculate_real_rates_score()
         print(f"Real Rates: {real_rates_score:.1f} - {real_rates_detail}")
 
+        dxy_score, dxy_detail = self.calculate_dollar_index_score()
+        print(f"Dollar Index: {dxy_score:.1f} - {dxy_detail}")
+
         # Calculate weighted average
         total_score = (
             vol_score * weights['volatility'] +
@@ -330,7 +409,8 @@ class GoldFearGreedIndex:
             gold_spy_score * weights['gold_vs_spy'] +
             etf_score * weights['etf_flows'] +
             vix_score * weights['vix'] +
-            real_rates_score * weights['real_rates']
+            real_rates_score * weights['real_rates'] +
+            dxy_score * weights['dollar_index']
         )
 
         # Determine label
@@ -376,6 +456,11 @@ class GoldFearGreedIndex:
                 'score': round(real_rates_score, 1),
                 'weight': weights['real_rates'],
                 'detail': real_rates_detail
+            },
+            'dollar_index': {
+                'score': round(dxy_score, 1),
+                'weight': weights['dollar_index'],
+                'detail': dxy_detail
             }
         }
 
