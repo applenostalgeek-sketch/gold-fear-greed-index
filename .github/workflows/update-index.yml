@@ -1,4 +1,4 @@
-name: Update Gold & Stocks Fear & Greed Indices
+name: Update Gold, Stocks & Crypto Fear & Greed Indices
 
 on:
   schedule:
@@ -39,25 +39,29 @@ jobs:
         run: |
           python stocks_fear_greed.py
 
+      - name: Run Crypto index calculation
+        run: |
+          python crypto_fear_greed.py
+
       - name: Check for changes
         id: git-check
         run: |
-          git diff --exit-code data/gold-fear-greed.json data/stocks-fear-greed.json || echo "changed=true" >> $GITHUB_OUTPUT
+          git diff --exit-code data/gold-fear-greed.json data/stocks-fear-greed.json data/crypto-fear-greed.json || echo "changed=true" >> $GITHUB_OUTPUT
 
       - name: Commit and push changes
         if: steps.git-check.outputs.changed == 'true'
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add data/gold-fear-greed.json data/stocks-fear-greed.json
-          git commit -m "Update Gold & Stocks Fear & Greed Indices - $(date -u +'%Y-%m-%d %H:%M UTC')"
+          git add data/gold-fear-greed.json data/stocks-fear-greed.json data/crypto-fear-greed.json
+          git commit -m "Update Gold, Stocks & Crypto Fear & Greed Indices - $(date -u '%Y-%m-%d %H:%M UTC')"
           git push
 
       - name: Summary
         run: |
-          echo "### Gold & Stocks Fear & Greed Indices Updated ✅" >> $GITHUB_STEP_SUMMARY
+          echo "### Gold, Stocks & Crypto Fear & Greed Indices Updated ✅" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**Timestamp:** $(date -u +'%Y-%m-%d %H:%M UTC')" >> $GITHUB_STEP_SUMMARY
+          echo "**Timestamp:** $(date -u '%Y-%m-%d %H:%M UTC')" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
 
           if [ -f data/gold-fear-greed.json ]; then
@@ -75,4 +79,14 @@ jobs:
             echo "### 📈 Stocks Index" >> $GITHUB_STEP_SUMMARY
             echo "**Score:** $STOCKS_SCORE" >> $GITHUB_STEP_SUMMARY
             echo "**Label:** $STOCKS_LABEL" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
           fi
+
+          if [ -f data/crypto-fear-greed.json ]; then
+            CRYPTO_SCORE=$(python -c "import json; data=json.load(open('data/crypto-fear-greed.json')); print(data['score'])")
+            CRYPTO_LABEL=$(python -c "import json; data=json.load(open('data/crypto-fear-greed.json')); print(data['label'])")
+            echo "### ₿ Crypto Index" >> $GITHUB_STEP_SUMMARY
+            echo "**Score:** $CRYPTO_SCORE" >> $GITHUB_STEP_SUMMARY
+            echo "**Label:** $CRYPTO_LABEL" >> $GITHUB_STEP_SUMMARY
+          fi
+
