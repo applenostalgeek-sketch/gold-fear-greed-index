@@ -94,6 +94,7 @@ function updateIndexCards() {
 
 /**
  * Update Market Rotation Analysis section
+ * 5 scenarios with refined thresholds for maximum precision
  */
 function updateMarketRotation() {
     const gold = goldData.score;
@@ -106,16 +107,27 @@ function updateMarketRotation() {
     const detailEl = document.getElementById('analysisDetail');
 
     // Remove all regime classes
-    analysisBox.classList.remove('flight-to-safety', 'risk-on', 'altcoin-season', 'balanced');
+    analysisBox.classList.remove('flight-to-safety', 'risk-on', 'altcoin-season', 'crypto-leading', 'balanced');
 
-    // Determine market regime
-    const goldVsStocks = gold - stocks;
-    const goldVsCrypto = gold - crypto;
-    const cryptoVsStocks = crypto - stocks;
-    const cryptoVsGold = crypto - gold;
+    // Calculate spreads for precision
+    const goldSpread = gold - Math.max(stocks, crypto);
+    const cryptoSpread = crypto - Math.max(gold, stocks);
+    const stocksSpread = stocks - Math.max(gold, crypto);
 
-    // Flight to Safety: Gold significantly higher than both
-    if (gold > stocks + 10 && gold > crypto + 10) {
+    // SCENARIO 1: Flight to Safety (Gold dominates)
+    // Strong version: Gold +15 or more above both
+    if (gold > stocks + 15 && gold > crypto + 15) {
+        analysisBox.classList.add('flight-to-safety');
+        iconEl.textContent = '🟢';
+        titleEl.textContent = 'Strong Flight to Safety';
+        detailEl.innerHTML = `
+            <strong>Gold is massively outperforming</strong> (${gold.toFixed(1)} vs Stocks ${stocks.toFixed(1)} vs Crypto ${crypto.toFixed(1)}).<br>
+            Extreme risk-off environment. Capital is fleeing risk assets into safe havens.
+            This indicates severe market stress, geopolitical crisis, or economic panic.
+        `;
+    }
+    // Moderate version: Gold +8 or more above both
+    else if (gold > stocks + 8 && gold > crypto + 8) {
         analysisBox.classList.add('flight-to-safety');
         iconEl.textContent = '🟢';
         titleEl.textContent = 'Flight to Safety';
@@ -125,19 +137,56 @@ function updateMarketRotation() {
             This typically happens during market uncertainty, geopolitical tensions, or economic concerns.
         `;
     }
-    // Altcoin Season: Crypto significantly higher than both
-    else if (crypto > gold + 15 && crypto > stocks + 10) {
+
+    // SCENARIO 2: Extreme Speculation (Crypto massively dominates)
+    else if (crypto > gold + 20 && crypto > stocks + 15) {
+        analysisBox.classList.add('altcoin-season');
+        iconEl.textContent = '⚠️';
+        titleEl.textContent = 'Extreme Speculation / Market Top Warning';
+        detailEl.innerHTML = `
+            <strong>Crypto sentiment is at extreme levels</strong> (${crypto.toFixed(1)} vs Gold ${gold.toFixed(1)} vs Stocks ${stocks.toFixed(1)}).<br>
+            This is an <strong>extremely dangerous</strong> level of speculation. Historically, such extremes mark market tops.
+            Consider taking profits and reducing exposure. Euphoria rarely lasts.
+        `;
+    }
+    // SCENARIO 3: Altcoin Season (Crypto strongly dominates, +12 or more above Gold)
+    else if (crypto >= gold + 12 && crypto > stocks + 8) {
         analysisBox.classList.add('altcoin-season');
         iconEl.textContent = '🟡';
         titleEl.textContent = 'Altcoin Season / Peak Speculation';
         detailEl.innerHTML = `
             <strong>Crypto sentiment is extremely elevated</strong> (${crypto.toFixed(1)} vs Gold ${gold.toFixed(1)} vs Stocks ${stocks.toFixed(1)}).<br>
-            This indicates peak speculation and risk appetite. Historically, extreme crypto greed can signal market tops.
-            Proceed with caution.
+            Peak speculation and maximum risk appetite. Crypto is decoupling to the upside.
+            Historically, extreme crypto greed can signal market tops. Proceed with caution.
         `;
     }
-    // Risk-On: Stocks/Crypto higher than Gold
-    else if ((stocks > gold + 8 || crypto > gold + 8) && Math.abs(stocks - crypto) < 15) {
+
+    // SCENARIO 4: Risk-On with Stocks Leading (Traditional equities dominate)
+    else if (stocks > gold + 8 && stocks > crypto + 5) {
+        analysisBox.classList.add('risk-on');
+        iconEl.textContent = '🔴';
+        titleEl.textContent = 'Risk-On (Stocks Leading)';
+        detailEl.innerHTML = `
+            <strong>Equities are leading the market</strong> (Stocks ${stocks.toFixed(1)} vs Crypto ${crypto.toFixed(1)} vs Gold ${gold.toFixed(1)}).<br>
+            Traditional risk assets are favored. Investors are optimistic about economic growth.
+            This is a healthy risk-on environment, but remain vigilant for shifts in sentiment.
+        `;
+    }
+
+    // SCENARIO 5: Crypto Leading (Crypto moderately ahead but not extreme, between +5 and +11)
+    else if (crypto > gold + 5 && crypto < gold + 12 && crypto >= stocks - 5) {
+        analysisBox.classList.add('crypto-leading');
+        iconEl.textContent = '🟠';
+        titleEl.textContent = 'Crypto Leading';
+        detailEl.innerHTML = `
+            <strong>Crypto sentiment is leading the market</strong> (Crypto ${crypto.toFixed(1)} vs Gold ${gold.toFixed(1)} vs Stocks ${stocks.toFixed(1)}).<br>
+            Digital assets are showing relative strength compared to traditional safe havens.
+            Risk appetite is increasing but not yet at extreme levels. Monitor for acceleration into Altcoin Season.
+        `;
+    }
+
+    // SCENARIO 6: General Risk-On (Stocks and/or Crypto ahead of Gold, but no clear single leader)
+    else if ((stocks > gold + 6 || crypto > gold + 6) && goldSpread < -5) {
         analysisBox.classList.add('risk-on');
         iconEl.textContent = '🔴';
         titleEl.textContent = 'Risk-On Environment';
@@ -147,7 +196,8 @@ function updateMarketRotation() {
             This environment favors growth assets but can be vulnerable to sudden shifts in sentiment.
         `;
     }
-    // Balanced: Similar scores
+
+    // SCENARIO 7: Balanced Sentiment (No clear leader)
     else {
         analysisBox.classList.add('balanced');
         iconEl.textContent = '⚪';
