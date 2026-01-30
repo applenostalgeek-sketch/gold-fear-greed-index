@@ -1,69 +1,159 @@
 {
-  "score": 42.5,
-  "label": "Fear",
-  "timestamp": "2026-01-30T08:00:00Z",
+  "score": 70.2,
+  "label": "Greed",
+  "timestamp": "2026-01-30T15:22:30Z",
   "components": {
     "volatility": {
-      "score": 38.2,
+      "score": 41.9,
       "weight": 0.2,
-      "detail": "Vol 14d: 1.3% vs avg 30d: 1.0%"
+      "detail": "Vol 14j: 35.0% vs moy 30j: 30.1%"
     },
     "momentum": {
-      "score": 52.7,
+      "score": 92.3,
       "weight": 0.25,
-      "detail": "RSI: 46, Price > MA50"
+      "detail": "RSI: 74, Prix > MM50"
     },
     "gold_vs_spy": {
-      "score": 35.8,
+      "score": 75.8,
       "weight": 0.15,
-      "detail": "Gold +1.8% vs SPY +4.2%"
+      "detail": "Gold +10.0% vs SPY -0.3%"
     },
     "etf_flows": {
-      "score": 41.3,
+      "score": 100,
       "weight": 0.2,
-      "detail": "GLD volume -2.1%, price +0.8%"
+      "detail": "GLD volume +54.9%, price +10.0%"
     },
     "vix": {
-      "score": 45.5,
+      "score": 23.5,
       "weight": 0.1,
-      "detail": "VIX: 19.2 vs avg: 17.8"
+      "detail": "VIX: 17.1 vs avg: 17.1"
     },
     "real_rates": {
-      "score": 48.0,
+      "score": 50.0,
       "weight": 0.1,
-      "detail": "TIPS 10Y: 1.85% (avg: 1.72%)"
+      "detail": "Data unavailable"
     }
   },
   "history": [
-    {"date": "2026-01-30", "score": 42.5},
-    {"date": "2026-01-29", "score": 44.2},
-    {"date": "2026-01-28", "score": 41.8},
-    {"date": "2026-01-27", "score": 39.5},
-    {"date": "2026-01-26", "score": 38.7},
-    {"date": "2026-01-25", "score": 40.3},
-    {"date": "2026-01-24", "score": 43.1},
-    {"date": "2026-01-23", "score": 45.6},
-    {"date": "2026-01-22", "score": 47.2},
-    {"date": "2026-01-21", "score": 49.8},
-    {"date": "2026-01-20", "score": 51.3},
-    {"date": "2026-01-19", "score": 52.7},
-    {"date": "2026-01-18", "score": 54.1},
-    {"date": "2026-01-17", "score": 53.5},
-    {"date": "2026-01-16", "score": 52.0},
-    {"date": "2026-01-15", "score": 50.4},
-    {"date": "2026-01-14", "score": 48.9},
-    {"date": "2026-01-13", "score": 46.7},
-    {"date": "2026-01-12", "score": 45.2},
-    {"date": "2026-01-11", "score": 43.8},
-    {"date": "2026-01-10", "score": 42.5},
-    {"date": "2026-01-09", "score": 41.0},
-    {"date": "2026-01-08", "score": 39.8},
-    {"date": "2026-01-07", "score": 38.5},
-    {"date": "2026-01-06", "score": 37.2},
-    {"date": "2026-01-05", "score": 36.8},
-    {"date": "2026-01-04", "score": 35.5},
-    {"date": "2026-01-03", "score": 34.9},
-    {"date": "2026-01-02", "score": 33.7},
-    {"date": "2026-01-01", "score": 32.4}
+    {
+      "date": "2026-01-30",
+      "score": 70.2
+    },
+    {
+      "date": "2026-01-29",
+      "score": 44.2
+    },
+    {
+      "date": "2026-01-28",
+      "score": 41.8
+    },
+    {
+      "date": "2026-01-27",
+      "score": 39.5
+    },
+    {
+      "date": "2026-01-26",
+      "score": 38.7
+    },
+    {
+      "date": "2026-01-25",
+      "score": 40.3
+    },
+    {
+      "date": "2026-01-24",
+      "score": 43.1
+    },
+    {
+      "date": "2026-01-23",
+      "score": 45.6
+    },
+    {
+      "date": "2026-01-22",
+      "score": 47.2
+    },
+    {
+      "date": "2026-01-21",
+      "score": 49.8
+    },
+    {
+      "date": "2026-01-20",
+      "score": 51.3
+    },
+    {
+      "date": "2026-01-19",
+      "score": 52.7
+    },
+    {
+      "date": "2026-01-18",
+      "score": 54.1
+    },
+    {
+      "date": "2026-01-17",
+      "score": 53.5
+    },
+    {
+      "date": "2026-01-16",
+      "score": 52.0
+    },
+    {
+      "date": "2026-01-15",
+      "score": 50.4
+    },
+    {
+      "date": "2026-01-14",
+      "score": 48.9
+    },
+    {
+      "date": "2026-01-13",
+      "score": 46.7
+    },
+    {
+      "date": "2026-01-12",
+      "score": 45.2
+    },
+    {
+      "date": "2026-01-11",
+      "score": 43.8
+    },
+    {
+      "date": "2026-01-10",
+      "score": 42.5
+    },
+    {
+      "date": "2026-01-09",
+      "score": 41.0
+    },
+    {
+      "date": "2026-01-08",
+      "score": 39.8
+    },
+    {
+      "date": "2026-01-07",
+      "score": 38.5
+    },
+    {
+      "date": "2026-01-06",
+      "score": 37.2
+    },
+    {
+      "date": "2026-01-05",
+      "score": 36.8
+    },
+    {
+      "date": "2026-01-04",
+      "score": 35.5
+    },
+    {
+      "date": "2026-01-03",
+      "score": 34.9
+    },
+    {
+      "date": "2026-01-02",
+      "score": 33.7
+    },
+    {
+      "date": "2026-01-01",
+      "score": 32.4
+    }
   ]
 }
