@@ -506,27 +506,29 @@ class GoldFearGreedIndex:
             end_date = target_date
             start_date = target_date - timedelta(days=90)
 
-            # Get gold and SPY data
+            # Get historical data
             gold = yf.Ticker("GC=F")
             spy = yf.Ticker("SPY")
             vix = yf.Ticker("^VIX")
+            dxy = yf.Ticker("DX-Y.NYB")
 
             gold_hist = gold.history(start=start_date, end=end_date + timedelta(days=1))
             spy_hist = spy.history(start=start_date, end=end_date + timedelta(days=1))
             vix_hist = vix.history(start=start_date, end=end_date + timedelta(days=1))
+            dxy_hist = dxy.history(start=start_date, end=end_date + timedelta(days=1))
 
             if len(gold_hist) < 20 or len(spy_hist) < 20:
                 print("insufficient data")
                 return 50.0
 
-            # Calculate Gold vs SPY (40% weight - increased importance)
+            # Calculate Gold vs SPY (30% weight)
             gold_return = (gold_hist['Close'].iloc[-1] / gold_hist['Close'].iloc[-14] - 1) * 100
             spy_return = (spy_hist['Close'].iloc[-1] / spy_hist['Close'].iloc[-14] - 1) * 100
             relative_perf = gold_return - spy_return
             gold_spy_score = 50 + (relative_perf * 2.5)
             gold_spy_score = max(0, min(100, gold_spy_score))
 
-            # Calculate Momentum (40% weight)
+            # Calculate Momentum (30% weight)
             close_prices = gold_hist['Close']
             if len(close_prices) >= 50:
                 ma50 = close_prices.rolling(window=50).mean().iloc[-1]
@@ -545,7 +547,7 @@ class GoldFearGreedIndex:
             else:
                 momentum_score = 50
 
-            # Calculate VIX (20% weight)
+            # Calculate VIX (15% weight)
             if len(vix_hist) > 0:
                 current_vix = vix_hist['Close'].iloc[-1]
                 vix_score = (current_vix - 10) * 3.33
@@ -553,11 +555,22 @@ class GoldFearGreedIndex:
             else:
                 vix_score = 50
 
-            # Weighted average
+            # Calculate Dollar Index (25% weight)
+            if len(dxy_hist) >= 14:
+                current_dxy = dxy_hist['Close'].iloc[-1]
+                dxy_14d_ago = dxy_hist['Close'].iloc[-14]
+                dxy_change = ((current_dxy - dxy_14d_ago) / dxy_14d_ago) * 100
+                dxy_score = 50 - (dxy_change * 10)
+                dxy_score = max(0, min(100, dxy_score))
+            else:
+                dxy_score = 50
+
+            # Weighted average (simplified for historical calculation)
             total_score = (
-                gold_spy_score * 0.40 +
-                momentum_score * 0.40 +
-                vix_score * 0.20
+                gold_spy_score * 0.30 +
+                momentum_score * 0.30 +
+                vix_score * 0.15 +
+                dxy_score * 0.25
             )
 
             print(f"Score: {total_score:.1f}")
