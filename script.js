@@ -58,16 +58,19 @@ function updateUI() {
  * Update the three index cards
  */
 function updateIndexCards() {
+    // Check if card elements exist (only on dedicated pages, not index.html)
+    const goldCardScore = document.getElementById('goldCardScore');
+    if (!goldCardScore) return; // Skip if on index.html
+
     // Gold Card
-    document.getElementById('goldCardScore').textContent = Math.round(goldData.score);
+    goldCardScore.textContent = Math.round(goldData.score);
     document.getElementById('goldCardLabel').textContent = goldData.label;
     const goldMiniBar = document.getElementById('goldMiniBar');
     goldMiniBar.style.width = `${goldData.score}%`;
 
-    const goldScoreEl = document.getElementById('goldCardScore');
     const goldLabelEl = document.getElementById('goldCardLabel');
     const colorClass = getColorClass(goldData.score);
-    goldScoreEl.className = `card-score ${colorClass}`;
+    goldCardScore.className = `card-score ${colorClass}`;
     goldLabelEl.className = `card-label ${colorClass}`;
     // Apply color to mini bar based on fear/greed zone
     goldMiniBar.style.background = getColorGradient(goldData.score);
