@@ -1,0 +1,521 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Stocks Fear & Greed Index - Real-time sentiment indicator for stock markets. Track investor behavior with transparent, data-driven analysis.">
+    <title>Stocks Fear & Greed Index | Market Sentiment Tracker</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Stocks Fear & Greed Index">
+    <meta property="og:description" content="Real-time stock market sentiment analysis. Transparent methodology, 7 components, updated daily.">
+    <meta property="og:image" content="https://gold-fear-greed-index.netlify.app/og-image.png">
+
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Dedicated page styles */
+        .dedicated-page {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 12px 20px;
+            background: rgba(255, 215, 0, 0.1);
+            border: 1px solid rgba(255, 215, 0, 0.3);
+            border-radius: 8px;
+            color: #FFD700;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            margin-bottom: 30px;
+        }
+
+        .back-button:hover {
+            background: rgba(255, 215, 0, 0.2);
+            transform: translateX(-5px);
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .page-header .subtitle {
+            font-size: 1.1rem;
+            color: #b0b0b0;
+            margin-bottom: 30px;
+        }
+
+        /* Large gauge section */
+        .gauge-section {
+            background: linear-gradient(135deg, rgba(30, 30, 50, 0.8) 0%, rgba(20, 20, 40, 0.9) 100%);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 20px;
+            padding: 50px 30px;
+            margin-bottom: 40px;
+            text-align: center;
+        }
+
+        .gauge-container {
+            max-width: 700px;
+            margin: 0 auto 30px;
+            position: relative;
+        }
+
+        .gauge-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+            font-weight: 600;
+        }
+
+        .gauge-labels span {
+            flex: 1;
+            text-align: center;
+        }
+
+        .gauge-labels span:nth-child(1) { color: #EA3943; }
+        .gauge-labels span:nth-child(2) { color: #F5A623; }
+        .gauge-labels span:nth-child(3) { color: #F8E71C; }
+        .gauge-labels span:nth-child(4) { color: #7ED321; }
+        .gauge-labels span:nth-child(5) { color: #50E3C2; }
+
+        .gauge-bar {
+            height: 60px;
+            background: linear-gradient(90deg,
+                #EA3943 0%,
+                #EA3943 20%,
+                #F5A623 20%,
+                #F5A623 40%,
+                #F8E71C 40%,
+                #F8E71C 60%,
+                #7ED321 60%,
+                #7ED321 80%,
+                #50E3C2 80%,
+                #50E3C2 100%
+            );
+            border-radius: 30px;
+            position: relative;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        .gauge-pointer {
+            position: absolute;
+            top: 100%;
+            transform: translateX(-50%);
+            transition: left 0.5s ease;
+            margin-top: 5px;
+        }
+
+        .gauge-pointer-arrow {
+            width: 0;
+            height: 0;
+            border-left: 15px solid transparent;
+            border-right: 15px solid transparent;
+            border-bottom: 25px solid #FFD700;
+            filter: drop-shadow(0 4px 10px rgba(255, 215, 0, 0.5));
+        }
+
+        .current-score {
+            font-size: 5rem;
+            font-weight: 800;
+            margin: 20px 0 10px;
+            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .current-label {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .last-update-info {
+            color: #888;
+            font-size: 0.9rem;
+        }
+
+        /* Color legend */
+        .color-legend {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-top: 40px;
+        }
+
+        .legend-item {
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            border: 2px solid;
+        }
+
+        .legend-item.extreme-fear {
+            background: rgba(234, 57, 67, 0.1);
+            border-color: #EA3943;
+        }
+
+        .legend-item.fear {
+            background: rgba(245, 166, 35, 0.1);
+            border-color: #F5A623;
+        }
+
+        .legend-item.neutral {
+            background: rgba(248, 231, 28, 0.1);
+            border-color: #F8E71C;
+        }
+
+        .legend-item.greed {
+            background: rgba(126, 211, 33, 0.1);
+            border-color: #7ED321;
+        }
+
+        .legend-item.extreme-greed {
+            background: rgba(80, 227, 194, 0.1);
+            border-color: #50E3C2;
+        }
+
+        .legend-range {
+            font-weight: 700;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        .legend-description {
+            font-size: 0.85rem;
+            color: #b0b0b0;
+        }
+
+        /* Components breakdown */
+        .components-section {
+            margin: 50px 0;
+        }
+
+        .section-title {
+            font-size: 2rem;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .components-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+        }
+
+        .component-card {
+            background: linear-gradient(135deg, rgba(30, 30, 50, 0.6) 0%, rgba(20, 20, 40, 0.8) 100%);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 15px;
+            padding: 25px;
+            transition: all 0.3s ease;
+        }
+
+        .component-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.2);
+        }
+
+        .component-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .component-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #FFD700;
+        }
+
+        .component-weight {
+            font-size: 0.9rem;
+            color: #888;
+            background: rgba(255, 215, 0, 0.1);
+            padding: 4px 12px;
+            border-radius: 20px;
+        }
+
+        .component-score {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin: 10px 0;
+        }
+
+        .component-detail {
+            font-size: 0.9rem;
+            color: #b0b0b0;
+            margin-top: 10px;
+        }
+
+        .component-bar {
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-top: 15px;
+        }
+
+        .component-bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #FFD700, #FFA500);
+            border-radius: 10px;
+            transition: width 0.5s ease;
+        }
+
+        /* Methodology section */
+        .methodology-section {
+            background: linear-gradient(135deg, rgba(30, 30, 50, 0.5) 0%, rgba(20, 20, 40, 0.7) 100%);
+            border: 1px solid rgba(255, 215, 0, 0.15);
+            border-radius: 20px;
+            padding: 40px;
+            margin: 50px 0;
+        }
+
+        .methodology-section h2 {
+            color: #FFD700;
+            margin-bottom: 20px;
+        }
+
+        .methodology-section p {
+            line-height: 1.8;
+            color: #d0d0d0;
+            margin-bottom: 15px;
+        }
+
+        .methodology-section ul {
+            margin-left: 20px;
+            line-height: 1.8;
+            color: #d0d0d0;
+        }
+
+        .methodology-section li {
+            margin-bottom: 10px;
+        }
+
+        /* Chart section */
+        .chart-section {
+            margin: 50px 0;
+        }
+
+        .chart-container {
+            background: linear-gradient(135deg, rgba(30, 30, 50, 0.6) 0%, rgba(20, 20, 40, 0.8) 100%);
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            border-radius: 15px;
+            padding: 30px;
+            height: 450px;
+        }
+    </style>
+</head>
+<body>
+    <div class="dedicated-page">
+        <a href="index.html" class="back-button">
+            <span>←</span>
+            <span>Back to Dashboard</span>
+        </a>
+
+        <div class="page-header">
+            <h1>📈 Stocks Fear & Greed Index</h1>
+            <p class="subtitle">Real-time sentiment analysis for stock markets</p>
+        </div>
+
+        <!-- Large Gauge Section -->
+        <section class="gauge-section">
+            <div class="gauge-container">
+                <div class="gauge-labels">
+                    <span>Extreme Fear</span>
+                    <span>Fear</span>
+                    <span>Neutral</span>
+                    <span>Greed</span>
+                    <span>Extreme Greed</span>
+                </div>
+                <div class="gauge-bar">
+                    <div class="gauge-pointer" id="gaugePointer">
+                        <div class="gauge-pointer-arrow"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="current-score" id="currentScore">--</div>
+            <div class="current-label" id="currentLabel">Loading...</div>
+            <div class="last-update-info">Last updated: <span id="lastUpdate">--</span></div>
+
+            <div class="color-legend">
+                <div class="legend-item extreme-fear">
+                    <div class="legend-range">0-25</div>
+                    <div class="legend-description">Extreme Fear<br>Potential buying opportunity</div>
+                </div>
+                <div class="legend-item fear">
+                    <div class="legend-range">26-45</div>
+                    <div class="legend-description">Fear<br>Cautious sentiment</div>
+                </div>
+                <div class="legend-item neutral">
+                    <div class="legend-range">46-55</div>
+                    <div class="legend-description">Neutral<br>Balanced market</div>
+                </div>
+                <div class="legend-item greed">
+                    <div class="legend-range">56-75</div>
+                    <div class="legend-description">Greed<br>Optimistic sentiment</div>
+                </div>
+                <div class="legend-item extreme-greed">
+                    <div class="legend-range">76-100</div>
+                    <div class="legend-description">Extreme Greed<br>Potential correction ahead</div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Components Breakdown -->
+        <section class="components-section">
+            <h2 class="section-title">Index Components Breakdown</h2>
+            <div class="components-grid" id="componentsGrid">
+                <!-- Components will be loaded here by JavaScript -->
+            </div>
+        </section>
+
+        <!-- Methodology -->
+        <section class="methodology-section">
+            <h2>📚 How Does It Work?</h2>
+            <p>
+                The Stocks Fear & Greed Index combines 7 key market indicators to measure investor sentiment in stock markets.
+                Each component is carefully weighted based on its historical reliability and market impact.
+            </p>
+
+            <h3 style="color: #FFD700; margin-top: 30px;">The 7 Components:</h3>
+            <ul>
+                <li><strong>Stock Price Momentum (20%):</strong> S&P 500 vs. its 125-day moving average. Above MA = strength (greed), below = weakness (fear).</li>
+                <li><strong>Stock Price Strength (20%):</strong> Number of stocks hitting 52-week highs vs. lows. More highs = greed, more lows = fear.</li>
+                <li><strong>Stock Price Breadth (15%):</strong> Volume in advancing vs. declining stocks. Strong breadth = healthy rally (greed).</li>
+                <li><strong>Put/Call Ratio (15%):</strong> Options market sentiment. High put/call ratio = defensive positioning = fear.</li>
+                <li><strong>Market Volatility (15%):</strong> VIX index level. High VIX (>20) = fear, low VIX (<15) = complacency/greed.</li>
+                <li><strong>Safe Haven Demand (10%):</strong> Stocks vs. bonds performance. Money flowing to bonds = fear, to stocks = greed.</li>
+                <li><strong>Junk Bond Demand (5%):</strong> Spread between junk bonds and investment-grade bonds. Tight spreads = risk appetite (greed).</li>
+            </ul>
+
+            <h3 style="color: #FFD700; margin-top: 30px;">Why These Weights?</h3>
+            <p>
+                Price momentum and price strength get the highest weights (20% each) as they directly reflect market behavior.
+                Breadth, put/call ratio, and volatility (15% each) provide insight into market internals and sentiment.
+                Safe haven and junk bond demand offer confirmation from related markets but with lower weights.
+            </p>
+
+            <h3 style="color: #FFD700; margin-top: 30px;">Data Sources:</h3>
+            <p>
+                All data comes from public sources: Yahoo Finance (S&P 500, volume data), CBOE (VIX, put/call ratios),
+                and FRED (bond yields). The index is calculated daily and 100% transparent.
+            </p>
+        </section>
+
+        <!-- Historical Chart -->
+        <section class="chart-section">
+            <h2 class="section-title">365-Day Historical Trend</h2>
+            <div class="chart-container">
+                <canvas id="historicalChart"></canvas>
+            </div>
+        </section>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Load Stocks data and display
+        async function loadStocksData() {
+            try {
+                const response = await fetch('data/stocks-fear-greed.json');
+                const data = await response.json();
+
+                // Update score and label
+                document.getElementById('currentScore').textContent = data.score;
+                document.getElementById('currentLabel').textContent = data.label;
+                document.getElementById('lastUpdate').textContent = new Date(data.timestamp).toLocaleString();
+
+                // Position gauge pointer
+                const pointer = document.getElementById('gaugePointer');
+                pointer.style.left = `${data.score}%`;
+
+                // Update components
+                const componentsGrid = document.getElementById('componentsGrid');
+                componentsGrid.innerHTML = '';
+
+                for (const [key, component] of Object.entries(data.components)) {
+                    const card = document.createElement('div');
+                    card.className = 'component-card';
+                    card.innerHTML = `
+                        <div class="component-header">
+                            <div class="component-name">${formatComponentName(key)}</div>
+                            <div class="component-weight">${(component.weight * 100).toFixed(0)}%</div>
+                        </div>
+                        <div class="component-score">${component.score.toFixed(1)}</div>
+                        <div class="component-detail">${component.detail}</div>
+                        <div class="component-bar">
+                            <div class="component-bar-fill" style="width: ${component.score}%"></div>
+                        </div>
+                    `;
+                    componentsGrid.appendChild(card);
+                }
+
+                // Draw historical chart (Stocks only)
+                drawHistoricalChart(data.history);
+
+            } catch (error) {
+                console.error('Error loading Stocks data:', error);
+            }
+        }
+
+        function formatComponentName(key) {
+            const names = {
+                'momentum': 'Price Momentum',
+                'strength': 'Price Strength',
+                'breadth': 'Price Breadth',
+                'put_call': 'Put/Call Ratio',
+                'volatility': 'Market Volatility',
+                'safe_haven': 'Safe Haven Demand',
+                'junk_bond': 'Junk Bond Demand'
+            };
+            return names[key] || key;
+        }
+
+        function drawHistoricalChart(history) {
+            const canvas = document.getElementById('historicalChart');
+            const container = canvas.parentElement;
+
+            // Set canvas size to match container
+            canvas.width = container.clientWidth - 60;
+            canvas.height = container.clientHeight - 60;
+
+            const ctx = canvas.getContext('2d');
+
+            // Prepare data (sorted by date, last 365 days)
+            const sortedHistory = history.slice().sort((a, b) => new Date(a.date) - new Date(b.date));
+            const data = sortedHistory.slice(-365);
+
+            // Call the drawChart function from script.js with Stocks data only
+            if (typeof drawChart === 'function') {
+                drawChart(ctx, canvas, [], data, [], false, true, false);
+            } else {
+                console.error('drawChart function not found - script.js may not be loaded');
+            }
+        }
+
+        // Load data on page load
+        loadStocksData();
+    </script>
+</body>
+</html>
