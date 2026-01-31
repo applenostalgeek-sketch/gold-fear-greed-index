@@ -1,12 +1,12 @@
 {
-  "score": 54.2,
-  "label": "Neutral",
-  "timestamp": "2026-01-30T16:52:35Z",
+  "score": 56.3,
+  "label": "Greed",
+  "timestamp": "2026-01-31T08:35:46Z",
   "components": {
     "momentum": {
-      "score": 58.2,
+      "score": 58.6,
       "weight": 0.25,
-      "detail": "RSI: 47, Price > MA50"
+      "detail": "RSI: 48, Price > MA50"
     },
     "vix": {
       "score": 55.0,
@@ -14,27 +14,31 @@
       "detail": "VIX: 17.4 vs avg: 17.1"
     },
     "market_breadth": {
-      "score": 54.5,
+      "score": 62.2,
       "weight": 0.15,
-      "detail": "RSP -0.3% vs SPY -0.5%"
+      "detail": "RSP +0.2% vs SPY -0.5%"
     },
     "junk_bonds": {
-      "score": 53.4,
+      "score": 57.1,
       "weight": 0.15,
-      "detail": "HYG -0.0% vs TLT -0.4%"
+      "detail": "HYG +0.1% vs TLT -0.6%"
     },
     "safe_haven": {
-      "score": 51.8,
+      "score": 53.1,
       "weight": 0.15,
-      "detail": "TLT -0.4% 14d"
+      "detail": "TLT -0.6% 14d"
     },
     "price_strength": {
-      "score": 47.3,
+      "score": 47.7,
       "weight": 0.1,
       "detail": "SPY -0.5% 14d"
     }
   },
   "history": [
+    {
+      "date": "2026-01-31",
+      "score": 56.3
+    },
     {
       "date": "2026-01-30",
       "score": 54.2
@@ -1489,10 +1493,6 @@
     },
     {
       "date": "2025-02-01",
-      "score": 63.9
-    },
-    {
-      "date": "2025-01-31",
       "score": 63.9
     }
   ]

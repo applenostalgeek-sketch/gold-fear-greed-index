@@ -1,40 +1,44 @@
 {
-  "score": 35.3,
+  "score": 35.6,
   "label": "Fear",
-  "timestamp": "2026-01-30T20:04:48Z",
+  "timestamp": "2026-01-31T08:35:47Z",
   "components": {
     "momentum": {
-      "score": 22.0,
+      "score": 21.5,
       "weight": 0.25,
-      "detail": "RSI: 20, Price < MA50"
+      "detail": "RSI: 19, Price < MA50"
     },
     "volatility": {
-      "score": 47.3,
+      "score": 47.0,
       "weight": 0.15,
-      "detail": "Vol 14d: 39.5% vs avg: 37.5%"
+      "detail": "Vol 14d: 39.6% vs avg: 37.3%"
     },
     "volume": {
-      "score": 39.2,
+      "score": 40.2,
       "weight": 0.15,
-      "detail": "Vol: 1.03x avg, Price: -11.6% 14d"
+      "detail": "Vol: 1.07x avg, Price: -11.5% 14d"
     },
     "btc_dominance": {
-      "score": 58.5,
+      "score": 61.4,
       "weight": 0.15,
-      "detail": "BTC -11.6% vs ETH -17.3% (14d)"
+      "detail": "BTC -11.5% vs ETH -19.0% (14d)"
     },
     "altcoin_season": {
-      "score": 38.2,
+      "score": 37.6,
       "weight": 0.15,
-      "detail": "Alts avg -17.5% vs BTC -11.6%"
+      "detail": "Alts avg -17.6% vs BTC -11.5%"
     },
     "market_cap": {
-      "score": 15.2,
+      "score": 15.6,
       "weight": 0.15,
-      "detail": "Market growth: -11.6% 14d"
+      "detail": "Market growth: -11.5% 14d"
     }
   },
   "history": [
+    {
+      "date": "2026-01-31",
+      "score": 35.6
+    },
     {
       "date": "2026-01-30",
       "score": 35.3
@@ -1490,10 +1494,6 @@
     {
       "date": "2025-02-01",
       "score": 46.0
-    },
-    {
-      "date": "2025-01-31",
-      "score": 47.4
     }
   ]
 }
