@@ -115,6 +115,9 @@ function updateMarketRotation() {
     const titleEl = document.getElementById('analysisTitle');
     const detailEl = document.getElementById('analysisDetail');
 
+    // Skip if elements don't exist (e.g., on index.html)
+    if (!analysisBox || !iconEl || !titleEl || !detailEl) return;
+
     // Remove all regime classes
     analysisBox.classList.remove('flight-to-safety', 'risk-on', 'altcoin-season', 'crypto-leading', 'balanced');
 
@@ -659,9 +662,12 @@ function showError() {
     const scoreNumber = document.getElementById('scoreNumber');
     const scoreLabel = document.getElementById('scoreLabel');
 
-    scoreNumber.textContent = '--';
-    scoreLabel.textContent = 'Loading Error';
-    scoreLabel.style.color = '#EA3943';
+    // Only update if elements exist (dedicated pages)
+    if (scoreNumber) scoreNumber.textContent = '--';
+    if (scoreLabel) {
+        scoreLabel.textContent = 'Loading Error';
+        scoreLabel.style.color = '#EA3943';
+    }
 
     // Show error in components
     document.querySelectorAll('.component-score').forEach(el => {
