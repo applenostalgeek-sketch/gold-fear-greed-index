@@ -321,6 +321,8 @@ function updateHistoryChart(days = 30) {
     if (goldHistory.length === 0 && stocksHistory.length === 0 && cryptoHistory.length === 0) return;
 
     const canvas = document.getElementById('historyChart');
+    if (!canvas) return; // Skip if canvas doesn't exist (e.g., on dedicated pages)
+
     const ctx = canvas.getContext('2d');
 
     // Set canvas size
