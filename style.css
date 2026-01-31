@@ -1121,51 +1121,166 @@ footer {
 @media (max-width: 768px) {
     /* Rotation gauge mobile */
     .rotation-hero-section {
-        padding: 30px 20px;
+        padding: 25px 15px;
     }
 
     .rotation-hero-section h2 {
-        font-size: 1.5rem;
+        font-size: 1.4rem;
+        margin-bottom: 20px;
     }
 
     .rotation-gauge-wrapper {
-        padding-top: 40px;
+        padding-top: 35px;
     }
 
     .rotation-gauge-bar {
-        height: 40px;
+        height: 35px;
     }
 
     .rotation-labels {
-        font-size: 0.75rem;
+        font-size: 0.7rem;
+        margin-top: 8px;
     }
 
     .rotation-badge {
         font-size: 0.7rem;
-        padding: 5px 10px;
+        padding: 4px 8px;
     }
 
-    .rotation-interpretation {
+    .rotation-arrow {
+        border-left: 12px solid transparent;
+        border-right: 12px solid transparent;
+        border-top: 18px solid #FFD700;
+    }
+
+    /* Status section mobile */
+    .rotation-status {
+        margin: 20px 0;
+    }
+
+    .status-title {
+        font-size: 1.2rem;
+        margin-bottom: 12px;
+    }
+
+    .status-strength {
+        flex-direction: column;
+        gap: 8px;
+    }
+
+    .strength-label {
+        font-size: 0.85rem;
+    }
+
+    .strength-bar {
+        width: 100%;
+        max-width: 250px;
+    }
+
+    .strength-value {
+        font-size: 0.85rem;
+    }
+
+    /* Asset indicators mobile */
+    .rotation-happening {
+        margin: 20px 0;
+    }
+
+    .rotation-happening h3 {
+        font-size: 0.95rem;
+        margin-bottom: 12px;
+    }
+
+    .asset-indicators {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .asset-indicator {
+        padding: 10px;
         font-size: 0.9rem;
+    }
+
+    .asset-name {
+        font-size: 0.85rem;
+    }
+
+    .asset-score {
+        font-size: 0.85rem;
+    }
+
+    .asset-trend {
+        font-size: 1.2rem;
+    }
+
+    /* Market interpretation mobile */
+    .rotation-interpretation {
+        font-size: 0.85rem;
+        padding: 12px;
+        line-height: 1.4;
+    }
+
+    /* Contrarian signal mobile */
+    .contrarian-signal {
         padding: 15px;
+        margin: 15px auto 0;
+    }
+
+    .signal-header {
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-bottom: 10px;
+    }
+
+    .signal-icon {
+        font-size: 1.2rem;
+    }
+
+    .signal-title {
+        font-size: 0.9rem;
+    }
+
+    .signal-stars {
+        font-size: 1rem;
+        margin-left: 0;
+        width: 100%;
+        text-align: center;
+    }
+
+    .signal-text {
+        font-size: 0.85rem;
+        line-height: 1.4;
     }
 
     /* Cards mobile */
     .indices-cards-section {
         grid-template-columns: 1fr;
-        gap: 20px;
+        gap: 15px;
+        margin: 20px 0 30px 0;
     }
 
     .indices-cards-section.compact {
         grid-template-columns: 1fr;
     }
 
+    .indices-cards-section.compact .index-card {
+        padding: 20px;
+    }
+
     .card-score {
-        font-size: 3.5rem;
+        font-size: 3rem;
     }
 
     .card-icon {
-        font-size: 3rem;
+        font-size: 2.5rem;
+    }
+
+    .card-title {
+        font-size: 1.3rem;
+    }
+
+    .card-label {
+        font-size: 0.9rem;
     }
 
     .analysis-title {
@@ -1175,5 +1290,78 @@ footer {
     .analysis-detail {
         margin-left: 0;
         font-size: 1rem;
+    }
+}
+
+/* Extra small screens (mobile phones) */
+@media (max-width: 480px) {
+    .rotation-hero-section {
+        padding: 20px 12px;
+    }
+
+    .rotation-hero-section h2 {
+        font-size: 1.2rem;
+        margin-bottom: 15px;
+    }
+
+    .rotation-gauge-bar {
+        height: 30px;
+    }
+
+    .rotation-labels {
+        font-size: 0.65rem;
+        gap: 5px;
+    }
+
+    .rotation-badge {
+        font-size: 0.65rem;
+        padding: 3px 6px;
+    }
+
+    .status-title {
+        font-size: 1rem;
+    }
+
+    .strength-bar {
+        max-width: 200px;
+        height: 8px;
+    }
+
+    .rotation-happening h3 {
+        font-size: 0.85rem;
+    }
+
+    .asset-indicator {
+        padding: 8px;
+        font-size: 0.8rem;
+    }
+
+    .rotation-interpretation {
+        font-size: 0.8rem;
+        padding: 10px;
+    }
+
+    .contrarian-signal {
+        padding: 12px;
+    }
+
+    .signal-text {
+        font-size: 0.8rem;
+    }
+
+    .indices-cards-section.compact .index-card {
+        padding: 18px 15px;
+    }
+
+    .card-score {
+        font-size: 2.5rem;
+    }
+
+    .card-icon {
+        font-size: 2rem;
+    }
+
+    .card-title {
+        font-size: 1.1rem;
     }
 }
