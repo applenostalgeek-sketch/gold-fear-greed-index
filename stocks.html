@@ -482,12 +482,11 @@
         function formatComponentName(key) {
             const names = {
                 'momentum': 'Price Momentum',
-                'strength': 'Price Strength',
-                'breadth': 'Price Breadth',
-                'put_call': 'Put/Call Ratio',
-                'volatility': 'Market Volatility',
+                'vix': 'Market Volatility (VIX)',
+                'market_breadth': 'Market Breadth',
+                'junk_bonds': 'Junk Bond Demand',
                 'safe_haven': 'Safe Haven Demand',
-                'junk_bond': 'Junk Bond Demand'
+                'price_strength': 'Price Strength'
             };
             return names[key] || key;
         }
