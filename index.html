@@ -28,16 +28,13 @@
     <meta name="author" content="Fear & Greed Central">
     <link rel="canonical" href="https://gold-fear-greed-index.netlify.app/">
 
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style-test.css">
 </head>
 <body>
     <div class="container">
         <header>
             <h1>Fear & Greed Central</h1>
-            <p class="subtitle">Track Market Sentiment Across Gold, Stocks, and Crypto</p>
-            <p style="text-align: center; margin-top: 15px; color: #888; font-size: 0.95rem;">
-                Click any card to view detailed methodology and analysis
-            </p>
+            <p class="subtitle">Real-time market sentiment across Gold, Stocks, and Crypto</p>
         </header>
 
         <main>
@@ -74,21 +71,21 @@
                 <div class="rotation-happening">
                     <h3>📊 What's Happening Right Now:</h3>
                     <div class="asset-indicators">
-                        <div class="asset-indicator">
+                        <a href="gold.html" class="asset-indicator">
                             <span class="asset-name">🪙 Gold:</span>
                             <span class="asset-score" id="assetGold">--</span>
                             <span class="asset-trend" id="trendGold">→</span>
-                        </div>
-                        <div class="asset-indicator">
+                        </a>
+                        <a href="stocks.html" class="asset-indicator">
                             <span class="asset-name">📈 Stocks:</span>
                             <span class="asset-score" id="assetStocks">--</span>
                             <span class="asset-trend" id="trendStocks">→</span>
-                        </div>
-                        <div class="asset-indicator">
+                        </a>
+                        <a href="crypto.html" class="asset-indicator">
                             <span class="asset-name">₿ Crypto:</span>
                             <span class="asset-score" id="assetCrypto">--</span>
                             <span class="asset-trend" id="trendCrypto">→</span>
-                        </div>
+                        </a>
                     </div>
                 </div>
 
@@ -110,49 +107,7 @@
                 </div>
             </section>
 
-            <!-- Three Index Cards (Compact) -->
-            <section class="indices-cards-section compact">
-                <!-- Gold Card -->
-                <a href="gold.html" class="card-link">
-                    <div class="index-card gold-card">
-                        <div class="card-icon">🪙</div>
-                        <div class="card-title">Gold</div>
-                        <div class="card-score" id="goldCardScore">--</div>
-                        <div class="card-label" id="goldCardLabel">Loading...</div>
-                        <div class="card-mini-bar">
-                            <div class="mini-bar-fill gold-mini-fill" id="goldMiniBar"></div>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Stocks Card -->
-                <a href="stocks.html" class="card-link">
-                    <div class="index-card stocks-card">
-                        <div class="card-icon">📈</div>
-                        <div class="card-title">Stocks</div>
-                        <div class="card-score" id="stocksCardScore">--</div>
-                        <div class="card-label" id="stocksCardLabel">Loading...</div>
-                        <div class="card-mini-bar">
-                            <div class="mini-bar-fill stocks-mini-fill" id="stocksMiniBar"></div>
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Crypto Card -->
-                <a href="crypto.html" class="card-link">
-                    <div class="index-card crypto-card">
-                        <div class="card-icon">₿</div>
-                        <div class="card-title">Crypto</div>
-                        <div class="card-score" id="cryptoCardScore">--</div>
-                        <div class="card-label" id="cryptoCardLabel">Loading...</div>
-                        <div class="card-mini-bar">
-                            <div class="mini-bar-fill crypto-mini-fill" id="cryptoMiniBar"></div>
-                        </div>
-                    </div>
-                </a>
-            </section>
-
-            <div class="last-update" style="text-align: center; margin-top: 20px;">
+            <div class="last-update" style="text-align: center; margin-top: 30px; margin-bottom: 40px;">
                 Last updated: <span id="lastUpdate">--</span>
             </div>
 
