@@ -3,517 +3,838 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Gold Fear & Greed Index - Real-time sentiment indicator for gold markets. Track investor behavior with transparent, data-driven analysis.">
-    <title>Gold Fear & Greed Index | Market Sentiment Tracker</title>
+    <title>Gold Fear & Greed Index</title>
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
 
-    <!-- Open Graph -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Gold Fear & Greed Index">
-    <meta property="og:description" content="Real-time gold market sentiment analysis. Transparent methodology, 6 components, updated daily.">
-    <meta property="og:image" content="https://gold-fear-greed-index.netlify.app/og-image.png">
-
-    <link rel="stylesheet" href="style.css">
     <style>
-        /* Dedicated page styles */
-        .dedicated-page {
-            max-width: 1200px;
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 120px 20px 60px;
         }
 
-        .back-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            padding: 12px 20px;
-            background: rgba(255, 215, 0, 0.1);
-            border: 1px solid rgba(255, 215, 0, 0.3);
-            border-radius: 8px;
-            color: #FFD700;
-            text-decoration: none;
-            font-weight: 600;
-            transition: all 0.3s ease;
-            margin-bottom: 30px;
+        /* Navigation */
+        nav {
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid #1a1a1a;
+            padding: 20px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
         }
 
-        .back-button:hover {
-            background: rgba(255, 215, 0, 0.2);
-            transform: translateX(-5px);
-        }
-
-        .page-header {
-            text-align: center;
-            margin-bottom: 50px;
-        }
-
-        .page-header h1 {
-            font-size: 3rem;
-            margin-bottom: 10px;
-            background: linear-gradient(135deg, #FFD700 0%, #FFA500 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .page-header .subtitle {
-            font-size: 1.1rem;
-            color: #b0b0b0;
-            margin-bottom: 30px;
-        }
-
-        /* Large gauge section */
-        .gauge-section {
-            background: linear-gradient(135deg, rgba(30, 30, 50, 0.8) 0%, rgba(20, 20, 40, 0.9) 100%);
-            border: 1px solid rgba(255, 215, 0, 0.2);
-            border-radius: 20px;
-            padding: 50px 30px;
-            margin-bottom: 40px;
-            text-align: center;
-        }
-
-        .gauge-container {
-            max-width: 700px;
-            margin: 0 auto 30px;
-            position: relative;
-        }
-
-        .gauge-labels {
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 32px;
             display: flex;
             justify-content: space-between;
-            margin-bottom: 15px;
-            font-size: 0.9rem;
-            font-weight: 600;
+            align-items: center;
         }
 
-        .gauge-labels span {
-            flex: 1;
-            text-align: center;
-        }
-
-        .gauge-labels span:nth-child(1) { color: #EA3943; }
-        .gauge-labels span:nth-child(2) { color: #F5A623; }
-        .gauge-labels span:nth-child(3) { color: #F8E71C; }
-        .gauge-labels span:nth-child(4) { color: #7ED321; }
-        .gauge-labels span:nth-child(5) { color: #50E3C2; }
-
-        .gauge-bar {
-            height: 60px;
-            background: linear-gradient(90deg,
-                #EA3943 0%,
-                #EA3943 20%,
-                #F5A623 20%,
-                #F5A623 40%,
-                #F8E71C 40%,
-                #F8E71C 60%,
-                #7ED321 60%,
-                #7ED321 80%,
-                #50E3C2 80%,
-                #50E3C2 100%
-            );
-            border-radius: 30px;
-            position: relative;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
-        }
-
-        .gauge-pointer {
-            position: absolute;
-            top: 100%;
-            transform: translateX(-50%);
-            transition: left 0.5s ease;
-            margin-top: 5px;
-        }
-
-        .gauge-pointer-arrow {
-            width: 0;
-            height: 0;
-            border-left: 15px solid transparent;
-            border-right: 15px solid transparent;
-            border-bottom: 25px solid #FFD700;
-            filter: drop-shadow(0 4px 10px rgba(255, 215, 0, 0.5));
-        }
-
-        .current-score {
-            font-size: 5rem;
-            font-weight: 800;
-            margin: 20px 0 10px;
-            text-shadow: 0 0 30px rgba(255, 215, 0, 0.3);
-        }
-
-        .current-label {
-            font-size: 1.8rem;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .last-update-info {
-            color: #888;
-            font-size: 0.9rem;
-        }
-
-        /* Color legend */
-        .color-legend {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
-            margin-top: 40px;
-        }
-
-        .legend-item {
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            border: 2px solid;
-        }
-
-        .legend-item.extreme-fear {
-            background: rgba(234, 57, 67, 0.1);
-            border-color: #EA3943;
-        }
-
-        .legend-item.fear {
-            background: rgba(245, 166, 35, 0.1);
-            border-color: #F5A623;
-        }
-
-        .legend-item.neutral {
-            background: rgba(248, 231, 28, 0.1);
-            border-color: #F8E71C;
-        }
-
-        .legend-item.greed {
-            background: rgba(126, 211, 33, 0.1);
-            border-color: #7ED321;
-        }
-
-        .legend-item.extreme-greed {
-            background: rgba(80, 227, 194, 0.1);
-            border-color: #50E3C2;
-        }
-
-        .legend-range {
+        .logo {
+            font-size: 1.5rem;
             font-weight: 700;
-            font-size: 1.1rem;
-            margin-bottom: 5px;
+            color: #ffffff;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            letter-spacing: -0.02em;
+            font-family: 'Space Grotesk', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
 
-        .legend-description {
-            font-size: 0.85rem;
-            color: #b0b0b0;
+        .logo-dots {
+            display: flex;
+            gap: 4px;
+            font-size: 0.8rem;
+            color: #666;
+            transition: color 0.6s ease;
         }
 
-        /* Components breakdown */
-        .components-section {
-            margin: 50px 0;
+        .logo:hover {
+            opacity: 0.9;
         }
 
-        .section-title {
-            font-size: 2rem;
-            margin-bottom: 30px;
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #999;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s ease;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #ffffff;
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            z-index: 101;
+        }
+
+        .mobile-menu-toggle span {
+            width: 24px;
+            height: 2px;
+            background: #ffffff;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(7px, 7px);
+        }
+
+        .mobile-menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        /* Mobile Menu Overlay */
+        .mobile-menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 99;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .mobile-menu-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Header */
+        .header {
             text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .header h1 {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+        }
+
+        .asset-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #FFD700;
+            margin-top: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        /* Hero Score */
+        .hero {
+            text-align: center;
+            margin-bottom: 80px;
+        }
+
+        .score {
+            font-size: 16rem;
+            font-weight: 800;
+            line-height: 1;
+            letter-spacing: -0.05em;
+            transition: color 1s ease;
+            margin-bottom: 20px;
+        }
+
+        .label {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            color: #999;
+        }
+
+        /* Progress Bar */
+        .bar-wrapper {
+            margin: 80px 0;
+        }
+
+        .bar {
+            height: 6px;
+            background: #1a1a1a;
+            position: relative;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #ef4444 0%, #eab308 50%, #22c55e 100%);
+            width: 0%;
+            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+            border-radius: 3px;
+        }
+
+        .bar-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 12px;
+            font-size: 0.75rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+
+        /* Components Grid */
+        .components-section {
+            margin: 80px 0 60px 0;
+        }
+
+        .components-section h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #fff;
         }
 
         .components-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1px;
+            background: #1a1a1a;
         }
 
         .component-card {
-            background: linear-gradient(135deg, rgba(30, 30, 50, 0.6) 0%, rgba(20, 20, 40, 0.8) 100%);
-            border: 1px solid rgba(255, 215, 0, 0.2);
-            border-radius: 15px;
-            padding: 25px;
-            transition: all 0.3s ease;
-        }
-
-        .component-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.2);
-        }
-
-        .component-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 15px;
+            background: #0d0d0d;
+            padding: 24px;
+            border-radius: 0;
         }
 
         .component-name {
-            font-size: 1.2rem;
-            font-weight: 600;
-            color: #FFD700;
-        }
-
-        .component-weight {
-            font-size: 0.9rem;
-            color: #888;
-            background: rgba(255, 215, 0, 0.1);
-            padding: 4px 12px;
-            border-radius: 20px;
+            font-size: 0.75rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 12px;
         }
 
         .component-score {
             font-size: 2.5rem;
             font-weight: 700;
-            margin: 10px 0;
+            margin-bottom: 8px;
         }
 
         .component-detail {
-            font-size: 0.9rem;
-            color: #b0b0b0;
-            margin-top: 10px;
+            font-size: 0.85rem;
+            color: #999;
+            line-height: 1.5;
         }
 
-        .component-bar {
-            height: 8px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            overflow: hidden;
-            margin-top: 15px;
+        /* Historical Chart */
+        .history-section {
+            margin: 80px 0 60px 0;
         }
 
-        .component-bar-fill {
-            height: 100%;
-            background: linear-gradient(90deg, #FFD700, #FFA500);
-            border-radius: 10px;
-            transition: width 0.5s ease;
-        }
-
-        /* Methodology section */
-        .methodology-section {
-            background: linear-gradient(135deg, rgba(30, 30, 50, 0.5) 0%, rgba(20, 20, 40, 0.7) 100%);
-            border: 1px solid rgba(255, 215, 0, 0.15);
-            border-radius: 20px;
-            padding: 40px;
-            margin: 50px 0;
-        }
-
-        .methodology-section h2 {
-            color: #FFD700;
+        .history-section h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
             margin-bottom: 20px;
-        }
-
-        .methodology-section p {
-            line-height: 1.8;
-            color: #d0d0d0;
-            margin-bottom: 15px;
-        }
-
-        .methodology-section ul {
-            margin-left: 20px;
-            line-height: 1.8;
-            color: #d0d0d0;
-        }
-
-        .methodology-section li {
-            margin-bottom: 10px;
-        }
-
-        /* Chart section */
-        .chart-section {
-            margin: 50px 0;
+            color: #fff;
         }
 
         .chart-container {
-            background: linear-gradient(135deg, rgba(30, 30, 50, 0.6) 0%, rgba(20, 20, 40, 0.8) 100%);
-            border: 1px solid rgba(255, 215, 0, 0.2);
-            border-radius: 15px;
-            padding: 30px;
-            height: 450px;
+            background: #0d0d0d;
+            border: 1px solid #1a1a1a;
+            border-radius: 12px;
+            padding: 30px 20px;
+            height: 400px;
+        }
+
+        .chart-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .period-selector {
+            display: flex;
+            gap: 8px;
+            background: #0d0d0d;
+            padding: 4px;
+            border-radius: 8px;
+            border: 1px solid #1a1a1a;
+        }
+
+        .period-btn {
+            background: transparent;
+            border: none;
+            color: #666;
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .period-btn:hover {
+            color: #999;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .period-btn.active {
+            background: #1a1a1a;
+            color: #fff;
+        }
+
+        /* How to Read */
+        .explanation-section {
+            margin: 60px 0;
+        }
+
+        .explanation-section h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .explanation-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 1px;
+            background: #1a1a1a;
+        }
+
+        .explanation-item {
+            background: #0d0d0d;
+            padding: 20px 16px;
+            text-align: center;
+        }
+
+        .explanation-item strong {
+            display: block;
+            font-size: 0.85rem;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .explanation-item p {
+            font-size: 0.75rem;
+            color: #666;
+            line-height: 1.5;
+        }
+
+        .extreme-fear-bg { border-top: 3px solid #ef4444; }
+        .fear-bg { border-top: 3px solid #f59e0b; }
+        .neutral-bg { border-top: 3px solid #888; }
+        .greed-bg { border-top: 3px solid #22c55e; }
+        .extreme-greed-bg { border-top: 3px solid #06b6d4; }
+
+        /* Back Link */
+        .back-link {
+            text-align: center;
+            margin: 40px 0;
+        }
+
+        .back-link a {
+            color: #666;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s ease;
+        }
+
+        .back-link a:hover {
+            color: #fff;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 1px solid #1a1a1a;
+        }
+
+        .disclaimer {
+            font-size: 0.8rem;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .credits {
+            font-size: 0.75rem;
+            color: #555;
+            text-align: center;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 20px;
+            }
+
+            .mobile-menu-toggle {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 280px;
+                height: 100vh;
+                background: #0a0a0a;
+                flex-direction: column;
+                padding: 80px 32px 32px;
+                gap: 16px;
+                transition: right 0.3s ease;
+                z-index: 100;
+                box-shadow: -4px 0 20px rgba(0, 0, 0, 0.5);
+                border-left: 1px solid #1a1a1a;
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .nav-links a {
+                font-size: 1.1rem;
+                padding: 16px 0;
+                border-bottom: 1px solid #1a1a1a;
+                width: 100%;
+            }
+
+            .mobile-menu-overlay {
+                display: block;
+            }
+
+            .container {
+                padding: 100px 20px 60px;
+            }
+
+            .score { font-size: 10rem; }
+            .label { font-size: 1.8rem; }
+            .explanation-grid { grid-template-columns: 1fr; gap: 0; }
+            .chart-container { height: 300px; padding: 20px 15px; }
+            .components-grid { grid-template-columns: 1fr; gap: 0; }
+            .insight-box { padding: 24px 28px; }
+            .insight-text { font-size: 1.05rem; }
         }
     </style>
 </head>
 <body>
-    <div class="dedicated-page">
-        <a href="index.html" class="back-button">
-            <span>←</span>
-            <span>Back to Dashboard</span>
-        </a>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span>On</span>
+                <span class="logo-dots">●●</span>
+                <span>Off</span>
+            </a>
 
-        <div class="page-header">
-            <h1>🪙 Gold Fear & Greed Index</h1>
-            <p class="subtitle">Real-time sentiment analysis for gold markets</p>
+            <button class="mobile-menu-toggle" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <div class="nav-links">
+                <a href="index.html">Market</a>
+                <a href="gold.html" class="active">Gold</a>
+                <a href="stocks.html">Stocks</a>
+                <a href="crypto.html">Crypto</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Fear & Greed Index</h1>
+            <div class="asset-title">🪙 Gold</div>
         </div>
 
-        <!-- Large Gauge Section -->
-        <section class="gauge-section">
-            <div class="gauge-container">
-                <div class="gauge-labels">
-                    <span>Extreme Fear</span>
-                    <span>Fear</span>
-                    <span>Neutral</span>
-                    <span>Greed</span>
-                    <span>Extreme Greed</span>
-                </div>
-                <div class="gauge-bar">
-                    <div class="gauge-pointer" id="gaugePointer">
-                        <div class="gauge-pointer-arrow"></div>
-                    </div>
-                </div>
-            </div>
+        <!-- Hero Score -->
+        <div class="hero">
+            <div class="score" id="score">50</div>
+            <div class="label" id="label">NEUTRAL</div>
+        </div>
 
-            <div class="current-score" id="currentScore">--</div>
-            <div class="current-label" id="currentLabel">Loading...</div>
-            <div class="last-update-info">Last updated: <span id="lastUpdate">--</span></div>
-
-            <div class="color-legend">
-                <div class="legend-item extreme-fear">
-                    <div class="legend-range">0-25</div>
-                    <div class="legend-description">Extreme Fear<br>Potential buying opportunity</div>
-                </div>
-                <div class="legend-item fear">
-                    <div class="legend-range">26-45</div>
-                    <div class="legend-description">Fear<br>Cautious sentiment</div>
-                </div>
-                <div class="legend-item neutral">
-                    <div class="legend-range">46-55</div>
-                    <div class="legend-description">Neutral<br>Balanced market</div>
-                </div>
-                <div class="legend-item greed">
-                    <div class="legend-range">56-75</div>
-                    <div class="legend-description">Greed<br>Optimistic sentiment</div>
-                </div>
-                <div class="legend-item extreme-greed">
-                    <div class="legend-range">76-100</div>
-                    <div class="legend-description">Extreme Greed<br>Potential correction ahead</div>
-                </div>
+        <!-- Progress Bar -->
+        <div class="bar-wrapper">
+            <div class="bar">
+                <div class="bar-fill" id="barFill"></div>
             </div>
-        </section>
+            <div class="bar-labels">
+                <span>Extreme Fear</span>
+                <span>Neutral</span>
+                <span>Extreme Greed</span>
+            </div>
+        </div>
 
         <!-- Components Breakdown -->
         <section class="components-section">
-            <h2 class="section-title">Index Components Breakdown</h2>
+            <h2>Index Components</h2>
             <div class="components-grid" id="componentsGrid">
-                <!-- Components will be loaded here by JavaScript -->
+                <!-- Will be populated by JavaScript -->
             </div>
         </section>
 
-        <!-- Methodology -->
-        <section class="methodology-section">
-            <h2>📚 How Does It Work?</h2>
-            <p>
-                The Gold Fear & Greed Index combines 6 key market indicators to measure investor sentiment toward gold.
-                Each component is carefully weighted based on its reliability and impact on gold prices.
-            </p>
-
-            <h3 style="color: #FFD700; margin-top: 30px;">The 6 Components:</h3>
-            <ul>
-                <li><strong>Gold Price Momentum (25%):</strong> 50-day and 200-day moving averages relative to current price. Higher weight as it's the most reliable long-term indicator.</li>
-                <li><strong>Safe Haven Demand (20%):</strong> Ratio of gold allocation vs. S&P 500 in portfolios. Gold typically rises when stocks fall (inverse relationship).</li>
-                <li><strong>Dollar Strength (20%):</strong> DXY (US Dollar Index) movement. Gold and dollar have historically strong inverse correlation.</li>
-                <li><strong>Real Yields (15%):</strong> 10-year TIPS yield. Higher real yields make gold less attractive (no dividend/yield).</li>
-                <li><strong>Volatility (10%):</strong> VIX/GVZ movements. Extreme volatility often drives flight to gold as safe haven.</li>
-                <li><strong>Put/Call Ratio (10%):</strong> Options market sentiment via GLD ETF. High put/call = defensive positioning = fear.</li>
-            </ul>
-
-            <h3 style="color: #FFD700; margin-top: 30px;">Why These Weights?</h3>
-            <p>
-                Price momentum gets the highest weight (25%) because moving averages are the most reliable long-term indicators.
-                Safe haven demand and dollar strength are equally important (20% each) as they drive the fundamental supply/demand dynamics.
-                Real yields, volatility, and options sentiment provide additional context but are more short-term in nature.
-            </p>
-
-            <h3 style="color: #FFD700; margin-top: 30px;">Data Sources:</h3>
-            <p>
-                All data comes from public, reliable sources: Yahoo Finance (price data), FRED (economic data like DXY, TIPS yields),
-                and CBOE (VIX/GVZ volatility indices). The index is calculated daily and 100% transparent.
-            </p>
-        </section>
+        <!-- Back to Overview -->
+        <div class="back-link">
+            <a href="index.html">← Back to Market Overview</a>
+        </div>
 
         <!-- Historical Chart -->
-        <section class="chart-section">
-            <h2 class="section-title">365-Day Historical Trend</h2>
+        <section class="history-section">
+            <div class="chart-controls">
+                <h2 style="margin: 0;">Historical Trend</h2>
+                <div class="period-selector">
+                    <button class="period-btn" data-period="7">7D</button>
+                    <button class="period-btn active" data-period="30">30D</button>
+                    <button class="period-btn" data-period="90">90D</button>
+                    <button class="period-btn" data-period="180">180D</button>
+                    <button class="period-btn" data-period="365">1Y</button>
+                </div>
+            </div>
             <div class="chart-container">
-                <canvas id="historicalChart"></canvas>
+                <canvas id="historyChart"></canvas>
             </div>
         </section>
+
+        <!-- Explanation -->
+        <section class="explanation-section">
+            <h2>How to Read This Index?</h2>
+            <div class="explanation-grid">
+                <div class="explanation-item extreme-fear-bg">
+                    <strong>0-25: Extreme Fear</strong>
+                    <p>Very pessimistic sentiment. Potential buying opportunity.</p>
+                </div>
+                <div class="explanation-item fear-bg">
+                    <strong>26-45: Fear</strong>
+                    <p>Cautious sentiment. Investors seeking safety.</p>
+                </div>
+                <div class="explanation-item neutral-bg">
+                    <strong>46-55: Neutral</strong>
+                    <p>Balanced sentiment. No clear trend.</p>
+                </div>
+                <div class="explanation-item greed-bg">
+                    <strong>56-75: Greed</strong>
+                    <p>Optimistic sentiment. Investors taking risks.</p>
+                </div>
+                <div class="explanation-item extreme-greed-bg">
+                    <strong>76-100: Extreme Greed</strong>
+                    <p>Market euphoria. Potential correction ahead.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p class="disclaimer">
+                <strong>Disclaimer:</strong> This index is provided for informational purposes only and does not constitute financial advice.
+                Investments carry risks. Consult a financial advisor before making any investment decisions.
+            </p>
+            <p class="credits">
+                Sources: Yahoo Finance, FRED | Updated Daily
+            </p>
+        </footer>
     </div>
 
-    <script src="script.js"></script>
     <script>
-        // Load Gold data and display
-        async function loadGoldData() {
+        let goldData;
+        let currentPeriod = 30;
+
+        async function loadData() {
             try {
                 const response = await fetch('data/gold-fear-greed.json');
-                const data = await response.json();
+                goldData = await response.json();
+                updateUI();
+                updateHistoryChart(30);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
 
-                // Update score and label
-                document.getElementById('currentScore').textContent = data.score;
-                document.getElementById('currentLabel').textContent = data.label;
-                document.getElementById('lastUpdate').textContent = new Date(data.timestamp).toLocaleString();
+        function updateUI() {
+            if (!goldData) return;
 
-                // Position gauge pointer
-                const pointer = document.getElementById('gaugePointer');
-                pointer.style.left = `${data.score}%`;
+            const score = goldData.score;
+            const position = score;
 
-                // Update components
+            // Update score
+            const scoreEl = document.getElementById('score');
+            scoreEl.textContent = Math.round(score);
+
+            // Update bar
+            document.getElementById('barFill').style.width = position + '%';
+
+            // Determine label and color
+            let label, color;
+            if (position < 25) {
+                label = "EXTREME FEAR";
+                color = "#ef4444";
+            } else if (position < 45) {
+                label = "FEAR";
+                color = "#f59e0b";
+            } else if (position < 55) {
+                label = "NEUTRAL";
+                color = "#ffffff";
+            } else if (position < 75) {
+                label = "GREED";
+                color = "#22c55e";
+            } else {
+                label = "EXTREME GREED";
+                color = "#06b6d4";
+            }
+
+            document.getElementById('label').textContent = label;
+            scoreEl.style.color = color;
+
+            // Update components
+            if (goldData.components) {
                 const componentsGrid = document.getElementById('componentsGrid');
                 componentsGrid.innerHTML = '';
 
-                for (const [key, component] of Object.entries(data.components)) {
+                Object.entries(goldData.components).forEach(([name, data]) => {
                     const card = document.createElement('div');
                     card.className = 'component-card';
                     card.innerHTML = `
-                        <div class="component-header">
-                            <div class="component-name">${formatComponentName(key)}</div>
-                            <div class="component-weight">${(component.weight * 100).toFixed(0)}%</div>
-                        </div>
-                        <div class="component-score">${component.score.toFixed(1)}</div>
-                        <div class="component-detail">${component.detail}</div>
-                        <div class="component-bar">
-                            <div class="component-bar-fill" style="width: ${component.score}%"></div>
-                        </div>
+                        <div class="component-name">${name}</div>
+                        <div class="component-score" style="color: ${getColor(data.score)}">${Math.round(data.score)}</div>
+                        <div class="component-detail">${data.detail}</div>
                     `;
                     componentsGrid.appendChild(card);
-                }
-
-                // Draw historical chart (Gold only)
-                drawHistoricalChart(data.history);
-
-            } catch (error) {
-                console.error('Error loading Gold data:', error);
+                });
             }
         }
 
-        function formatComponentName(key) {
-            const names = {
-                'momentum': 'Price Momentum',
-                'safe_haven': 'Safe Haven Demand',
-                'dollar': 'Dollar Strength',
-                'real_yields': 'Real Yields',
-                'volatility': 'Volatility',
-                'put_call': 'Put/Call Ratio'
-            };
-            return names[key] || key;
-        }
+        function updateHistoryChart(days = 30) {
+            if (!goldData || !goldData.history) return;
 
-        function drawHistoricalChart(history) {
-            const canvas = document.getElementById('historicalChart');
-            const container = canvas.parentElement;
-
-            // Set canvas size to match container
-            canvas.width = container.clientWidth - 60;
-            canvas.height = container.clientHeight - 60;
-
+            const canvas = document.getElementById('historyChart');
             const ctx = canvas.getContext('2d');
 
-            // Prepare data (sorted by date, last 365 days)
-            const sortedHistory = history.slice().sort((a, b) => new Date(a.date) - new Date(b.date));
-            const data = sortedHistory.slice(-365);
+            const container = canvas.parentElement;
+            canvas.width = container.offsetWidth;
+            canvas.height = container.offsetHeight;
 
-            // Call the drawChart function from script.js with Gold data only
-            if (typeof drawChart === 'function') {
-                drawChart(ctx, canvas, data, [], [], true, false, false);
-            } else {
-                console.error('drawChart function not found - script.js may not be loaded');
+            const sortedHistory = [...goldData.history].sort((a, b) => new Date(a.date) - new Date(b.date));
+            const limitedHistory = sortedHistory.slice(-days);
+
+            drawChart(ctx, canvas, limitedHistory);
+        }
+
+        function drawChart(ctx, canvas, data) {
+            const width = canvas.width;
+            const height = canvas.height;
+            const paddingTop = 40;
+            const paddingBottom = 60;
+            const paddingSide = 40;
+            const chartWidth = width - paddingSide * 2;
+            const chartHeight = height - paddingTop - paddingBottom;
+
+            ctx.clearRect(0, 0, width, height);
+
+            // Draw grid
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.lineWidth = 1;
+            [0, 25, 50, 75, 100].forEach(score => {
+                const y = paddingTop + chartHeight - (score / 100) * chartHeight;
+                ctx.beginPath();
+                ctx.moveTo(paddingSide, y);
+                ctx.lineTo(paddingSide + chartWidth, y);
+                ctx.stroke();
+
+                ctx.fillStyle = '#666';
+                ctx.font = '12px sans-serif';
+                ctx.textAlign = 'right';
+                ctx.fillText(score, paddingSide - 10, y + 4);
+            });
+
+            // Draw line
+            if (data.length > 1) {
+                ctx.strokeStyle = '#FFD700';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+
+                data.forEach((point, index) => {
+                    const x = paddingSide + (index / (data.length - 1)) * chartWidth;
+                    const y = paddingTop + chartHeight - (point.score / 100) * chartHeight;
+
+                    if (index === 0) {
+                        ctx.moveTo(x, y);
+                    } else {
+                        ctx.lineTo(x, y);
+                    }
+                });
+
+                ctx.stroke();
+            }
+
+            // Draw labels
+            if (data.length > 0) {
+                ctx.fillStyle = '#666';
+                ctx.font = '11px sans-serif';
+                const numLabels = data.length > 180 ? 8 : 5;
+                const step = Math.floor(data.length / (numLabels - 1));
+
+                for (let i = 0; i < numLabels; i++) {
+                    const index = i === numLabels - 1 ? data.length - 1 : i * step;
+                    if (index < data.length) {
+                        const point = data[index];
+                        const x = paddingSide + (index / (data.length - 1)) * chartWidth;
+                        const date = new Date(point.date);
+                        const label = `${date.getDate()}/${date.getMonth() + 1}`;
+
+                        ctx.save();
+                        ctx.translate(x, height - 20);
+                        ctx.rotate(-Math.PI / 6);
+                        ctx.textAlign = 'right';
+                        ctx.fillText(label, 0, 0);
+                        ctx.restore();
+                    }
+                }
             }
         }
 
-        // Load data on page load
-        loadGoldData();
+        function getColor(score) {
+            if (score <= 25) return '#ef4444';
+            if (score <= 45) return '#f59e0b';
+            if (score <= 55) return '#ffffff';
+            if (score <= 75) return '#22c55e';
+            return '#06b6d4';
+        }
+
+        // Period buttons
+        document.querySelectorAll('.period-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                document.querySelectorAll('.period-btn').forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                currentPeriod = parseInt(button.dataset.period);
+                updateHistoryChart(currentPeriod);
+            });
+        });
+
+        // Resize handler
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => updateHistoryChart(currentPeriod), 250);
+        });
+
+        loadData();
+
+        // Mobile Menu Toggle
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
+
+        function toggleMobileMenu() {
+            mobileMenuToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+            mobileMenuOverlay.classList.toggle('active');
+            document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+        }
+
+        mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+        mobileMenuOverlay.addEventListener('click', toggleMobileMenu);
+
+        // Close menu when clicking on a link
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    toggleMobileMenu();
+                }
+            });
+        });
+
+        // Update logo dots color (fetch market data to get rotation position)
+        async function updateLogoDots() {
+            try {
+                const [goldRes, cryptoRes] = await Promise.all([
+                    fetch('data/gold-fear-greed.json'),
+                    fetch('data/crypto-fear-greed.json')
+                ]);
+                const gold = await goldRes.json();
+                const crypto = await cryptoRes.json();
+
+                const rotationScore = crypto.score - gold.score;
+                const position = ((rotationScore + 100) / 200) * 100;
+
+                const logoDots = document.querySelector('.logo-dots');
+                let dotsColor;
+                if (position < 25) {
+                    dotsColor = "#ef4444";
+                } else if (position < 45) {
+                    dotsColor = "#f59e0b";
+                } else if (position < 55) {
+                    dotsColor = "#ffffff";
+                } else if (position < 75) {
+                    dotsColor = "#22c55e";
+                } else {
+                    dotsColor = "#06b6d4";
+                }
+                if (logoDots) {
+                    logoDots.style.color = dotsColor;
+                }
+            } catch (error) {
+                console.error('Error updating logo dots:', error);
+            }
+        }
+
+        updateLogoDots();
     </script>
 </body>
 </html>

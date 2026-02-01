@@ -3,175 +3,650 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Fear & Greed Central - Track market sentiment across Gold, Stocks, and Crypto. 100% transparent indices with capital rotation analysis.">
-    <title>Fear & Greed Central - Gold, Stocks & Crypto Sentiment</title>
+    <title>Zen Dark - Market Sentiment</title>
 
-    <!-- Favicon -->
-    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=JetBrains+Mono:wght@700&family=Orbitron:wght@700;900&family=Rajdhani:wght@700&display=swap" rel="stylesheet">
 
-    <!-- Open Graph / Facebook -->
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="https://gold-fear-greed-index.netlify.app/">
-    <meta property="og:title" content="Fear & Greed Central - Gold, Stocks & Crypto Sentiment">
-    <meta property="og:description" content="Compare market sentiment across Gold, Stocks, and Crypto. 100% transparent, open-source methodology. Track capital rotation and market regime.">
-    <meta property="og:image" content="https://gold-fear-greed-index.netlify.app/og-image.png">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    <!-- Twitter -->
-    <meta property="twitter:card" content="summary_large_image">
-    <meta property="twitter:url" content="https://gold-fear-greed-index.netlify.app/">
-    <meta property="twitter:title" content="Fear & Greed Central - Gold, Stocks & Crypto">
-    <meta property="twitter:description" content="Track sentiment across Gold, Stocks, and Crypto. Transparent methodology, capital rotation analysis.">
-    <meta property="twitter:image" content="https://gold-fear-greed-index.netlify.app/og-image.png">
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 0;
+        }
 
-    <!-- Additional SEO -->
-    <meta name="keywords" content="fear and greed index, market sentiment, gold sentiment, stocks sentiment, crypto sentiment, bitcoin, capital rotation, risk on risk off, market regime">
-    <meta name="author" content="Fear & Greed Central">
-    <link rel="canonical" href="https://gold-fear-greed-index.netlify.app/">
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 120px 20px 60px;
+        }
 
-    <link rel="stylesheet" href="style.css">
+        /* Navigation */
+        nav {
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid #1a1a1a;
+            padding: 20px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            letter-spacing: -0.02em;
+            font-family: 'Space Grotesk', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .logo-dots {
+            display: flex;
+            gap: 4px;
+            font-size: 0.8rem;
+            color: #666;
+            transition: color 0.6s ease;
+        }
+
+        .logo:hover {
+            opacity: 0.9;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #999;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s ease;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            color: #ffffff;
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            z-index: 101;
+        }
+
+        .mobile-menu-toggle span {
+            width: 24px;
+            height: 2px;
+            background: #ffffff;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(7px, 7px);
+        }
+
+        .mobile-menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        /* Mobile Menu Overlay */
+        .mobile-menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 99;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .mobile-menu-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+        }
+
+        /* Hero Score */
+        .hero {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .score-wrapper {
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
+        .score {
+            font-size: 12rem;
+            font-weight: 800;
+            line-height: 1;
+            letter-spacing: -0.05em;
+            transition: color 1s ease;
+        }
+
+        .score-denominator {
+            font-size: 3rem;
+            font-weight: 500;
+            color: #666;
+            vertical-align: top;
+            margin-left: 8px;
+        }
+
+        .label {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .context {
+            font-size: 1rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .updated {
+            font-size: 0.85rem;
+            color: #555;
+            margin-top: 16px;
+            font-weight: 400;
+        }
+
+        /* Progress Bar */
+        .bar-wrapper {
+            margin: 80px 0;
+        }
+
+        .bar {
+            height: 6px;
+            background: #1a1a1a;
+            position: relative;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: #ef4444;
+            width: 0%;
+            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1), background-color 1s ease;
+            border-radius: 3px;
+        }
+
+        .bar-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 12px;
+            font-size: 0.75rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Combined Insight Box */
+        .insight-box {
+            background: #111;
+            border-left: 4px solid #fff;
+            padding: 32px 40px;
+            margin: 60px 0;
+            border-radius: 8px;
+        }
+
+        .insight-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 20px;
+        }
+
+        .insight-icon {
+            font-size: 1.3rem;
+        }
+
+        .insight-title {
+            font-size: 0.85rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .insight-text {
+            font-size: 1.25rem;
+            line-height: 1.7;
+            color: #ffffff;
+            font-weight: 400;
+            margin-bottom: 20px;
+        }
+
+        .insight-contrarian {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: #ccc;
+            padding-top: 20px;
+            border-top: 1px solid #1a1a1a;
+        }
+
+        /* Stats Grid */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1px;
+            background: #1a1a1a;
+            margin: 60px 0;
+        }
+
+        .stat {
+            background: #0a0a0a;
+            padding: 24px 20px;
+            text-align: center;
+        }
+
+        .stat-icon {
+            font-size: 1.5rem;
+            margin-bottom: 8px;
+        }
+
+        .stat-name {
+            font-size: 0.65rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 8px;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 4px;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: #666;
+        }
+
+        /* Contrarian stat highlighting */
+        .contrarian-stat {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 4px 12px;
+            border-radius: 4px;
+            font-weight: 700;
+            color: #fff;
+            margin: 0 4px;
+        }
+
+        /* Historical Chart */
+        .history-section {
+            margin: 80px 0 60px 0;
+        }
+
+        .history-section h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .chart-container {
+            background: #0d0d0d;
+            border: 1px solid #1a1a1a;
+            border-radius: 12px;
+            padding: 30px 20px;
+            height: 400px;
+        }
+
+        .chart-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .chart-toggles {
+            display: flex;
+            gap: 15px;
+        }
+
+        .chart-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            color: #999;
+        }
+
+        .chart-toggle input {
+            cursor: pointer;
+        }
+
+        .period-selector {
+            display: flex;
+            gap: 8px;
+            background: #0d0d0d;
+            padding: 4px;
+            border-radius: 8px;
+            border: 1px solid #1a1a1a;
+        }
+
+        .period-btn {
+            background: transparent;
+            border: none;
+            color: #666;
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .period-btn:hover {
+            color: #999;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .period-btn.active {
+            background: #1a1a1a;
+            color: #fff;
+        }
+
+
+        /* Footer */
+        footer {
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 1px solid #1a1a1a;
+        }
+
+        .disclaimer {
+            font-size: 0.8rem;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .credits {
+            font-size: 0.75rem;
+            color: #555;
+            text-align: center;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 20px;
+            }
+
+            .mobile-menu-toggle {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 280px;
+                height: 100vh;
+                background: #0a0a0a;
+                flex-direction: column;
+                padding: 80px 32px 32px;
+                gap: 16px;
+                transition: right 0.3s ease;
+                z-index: 100;
+                box-shadow: -4px 0 20px rgba(0, 0, 0, 0.5);
+                border-left: 1px solid #1a1a1a;
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .nav-links a {
+                font-size: 1.1rem;
+                padding: 16px 0;
+                border-bottom: 1px solid #1a1a1a;
+                width: 100%;
+            }
+
+            .mobile-menu-overlay {
+                display: block;
+            }
+
+            .container {
+                padding: 100px 20px 60px;
+            }
+
+            .score { font-size: 7rem; }
+            .score-denominator { font-size: 2rem; }
+            .label { font-size: 1.5rem; }
+            .stats { grid-template-columns: repeat(3, 1fr); gap: 1px; }
+            .stat { padding: 16px 8px; }
+            .stat-icon { font-size: 1.2rem; margin-bottom: 6px; }
+            .stat-name { font-size: 0.7rem; }
+            .stat-value { font-size: 1.3rem; }
+            .stat-label { font-size: 0.65rem; }
+            .insight-box { padding: 24px 28px; }
+            .insight-text { font-size: 1.05rem; }
+            .insight-contrarian { font-size: 0.95rem; }
+            .chart-container { height: 300px; padding: 20px 15px; }
+            .chart-controls {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+            }
+            .chart-toggles {
+                flex-direction: row;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            .chart-toggle {
+                font-size: 0.8rem;
+            }
+            .period-selector {
+                justify-content: center;
+            }
+            .period-btn {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span>On</span>
+                <span class="logo-dots">●●</span>
+                <span>Off</span>
+            </a>
+
+            <button class="mobile-menu-toggle" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <div class="nav-links">
+                <a href="index.html">Market</a>
+                <a href="gold.html">Gold</a>
+                <a href="stocks.html">Stocks</a>
+                <a href="crypto.html">Crypto</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay"></div>
+
     <div class="container">
-        <header>
-            <h1>Fear & Greed Central</h1>
-            <p class="subtitle">Real-time market sentiment across Gold, Stocks, and Crypto</p>
-        </header>
+        <!-- Header -->
+        <div class="header">
+            <h1>Market Sentiment</h1>
+        </div>
 
-        <main>
-            <!-- Market Rotation Gauge (Hero Section) -->
-            <section class="rotation-hero-section">
-                <h2>🌡️ Market Sentiment Gauge</h2>
-                <div class="rotation-gauge-wrapper">
-                    <div class="rotation-gauge-bar">
-                        <div class="rotation-pointer" id="rotationPointer">
-                            <div class="rotation-badge" id="rotationBadge">Loading...</div>
-                            <div class="rotation-arrow"></div>
-                        </div>
-                    </div>
-                    <div class="rotation-labels">
-                        <div class="label-left">😱 PANIC</div>
-                        <div class="label-middle">😐 CALM</div>
-                        <div class="label-right">🤑 EUPHORIA</div>
-                    </div>
-                </div>
+        <!-- Hero Score -->
+        <div class="hero">
+            <div class="score-wrapper">
+                <span class="score" id="score">50</span><span class="score-denominator">/100</span>
+            </div>
+            <div class="label" id="label">CALM</div>
+            <div class="context" id="context">Markets are balanced</div>
+            <div class="updated" id="updated">Updated: Loading...</div>
+        </div>
 
-                <!-- Current Status -->
-                <div class="rotation-status">
-                    <div class="status-title" id="statusTitle">Loading...</div>
-                    <div class="status-strength">
-                        <span class="strength-label">Signal Strength:</span>
-                        <div class="strength-bar">
-                            <div class="strength-fill" id="strengthFill"></div>
-                        </div>
-                        <span class="strength-value" id="strengthValue">--</span>
-                    </div>
-                </div>
+        <!-- Progress Bar -->
+        <div class="bar-wrapper">
+            <div class="bar">
+                <div class="bar-fill" id="barFill"></div>
+            </div>
+            <div class="bar-labels">
+                <span>Risk-Off</span>
+                <span>Balanced</span>
+                <span>Risk-On</span>
+            </div>
+        </div>
 
-                <!-- What's Happening -->
-                <div class="rotation-happening">
-                    <h3>📊 What's Happening Right Now:</h3>
-                    <div class="asset-indicators">
-                        <a href="gold.html" class="asset-indicator">
-                            <span class="asset-name">🪙 Gold:</span>
-                            <span class="asset-score" id="assetGold">--</span>
-                            <span class="asset-trend" id="trendGold">→</span>
-                        </a>
-                        <a href="stocks.html" class="asset-indicator">
-                            <span class="asset-name">📈 Stocks:</span>
-                            <span class="asset-score" id="assetStocks">--</span>
-                            <span class="asset-trend" id="trendStocks">→</span>
-                        </a>
-                        <a href="crypto.html" class="asset-indicator">
-                            <span class="asset-name">₿ Crypto:</span>
-                            <span class="asset-score" id="assetCrypto">--</span>
-                            <span class="asset-trend" id="trendCrypto">→</span>
-                        </a>
-                    </div>
-                </div>
-
-                <!-- Market Psychology -->
-                <div class="rotation-interpretation" id="rotationInterpretation">
-                    <strong>💭 Market is saying:</strong> Loading market rotation analysis...
-                </div>
-
-                <!-- Contrarian Signal -->
-                <div class="contrarian-signal" id="contrarianSignal">
-                    <div class="signal-header">
-                        <span class="signal-icon">🔄</span>
-                        <span class="signal-title">For Contrarians:</span>
-                        <span class="signal-stars" id="contrarianStars">⭐⭐⭐⭐⭐</span>
-                    </div>
-                    <div class="signal-text" id="contrarianText">
-                        Loading historical context...
-                    </div>
-                </div>
-            </section>
-
-            <div class="last-update" style="text-align: center; margin-top: 30px; margin-bottom: 40px;">
-                Last updated: <span id="lastUpdate">--</span>
+        <!-- Stats -->
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-icon">🪙</div>
+                <div class="stat-name">Gold</div>
+                <div class="stat-value" id="goldValue">--</div>
+                <div class="stat-label" id="goldLabel">--</div>
             </div>
 
-            <!-- Historical Chart -->
-            <section class="history-section">
-                <div style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; margin-bottom: 20px;">
-                    <h2 style="margin: 0;">Historical Trend</h2>
-                    <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
-                        <div class="chart-toggles">
-                            <label class="chart-toggle">
-                                <input type="checkbox" id="toggleGold" checked>
-                                <span class="toggle-label gold-toggle">🪙 Gold</span>
-                            </label>
-                            <label class="chart-toggle">
-                                <input type="checkbox" id="toggleStocks" checked>
-                                <span class="toggle-label stocks-toggle">📈 Stocks</span>
-                            </label>
-                            <label class="chart-toggle">
-                                <input type="checkbox" id="toggleCrypto" checked>
-                                <span class="toggle-label crypto-toggle">₿ Crypto</span>
-                            </label>
-                        </div>
-                        <div class="period-selector">
-                            <button class="period-btn" data-period="7">7D</button>
-                            <button class="period-btn active" data-period="30">30D</button>
-                            <button class="period-btn" data-period="90">90D</button>
-                            <button class="period-btn" data-period="180">180D</button>
-                            <button class="period-btn" data-period="365">1Y</button>
-                        </div>
-                    </div>
-                </div>
-                <div class="chart-container">
-                    <canvas id="historyChart"></canvas>
-                </div>
-            </section>
+            <div class="stat">
+                <div class="stat-icon">📈</div>
+                <div class="stat-name">Stocks</div>
+                <div class="stat-value" id="stocksValue">--</div>
+                <div class="stat-label" id="stocksLabel">--</div>
+            </div>
 
-            <!-- Explanation -->
-            <section class="explanation-section">
-                <h2>How to Read This Index?</h2>
-                <div class="explanation-grid">
-                    <div class="explanation-item extreme-fear-bg">
-                        <strong>0-25: Extreme Fear</strong>
-                        <p>Very pessimistic sentiment. Potential buying opportunity.</p>
+            <div class="stat">
+                <div class="stat-icon">₿</div>
+                <div class="stat-name">Crypto</div>
+                <div class="stat-value" id="cryptoValue">--</div>
+                <div class="stat-label" id="cryptoLabel">--</div>
+            </div>
+        </div>
+
+        <!-- Combined Insight Box -->
+        <div class="insight-box">
+            <div class="insight-header">
+                <span class="insight-icon">🔄</span>
+                <span class="insight-title">What's happening</span>
+            </div>
+            <div class="insight-text" id="insight">
+                Loading market analysis...
+            </div>
+            <div class="insight-contrarian" id="contrarianText">
+                Loading contrarian analysis...
+            </div>
+        </div>
+
+        <!-- Historical Chart -->
+        <section class="history-section">
+            <div class="chart-controls">
+                <h2 style="margin: 0;">Historical Trend</h2>
+                <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+                    <div class="chart-toggles">
+                        <label class="chart-toggle">
+                            <input type="checkbox" id="toggleGold" checked>
+                            <span>🪙 Gold</span>
+                        </label>
+                        <label class="chart-toggle">
+                            <input type="checkbox" id="toggleStocks" checked>
+                            <span>📈 Stocks</span>
+                        </label>
+                        <label class="chart-toggle">
+                            <input type="checkbox" id="toggleCrypto" checked>
+                            <span>₿ Crypto</span>
+                        </label>
                     </div>
-                    <div class="explanation-item fear-bg">
-                        <strong>26-45: Fear</strong>
-                        <p>Cautious sentiment. Investors seeking safety.</p>
-                    </div>
-                    <div class="explanation-item neutral-bg">
-                        <strong>46-55: Neutral</strong>
-                        <p>Balanced sentiment. No clear trend.</p>
-                    </div>
-                    <div class="explanation-item greed-bg">
-                        <strong>56-75: Greed</strong>
-                        <p>Optimistic sentiment. Investors taking risks.</p>
-                    </div>
-                    <div class="explanation-item extreme-greed-bg">
-                        <strong>76-100: Extreme Greed</strong>
-                        <p>Market euphoria. Potential correction ahead.</p>
+                    <div class="period-selector">
+                        <button class="period-btn" data-period="7">7D</button>
+                        <button class="period-btn active" data-period="30">30D</button>
+                        <button class="period-btn" data-period="90">90D</button>
+                        <button class="period-btn" data-period="180">180D</button>
+                        <button class="period-btn" data-period="365">1Y</button>
                     </div>
                 </div>
-            </section>
-        </main>
+            </div>
+            <div class="chart-container">
+                <canvas id="historyChart"></canvas>
+            </div>
+        </section>
 
+        <!-- Footer -->
         <footer>
             <p class="disclaimer">
                 <strong>Disclaimer:</strong> This index is provided for informational purposes only and does not constitute financial advice.
@@ -183,6 +658,399 @@
         </footer>
     </div>
 
-    <script src="script.js"></script>
+    <script>
+        let gold, stocks, crypto;
+
+        async function loadData() {
+            try {
+                const [goldRes, stocksRes, cryptoRes] = await Promise.all([
+                    fetch('data/gold-fear-greed.json'),
+                    fetch('data/stocks-fear-greed.json'),
+                    fetch('data/crypto-fear-greed.json')
+                ]);
+
+                gold = await goldRes.json();
+                stocks = await stocksRes.json();
+                crypto = await cryptoRes.json();
+
+                updateUI(gold, stocks, crypto);
+                updateHistoryChart(30);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        function updateUI(gold, stocks, crypto) {
+            const rotationScore = crypto.score - gold.score;
+            const position = ((rotationScore + 100) / 200) * 100;
+            const spread = Math.abs(rotationScore);
+            const strength = Math.min(100, (spread / 50) * 100);
+
+            // Update score
+            const scoreEl = document.getElementById('score');
+            scoreEl.textContent = Math.round(position);
+
+            // Update logo dots color based on market sentiment
+            const logoDots = document.querySelector('.logo-dots');
+            let dotsColor;
+            if (position < 25) {
+                dotsColor = "#ef4444"; // Red - Extreme Risk-Off
+            } else if (position < 45) {
+                dotsColor = "#f59e0b"; // Orange - Defensive
+            } else if (position < 55) {
+                dotsColor = "#ffffff"; // White - Balanced
+            } else if (position < 75) {
+                dotsColor = "#22c55e"; // Green - Risk-On
+            } else {
+                dotsColor = "#06b6d4"; // Cyan - Extreme Risk-On
+            }
+            if (logoDots) {
+                logoDots.style.color = dotsColor;
+            }
+
+            // Update timestamp (use crypto timestamp as reference)
+            if (crypto.timestamp) {
+                const date = new Date(crypto.timestamp);
+                const formattedDate = date.toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'short',
+                    day: 'numeric'
+                });
+                document.getElementById('updated').textContent = `Updated: ${formattedDate}`;
+            }
+
+            // Determine label, color, and context (rotation-focused)
+            let label, color, context;
+            if (position < 25) {
+                label = "🪙 EXTREME RISK-OFF";
+                color = "#ef4444";
+                context = "Massive flight into safe havens";
+            } else if (position < 45) {
+                label = "🛡️ DEFENSIVE";
+                color = "#f59e0b";
+                context = "Capital rotating to safety";
+            } else if (position < 55) {
+                label = "⚖️ BALANCED";
+                color = "#ffffff";
+                context = "Neutral capital allocation";
+            } else if (position < 75) {
+                label = "🚀 RISK-ON";
+                color = "#22c55e";
+                context = "Capital flowing to risk assets";
+            } else {
+                label = "⚡ EXTREME RISK-ON";
+                color = "#06b6d4";
+                context = "Aggressive rush into crypto";
+            }
+
+            // Update bar with color and width
+            const barFill = document.getElementById('barFill');
+            barFill.style.width = position + '%';
+            barFill.style.backgroundColor = color;
+
+            document.getElementById('label').textContent = label;
+            document.getElementById('context').textContent = context;
+            scoreEl.style.color = color;
+
+            // Update insight - FULLY adaptive to real market conditions
+            let insight = '';
+
+            // Helper to describe asset state
+            const describeAsset = (score, name) => {
+                if (score <= 25) return `${name} in extreme fear (${score})`;
+                if (score <= 45) return `${name} showing fear (${score})`;
+                if (score <= 55) return `${name} neutral (${score})`;
+                if (score <= 75) return `${name} in greed (${score})`;
+                return `${name} in extreme greed (${score})`;
+            };
+
+            if (position < 25) {
+                // EXTREME RISK-OFF: Gold way up, Crypto way down
+                const marketContext = stocks.score < 40
+                    ? 'Broad market risk-off with ' + describeAsset(stocks.score, 'stocks')
+                    : 'Crypto-specific selloff while ' + describeAsset(stocks.score, 'stocks');
+
+                insight = `Extreme defensive rotation. ${describeAsset(crypto.score, 'Crypto')} as capital flees to ${describeAsset(gold.score, 'gold')}. ${marketContext}. Classic flight to safety.`;
+
+            } else if (position < 45) {
+                // DEFENSIVE: Moderate rotation to gold
+                const allFear = crypto.score < 45 && gold.score < 55 && stocks.score < 45;
+                const cryptoLead = crypto.score < 45 && stocks.score > 50;
+
+                if (allFear) {
+                    insight = `Broad defensive positioning. ${describeAsset(crypto.score, 'Crypto')}, ${describeAsset(stocks.score, 'stocks')}, with ${describeAsset(gold.score, 'gold')}. General risk aversion across markets.`;
+                } else if (cryptoLead) {
+                    insight = `Selective rotation from crypto (${Math.round(crypto.score)}) to gold (${Math.round(gold.score)}). Stocks resilient at ${Math.round(stocks.score)}, suggesting crypto-specific concerns rather than broad fear.`;
+                } else {
+                    insight = `Moderate defensive rotation. Capital shifting from risk assets toward safety. ${describeAsset(crypto.score, 'Crypto')}, ${describeAsset(gold.score, 'gold')}, ${describeAsset(stocks.score, 'stocks')}.`;
+                }
+
+            } else if (position < 55) {
+                // BALANCED: No strong rotation
+                const allNeutral = Math.abs(crypto.score - 50) < 15 && Math.abs(gold.score - 50) < 15 && Math.abs(stocks.score - 50) < 15;
+
+                if (allNeutral) {
+                    insight = `Truly balanced markets. All assets near neutral - crypto (${Math.round(crypto.score)}), gold (${Math.round(gold.score)}), stocks (${Math.round(stocks.score)}). No clear directional bias.`;
+                } else {
+                    insight = `Balanced rotation but mixed signals. ${describeAsset(crypto.score, 'Crypto')}, ${describeAsset(gold.score, 'gold')}, ${describeAsset(stocks.score, 'stocks')}. Capital distributed across asset classes.`;
+                }
+
+            } else if (position < 75) {
+                // RISK-ON: Moderate rotation to crypto
+                const allGreed = crypto.score > 55 && stocks.score > 55 && gold.score < 55;
+                const cryptoLead = crypto.score > 60 && stocks.score > 50;
+
+                if (allGreed) {
+                    insight = `Broad risk-on environment. ${describeAsset(crypto.score, 'Crypto')} and ${describeAsset(stocks.score, 'stocks')} while ${describeAsset(gold.score, 'gold')}. Strong appetite for risk across markets.`;
+                } else if (cryptoLead) {
+                    insight = `Crypto leading risk-on rotation. ${describeAsset(crypto.score, 'Crypto')} with ${describeAsset(stocks.score, 'stocks')} supporting. Gold demand weakening at ${Math.round(gold.score)}.`;
+                } else {
+                    insight = `Moderate risk-on rotation. ${describeAsset(crypto.score, 'Crypto')}, ${describeAsset(stocks.score, 'stocks')}, ${describeAsset(gold.score, 'gold')}. Capital shifting toward risk assets.`;
+                }
+
+            } else {
+                // EXTREME RISK-ON: Crypto way up, Gold way down
+                const euphoria = crypto.score > 75 && stocks.score > 75;
+                const cryptoOnly = crypto.score > 75 && stocks.score < 65;
+
+                if (euphoria) {
+                    insight = `Market euphoria. ${describeAsset(crypto.score, 'Crypto')} and ${describeAsset(stocks.score, 'stocks')} as ${describeAsset(gold.score, 'gold')}. Extreme risk appetite. Contrarians watch for overextension.`;
+                } else if (cryptoOnly) {
+                    insight = `Crypto speculation dominates. ${describeAsset(crypto.score, 'Crypto')} while stocks more measured at ${Math.round(stocks.score)}. Gold abandoned at ${Math.round(gold.score)}. High-risk concentration in crypto.`;
+                } else {
+                    insight = `Strong risk-on rotation. ${describeAsset(crypto.score, 'Crypto')} as capital exits ${describeAsset(gold.score, 'gold')}. ${describeAsset(stocks.score, 'Stocks')}. Growing risk appetite.`;
+                }
+            }
+
+            document.getElementById('insight').textContent = insight;
+
+            // Update stats
+            document.getElementById('goldValue').textContent = Math.round(gold.score);
+            document.getElementById('goldLabel').textContent = gold.label;
+            document.getElementById('goldValue').style.color = getColor(gold.score);
+
+            document.getElementById('stocksValue').textContent = Math.round(stocks.score);
+            document.getElementById('stocksLabel').textContent = stocks.label;
+            document.getElementById('stocksValue').style.color = getColor(stocks.score);
+
+            document.getElementById('cryptoValue').textContent = Math.round(crypto.score);
+            document.getElementById('cryptoLabel').textContent = crypto.label;
+            document.getElementById('cryptoValue').style.color = getColor(crypto.score);
+
+            // Contrarian signal (rotation-focused)
+            let contrarianText;
+            if (strength > 70) {
+                // Strong signal - extreme divergence between gold and crypto
+                if (position < 25) {
+                    // Extreme risk-off - crypto way down, gold way up
+                    contrarianText = `<strong>Extreme risk-off rotation:</strong> Capital fleeing crypto into gold at extreme levels. Historically, when everyone rushes to safety, contrarian opportunities emerge in oversold risk assets. Patient investors may find value.`;
+                } else if (position < 45) {
+                    // Defensive rotation
+                    contrarianText = `<strong>Strong defensive rotation:</strong> Heavy capital flow into safe havens. Risk assets being sold off. For contrarians, this defensive positioning could signal upcoming opportunities in discounted assets.`;
+                } else if (position > 75) {
+                    // Extreme risk-on - crypto way up, gold way down
+                    contrarianText = `<strong>Extreme risk-on rotation:</strong> Aggressive capital flows into crypto while gold is being abandoned. When everyone is this speculative, contrarians prepare for potential reversals. Consider risk management.`;
+                } else if (position > 55) {
+                    // Risk-on rotation
+                    contrarianText = `<strong>Strong risk-on rotation:</strong> Capital flowing aggressively toward risk assets. Markets showing strong risk appetite. Contrarians monitor for signs of overextension or rotation reversal.`;
+                } else {
+                    // Neutral but strong divergence (unusual)
+                    contrarianText = `Strong capital movement detected but allocation remains balanced. Wait for clearer directional rotation before positioning.`;
+                }
+            } else if (strength > 45) {
+                // Moderate signal
+                if (position < 45) {
+                    contrarianText = `Moderate defensive rotation. Some capital moving to safe havens. Could be early signal of risk-off shift or temporary rebalancing. Monitor for acceleration.`;
+                } else if (position > 55) {
+                    contrarianText = `Moderate risk-on rotation. Some capital flowing to risk assets. Not extreme yet, but trend worth watching for profit-taking or entry opportunities.`;
+                } else {
+                    contrarianText = `Neutral allocation with moderate flows. No clear rotation dominance. Balanced positioning recommended until clearer trend emerges.`;
+                }
+            } else {
+                // Weak signal
+                contrarianText = `Minimal rotation between asset classes. Markets balanced with no strong capital flow preference. Not ideal for rotation-based trades. Wait for stronger signals.`;
+            }
+
+            document.getElementById('contrarianText').innerHTML = contrarianText;
+        }
+
+        function getColor(score) {
+            if (score <= 25) return '#ef4444';
+            if (score <= 45) return '#f59e0b';
+            if (score <= 55) return '#ffffff';
+            if (score <= 75) return '#22c55e';
+            return '#06b6d4';
+        }
+
+        loadData();
+
+        // Mobile Menu Toggle
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
+
+        function toggleMobileMenu() {
+            mobileMenuToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+            mobileMenuOverlay.classList.toggle('active');
+            document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+        }
+
+        mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+        mobileMenuOverlay.addEventListener('click', toggleMobileMenu);
+
+        // Close menu when clicking on a link
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) {
+                    toggleMobileMenu();
+                }
+            });
+        });
+
+        // Chart functionality
+        let currentPeriod = 30;
+
+        function updateHistoryChart(days = 30) {
+            const goldHistory = gold?.history || [];
+            const stocksHistory = stocks?.history || [];
+            const cryptoHistory = crypto?.history || [];
+
+            if (goldHistory.length === 0 && stocksHistory.length === 0 && cryptoHistory.length === 0) return;
+
+            const canvas = document.getElementById('historyChart');
+            const ctx = canvas.getContext('2d');
+
+            const container = canvas.parentElement;
+            canvas.width = container.offsetWidth;
+            canvas.height = container.offsetHeight;
+
+            const sortedGoldHistory = [...goldHistory].sort((a, b) => new Date(a.date) - new Date(b.date));
+            const limitedGoldHistory = sortedGoldHistory.slice(-days);
+
+            const sortedStocksHistory = [...stocksHistory].sort((a, b) => new Date(a.date) - new Date(b.date));
+            const limitedStocksHistory = sortedStocksHistory.slice(-days);
+
+            const sortedCryptoHistory = [...cryptoHistory].sort((a, b) => new Date(a.date) - new Date(b.date));
+            const limitedCryptoHistory = sortedCryptoHistory.slice(-days);
+
+            const showGold = document.getElementById('toggleGold')?.checked !== false;
+            const showStocks = document.getElementById('toggleStocks')?.checked !== false;
+            const showCrypto = document.getElementById('toggleCrypto')?.checked !== false;
+
+            drawChart(ctx, canvas, limitedGoldHistory, limitedStocksHistory, limitedCryptoHistory, showGold, showStocks, showCrypto);
+        }
+
+        function drawChart(ctx, canvas, goldData, stocksData, cryptoData, showGold, showStocks, showCrypto) {
+            const width = canvas.width;
+            const height = canvas.height;
+            const paddingTop = 40;
+            const paddingBottom = 60;
+            const paddingSide = 40;
+            const chartWidth = width - paddingSide * 2;
+            const chartHeight = height - paddingTop - paddingBottom;
+
+            ctx.clearRect(0, 0, width, height);
+
+            // Draw grid
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.lineWidth = 1;
+            [0, 25, 50, 75, 100].forEach(score => {
+                const y = paddingTop + chartHeight - (score / 100) * chartHeight;
+                ctx.beginPath();
+                ctx.moveTo(paddingSide, y);
+                ctx.lineTo(paddingSide + chartWidth, y);
+                ctx.stroke();
+
+                ctx.fillStyle = '#666';
+                ctx.font = '12px sans-serif';
+                ctx.textAlign = 'right';
+                ctx.fillText(score, paddingSide - 10, y + 4);
+            });
+
+            // Draw lines
+            if (showCrypto && cryptoData.length > 0) {
+                drawLine(ctx, cryptoData, paddingTop, paddingSide, chartHeight, chartWidth, '#F7931A', 2);
+            }
+            if (showStocks && stocksData.length > 0) {
+                drawLine(ctx, stocksData, paddingTop, paddingSide, chartHeight, chartWidth, '#4A90E2', 2);
+            }
+            if (showGold && goldData.length > 0) {
+                drawLine(ctx, goldData, paddingTop, paddingSide, chartHeight, chartWidth, '#FFD700', 2);
+            }
+
+            // Draw labels
+            const labelData = goldData.length > 0 ? goldData : (stocksData.length > 0 ? stocksData : cryptoData);
+            if (labelData.length > 0) {
+                ctx.fillStyle = '#666';
+                ctx.font = '11px sans-serif';
+                const numLabels = labelData.length > 180 ? 8 : 5;
+                const step = Math.floor(labelData.length / (numLabels - 1));
+
+                for (let i = 0; i < numLabels; i++) {
+                    const index = i === numLabels - 1 ? labelData.length - 1 : i * step;
+                    if (index < labelData.length) {
+                        const point = labelData[index];
+                        const x = paddingSide + (index / (labelData.length - 1)) * chartWidth;
+                        const date = new Date(point.date);
+                        const label = `${date.getDate()}/${date.getMonth() + 1}`;
+
+                        ctx.save();
+                        ctx.translate(x, height - 20);
+                        ctx.rotate(-Math.PI / 6);
+                        ctx.textAlign = 'right';
+                        ctx.fillText(label, 0, 0);
+                        ctx.restore();
+                    }
+                }
+            }
+        }
+
+        function drawLine(ctx, data, paddingTop, paddingSide, chartHeight, chartWidth, color, lineWidth) {
+            if (data.length < 2) return;
+
+            ctx.strokeStyle = color;
+            ctx.lineWidth = lineWidth;
+            ctx.beginPath();
+
+            data.forEach((point, index) => {
+                const x = paddingSide + (index / (data.length - 1)) * chartWidth;
+                const y = paddingTop + chartHeight - (point.score / 100) * chartHeight;
+
+                if (index === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
+            });
+
+            ctx.stroke();
+        }
+
+        // Period buttons
+        document.querySelectorAll('.period-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                document.querySelectorAll('.period-btn').forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                currentPeriod = parseInt(button.dataset.period);
+                updateHistoryChart(currentPeriod);
+            });
+        });
+
+        // Toggle checkboxes
+        ['toggleGold', 'toggleStocks', 'toggleCrypto'].forEach(id => {
+            const toggle = document.getElementById(id);
+            if (toggle) {
+                toggle.addEventListener('change', () => updateHistoryChart(currentPeriod));
+            }
+        });
+
+        // Resize handler
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => updateHistoryChart(currentPeriod), 250);
+        });
+    </script>
 </body>
 </html>
