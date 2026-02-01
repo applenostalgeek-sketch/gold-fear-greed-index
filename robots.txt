@@ -1,0 +1,21 @@
+# OnOff.Markets robots.txt
+
+User-agent: *
+Allow: /
+
+# Sitemaps
+Sitemap: https://onoff.markets/sitemap.xml
+
+# Disallow development/test files
+Disallow: /concept-*.html
+Disallow: /*-old*.html
+Disallow: /*-test*.html
+Disallow: /*-backup*.html
+Disallow: /*.py$
+Disallow: /data/
+
+# Allow all important pages
+Allow: /index.html
+Allow: /gold.html
+Allow: /stocks.html
+Allow: /crypto.html
