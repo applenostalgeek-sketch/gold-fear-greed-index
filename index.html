@@ -725,11 +725,8 @@
             // Update timestamp (use crypto timestamp as reference)
             if (crypto.timestamp) {
                 const date = new Date(crypto.timestamp);
-                const formattedDate = date.toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'short',
-                    day: 'numeric'
-                });
+                const options = { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+                const formattedDate = date.toLocaleDateString('en-US', options);
                 document.getElementById('updated').textContent = `Updated: ${formattedDate}`;
             }
 
