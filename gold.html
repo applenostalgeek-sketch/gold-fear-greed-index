@@ -214,9 +214,9 @@
 
         .bar-fill {
             height: 100%;
-            background: linear-gradient(90deg, #ef4444 0%, #eab308 50%, #22c55e 100%);
+            background: #ef4444;
             width: 0%;
-            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1), background-color 1s ease;
             border-radius: 3px;
         }
 
@@ -617,9 +617,6 @@
             const scoreEl = document.getElementById('score');
             scoreEl.textContent = Math.round(score);
 
-            // Update bar
-            document.getElementById('barFill').style.width = position + '%';
-
             // Determine label and color
             let label, color;
             if (position < 25) {
@@ -638,6 +635,11 @@
                 label = "EXTREME GREED";
                 color = "#06b6d4";
             }
+
+            // Update bar
+            const barFill = document.getElementById('barFill');
+            barFill.style.width = position + '%';
+            barFill.style.backgroundColor = color;
 
             document.getElementById('label').textContent = label;
             scoreEl.style.color = color;
