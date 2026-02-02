@@ -456,14 +456,11 @@
     <!-- Navigation -->
     <nav>
         <div class="nav-container">
-            <a href="/" class="logo">
-                <span>OnOff</span>
-                <span class="logo-dots" id="logoDots">
-                    <span>•</span>
-                    <span>•</span>
-                    <span>•</span>
-                </span>
-                <span class="logo-suffix">Markets</span>
+            <a href="index.html" class="logo">
+                <span>On</span>
+                <span class="logo-dots">●●</span>
+                <span>Off</span>
+                <span class="logo-suffix">.Markets</span>
             </a>
             <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
                 <span></span>
@@ -908,9 +905,6 @@
         });
 
         // Logo dots animation with rotation indicator
-        const logoDots = document.getElementById('logoDots');
-        const dots = logoDots.querySelectorAll('span');
-
         async function updateLogoDots() {
             try {
                 const [goldRes, cryptoRes] = await Promise.all([
@@ -923,6 +917,7 @@
                 const rotationScore = crypto.score - gold.score;
                 const position = ((rotationScore + 100) / 200) * 100;
 
+                const logoDots = document.querySelector('.logo-dots');
                 let dotsColor;
                 if (position < 25) {
                     dotsColor = "#ef4444";
@@ -935,17 +930,11 @@
                 } else {
                     dotsColor = "#06b6d4";
                 }
-                logoDots.style.color = dotsColor;
+                if (logoDots) {
+                    logoDots.style.color = dotsColor;
+                }
             } catch (error) {
-                // Fallback animation
-                const colors = ['#ef4444', '#FFD700', '#22c55e'];
-                let index = 0;
-                setInterval(() => {
-                    dots.forEach((dot, i) => {
-                        dot.style.color = colors[(index + i) % colors.length];
-                    });
-                    index = (index + 1) % colors.length;
-                }, 2000);
+                console.error('Error updating logo dots:', error);
             }
         }
 
