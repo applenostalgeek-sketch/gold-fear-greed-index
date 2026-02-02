@@ -1,7 +1,7 @@
 {
-  "score": 69.4,
+  "score": 69.7,
   "label": "Greed",
-  "timestamp": "2026-02-01T20:18:04Z",
+  "timestamp": "2026-02-02T03:38:40Z",
   "components": {
     "volatility": {
       "score": 42.0,
@@ -34,12 +34,16 @@
       "detail": "10Y Yield: 4.24% (proxy, avg: 4.14%)"
     },
     "dollar_index": {
-      "score": 67.3,
+      "score": 70.5,
       "weight": 0.1,
-      "detail": "DXY: 97.15 (-1.7% 14d, MA30: 98.22)"
+      "detail": "DXY: 97.10 (-2.1% 14d, MA30: 98.17)"
     }
   },
   "history": [
+    {
+      "date": "2026-02-02",
+      "score": 69.7
+    },
     {
       "date": "2026-02-01",
       "score": 69.4
@@ -1495,10 +1499,6 @@
     {
       "date": "2025-02-03",
       "score": 61.1
-    },
-    {
-      "date": "2025-02-02",
-      "score": 59.8
     }
   ]
 }
