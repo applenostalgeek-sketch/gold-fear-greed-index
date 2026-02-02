@@ -1,7 +1,7 @@
 {
   "score": 69.7,
   "label": "Greed",
-  "timestamp": "2026-02-02T03:38:40Z",
+  "timestamp": "2026-02-02T03:44:04Z",
   "components": {
     "volatility": {
       "score": 42.0,
@@ -34,9 +34,9 @@
       "detail": "10Y Yield: 4.24% (proxy, avg: 4.14%)"
     },
     "dollar_index": {
-      "score": 70.5,
+      "score": 70.4,
       "weight": 0.1,
-      "detail": "DXY: 97.10 (-2.1% 14d, MA30: 98.17)"
+      "detail": "DXY: 97.10 (-2.0% 14d, MA30: 98.17)"
     }
   },
   "history": [
