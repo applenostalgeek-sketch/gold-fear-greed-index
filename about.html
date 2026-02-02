@@ -1,0 +1,955 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About & Methodology - OnOff.Markets Fear & Greed Indices</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Learn about OnOff.Markets: the story, methodology, and transparent calculations behind our Gold, Stocks, and Crypto Fear & Greed Indices.">
+    <meta name="keywords" content="fear greed methodology, market sentiment analysis, gold stocks crypto indices, transparent calculations">
+    <meta name="author" content="OnOff.Markets">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://onoff.markets/about.html">
+    <meta property="og:title" content="About & Methodology - OnOff.Markets">
+    <meta property="og:description" content="Transparent market sentiment tools built by a self-taught French developer frustrated with opaque financial data.">
+    <meta property="og:image" content="https://onoff.markets/android-chrome-512x512.png">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://onoff.markets/about.html">
+    <meta name="twitter:title" content="About & Methodology - OnOff.Markets">
+    <meta name="twitter:description" content="Building transparent market sentiment tools">
+    <meta name="twitter:image" content="https://onoff.markets/android-chrome-512x512.png">
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="theme-color" content="#0a0a0a">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 120px 20px 60px;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid #1a1a1a;
+            padding: 20px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            letter-spacing: -0.02em;
+            font-family: 'Space Grotesk', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .logo-dots {
+            display: flex;
+            gap: 4px;
+            font-size: 0.8rem;
+            color: #666;
+            transition: color 0.6s ease;
+        }
+
+        .logo-suffix {
+            color: #666;
+            font-weight: 500;
+        }
+
+        .logo:hover {
+            opacity: 0.9;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #999;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s ease;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #ffffff;
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            z-index: 101;
+        }
+
+        .mobile-menu-toggle span {
+            width: 24px;
+            height: 2px;
+            background: #ffffff;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(7px, 7px);
+        }
+
+        .mobile-menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        /* Mobile Menu Overlay */
+        .mobile-menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 99;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .mobile-menu-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        .page-header p {
+            font-size: 1.1rem;
+            color: #999;
+            line-height: 1.6;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Section Styles */
+        .section {
+            margin: 80px 0;
+        }
+
+        .section h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: #fff;
+        }
+
+        .section h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 40px 0 20px 0;
+            color: #fff;
+        }
+
+        .section p {
+            font-size: 1rem;
+            color: #ccc;
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+
+        .section ul {
+            margin: 16px 0 16px 32px;
+            color: #ccc;
+            line-height: 1.8;
+        }
+
+        .section li {
+            margin-bottom: 8px;
+        }
+
+        /* Component Box */
+        .component-box {
+            background: #0d0d0d;
+            border: 1px solid #1a1a1a;
+            border-left: 4px solid #666;
+            border-radius: 8px;
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .component-box.gold {
+            border-left-color: #FFD700;
+        }
+
+        .component-box.stocks {
+            border-left-color: #4A90E2;
+        }
+
+        .component-box.crypto {
+            border-left-color: #F7931A;
+        }
+
+        .component-box h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .component-box .weight {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 12px;
+            font-style: italic;
+        }
+
+        .component-box p {
+            font-size: 0.95rem;
+            color: #ccc;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .component-box ul {
+            margin: 12px 0 0 24px;
+            color: #ccc;
+        }
+
+        /* Table of Contents */
+        .toc {
+            background: #0d0d0d;
+            border: 1px solid #1a1a1a;
+            border-radius: 12px;
+            padding: 32px;
+            margin: 40px 0 60px 0;
+        }
+
+        .toc h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .toc ul {
+            list-style: none;
+            margin: 0;
+        }
+
+        .toc li {
+            margin-bottom: 12px;
+        }
+
+        .toc a {
+            color: #999;
+            text-decoration: none;
+            transition: color 0.2s ease;
+            font-size: 0.95rem;
+        }
+
+        .toc a:hover {
+            color: #fff;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: #0d0d0d;
+            border: 1px solid #1a1a1a;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            margin: 60px 0;
+        }
+
+        .contact-section h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .contact-section p {
+            font-size: 1rem;
+            color: #999;
+            margin-bottom: 24px;
+        }
+
+        .contact-section a {
+            display: inline-block;
+            background: #FFD700;
+            color: #0a0a0a;
+            padding: 12px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .contact-section a:hover {
+            background: #ffd70099;
+            transform: translateY(-2px);
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 1px solid #1a1a1a;
+        }
+
+        .disclaimer {
+            font-size: 0.8rem;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .credits {
+            font-size: 0.75rem;
+            color: #555;
+            text-align: center;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .nav-container {
+                padding: 0 20px;
+            }
+
+            .mobile-menu-toggle {
+                display: flex;
+            }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 280px;
+                height: 100vh;
+                background: #0a0a0a;
+                flex-direction: column;
+                padding: 80px 32px 32px;
+                gap: 16px;
+                transition: right 0.3s ease;
+                z-index: 100;
+                box-shadow: -4px 0 20px rgba(0, 0, 0, 0.5);
+                border-left: 1px solid #1a1a1a;
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .nav-links a {
+                font-size: 1.1rem;
+                padding: 16px 0;
+                border-bottom: 1px solid #1a1a1a;
+                width: 100%;
+            }
+
+            .mobile-menu-overlay {
+                display: block;
+            }
+
+            .container {
+                padding: 100px 20px 60px;
+            }
+
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .page-header p {
+                font-size: 1rem;
+            }
+
+            .section h2 {
+                font-size: 1.5rem;
+            }
+
+            .contact-section {
+                padding: 32px 20px;
+            }
+
+            .component-box {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="/" class="logo">
+                <span>OnOff</span>
+                <span class="logo-dots" id="logoDots">
+                    <span>•</span>
+                    <span>•</span>
+                    <span>•</span>
+                </span>
+                <span class="logo-suffix">Markets</span>
+            </a>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-links" id="navLinks">
+                <a href="index.html">Market</a>
+                <a href="gold.html">Gold</a>
+                <a href="stocks.html">Stocks</a>
+                <a href="crypto.html">Crypto</a>
+                <a href="about.html" class="active">About</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>About & Methodology</h1>
+            <p>
+                The story behind OnOff.Markets and the transparent calculations powering our Fear & Greed Indices.
+            </p>
+        </div>
+
+        <!-- Who Section -->
+        <div class="section">
+            <h2>The Story</h2>
+            <p>
+                I'm a self-taught French developer with a passion for both finance and technology. Not a professional trader or finance expert—just someone who loves understanding how markets work and building tools to make sense of them.
+            </p>
+            <p>
+                It started with frustration. I was tracking gold and kept hearing about "sentiment indices" and "fear & greed" tools. But every tool I found had the same problem: <strong>vague methodology, hidden calculations, and zero transparency</strong>.
+            </p>
+            <p>
+                "We use proprietary algorithms." "Our advanced models analyze sentiment." Cool—but <em>how?</em> What data? What weights? How often does it update? Silence.
+            </p>
+            <p>
+                So I built my own. First for gold (7 transparent components), then stocks, then crypto. Once I had all three, I realized I could create something unique: a <strong>Capital Rotation Indicator</strong> showing when money flows between safe havens and risk assets. That's how OnOff.Markets was born—not as a business plan, but as a personal project that grew into something bigger.
+            </p>
+        </div>
+
+        <!-- What We Built -->
+        <div class="section" id="what-is">
+            <h2>What is Fear & Greed?</h2>
+            <p>
+                Markets are driven by two fundamental emotions: <strong>fear</strong> and <strong>greed</strong>. When fear dominates, investors sell aggressively, often creating oversold conditions and buying opportunities. When greed takes over, markets become euphoric and overbought, increasing the risk of corrections.
+            </p>
+            <p>
+                Our indices quantify this psychology across three asset classes—Gold (safe haven), Stocks (growth), and Crypto (speculation)—by analyzing multiple technical and sentiment indicators. Each index scores from 0 to 100:
+            </p>
+            <ul>
+                <li><strong>0-25 (Extreme Fear):</strong> Panic selling, potential bottoms</li>
+                <li><strong>25-45 (Fear):</strong> Cautious sentiment, defensive positioning</li>
+                <li><strong>45-55 (Neutral):</strong> Balanced market, no extreme bias</li>
+                <li><strong>55-75 (Greed):</strong> Optimistic sentiment, risk appetite rising</li>
+                <li><strong>75-100 (Extreme Greed):</strong> Euphoria, FOMO, potential tops</li>
+            </ul>
+            <p>
+                <strong>Key insight:</strong> Extreme readings are contrarian signals. When everyone is fearful, it's often the best time to buy. When everyone is greedy, caution is warranted.
+            </p>
+        </div>
+
+        <!-- How Traders Use This -->
+        <div class="section" id="use-cases">
+            <h2>How Traders Use This</h2>
+
+            <div class="component-box gold">
+                <h4>⏱️ Timing Entries & Exits</h4>
+                <p>
+                    <strong>Contrarian strategy:</strong> Extreme Fear often marks capitulation bottoms where panic selling creates opportunities. Extreme Greed signals overheated markets vulnerable to pullbacks. Historical data shows that extreme fear readings (< 25) have preceded significant rallies in the majority of cases across crypto and equity markets.
+                </p>
+            </div>
+
+            <div class="component-box stocks">
+                <h4>🛡️ Risk Management</h4>
+                <p>
+                    <strong>Cross-asset monitoring:</strong> Track sentiment across Gold, Stocks, and Crypto to identify broader market regime shifts.
+                </p>
+                <p>
+                    <strong>Risk-off signal:</strong> Gold rising + Stocks/Crypto falling = defensive rotation.<br>
+                    <strong>Risk-on signal:</strong> Crypto/Stocks rising + Gold falling = risk appetite returning.
+                </p>
+                <p>
+                    Use the Capital Rotation Indicator to visualize these flows in real-time.
+                </p>
+            </div>
+
+            <div class="component-box crypto">
+                <h4>🔌 API Integration (Coming Q2 2025)</h4>
+                <p><strong>Programmatic access for:</strong></p>
+                <ul>
+                    <li>Algorithmic trading systems (real-time sentiment signals)</li>
+                    <li>Backtesting strategies (365 days of historical data per index)</li>
+                    <li>Portfolio dashboards (embed live sentiment gauges)</li>
+                    <li>Webhook notifications for extreme readings</li>
+                </ul>
+                <p style="margin-top: 12px;">
+                    <strong>Interested?</strong> Email <a href="mailto:contact@onoff.markets" style="color: #F7931A; text-decoration: underline;">contact@onoff.markets</a> for early access and pricing.
+                </p>
+            </div>
+        </div>
+
+        <!-- Table of Contents for Technical Details -->
+        <div class="toc">
+            <h2>Technical Methodology</h2>
+            <p style="color: #999; font-size: 0.9rem; margin-bottom: 16px;">
+                Jump to detailed component breakdowns:
+            </p>
+            <ul>
+                <li><a href="#gold">Gold Fear & Greed Index (7 components)</a></li>
+                <li><a href="#stocks">Stocks Fear & Greed Index (6 components)</a></li>
+                <li><a href="#crypto">Crypto Fear & Greed Index (5 components)</a></li>
+                <li><a href="#rotation">Capital Rotation Indicator</a></li>
+                <li><a href="#sources">Data Sources & Transparency</a></li>
+                <li><a href="#faq">Frequently Asked Questions</a></li>
+            </ul>
+        </div>
+
+        <!-- Gold Index -->
+        <div class="section" id="gold">
+            <h2>🪙 Gold Fear & Greed Index</h2>
+            <p>
+                The Gold Index measures sentiment in the gold market using <strong>7 components</strong> with varying weights. All scores from 0-100:
+            </p>
+
+            <div class="component-box gold">
+                <h4>1. Volatility (15%)</h4>
+                <p class="weight">14-day volatility vs 30-day average</p>
+                <p>
+                    Lower volatility indicates confidence (greed), higher volatility suggests uncertainty (fear). Calculated from daily returns of gold futures (GC=F).
+                </p>
+            </div>
+
+            <div class="component-box gold">
+                <h4>2. Momentum (25%)</h4>
+                <p class="weight">RSI + 50-day & 200-day moving averages</p>
+                <p>
+                    Combines 14-day RSI with price position relative to 50-day and 200-day MAs. Price above both MAs = strong bullish momentum. RSI >70 = overbought, <30 = oversold.
+                </p>
+            </div>
+
+            <div class="component-box gold">
+                <h4>3. Gold vs S&P 500 (15%)</h4>
+                <p class="weight">14-day relative performance</p>
+                <p>
+                    Gold outperforming stocks = flight to safety. Stocks outperforming gold = risk-on sentiment.
+                </p>
+            </div>
+
+            <div class="component-box gold">
+                <h4>4. ETF Flows (15%)</h4>
+                <p class="weight">GLD volume and price trends</p>
+                <p>
+                    Analyzes SPDR Gold Trust (GLD) trading volume and price as proxy for institutional flows.
+                </p>
+            </div>
+
+            <div class="component-box gold">
+                <h4>5. VIX (10%)</h4>
+                <p class="weight">Market fear gauge</p>
+                <p>
+                    High VIX = market stress = increased gold demand. Low VIX = complacency.
+                </p>
+            </div>
+
+            <div class="component-box gold">
+                <h4>6. Real Rates (10%)</h4>
+                <p class="weight">10-Year TIPS yield</p>
+                <p>
+                    Lower real rates make non-yielding gold more attractive. Uses FRED API (DFII10).
+                </p>
+            </div>
+
+            <div class="component-box gold">
+                <h4>7. Dollar Index (10%)</h4>
+                <p class="weight">USD strength (inverted)</p>
+                <p>
+                    Gold typically moves inversely to the dollar. Weakening dollar = stronger gold.
+                </p>
+            </div>
+        </div>
+
+        <!-- Stocks Index -->
+        <div class="section" id="stocks">
+            <h2>📈 Stocks Fear & Greed Index</h2>
+            <p>
+                The Stocks Index measures sentiment in the equity market using <strong>6 components</strong>:
+            </p>
+
+            <div class="component-box stocks">
+                <h4>1. Momentum (25%)</h4>
+                <p class="weight">RSI + 50-day & 200-day moving averages</p>
+                <p>
+                    S&P 500 (SPY) RSI combined with price position relative to MAs. Weighted 60% RSI, 40% MA position.
+                </p>
+            </div>
+
+            <div class="component-box stocks">
+                <h4>2. VIX (20%)</h4>
+                <p class="weight">Volatility Index (inverted)</p>
+                <p>
+                    VIX <12 = extreme complacency (greed), VIX >30 = panic (extreme fear).
+                </p>
+            </div>
+
+            <div class="component-box stocks">
+                <h4>3. Market Breadth (15%)</h4>
+                <p class="weight">Equal-weight vs cap-weight performance</p>
+                <p>
+                    Compares RSP (equal-weight) to SPY. Equal-weight outperforming = broad participation = greed.
+                </p>
+            </div>
+
+            <div class="component-box stocks">
+                <h4>4. Junk Bond Demand (15%)</h4>
+                <p class="weight">High-yield vs Treasuries</p>
+                <p>
+                    HYG outperforming TLT = risk-on. TLT outperforming = flight to safety.
+                </p>
+            </div>
+
+            <div class="component-box stocks">
+                <h4>5. Safe Haven Demand (15%)</h4>
+                <p class="weight">Treasury bond flows (inverted)</p>
+                <p>
+                    TLT rising = fear. TLT falling = risk-on sentiment.
+                </p>
+            </div>
+
+            <div class="component-box stocks">
+                <h4>6. Price Strength (10%)</h4>
+                <p class="weight">SPY 14-day momentum</p>
+                <p>
+                    Simple 14-day price momentum. Positive = greed, negative = fear.
+                </p>
+            </div>
+        </div>
+
+        <!-- Crypto Index -->
+        <div class="section" id="crypto">
+            <h2>₿ Crypto Fear & Greed Index</h2>
+            <p>
+                The Crypto Index measures sentiment using <strong>5 components</strong>. Calibrated against Alternative.me's index (average error: 8.3 points):
+            </p>
+
+            <div class="component-box crypto">
+                <h4>1. Momentum (10%)</h4>
+                <p class="weight">Bitcoin RSI + moving averages</p>
+                <p>
+                    BTC-USD momentum combining RSI with 50/200-day MAs. Weighted 60% RSI, 40% MA position.
+                </p>
+            </div>
+
+            <div class="component-box crypto">
+                <h4>2. Context (35%)</h4>
+                <p class="weight">30-day price trend (highest weight)</p>
+                <p>
+                    Bitcoin's 30-day price change. Most influential component capturing medium-term trend.
+                </p>
+            </div>
+
+            <div class="component-box crypto">
+                <h4>3. Volatility (15%)</h4>
+                <p class="weight">14-day annualized volatility (inverted)</p>
+                <p>
+                    High volatility (>40%) = extreme fear. Low volatility (<20%) = confidence.
+                </p>
+            </div>
+
+            <div class="component-box crypto">
+                <h4>4. Bitcoin Dominance (25%)</h4>
+                <p class="weight">BTC vs ETH performance (inverted)</p>
+                <p>
+                    BTC outperforming ETH = capital rotating to safety (fear). ETH outperforming = altcoin season (greed).
+                </p>
+            </div>
+
+            <div class="component-box crypto">
+                <h4>5. Price Momentum (15%)</h4>
+                <p class="weight">14-day price change</p>
+                <p>
+                    Short-term Bitcoin price momentum. Captures immediate market direction.
+                </p>
+            </div>
+        </div>
+
+        <!-- Capital Rotation -->
+        <div class="section" id="rotation">
+            <h2>Capital Rotation Indicator</h2>
+            <p>
+                Visualizes risk sentiment by comparing crypto (speculative/risk-on) against gold (defensive/risk-off). This helps identify market regime and capital flow direction.
+            </p>
+
+            <h3>Calculation</h3>
+            <div class="component-box">
+                <p style="font-family: 'Courier New', monospace; font-size: 0.95rem; margin: 0;">
+                    Rotation Score = Crypto Score - Gold Score<br>
+                    Position = ((Rotation Score + 100) / 200) × 100
+                </p>
+            </div>
+            <p>
+                This produces a 0-100 position: 0 = extreme defensive (gold outperforming), 100 = extreme risk appetite (crypto outperforming).
+            </p>
+
+            <h3>Interpretation</h3>
+            <ul>
+                <li><strong>0-25 (Extreme Risk-Off):</strong> Capital fleeing to safe havens, markets in distress</li>
+                <li><strong>25-45 (Risk-Off):</strong> Defensive rotation, elevated caution</li>
+                <li><strong>45-55 (Neutral):</strong> Balanced sentiment, no dominant flow</li>
+                <li><strong>55-75 (Risk-On):</strong> Risk appetite increasing, capital flowing to growth assets</li>
+                <li><strong>75-100 (Extreme Risk-On):</strong> Euphoric risk-taking, potential top warning</li>
+            </ul>
+        </div>
+
+        <!-- Data Sources -->
+        <div class="section" id="sources">
+            <h2>Data Sources & Transparency</h2>
+            <p>All data is sourced from public, free APIs:</p>
+            <ul>
+                <li><strong>Yahoo Finance:</strong> All price, volume, and technical data (GC=F, BTC-USD, SPY, GLD, VIX, DXY, RSP, HYG, TLT, ETH-USD, etc.)</li>
+                <li><strong>FRED (Federal Reserve):</strong> 10-Year TIPS real yield (series DFII10)</li>
+                <li><strong>CBOE:</strong> VIX data via Yahoo Finance ticker ^VIX</li>
+            </ul>
+            <p>
+                No proprietary data sources. All calculations are transparent and independently verifiable.
+            </p>
+
+            <div class="component-box" style="border-left-color: #22c55e; margin-top: 24px;">
+                <h4>🔓 Source Code Access</h4>
+                <p>
+                    Full calculation source code available on request for verification and review. Email <a href="mailto:contact@onoff.markets" style="color: #22c55e; text-decoration: underline; font-weight: 600;">contact@onoff.markets</a> to access complete Python implementation, historical data, and documentation.
+                </p>
+            </div>
+
+            <p style="margin-top: 24px;">
+                <strong>Update Schedule:</strong> All indices updated <strong>daily at 2:00 AM UTC (3:00 AM Paris / 9:00 PM ET)</strong> via automated GitHub Actions workflow. Historical data spanning 365 days is maintained for each index.
+            </p>
+        </div>
+
+        <!-- FAQ -->
+        <div class="section" id="faq">
+            <h2>Frequently Asked Questions</h2>
+
+            <h3>How accurate is the Fear and Greed Index?</h3>
+            <p>
+                Our Crypto index has been calibrated against Alternative.me's established index, achieving an average error of 8.3 points—a 60% improvement over uncalibrated models. Accuracy varies by market conditions; extreme readings (< 25 or > 75) tend to be more reliable as contrarian signals. These are analytical tools, not predictive guarantees.
+            </p>
+
+            <h3>Is this better than CNN's Fear and Greed Index?</h3>
+            <p>
+                CNN's index only covers US stocks. We provide <strong>three separate indices</strong> for Gold (safe haven), Stocks (equities), and Crypto (speculation), enabling cross-asset sentiment analysis. Our methodology is fully documented and transparent, unlike CNN's proprietary calculations. The Capital Rotation Indicator visualizes risk-on/risk-off flows—a feature not available elsewhere.
+            </p>
+
+            <h3>Can I access historical data via API?</h3>
+            <p>
+                Yes! API access launches in <strong>Q2 2025</strong>. Features include:
+            </p>
+            <ul>
+                <li>Real-time sentiment scores for all three indices</li>
+                <li>365 days of historical data per index</li>
+                <li>Component-level breakdowns</li>
+                <li>JSON and CSV export formats</li>
+                <li>Webhook notifications for extreme readings</li>
+            </ul>
+            <p>
+                Email <a href="mailto:contact@onoff.markets" style="color: #4A90E2; text-decoration: underline;">contact@onoff.markets</a> for early access and beta pricing.
+            </p>
+
+            <h3>Why are there different numbers of components for each index?</h3>
+            <p>
+                Each asset class has unique market dynamics requiring tailored indicators:
+            </p>
+            <ul>
+                <li><strong>Gold (7 components):</strong> Safe haven behavior requires tracking dollar strength, real rates, and equity market fear</li>
+                <li><strong>Stocks (6 components):</strong> Equity sentiment focuses on breadth, volatility, and credit market signals</li>
+                <li><strong>Crypto (5 components):</strong> Highly momentum-driven market emphasizes trend strength and dominance metrics</li>
+            </ul>
+            <p>
+                More components doesn't mean better—it means more relevant. Each index is optimized for its specific market.
+            </p>
+
+            <h3>Can I use this for automated trading?</h3>
+            <p>
+                Yes. Common use cases include:
+            </p>
+            <ul>
+                <li><strong>Contrarian entry signals:</strong> Consider buying when index < 25, reducing exposure when > 75</li>
+                <li><strong>Risk scaling:</strong> Adjust position sizes based on sentiment extremes</li>
+                <li><strong>Cross-asset rotation:</strong> Monitor capital flows via the Rotation Indicator</li>
+            </ul>
+            <p>
+                Once the API launches (Q2 2025), programmatic access will be available. Current data accessible via JSON endpoints, updated daily. Always backtest thoroughly before deploying with real capital.
+            </p>
+        </div>
+
+        <!-- Contact Section -->
+        <div class="contact-section">
+            <h2>Let's Connect</h2>
+            <p>
+                Questions? Feedback? Want to discuss methodology, partnerships, or API early access?
+            </p>
+            <a href="mailto:contact@onoff.markets">contact@onoff.markets</a>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p class="disclaimer">
+                <strong>Disclaimer:</strong> This index is provided for informational purposes only and does not constitute financial advice.
+                Investments carry risks. Consult a financial advisor before making any investment decisions.
+            </p>
+            <p class="credits">
+                Sources: Yahoo Finance, FRED | Updated Daily | <a href="mailto:contact@onoff.markets" style="color: #666; text-decoration: none; transition: color 0.2s ease;" onmouseover="this.style.color='#999'" onmouseout="this.style.color='#666'">Contact</a>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        // Mobile menu toggle
+        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
+        const navLinks = document.getElementById('navLinks');
+        const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
+
+        mobileMenuToggle.addEventListener('click', () => {
+            mobileMenuToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+            mobileMenuOverlay.classList.toggle('active');
+        });
+
+        mobileMenuOverlay.addEventListener('click', () => {
+            mobileMenuToggle.classList.remove('active');
+            navLinks.classList.remove('active');
+            mobileMenuOverlay.classList.remove('active');
+        });
+
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenuToggle.classList.remove('active');
+                navLinks.classList.remove('active');
+                mobileMenuOverlay.classList.remove('active');
+            });
+        });
+
+        // Logo dots animation with rotation indicator
+        const logoDots = document.getElementById('logoDots');
+        const dots = logoDots.querySelectorAll('span');
+
+        async function updateLogoDots() {
+            try {
+                const [goldRes, cryptoRes] = await Promise.all([
+                    fetch('data/gold-fear-greed.json'),
+                    fetch('data/crypto-fear-greed.json')
+                ]);
+                const gold = await goldRes.json();
+                const crypto = await cryptoRes.json();
+
+                const rotationScore = crypto.score - gold.score;
+                const position = ((rotationScore + 100) / 200) * 100;
+
+                let dotsColor;
+                if (position < 25) {
+                    dotsColor = "#ef4444";
+                } else if (position < 45) {
+                    dotsColor = "#f59e0b";
+                } else if (position < 55) {
+                    dotsColor = "#ffffff";
+                } else if (position < 75) {
+                    dotsColor = "#22c55e";
+                } else {
+                    dotsColor = "#06b6d4";
+                }
+                logoDots.style.color = dotsColor;
+            } catch (error) {
+                // Fallback animation
+                const colors = ['#ef4444', '#FFD700', '#22c55e'];
+                let index = 0;
+                setInterval(() => {
+                    dots.forEach((dot, i) => {
+                        dot.style.color = colors[(index + i) % colors.length];
+                    });
+                    index = (index + 1) % colors.length;
+                }, 2000);
+            }
+        }
+
+        updateLogoDots();
+    </script>
+</body>
+</html>

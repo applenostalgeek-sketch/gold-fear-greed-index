@@ -19,3 +19,4 @@ Allow: /index.html
 Allow: /gold.html
 Allow: /stocks.html
 Allow: /crypto.html
+Allow: /about.html
