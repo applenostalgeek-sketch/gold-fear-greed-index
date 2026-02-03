@@ -518,9 +518,8 @@ class BondsFearGreedIndex:
         final_data = {
             'score': self.score,
             'label': self.label,
+            'timestamp': datetime.utcnow().strftime('%Y-%m-%dT%H:%M:%SZ'),
             'components': self.components,
-            'timestamp': datetime.now().isoformat(),
-            'last_update': datetime.now().strftime('%Y-%m-%d %H:%M UTC'),
             'history': history
         }
 
