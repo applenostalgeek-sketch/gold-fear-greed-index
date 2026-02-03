@@ -1,42 +1,42 @@
 {
   "score": 52.5,
   "label": "Neutral",
-  "timestamp": "2026-02-03T16:48:40Z",
+  "timestamp": "2026-02-03T17:06:15Z",
   "components": {
     "momentum": {
-      "score": 58.2,
+      "score": 57.8,
       "weight": 0.2,
-      "detail": "RSI: 47, Price > MA50"
+      "detail": "RSI: 46, Price > MA50"
     },
     "vix": {
       "score": 55.0,
       "weight": 0.2,
-      "detail": "VIX: 17.4 vs avg: 17.1"
+      "detail": "VIX: 17.6 vs avg: 17.1"
     },
     "market_breadth": {
-      "score": 51.6,
+      "score": 52.3,
       "weight": 0.15,
-      "detail": "RSP +0.2% vs SPY +0.1%"
+      "detail": "RSP +0.1% vs SPY -0.0%"
     },
     "sector_rotation": {
-      "score": 25.8,
+      "score": 25.0,
       "weight": 0.15,
-      "detail": "QQQ -0.3% vs XLP +4.6%"
+      "detail": "QQQ -0.4% vs XLP +4.6%"
     },
     "junk_bonds": {
-      "score": 66.3,
+      "score": 66.7,
       "weight": 0.15,
-      "detail": "HYG -0.0% vs TLT -1.6%"
+      "detail": "HYG -0.0% vs TLT -1.7%"
     },
     "safe_haven": {
-      "score": 58.2,
+      "score": 58.5,
       "weight": 0.1,
-      "detail": "TLT -1.6% 14d"
+      "detail": "TLT -1.7% 14d"
     },
     "price_strength": {
-      "score": 50.4,
+      "score": 49.8,
       "weight": 0.05,
-      "detail": "SPY +0.1% 14d"
+      "detail": "SPY -0.0% 14d"
     }
   },
   "history": [
