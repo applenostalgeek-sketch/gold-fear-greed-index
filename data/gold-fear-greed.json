@@ -1,22 +1,22 @@
 {
-  "score": 63.9,
+  "score": 64.4,
   "label": "Greed",
-  "timestamp": "2026-02-03T03:32:33Z",
+  "timestamp": "2026-02-03T04:17:30Z",
   "components": {
     "volatility": {
-      "score": 33.1,
+      "score": 32.9,
       "weight": 0.15,
-      "detail": "Vol 14j: 58.4% vs moy 30j: 43.6%"
+      "detail": "Vol 14j: 58.9% vs moy 30j: 43.9%"
     },
     "momentum": {
-      "score": 86.9,
+      "score": 87.3,
       "weight": 0.25,
-      "detail": "RSI: 56, Prix > MM50"
+      "detail": "RSI: 58, Prix > MM50"
     },
     "gold_vs_spy": {
-      "score": 60.8,
+      "score": 63.1,
       "weight": 0.15,
-      "detail": "Gold +4.6% vs SPY +0.2%"
+      "detail": "Gold +5.5% vs SPY +0.2%"
     },
     "etf_flows": {
       "score": 100,
@@ -34,15 +34,15 @@
       "detail": "10Y Yield: 4.28% (proxy, avg: 4.15%)"
     },
     "dollar_index": {
-      "score": 66.3,
+      "score": 67.1,
       "weight": 0.1,
-      "detail": "DXY: 97.51 (-1.6% 14d, MA30: 98.18)"
+      "detail": "DXY: 97.43 (-1.7% 14d, MA30: 98.18)"
     }
   },
   "history": [
     {
       "date": "2026-02-03",
-      "score": 63.9
+      "score": 64.4
     },
     {
       "date": "2026-02-02",
