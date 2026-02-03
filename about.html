@@ -503,16 +503,19 @@
         <div class="section">
             <h2>The Story</h2>
             <p>
-                I'm a self-taught French developer with a passion for both finance and technology. Not a professional trader or finance expert—just someone who loves understanding how markets work and building tools to make sense of them.
+                OnOff.Markets is an independent alternative to black-box sentiment indices. Built for traders and investors who want to understand <em>exactly</em> what drives the numbers—not just see them.
             </p>
             <p>
-                It started with frustration. I was tracking gold and kept hearing about "sentiment indices" and "fear & greed" tools. But every tool I found had the same problem: <strong>vague methodology, hidden calculations, and zero transparency</strong>.
+                The project started with a simple frustration: every sentiment tool claimed to measure "fear & greed," but none explained <em>how</em>. Vague methodology. Hidden calculations. "Proprietary algorithms." Zero transparency.
             </p>
             <p>
-                "We use proprietary algorithms." "Our advanced models analyze sentiment." Cool—but <em>how?</em> What data? What weights? How often does it update? Silence.
+                So I built what I wanted to see: <strong>multi-asset sentiment indices with complete methodology transparency</strong>. Every component explained. Every weight published. Every data source cited. Updated daily via automated workflows.
             </p>
             <p>
-                So I built my own. First for gold (7 transparent components), then stocks, then crypto, and finally bonds. Once I had all four, I realized I could create something unique: a <strong>Market Sentiment Indicator</strong> showing when money flows between safe havens (bonds + gold) and risk assets (stocks + crypto). That's how OnOff.Markets was born—not as a business plan, but as a personal project that grew into something bigger.
+                First Gold, then Stocks, then Crypto, then Bonds. Once all four were live, I realized I had something unique: a <strong>Market Rotation Indicator</strong> showing when capital flows between safe havens (bonds + gold) and risk assets (stocks + crypto). That's the core insight behind OnOff.Markets.
+            </p>
+            <p>
+                <strong>No subscriptions. No paywalls. No proprietary secrets.</strong> Just transparent quantitative analysis, updated every day at 02:00 UTC.
             </p>
         </div>
 
@@ -544,7 +547,7 @@
             <div class="component-box gold">
                 <h4>⏱️ Timing Entries & Exits</h4>
                 <p>
-                    <strong>Contrarian strategy:</strong> Extreme Fear often marks capitulation bottoms where panic selling creates opportunities. Extreme Greed signals overheated markets vulnerable to pullbacks. Historical data shows that extreme fear readings (< 25) have preceded significant rallies in the majority of cases across crypto and equity markets.
+                    <strong>Contrarian strategy:</strong> Extreme Fear often marks capitulation bottoms where panic selling creates opportunities. Extreme Greed signals overheated markets vulnerable to pullbacks. Extreme readings (< 25 or > 75) are commonly used as contrarian signals by traders, though past performance does not guarantee future results.
                 </p>
             </div>
 
@@ -563,8 +566,8 @@
             </div>
 
             <div class="component-box crypto">
-                <h4>🔌 API Integration (Coming Q2 2025)</h4>
-                <p><strong>Programmatic access for:</strong></p>
+                <h4>🔌 API Integration</h4>
+                <p><strong>Programmatic access (available on request):</strong></p>
                 <ul>
                     <li>Algorithmic trading systems (real-time sentiment signals)</li>
                     <li>Backtesting strategies (365 days of historical data per index)</li>
@@ -572,7 +575,7 @@
                     <li>Webhook notifications for extreme readings</li>
                 </ul>
                 <p style="margin-top: 12px;">
-                    <strong>Interested?</strong> Email <a href="mailto:contact@onoff.markets" style="color: #F7931A; text-decoration: underline;">contact@onoff.markets</a> for early access and pricing.
+                    <strong>Interested in API access?</strong> Email <a href="mailto:contact@onoff.markets" style="color: #F7931A; text-decoration: underline;">contact@onoff.markets</a> to discuss your use case and requirements.
                 </p>
             </div>
         </div>
@@ -883,7 +886,7 @@
 
             <h3>How accurate is the Fear and Greed Index?</h3>
             <p>
-                Our indices use multi-component quantitative models with proven accuracy across various market conditions. Extreme readings (< 25 or > 75) tend to be more reliable as contrarian signals, while mid-range values reflect genuine market uncertainty. Historical backtesting shows strong correlation with major market turning points. These are analytical tools designed to complement—not replace—fundamental analysis and risk management.
+                Our indices use multi-component quantitative models designed to capture market sentiment shifts. Extreme readings (< 25 or > 75) tend to be more reliable as contrarian signals, while mid-range values reflect genuine market uncertainty. These are analytical tools designed to complement—not replace—fundamental analysis and risk management. <strong>No sentiment indicator is perfectly predictive,</strong> and past patterns may not repeat in future market conditions.
             </p>
 
             <h3>Why does the index sometimes react slowly to major news?</h3>
@@ -898,17 +901,10 @@
 
             <h3>Can I access historical data via API?</h3>
             <p>
-                Yes! API access launches in <strong>Q2 2025</strong>. Features include:
+                Currently, all data is available via public JSON endpoints (e.g., <code>/data/bonds-fear-greed.json</code>) updated daily at 02:00 UTC. These files contain current scores, component breakdowns, and 365 days of historical data.
             </p>
-            <ul>
-                <li>Real-time sentiment scores for all four indices</li>
-                <li>365 days of historical data per index</li>
-                <li>Component-level breakdowns</li>
-                <li>JSON and CSV export formats</li>
-                <li>Webhook notifications for extreme readings</li>
-            </ul>
             <p>
-                Email <a href="mailto:contact@onoff.markets" style="color: #4A90E2; text-decoration: underline;">contact@onoff.markets</a> for early access and beta pricing.
+                <strong>For programmatic API access with authentication, webhooks, and advanced features,</strong> contact us at <a href="mailto:contact@onoff.markets" style="color: #4A90E2; text-decoration: underline;">contact@onoff.markets</a> to discuss your requirements.
             </p>
 
             <h3>Why are there different numbers of components for each index?</h3>
@@ -935,7 +931,7 @@
                 <li><strong>Cross-asset rotation:</strong> Monitor capital flows via the Market Sentiment Indicator</li>
             </ul>
             <p>
-                Once the API launches (Q2 2025), programmatic access will be available. Current data accessible via JSON endpoints, updated daily. Always backtest thoroughly before deploying with real capital.
+                Current data is accessible via JSON endpoints (e.g., <code>/data/bonds-fear-greed.json</code>), updated daily at 02:00 UTC. Programmatic API access may be available in the future—contact us for details. Always backtest thoroughly before deploying with real capital.
             </p>
         </div>
 
@@ -951,8 +947,11 @@
         <!-- Footer -->
         <footer>
             <p class="disclaimer">
-                <strong>Disclaimer:</strong> This index is provided for informational purposes only and does not constitute financial advice.
-                Investments carry risks. Consult a financial advisor before making any investment decisions.
+                <strong>Legal Disclaimer:</strong> OnOff.Markets provides sentiment indicators for informational and educational purposes only. Nothing on this site constitutes financial, investment, legal, or tax advice. All indices are based on publicly available data and quantitative models that may contain errors or inaccuracies.
+                <br><br>
+                <strong>No Guarantees:</strong> Past sentiment patterns do not predict future market movements. Markets can remain irrational longer than you can remain solvent. Extreme fear does not guarantee rallies, and extreme greed does not guarantee corrections.
+                <br><br>
+                <strong>Use At Your Own Risk:</strong> Trading and investing carry substantial risk of loss. Never invest money you cannot afford to lose. Always conduct your own research, use proper risk management, and consult qualified financial professionals before making investment decisions. We are not liable for any losses resulting from the use of these tools.
             </p>
             <p class="credits">
                 Sources: Yahoo Finance, FRED | Updated Daily | <a href="mailto:contact@onoff.markets" style="color: #666; text-decoration: none; transition: color 0.2s ease;" onmouseover="this.style.color='#999'" onmouseout="this.style.color='#666'">Contact</a>
