@@ -598,62 +598,46 @@
         <div class="section" id="bonds">
             <h2>📊 Bonds Fear & Greed Index</h2>
             <p>
-                The Bonds Index measures sentiment in the fixed income market using <strong>7 components</strong> with varying weights. All scores from 0-100:
+                The Bonds Index measures sentiment in the fixed income market using <strong>5 bond-specific components</strong> with zero overlap with equity markets. All scores from 0-100:
             </p>
 
             <div class="component-box bonds">
-                <h4>1. Price Momentum (25%)</h4>
-                <p class="weight">TLT 14-day price movement (inverted)</p>
+                <h4>1. Yield Curve Shape (30%)</h4>
+                <p class="weight">2-Year vs 10-Year Treasury spread (FRED API)</p>
                 <p>
-                    Rising bond prices = falling yields = fear/defensive positioning. Falling bond prices = rising yields = risk appetite. Uses iShares 20+ Year Treasury ETF (TLT). <strong>Inverted:</strong> Bond rallies indicate fear, selloffs indicate greed.
+                    The most critical bond market indicator. Steep curve (+2% to +3%) = healthy growth expectations = greed. Normal curve (+1% to +2%) = neutral to optimistic. Flat curve (0% to +1%) = uncertainty = fear. <strong>Inverted curve (< 0%) = recession signal = extreme fear.</strong> Uses FRED API data (DGS2, DGS10). Historically, yield curve inversions have preceded recessions by 6-18 months.
                 </p>
             </div>
 
             <div class="component-box bonds">
-                <h4>2. Credit Spreads (20%)</h4>
-                <p class="weight">High Yield (HYG) vs Treasuries (TLT)</p>
+                <h4>2. Duration Risk Appetite (25%)</h4>
+                <p class="weight">TLT 20-day momentum + volume analysis</p>
                 <p>
-                    Widening spreads = investors demanding higher risk premiums = fear. Tightening spreads = risk appetite = greed. Compares iShares High Yield Corporate Bond ETF (HYG) performance vs safe Treasury bonds (TLT).
+                    Measures investor demand for long-term bonds via iShares 20+ Year Treasury ETF (TLT). Rising TLT with strong volume = investors seeking to lock in long rates = greed (attractive yields). Falling TLT = duration risk aversion = fear. Combines 60% price momentum + 40% volume trend analysis relative to 60-day baseline.
                 </p>
             </div>
 
             <div class="component-box bonds">
-                <h4>3. Yield Curve (15%)</h4>
-                <p class="weight">2-Year vs 10-Year Treasury spread</p>
+                <h4>3. Real Yields (20%)</h4>
+                <p class="weight">10-Year TIPS yield from FRED (inflation-adjusted returns)</p>
                 <p>
-                    Steepening curve = growth optimism = greed. Flattening/inverting curve = recession fears = fear. Uses FRED API data (DGS2, DGS10). Inverted curves have historically preceded recessions.
+                    Real yield = nominal yield minus inflation expectations. <strong>Positive real yields = bonds paying above inflation = greed</strong> (attractive investment). Negative real yields = inflation destroying returns = fear. Uses FRED API (DFII10) for accurate 10-Year Treasury Inflation-Protected Securities data. Real yields > +1.5% indicate very attractive bond valuations.
                 </p>
             </div>
 
             <div class="component-box bonds">
-                <h4>4. Bond Volatility (15%)</h4>
-                <p class="weight">TLT 14-day volatility vs 30-day average</p>
+                <h4>4. Credit Quality Spread (15%)</h4>
+                <p class="weight">Investment Grade (LQD) vs Treasuries (TLT)</p>
                 <p>
-                    Higher volatility indicates uncertainty and stress in fixed income markets = fear. Lower volatility = confidence = greed. Serves as proxy for MOVE index (bond market VIX equivalent).
+                    Measures demand for investment-grade corporate bonds relative to safe Treasuries. LQD outperforming TLT = credit confidence = greed (investors taking moderate credit risk). LQD underperforming = credit stress = fear. Uses iShares iBoxx Investment Grade Corporate Bond ETF (LQD). <strong>Note:</strong> Different from junk bonds (HYG) used in Stocks index—this measures quality corporate credit appetite.
                 </p>
             </div>
 
             <div class="component-box bonds">
-                <h4>5. Safe Haven Flows (10%)</h4>
-                <p class="weight">TLT volume spikes</p>
+                <h4>5. Term Premium Demand (10%)</h4>
+                <p class="weight">Long-term (TLT) vs Short-term (SHY) relative performance</p>
                 <p>
-                    Surging Treasury ETF volume indicates flight-to-quality flows = fear. Normal volume = complacency = greed. Analyzes volume relative to 20-day average.
-                </p>
-            </div>
-
-            <div class="component-box bonds">
-                <h4>6. Real Rates (10%)</h4>
-                <p class="weight">10-Year TIPS yield from FRED</p>
-                <p>
-                    Falling real rates = easier financial conditions = greed. Rising real rates = tightening conditions = fear. Uses FRED API (DFII10) for accurate TIPS yield data.
-                </p>
-            </div>
-
-            <div class="component-box bonds">
-                <h4>7. Equity vs Bonds (5%)</h4>
-                <p class="weight">SPY vs TLT relative performance</p>
-                <p>
-                    Stocks outperforming bonds = risk-on = greed. Bonds outperforming stocks = defensive rotation = fear. Measures 14-day relative performance between S&P 500 (SPY) and long Treasuries (TLT).
+                    Compares 20+ Year Treasuries (TLT) vs 1-3 Year Treasuries (SHY). TLT outperforming = investors want to lock in long-term rates = greed (seeking duration exposure). SHY outperforming = rate risk aversion = fear (staying short-duration). Measures the term premium investors demand for holding longer-maturity bonds.
                 </p>
             </div>
         </div>

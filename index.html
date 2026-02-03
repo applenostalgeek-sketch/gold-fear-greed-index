@@ -336,10 +336,26 @@
             margin: 60px 0;
         }
 
+        .stat-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            transition: transform 0.2s ease;
+        }
+
+        .stat-link:hover {
+            transform: translateY(-2px);
+        }
+
         .stat {
             background: #0a0a0a;
             padding: 24px 20px;
             text-align: center;
+            transition: background 0.2s ease;
+        }
+
+        .stat-link:hover .stat {
+            background: #1a1a1a;
         }
 
         .stat-icon {
@@ -424,6 +440,32 @@
 
         .chart-toggle input {
             cursor: pointer;
+        }
+
+        .legend-label {
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .legend-bonds {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+
+        .legend-gold {
+            background: rgba(255, 215, 0, 0.2);
+            color: #FFD700;
+        }
+
+        .legend-stocks {
+            background: rgba(74, 144, 226, 0.2);
+            color: #4A90E2;
+        }
+
+        .legend-crypto {
+            background: rgba(247, 147, 26, 0.2);
+            color: #F7931A;
         }
 
         .period-selector {
@@ -620,33 +662,41 @@
 
         <!-- Stats -->
         <div class="stats">
-            <div class="stat">
-                <div class="stat-icon">📊</div>
-                <div class="stat-name">Bonds</div>
-                <div class="stat-value" id="bondsValue">--</div>
-                <div class="stat-label" id="bondsLabel">--</div>
-            </div>
+            <a href="bonds.html" class="stat-link">
+                <div class="stat">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-name">Bonds</div>
+                    <div class="stat-value" id="bondsValue">--</div>
+                    <div class="stat-label" id="bondsLabel">--</div>
+                </div>
+            </a>
 
-            <div class="stat">
-                <div class="stat-icon">🪙</div>
-                <div class="stat-name">Gold</div>
-                <div class="stat-value" id="goldValue">--</div>
-                <div class="stat-label" id="goldLabel">--</div>
-            </div>
+            <a href="gold.html" class="stat-link">
+                <div class="stat">
+                    <div class="stat-icon">🪙</div>
+                    <div class="stat-name">Gold</div>
+                    <div class="stat-value" id="goldValue">--</div>
+                    <div class="stat-label" id="goldLabel">--</div>
+                </div>
+            </a>
 
-            <div class="stat">
-                <div class="stat-icon">📈</div>
-                <div class="stat-name">Stocks</div>
-                <div class="stat-value" id="stocksValue">--</div>
-                <div class="stat-label" id="stocksLabel">--</div>
-            </div>
+            <a href="stocks.html" class="stat-link">
+                <div class="stat">
+                    <div class="stat-icon">📈</div>
+                    <div class="stat-name">Stocks</div>
+                    <div class="stat-value" id="stocksValue">--</div>
+                    <div class="stat-label" id="stocksLabel">--</div>
+                </div>
+            </a>
 
-            <div class="stat">
-                <div class="stat-icon">₿</div>
-                <div class="stat-name">Crypto</div>
-                <div class="stat-value" id="cryptoValue">--</div>
-                <div class="stat-label" id="cryptoLabel">--</div>
-            </div>
+            <a href="crypto.html" class="stat-link">
+                <div class="stat">
+                    <div class="stat-icon">₿</div>
+                    <div class="stat-name">Crypto</div>
+                    <div class="stat-value" id="cryptoValue">--</div>
+                    <div class="stat-label" id="cryptoLabel">--</div>
+                </div>
+            </a>
         </div>
 
         <!-- Combined Insight Box -->
@@ -671,19 +721,19 @@
                     <div class="chart-toggles">
                         <label class="chart-toggle">
                             <input type="checkbox" id="toggleBonds" checked>
-                            <span>📊 Bonds</span>
+                            <span class="legend-label legend-bonds">📊 Bonds</span>
                         </label>
                         <label class="chart-toggle">
                             <input type="checkbox" id="toggleGold" checked>
-                            <span>🪙 Gold</span>
+                            <span class="legend-label legend-gold">🪙 Gold</span>
                         </label>
                         <label class="chart-toggle">
                             <input type="checkbox" id="toggleStocks" checked>
-                            <span>📈 Stocks</span>
+                            <span class="legend-label legend-stocks">📈 Stocks</span>
                         </label>
                         <label class="chart-toggle">
                             <input type="checkbox" id="toggleCrypto" checked>
-                            <span>₿ Crypto</span>
+                            <span class="legend-label legend-crypto">₿ Crypto</span>
                         </label>
                     </div>
                     <div class="period-selector">
