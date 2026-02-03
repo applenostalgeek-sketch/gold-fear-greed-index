@@ -1,20 +1,20 @@
 {
   "score": 64.8,
   "label": "Greed",
-  "timestamp": "2026-02-03T13:46:26Z",
+  "timestamp": "2026-02-03T13:47:35Z",
   "components": {
     "volatility": {
       "score": 31.6,
       "weight": 0.15,
-      "detail": "Vol 14j: 66.3% vs moy 30j: 48.5%"
+      "detail": "Vol 14j: 66.2% vs moy 30j: 48.4%"
     },
     "momentum": {
-      "score": 88.1,
+      "score": 88.0,
       "weight": 0.25,
       "detail": "RSI: 60, Prix > MM50"
     },
     "gold_vs_spy": {
-      "score": 67.7,
+      "score": 67.5,
       "weight": 0.15,
       "detail": "Gold +7.3% vs SPY +0.2%"
     },
