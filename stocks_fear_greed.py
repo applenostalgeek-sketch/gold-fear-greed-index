@@ -245,6 +245,48 @@ class StocksFearGreedIndex:
             print(f"Price strength error: {e}")
             return (50.0, "Data unavailable")
 
+    def calculate_sector_rotation_score(self) -> tuple:
+        """
+        Calculate sector rotation score (Tech vs Defensive)
+        QQQ (tech-heavy Nasdaq) vs XLP (Consumer Staples defensive)
+        High score = Tech outperforming (Risk-On)
+        Low score = Defensive outperforming (Risk-Off)
+        Returns: (score, detail_string)
+        """
+        try:
+            qqq = yf.Ticker("QQQ")  # Nasdaq-100 (tech-heavy)
+            xlp = yf.Ticker("XLP")  # Consumer Staples (defensive)
+
+            qqq_hist = qqq.history(period="1mo")
+            xlp_hist = xlp.history(period="1mo")
+
+            if len(qqq_hist) < 14 or len(xlp_hist) < 14:
+                raise ValueError("Insufficient data")
+
+            # 14-day performance
+            qqq_return = ((qqq_hist['Close'].iloc[-1] - qqq_hist['Close'].iloc[-14]) / qqq_hist['Close'].iloc[-14]) * 100
+            xlp_return = ((xlp_hist['Close'].iloc[-1] - xlp_hist['Close'].iloc[-14]) / xlp_hist['Close'].iloc[-14]) * 100
+
+            # Relative outperformance
+            # QQQ outperforms = Risk-On (tech leadership) = high score
+            # XLP outperforms = Risk-Off (defensive rotation) = low score
+            outperformance = qqq_return - xlp_return
+
+            # Score calculation
+            # +5% outperformance = 75 (strong risk-on)
+            # 0% = 50 (neutral)
+            # -5% underperformance = 25 (strong risk-off)
+            score = 50 + (outperformance * 5)
+            score = max(0, min(100, score))
+
+            detail = f"QQQ {qqq_return:+.1f}% vs XLP {xlp_return:+.1f}%"
+
+            return (round(score, 1), detail)
+
+        except Exception as e:
+            print(f"Sector rotation error: {e}")
+            return (50.0, "Data unavailable")
+
     def calculate_index(self):
         """
         Calculate the complete Stocks Fear & Greed Index
@@ -252,12 +294,13 @@ class StocksFearGreedIndex:
         """
         # Define weights (total must equal 1.0)
         weights = {
-            'momentum': 0.25,
-            'vix': 0.20,
-            'market_breadth': 0.15,
-            'junk_bonds': 0.15,
-            'safe_haven': 0.15,
-            'price_strength': 0.10
+            'momentum': 0.20,           # Reduced from 0.25
+            'vix': 0.20,                # Unchanged
+            'market_breadth': 0.15,     # Unchanged
+            'sector_rotation': 0.15,    # NEW: Tech vs Defensive rotation
+            'junk_bonds': 0.15,         # Unchanged
+            'safe_haven': 0.10,         # Reduced from 0.15
+            'price_strength': 0.05      # Reduced from 0.10
         }
 
         # Calculate each component
@@ -271,6 +314,9 @@ class StocksFearGreedIndex:
 
         breadth_score, breadth_detail = self.calculate_market_breadth_score()
         print(f"Market Breadth: {breadth_score} - {breadth_detail}")
+
+        rotation_score, rotation_detail = self.calculate_sector_rotation_score()
+        print(f"Sector Rotation: {rotation_score} - {rotation_detail}")
 
         junk_score, junk_detail = self.calculate_junk_bond_score()
         print(f"Junk Bonds: {junk_score} - {junk_detail}")
@@ -286,6 +332,7 @@ class StocksFearGreedIndex:
             'momentum': {'score': momentum_score, 'weight': weights['momentum'], 'detail': momentum_detail},
             'vix': {'score': vix_score, 'weight': weights['vix'], 'detail': vix_detail},
             'market_breadth': {'score': breadth_score, 'weight': weights['market_breadth'], 'detail': breadth_detail},
+            'sector_rotation': {'score': rotation_score, 'weight': weights['sector_rotation'], 'detail': rotation_detail},
             'junk_bonds': {'score': junk_score, 'weight': weights['junk_bonds'], 'detail': junk_detail},
             'safe_haven': {'score': haven_score, 'weight': weights['safe_haven'], 'detail': haven_detail},
             'price_strength': {'score': strength_score, 'weight': weights['price_strength'], 'detail': strength_detail}
@@ -328,8 +375,8 @@ class StocksFearGreedIndex:
 
     def calculate_simple_historical_score(self, target_date: datetime) -> float:
         """
-        Calculate a simplified historical score for a past date
-        Uses only price-based components that have reliable historical data
+        Calculate COMPLETE historical score for a past date
+        Uses ALL 7 components with accurate weights for professional-grade historical data
 
         Args:
             target_date: The date to calculate the score for
@@ -344,16 +391,20 @@ class StocksFearGreedIndex:
             end_date = target_date
             start_date = target_date - timedelta(days=90)
 
-            # Get historical data
+            # Get historical data for ALL components
             spy = yf.Ticker("SPY")
             vix = yf.Ticker("^VIX")
             rsp = yf.Ticker("RSP")
-            hyg = yf.Ticker("HYG")
-            tlt = yf.Ticker("TLT")
+            qqq = yf.Ticker("QQQ")  # For sector rotation
+            xlp = yf.Ticker("XLP")  # For sector rotation
+            hyg = yf.Ticker("HYG")  # For junk bonds
+            tlt = yf.Ticker("TLT")  # For safe haven & junk bonds
 
             spy_hist = spy.history(start=start_date, end=end_date + timedelta(days=1))
             vix_hist = vix.history(start=start_date, end=end_date + timedelta(days=1))
             rsp_hist = rsp.history(start=start_date, end=end_date + timedelta(days=1))
+            qqq_hist = qqq.history(start=start_date, end=end_date + timedelta(days=1))
+            xlp_hist = xlp.history(start=start_date, end=end_date + timedelta(days=1))
             hyg_hist = hyg.history(start=start_date, end=end_date + timedelta(days=1))
             tlt_hist = tlt.history(start=start_date, end=end_date + timedelta(days=1))
 
@@ -361,7 +412,7 @@ class StocksFearGreedIndex:
                 print("insufficient data")
                 return 50.0
 
-            # Calculate Momentum (35% weight)
+            # 1. Calculate Momentum (20% weight)
             close_prices = spy_hist['Close']
             if len(close_prices) >= 50:
                 ma50 = close_prices.rolling(window=50).mean().iloc[-1]
@@ -381,13 +432,17 @@ class StocksFearGreedIndex:
             else:
                 momentum_score = 50
 
-            # Calculate VIX (25% weight)
+            # 2. Calculate VIX (20% weight)
             if len(vix_hist) > 0:
                 current_vix = vix_hist['Close'].iloc[-1]
                 if current_vix < 12:
                     vix_score = 85
+                elif current_vix < 15:
+                    vix_score = 70
                 elif current_vix < 20:
                     vix_score = 55
+                elif current_vix < 25:
+                    vix_score = 40
                 elif current_vix < 30:
                     vix_score = 25
                 else:
@@ -395,7 +450,7 @@ class StocksFearGreedIndex:
             else:
                 vix_score = 50
 
-            # Calculate Market Breadth (15% weight)
+            # 3. Calculate Market Breadth (15% weight)
             if len(rsp_hist) >= 14 and len(spy_hist) >= 14:
                 spy_return = ((spy_hist['Close'].iloc[-1] - spy_hist['Close'].iloc[-14]) / spy_hist['Close'].iloc[-14]) * 100
                 rsp_return = ((rsp_hist['Close'].iloc[-1] - rsp_hist['Close'].iloc[-14]) / rsp_hist['Close'].iloc[-14]) * 100
@@ -405,7 +460,40 @@ class StocksFearGreedIndex:
             else:
                 breadth_score = 50
 
-            # Calculate Price Strength (25% weight)
+            # 4. Calculate Sector Rotation (15% weight) - NEW!
+            if len(qqq_hist) >= 14 and len(xlp_hist) >= 14:
+                qqq_return = ((qqq_hist['Close'].iloc[-1] - qqq_hist['Close'].iloc[-14]) / qqq_hist['Close'].iloc[-14]) * 100
+                xlp_return = ((xlp_hist['Close'].iloc[-1] - xlp_hist['Close'].iloc[-14]) / xlp_hist['Close'].iloc[-14]) * 100
+                outperformance = qqq_return - xlp_return
+                rotation_score = 50 + (outperformance * 5)
+                rotation_score = max(0, min(100, rotation_score))
+            else:
+                rotation_score = 50
+
+            # 5. Calculate Junk Bond Demand (15% weight)
+            if len(hyg_hist) >= 14 and len(tlt_hist) >= 14:
+                hyg_return = ((hyg_hist['Close'].iloc[-1] - hyg_hist['Close'].iloc[-14]) / hyg_hist['Close'].iloc[-14]) * 100
+                tlt_return = ((tlt_hist['Close'].iloc[-1] - tlt_hist['Close'].iloc[-14]) / tlt_hist['Close'].iloc[-14]) * 100
+                spread = hyg_return - tlt_return
+                junk_score = 50 + (spread * 10)
+                junk_score = max(0, min(100, junk_score))
+            else:
+                junk_score = 50
+
+            # 6. Calculate Safe Haven Demand (10% weight)
+            if len(tlt_hist) >= 30:
+                current_tlt = tlt_hist['Close'].iloc[-1]
+                if len(tlt_hist) >= 14:
+                    price_14d_ago = tlt_hist['Close'].iloc[-14]
+                    momentum_14d = ((current_tlt - price_14d_ago) / price_14d_ago) * 100
+                    haven_score = 50 - (momentum_14d * 5)
+                    haven_score = max(0, min(100, haven_score))
+                else:
+                    haven_score = 50
+            else:
+                haven_score = 50
+
+            # 7. Calculate Price Strength (5% weight)
             if len(spy_hist) >= 14:
                 current_price = spy_hist['Close'].iloc[-1]
                 price_14d_ago = spy_hist['Close'].iloc[-14]
@@ -415,12 +503,15 @@ class StocksFearGreedIndex:
             else:
                 strength_score = 50
 
-            # Weighted average (simplified for historical calculation)
+            # Weighted average with REAL weights (7 components)
             total_score = (
-                momentum_score * 0.35 +
-                vix_score * 0.25 +
+                momentum_score * 0.20 +
+                vix_score * 0.20 +
                 breadth_score * 0.15 +
-                strength_score * 0.25
+                rotation_score * 0.15 +
+                junk_score * 0.15 +
+                haven_score * 0.10 +
+                strength_score * 0.05
             )
 
             print(f"Score: {total_score:.1f}")

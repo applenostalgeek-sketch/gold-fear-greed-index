@@ -586,7 +586,7 @@
             <ul>
                 <li><a href="#bonds">Bonds Fear & Greed Index (7 components)</a></li>
                 <li><a href="#gold">Gold Fear & Greed Index (7 components)</a></li>
-                <li><a href="#stocks">Stocks Fear & Greed Index (6 components)</a></li>
+                <li><a href="#stocks">Stocks Fear & Greed Index (7 components)</a></li>
                 <li><a href="#crypto">Crypto Fear & Greed Index (5 components)</a></li>
                 <li><a href="#rotation">Market Sentiment Indicator (Risk-On vs Risk-Off)</a></li>
                 <li><a href="#sources">Data Sources & Transparency</a></li>
@@ -726,11 +726,11 @@
         <div class="section" id="stocks">
             <h2>📈 Stocks Fear & Greed Index</h2>
             <p>
-                The Stocks Index measures sentiment in the equity market using <strong>6 components</strong>:
+                The Stocks Index measures sentiment in the equity market using <strong>7 components</strong>:
             </p>
 
             <div class="component-box stocks">
-                <h4>1. Momentum (25%)</h4>
+                <h4>1. Momentum (20%)</h4>
                 <p class="weight">RSI + 50-day & 200-day moving averages</p>
                 <p>
                     S&P 500 (SPY) RSI combined with price position relative to MAs. Weighted 60% RSI, 40% MA position.
@@ -754,7 +754,15 @@
             </div>
 
             <div class="component-box stocks">
-                <h4>4. Junk Bond Demand (15%)</h4>
+                <h4>4. Sector Rotation (15%)</h4>
+                <p class="weight">Tech vs Defensive rotation (QQQ vs XLP)</p>
+                <p>
+                    Measures capital flows between offensive (technology) and defensive (consumer staples) sectors. QQQ (Nasdaq-100) outperforming XLP (Consumer Staples) = risk-on sentiment = greed. XLP outperforming QQQ = defensive rotation = fear. Captures intra-equity risk appetite before broader market moves.
+                </p>
+            </div>
+
+            <div class="component-box stocks">
+                <h4>5. Junk Bond Demand (15%)</h4>
                 <p class="weight">High-yield vs Treasuries</p>
                 <p>
                     HYG outperforming TLT = risk-on. TLT outperforming = flight to safety.
@@ -762,7 +770,7 @@
             </div>
 
             <div class="component-box stocks">
-                <h4>5. Safe Haven Demand (15%)</h4>
+                <h4>6. Safe Haven Demand (10%)</h4>
                 <p class="weight">Treasury bond flows (inverted)</p>
                 <p>
                     TLT rising = fear. TLT falling = risk-on sentiment.
@@ -770,7 +778,7 @@
             </div>
 
             <div class="component-box stocks">
-                <h4>6. Price Strength (10%)</h4>
+                <h4>7. Price Strength (5%)</h4>
                 <p class="weight">SPY 14-day momentum</p>
                 <p>
                     Simple 14-day price momentum. Positive = greed, negative = fear.
@@ -926,7 +934,7 @@
             <ul>
                 <li><strong>Bonds (7 components):</strong> Fixed income sentiment tracks yield curve, credit spreads, and flight-to-quality flows</li>
                 <li><strong>Gold (7 components):</strong> Safe haven behavior requires tracking dollar strength, real rates, and equity market fear</li>
-                <li><strong>Stocks (6 components):</strong> Equity sentiment focuses on breadth, volatility, and credit market signals</li>
+                <li><strong>Stocks (7 components):</strong> Equity sentiment focuses on breadth, volatility, sector rotation, and credit market signals</li>
                 <li><strong>Crypto (5 components):</strong> Highly momentum-driven market emphasizes trend strength and dominance metrics</li>
             </ul>
             <p>

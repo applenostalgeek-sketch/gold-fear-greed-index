@@ -490,8 +490,8 @@ class GoldFearGreedIndex:
 
     def calculate_simple_historical_score(self, target_date: datetime) -> float:
         """
-        Calculate a simplified historical score for a past date
-        Uses only price-based components that have reliable historical data
+        Calculate COMPLETE historical score for a past date
+        Uses ALL 7 components with accurate weights for professional-grade historical data
 
         Args:
             target_date: The date to calculate the score for
@@ -504,36 +504,46 @@ class GoldFearGreedIndex:
 
             # Fetch historical data up to target date
             end_date = target_date
-            start_date = target_date - timedelta(days=90)
+            start_date = target_date - timedelta(days=250)  # Extended for MA200
 
-            # Get historical data
+            # Get historical data for ALL components
             gold = yf.Ticker("GC=F")
             spy = yf.Ticker("SPY")
             vix = yf.Ticker("^VIX")
             dxy = yf.Ticker("DX-Y.NYB")
+            gld = yf.Ticker("GLD")
+            tnx = yf.Ticker("^TNX")
 
             gold_hist = gold.history(start=start_date, end=end_date + timedelta(days=1))
             spy_hist = spy.history(start=start_date, end=end_date + timedelta(days=1))
             vix_hist = vix.history(start=start_date, end=end_date + timedelta(days=1))
             dxy_hist = dxy.history(start=start_date, end=end_date + timedelta(days=1))
+            gld_hist = gld.history(start=start_date, end=end_date + timedelta(days=1))
+            tnx_hist = tnx.history(start=start_date, end=end_date + timedelta(days=1))
 
             if len(gold_hist) < 20 or len(spy_hist) < 20:
                 print("insufficient data")
                 return 50.0
 
-            # Calculate Gold vs SPY (30% weight)
-            gold_return = (gold_hist['Close'].iloc[-1] / gold_hist['Close'].iloc[-14] - 1) * 100
-            spy_return = (spy_hist['Close'].iloc[-1] / spy_hist['Close'].iloc[-14] - 1) * 100
-            relative_perf = gold_return - spy_return
-            gold_spy_score = 50 + (relative_perf * 2.5)
-            gold_spy_score = max(0, min(100, gold_spy_score))
+            # 1. VOLATILITY (15% weight)
+            returns = gold_hist['Close'].pct_change().dropna()
+            if len(returns) >= 44:  # Need 14 + 30 days
+                current_vol = returns.tail(14).std() * np.sqrt(252) * 100
+                vol_30d = returns.tail(30).std() * np.sqrt(252) * 100
+                ratio = current_vol / vol_30d if vol_30d > 0 else 1.0
+                volatility_score = 50 + (1 - ratio) * 50
+                volatility_score = max(0, min(100, volatility_score))
+            else:
+                volatility_score = 50.0
 
-            # Calculate Momentum (30% weight)
+            # 2. MOMENTUM (25% weight)
             close_prices = gold_hist['Close']
-            if len(close_prices) >= 50:
+            if len(close_prices) >= 200:
                 ma50 = close_prices.rolling(window=50).mean().iloc[-1]
+                ma200 = close_prices.rolling(window=200).mean().iloc[-1]
                 current_price = close_prices.iloc[-1]
 
+                # RSI calculation
                 delta = close_prices.diff()
                 gain = (delta.where(delta > 0, 0)).rolling(window=14).mean()
                 loss = (-delta.where(delta < 0, 0)).rolling(window=14).mean()
@@ -541,21 +551,56 @@ class GoldFearGreedIndex:
                 rsi = 100 - (100 / (1 + rs))
                 current_rsi = rsi.iloc[-1]
 
-                ma_score = 40 if current_price > ma50 else 0
-                rsi_score = current_rsi * 0.6
+                # Scoring
+                ma_score = 0
+                if current_price > ma50:
+                    ma_score += 40
+                if current_price > ma200:
+                    ma_score += 30
+                rsi_score = current_rsi * 0.3
+
                 momentum_score = ma_score + rsi_score
             else:
-                momentum_score = 50
+                momentum_score = 50.0
 
-            # Calculate VIX (15% weight)
+            # 3. GOLD VS SPY (15% weight)
+            if len(gold_hist) >= 14 and len(spy_hist) >= 14:
+                gold_return = (gold_hist['Close'].iloc[-1] / gold_hist['Close'].iloc[-14] - 1) * 100
+                spy_return = (spy_hist['Close'].iloc[-1] / spy_hist['Close'].iloc[-14] - 1) * 100
+                relative_perf = gold_return - spy_return
+                gold_spy_score = 50 + (relative_perf * 2.5)
+                gold_spy_score = max(0, min(100, gold_spy_score))
+            else:
+                gold_spy_score = 50.0
+
+            # 4. ETF FLOWS (15% weight)
+            if len(gld_hist) >= 14:
+                recent_vol = gld_hist['Volume'].tail(7).mean()
+                previous_vol = gld_hist['Volume'].iloc[-14:-7].mean()
+                recent_price_change = (gld_hist['Close'].iloc[-1] / gld_hist['Close'].iloc[-14] - 1) * 100
+                vol_change = (recent_vol / previous_vol - 1) * 100 if previous_vol > 0 else 0
+                etf_flows_score = 50 + (vol_change * 2) + (recent_price_change * 2)
+                etf_flows_score = max(0, min(100, etf_flows_score))
+            else:
+                etf_flows_score = 50.0
+
+            # 5. VIX (10% weight)
             if len(vix_hist) > 0:
                 current_vix = vix_hist['Close'].iloc[-1]
                 vix_score = (current_vix - 10) * 3.33
                 vix_score = max(0, min(100, vix_score))
             else:
-                vix_score = 50
+                vix_score = 50.0
 
-            # Calculate Dollar Index (25% weight)
+            # 6. REAL RATES (10% weight) - Using TNX as fallback (no FRED for historical)
+            if len(tnx_hist) > 0:
+                current_yield = tnx_hist['Close'].iloc[-1]
+                real_rates_score = 100 - ((current_yield - 2) * 25)
+                real_rates_score = max(0, min(100, real_rates_score))
+            else:
+                real_rates_score = 50.0
+
+            # 7. DOLLAR INDEX (10% weight)
             if len(dxy_hist) >= 14:
                 current_dxy = dxy_hist['Close'].iloc[-1]
                 dxy_14d_ago = dxy_hist['Close'].iloc[-14]
@@ -563,14 +608,17 @@ class GoldFearGreedIndex:
                 dxy_score = 50 - (dxy_change * 10)
                 dxy_score = max(0, min(100, dxy_score))
             else:
-                dxy_score = 50
+                dxy_score = 50.0
 
-            # Weighted average (simplified for historical calculation)
+            # Weighted average with REAL weights (7 components)
             total_score = (
-                gold_spy_score * 0.30 +
-                momentum_score * 0.30 +
-                vix_score * 0.15 +
-                dxy_score * 0.25
+                volatility_score * 0.15 +
+                momentum_score * 0.25 +
+                gold_spy_score * 0.15 +
+                etf_flows_score * 0.15 +
+                vix_score * 0.10 +
+                real_rates_score * 0.10 +
+                dxy_score * 0.10
             )
 
             print(f"Score: {total_score:.1f}")

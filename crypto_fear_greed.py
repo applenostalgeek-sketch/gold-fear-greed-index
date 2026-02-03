@@ -292,8 +292,8 @@ class CryptoFearGreedIndex:
 
     def calculate_simple_historical_score(self, target_date: datetime) -> float:
         """
-        Calculate a simplified historical score for a past date
-        Uses only price-based components that have reliable historical data
+        Calculate COMPLETE historical score for a past date
+        Uses ALL 5 components with accurate weights for professional-grade historical data
 
         Args:
             target_date: The date to calculate the score for
@@ -306,27 +306,23 @@ class CryptoFearGreedIndex:
 
             # Fetch historical data up to target date
             end_date = target_date
-            start_date = target_date - timedelta(days=90)
+            start_date = target_date - timedelta(days=250)  # Extended for MA200
 
-            # Get historical data
+            # Get historical data for ALL components
             btc = yf.Ticker("BTC-USD")
             eth = yf.Ticker("ETH-USD")
-            sol = yf.Ticker("SOL-USD")
 
             btc_hist = btc.history(start=start_date, end=end_date + timedelta(days=1))
             eth_hist = eth.history(start=start_date, end=end_date + timedelta(days=1))
-            sol_hist = sol.history(start=start_date, end=end_date + timedelta(days=1))
 
             if len(btc_hist) < 20:
                 print("insufficient data")
-                return 50.0
+                return 30.0  # Lower baseline for crypto (matches calibrated fallback)
 
-            # Calculate Momentum (30% weight)
+            # 1. MOMENTUM (10% weight) - RSI + MA position
             close_prices = btc_hist['Close']
-            if len(close_prices) >= 50:
-                ma50 = close_prices.rolling(window=50).mean().iloc[-1]
-                current_price = close_prices.iloc[-1]
-
+            if len(close_prices) >= 200:
+                # RSI calculation
                 delta = close_prices.diff()
                 gain = (delta.where(delta > 0, 0)).rolling(window=14).mean()
                 loss = (-delta.where(delta < 0, 0)).rolling(window=14).mean()
@@ -334,41 +330,84 @@ class CryptoFearGreedIndex:
                 rsi = 100 - (100 / (1 + rs))
                 current_rsi = rsi.iloc[-1]
 
-                rsi_score = current_rsi
-                ma_score = 75 if current_price > ma50 else 25
+                # MA position
+                ma50 = close_prices.rolling(window=50).mean().iloc[-1]
+                ma200 = close_prices.rolling(window=200).mean().iloc[-1]
+                current_price = close_prices.iloc[-1]
+
+                # CALIBRATED scoring (matching daily calculation)
+                rsi_score = max(0, min(100, (current_rsi - 50) * 2.0))
+                if current_price > ma200:
+                    ma_score = 40 if current_price > ma50 else 30
+                else:
+                    ma_score = 20 if current_price > ma50 else 10
+
                 momentum_score = (rsi_score * 0.6) + (ma_score * 0.4)
                 momentum_score = max(0, min(100, momentum_score))
             else:
-                momentum_score = 50
+                momentum_score = 30.0
 
-            # Calculate Market Cap Growth (40% weight)
+            # 2. CONTEXT (35% weight) - 30-day trend
+            if len(btc_hist) >= 30:
+                current_price = btc_hist['Close'].iloc[-1]
+                price_30d_ago = btc_hist['Close'].iloc[-30]
+                change_30d = ((current_price - price_30d_ago) / price_30d_ago) * 100
+
+                # CALIBRATED: Baseline 30, multiplier 0.8, cap ±30
+                context_score = 30 + max(-30, min(30, change_30d * 0.8))
+                context_score = max(0, min(100, context_score))
+            else:
+                context_score = 30.0
+
+            # 3. VOLATILITY (15% weight) - 14-day annualized volatility
+            returns = btc_hist['Close'].pct_change().dropna()
+            if len(returns) >= 14:
+                vol_14d = returns.tail(14).std() * np.sqrt(365) * 100
+
+                # CALIBRATED: Linear mapping with multiplier
+                if vol_14d >= 40:
+                    vol_score = 0
+                elif vol_14d <= 20:
+                    vol_score = 100
+                else:
+                    vol_score = 100 - ((vol_14d - 20) / 20) * 100
+
+                volatility_score = vol_score * 0.6
+                volatility_score = max(0, min(100, volatility_score))
+            else:
+                volatility_score = 30.0
+
+            # 4. DOMINANCE (25% weight) - BTC vs ETH (inverted)
+            if len(btc_hist) >= 14 and len(eth_hist) >= 14:
+                btc_return = ((btc_hist['Close'].iloc[-1] - btc_hist['Close'].iloc[-14]) / btc_hist['Close'].iloc[-14]) * 100
+                eth_return = ((eth_hist['Close'].iloc[-1] - eth_hist['Close'].iloc[-14]) / eth_hist['Close'].iloc[-14]) * 100
+                relative_perf = btc_return - eth_return
+
+                # CALIBRATED & INVERTED: BTC outperforms = fear
+                dominance_score = 30 - (relative_perf * 2.0)
+                dominance_score = max(0, min(100, dominance_score))
+            else:
+                dominance_score = 30.0
+
+            # 5. PRICE MOMENTUM (15% weight) - 14-day price change
             if len(btc_hist) >= 14:
                 current_price = btc_hist['Close'].iloc[-1]
                 price_14d_ago = btc_hist['Close'].iloc[-14]
-                growth = ((current_price - price_14d_ago) / price_14d_ago) * 100
-                mcap_score = 50 + (growth * 3)
-                mcap_score = max(0, min(100, mcap_score))
+                change_14d = ((current_price - price_14d_ago) / price_14d_ago) * 100
+
+                # CALIBRATED: Baseline 30, multiplier 0.6, cap ±30
+                price_momentum_score = 30 + max(-30, min(30, change_14d * 0.6))
+                price_momentum_score = max(0, min(100, price_momentum_score))
             else:
-                mcap_score = 50
+                price_momentum_score = 30.0
 
-            # Calculate Altcoin Season (30% weight)
-            if len(eth_hist) >= 14 and len(sol_hist) >= 14:
-                btc_return = ((btc_hist['Close'].iloc[-1] - btc_hist['Close'].iloc[-14]) / btc_hist['Close'].iloc[-14]) * 100
-                eth_return = ((eth_hist['Close'].iloc[-1] - eth_hist['Close'].iloc[-14]) / eth_hist['Close'].iloc[-14]) * 100
-                sol_return = ((sol_hist['Close'].iloc[-1] - sol_hist['Close'].iloc[-14]) / sol_hist['Close'].iloc[-14]) * 100
-
-                avg_alt_return = (eth_return + sol_return) / 2
-                alt_vs_btc = avg_alt_return - btc_return
-                altseason_score = 50 + (alt_vs_btc * 2)
-                altseason_score = max(0, min(100, altseason_score))
-            else:
-                altseason_score = 50
-
-            # Weighted average (simplified for historical calculation)
+            # Weighted average with REAL weights (5 components, matching daily calculation)
             total_score = (
-                momentum_score * 0.30 +
-                mcap_score * 0.40 +
-                altseason_score * 0.30
+                momentum_score * 0.10 +
+                context_score * 0.35 +
+                volatility_score * 0.15 +
+                dominance_score * 0.25 +
+                price_momentum_score * 0.15
             )
 
             print(f"Score: {total_score:.1f}")
@@ -376,7 +415,7 @@ class CryptoFearGreedIndex:
 
         except Exception as e:
             print(f"error: {e}")
-            return 50.0
+            return 30.0  # Lower baseline for crypto
 
     def save_to_file(self, filepath: str = 'data/crypto-fear-greed.json', force_rebuild: bool = False):
         """
