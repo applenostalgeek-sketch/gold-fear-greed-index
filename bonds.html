@@ -222,13 +222,25 @@
             margin-bottom: 80px;
         }
 
+        .score-wrapper {
+            display: inline-block;
+            margin-bottom: 20px;
+        }
+
         .score {
-            font-size: 16rem;
+            font-size: 12rem;
             font-weight: 800;
             line-height: 1;
             letter-spacing: -0.05em;
             transition: color 1s ease;
-            margin-bottom: 20px;
+        }
+
+        .score-denominator {
+            font-size: 3rem;
+            font-weight: 500;
+            color: #666;
+            vertical-align: top;
+            margin-left: 8px;
         }
 
         .label {
@@ -557,7 +569,9 @@
 
         <!-- Hero Score -->
         <div class="hero">
-            <div class="score" id="score">50</div>
+            <div class="score-wrapper">
+                <span class="score" id="score">50</span><span class="score-denominator">/100</span>
+            </div>
             <div class="label" id="label">NEUTRAL</div>
             <div class="updated" id="updated">Updated: Loading...</div>
         </div>
