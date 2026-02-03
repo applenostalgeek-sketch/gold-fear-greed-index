@@ -6,22 +6,22 @@
     <title>OnOff.Markets - Real-Time Market Sentiment & Capital Rotation</title>
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Track real-time market sentiment across Gold, Stocks, and Crypto. Unique capital rotation indicator showing risk-on/risk-off dynamics. Updated daily.">
-    <meta name="keywords" content="market sentiment, fear and greed index, capital rotation, gold sentiment, crypto fear greed, stock market sentiment, risk on risk off">
+    <meta name="description" content="Track real-time market sentiment across Bonds, Gold, Stocks, and Crypto. Unique capital rotation indicator showing risk-on/risk-off dynamics. Updated daily.">
+    <meta name="keywords" content="market sentiment, fear and greed index, capital rotation, bonds sentiment, gold sentiment, crypto fear greed, stock market sentiment, risk on risk off">
     <meta name="author" content="OnOff.Markets">
 
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://onoff.markets/">
     <meta property="og:title" content="OnOff.Markets - Market Sentiment Dashboard">
-    <meta property="og:description" content="Real-time Fear & Greed indices for Gold, Stocks, and Crypto with capital rotation analysis.">
+    <meta property="og:description" content="Real-time Fear & Greed indices for Bonds, Gold, Stocks, and Crypto with capital rotation analysis.">
     <meta property="og:image" content="https://onoff.markets/android-chrome-512x512.png">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://onoff.markets/">
     <meta name="twitter:title" content="OnOff.Markets - Market Sentiment Dashboard">
-    <meta name="twitter:description" content="Real-time Fear & Greed indices for Gold, Stocks, and Crypto">
+    <meta name="twitter:description" content="Real-time Fear & Greed indices for Bonds, Gold, Stocks, and Crypto">
     <meta name="twitter:image" content="https://onoff.markets/android-chrome-512x512.png">
 
     <!-- Favicons -->
@@ -321,7 +321,7 @@
         /* Stats Grid */
         .stats {
             display: grid;
-            grid-template-columns: repeat(3, 1fr);
+            grid-template-columns: repeat(4, 1fr);
             gap: 1px;
             background: #1a1a1a;
             margin: 60px 0;
@@ -517,12 +517,12 @@
             .score { font-size: 7rem; }
             .score-denominator { font-size: 2rem; }
             .label { font-size: 1.5rem; }
-            .stats { grid-template-columns: repeat(3, 1fr); gap: 1px; }
-            .stat { padding: 16px 8px; }
-            .stat-icon { font-size: 1.2rem; margin-bottom: 6px; }
-            .stat-name { font-size: 0.7rem; }
-            .stat-value { font-size: 1.3rem; }
-            .stat-label { font-size: 0.65rem; }
+            .stats { grid-template-columns: repeat(4, 1fr); gap: 1px; }
+            .stat { padding: 12px 4px; }
+            .stat-icon { font-size: 1rem; margin-bottom: 4px; }
+            .stat-name { font-size: 0.6rem; }
+            .stat-value { font-size: 1.1rem; }
+            .stat-label { font-size: 0.55rem; }
             .insight-box { padding: 24px 28px; }
             .insight-text { font-size: 1.05rem; }
             .insight-contrarian { font-size: 0.95rem; }
@@ -569,7 +569,7 @@
             </button>
 
             <div class="nav-links">
-                <a href="index.html">Market</a>
+                <a href="bonds.html">Bonds</a>
                 <a href="gold.html">Gold</a>
                 <a href="stocks.html">Stocks</a>
                 <a href="crypto.html">Crypto</a>
@@ -611,6 +611,13 @@
 
         <!-- Stats -->
         <div class="stats">
+            <div class="stat">
+                <div class="stat-icon">📊</div>
+                <div class="stat-name">Bonds</div>
+                <div class="stat-value" id="bondsValue">--</div>
+                <div class="stat-label" id="bondsLabel">--</div>
+            </div>
+
             <div class="stat">
                 <div class="stat-icon">🪙</div>
                 <div class="stat-name">Gold</div>
@@ -654,6 +661,10 @@
                 <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
                     <div class="chart-toggles">
                         <label class="chart-toggle">
+                            <input type="checkbox" id="toggleBonds" checked>
+                            <span>📊 Bonds</span>
+                        </label>
+                        <label class="chart-toggle">
                             <input type="checkbox" id="toggleGold" checked>
                             <span>🪙 Gold</span>
                         </label>
@@ -693,29 +704,34 @@
     </div>
 
     <script>
-        let gold, stocks, crypto;
+        let gold, stocks, crypto, bonds;
 
         async function loadData() {
             try {
-                const [goldRes, stocksRes, cryptoRes] = await Promise.all([
+                const [goldRes, stocksRes, cryptoRes, bondsRes] = await Promise.all([
                     fetch('data/gold-fear-greed.json'),
                     fetch('data/stocks-fear-greed.json'),
-                    fetch('data/crypto-fear-greed.json')
+                    fetch('data/crypto-fear-greed.json'),
+                    fetch('data/bonds-fear-greed.json')
                 ]);
 
                 gold = await goldRes.json();
                 stocks = await stocksRes.json();
                 crypto = await cryptoRes.json();
+                bonds = await bondsRes.json();
 
-                updateUI(gold, stocks, crypto);
+                updateUI(gold, stocks, crypto, bonds);
                 updateHistoryChart(30);
             } catch (error) {
                 console.error('Error:', error);
             }
         }
 
-        function updateUI(gold, stocks, crypto) {
-            const rotationScore = crypto.score - gold.score;
+        function updateUI(gold, stocks, crypto, bonds) {
+            // Risk-On vs Risk-Off calculation
+            const riskOn = (stocks.score + crypto.score) / 2;
+            const riskOff = (bonds.score + gold.score) / 2;
+            const rotationScore = riskOn - riskOff;
             const position = ((rotationScore + 100) / 200) * 100;
             const spread = Math.abs(rotationScore);
             const strength = Math.min(100, (spread / 50) * 100);
@@ -783,7 +799,7 @@
             document.getElementById('context').textContent = context;
             scoreEl.style.color = color;
 
-            // Update insight - FULLY adaptive to real market conditions
+            // Update insight - Risk-On vs Risk-Off logic
             let insight = '';
 
             // Helper to describe asset state
@@ -796,60 +812,47 @@
             };
 
             if (position < 25) {
-                // EXTREME RISK-OFF: Gold way up, Crypto way down
-                const marketContext = stocks.score < 40
-                    ? 'Broad market risk-off with ' + describeAsset(stocks.score, 'stocks')
-                    : 'Crypto-specific selloff while ' + describeAsset(stocks.score, 'stocks');
-
-                insight = `Extreme defensive rotation. ${describeAsset(crypto.score, 'Crypto')} as capital flees to ${describeAsset(gold.score, 'gold')}. ${marketContext}. Classic flight to safety.`;
+                // EXTREME RISK-OFF: Bonds + Gold dominate
+                insight = `Extreme Risk-Off environment. Safe havens dominating with ${describeAsset(bonds.score, 'bonds')} and ${describeAsset(gold.score, 'gold')}, while risk assets struggle: ${describeAsset(stocks.score, 'stocks')}, ${describeAsset(crypto.score, 'crypto')}. Classic flight to safety.`;
 
             } else if (position < 45) {
-                // DEFENSIVE: Moderate rotation to gold
-                const allFear = crypto.score < 45 && gold.score < 55 && stocks.score < 45;
-                const cryptoLead = crypto.score < 45 && stocks.score > 50;
+                // DEFENSIVE: Moderate risk-off
+                const strongRiskOff = bonds.score > 60 || gold.score > 60;
 
-                if (allFear) {
-                    insight = `Broad defensive positioning. ${describeAsset(crypto.score, 'Crypto')}, ${describeAsset(stocks.score, 'stocks')}, with ${describeAsset(gold.score, 'gold')}. General risk aversion across markets.`;
-                } else if (cryptoLead) {
-                    insight = `Selective rotation from crypto (${Math.round(crypto.score)}) to gold (${Math.round(gold.score)}). Stocks resilient at ${Math.round(stocks.score)}, suggesting crypto-specific concerns rather than broad fear.`;
+                if (strongRiskOff) {
+                    insight = `Defensive positioning. Capital flowing into safe havens (Bonds ${Math.round(bonds.score)}, Gold ${Math.round(gold.score)}) as investors reduce exposure to risk assets (Stocks ${Math.round(stocks.score)}, Crypto ${Math.round(crypto.score)}). Risk aversion rising.`;
                 } else {
-                    insight = `Moderate defensive rotation. Capital shifting from risk assets toward safety. ${describeAsset(crypto.score, 'Crypto')}, ${describeAsset(gold.score, 'gold')}, ${describeAsset(stocks.score, 'stocks')}.`;
+                    insight = `Moderate Risk-Off. Investors cautiously favoring defensive assets over risk assets. ${describeAsset(bonds.score, 'Bonds')}, ${describeAsset(gold.score, 'gold')}, ${describeAsset(stocks.score, 'stocks')}, ${describeAsset(crypto.score, 'crypto')}.`;
                 }
 
             } else if (position < 55) {
-                // BALANCED: No strong rotation
-                const allNeutral = Math.abs(crypto.score - 50) < 15 && Math.abs(gold.score - 50) < 15 && Math.abs(stocks.score - 50) < 15;
+                // BALANCED: No clear preference
+                const allNeutral = Math.abs(bonds.score - 50) < 15 && Math.abs(gold.score - 50) < 15 && Math.abs(stocks.score - 50) < 15 && Math.abs(crypto.score - 50) < 15;
 
                 if (allNeutral) {
-                    insight = `Truly balanced markets. All assets near neutral - crypto (${Math.round(crypto.score)}), gold (${Math.round(gold.score)}), stocks (${Math.round(stocks.score)}). No clear directional bias.`;
+                    insight = `Perfectly balanced markets. All asset classes near neutral - Bonds (${Math.round(bonds.score)}), Gold (${Math.round(gold.score)}), Stocks (${Math.round(stocks.score)}), Crypto (${Math.round(crypto.score)}). No clear risk preference.`;
                 } else {
-                    insight = `Balanced rotation but mixed signals. ${describeAsset(crypto.score, 'Crypto')}, ${describeAsset(gold.score, 'gold')}, ${describeAsset(stocks.score, 'stocks')}. Capital distributed across asset classes.`;
+                    insight = `Balanced allocation between Risk-On and Risk-Off. ${describeAsset(bonds.score, 'Bonds')}, ${describeAsset(gold.score, 'gold')}, ${describeAsset(stocks.score, 'stocks')}, ${describeAsset(crypto.score, 'crypto')}. Mixed signals across markets.`;
                 }
 
             } else if (position < 75) {
-                // RISK-ON: Moderate rotation to crypto
-                const allGreed = crypto.score > 55 && stocks.score > 55 && gold.score < 55;
-                const cryptoLead = crypto.score > 60 && stocks.score > 50;
+                // RISK-ON: Moderate appetite for risk
+                const strongRiskOn = stocks.score > 60 || crypto.score > 60;
 
-                if (allGreed) {
-                    insight = `Broad risk-on environment. ${describeAsset(crypto.score, 'Crypto')} and ${describeAsset(stocks.score, 'stocks')} while ${describeAsset(gold.score, 'gold')}. Strong appetite for risk across markets.`;
-                } else if (cryptoLead) {
-                    insight = `Crypto leading risk-on rotation. ${describeAsset(crypto.score, 'Crypto')} with ${describeAsset(stocks.score, 'stocks')} supporting. Gold demand weakening at ${Math.round(gold.score)}.`;
+                if (strongRiskOn) {
+                    insight = `Risk-On environment. Capital flowing into risk assets (Stocks ${Math.round(stocks.score)}, Crypto ${Math.round(crypto.score)}) while safe havens cool off (Bonds ${Math.round(bonds.score)}, Gold ${Math.round(gold.score)}). Growing risk appetite.`;
                 } else {
-                    insight = `Moderate risk-on rotation. ${describeAsset(crypto.score, 'Crypto')}, ${describeAsset(stocks.score, 'stocks')}, ${describeAsset(gold.score, 'gold')}. Capital shifting toward risk assets.`;
+                    insight = `Moderate Risk-On. Investors cautiously moving into risk assets. ${describeAsset(stocks.score, 'Stocks')}, ${describeAsset(crypto.score, 'crypto')}, ${describeAsset(bonds.score, 'bonds')}, ${describeAsset(gold.score, 'gold')}.`;
                 }
 
             } else {
-                // EXTREME RISK-ON: Crypto way up, Gold way down
+                // EXTREME RISK-ON: Full speculation mode
                 const euphoria = crypto.score > 75 && stocks.score > 75;
-                const cryptoOnly = crypto.score > 75 && stocks.score < 65;
 
                 if (euphoria) {
-                    insight = `Market euphoria. ${describeAsset(crypto.score, 'Crypto')} and ${describeAsset(stocks.score, 'stocks')} as ${describeAsset(gold.score, 'gold')}. Extreme risk appetite. Contrarians watch for overextension.`;
-                } else if (cryptoOnly) {
-                    insight = `Crypto speculation dominates. ${describeAsset(crypto.score, 'Crypto')} while stocks more measured at ${Math.round(stocks.score)}. Gold abandoned at ${Math.round(gold.score)}. High-risk concentration in crypto.`;
+                    insight = `Extreme Risk-On euphoria. Aggressive speculation with ${describeAsset(stocks.score, 'stocks')} and ${describeAsset(crypto.score, 'crypto')} while safe havens are abandoned: ${describeAsset(bonds.score, 'bonds')}, ${describeAsset(gold.score, 'gold')}. Maximum risk appetite - contrarians watch for overextension.`;
                 } else {
-                    insight = `Strong risk-on rotation. ${describeAsset(crypto.score, 'Crypto')} as capital exits ${describeAsset(gold.score, 'gold')}. ${describeAsset(stocks.score, 'Stocks')}. Growing risk appetite.`;
+                    insight = `Strong Risk-On rotation. Risk assets outperforming (Stocks ${Math.round(stocks.score)}, Crypto ${Math.round(crypto.score)}) while defensive assets are sold (Bonds ${Math.round(bonds.score)}, Gold ${Math.round(gold.score)}). High risk appetite prevailing.`;
                 }
             }
 
@@ -867,6 +870,10 @@
             document.getElementById('cryptoValue').textContent = Math.round(crypto.score);
             document.getElementById('cryptoLabel').textContent = crypto.label;
             document.getElementById('cryptoValue').style.color = getColor(crypto.score);
+
+            document.getElementById('bondsValue').textContent = Math.round(bonds.score);
+            document.getElementById('bondsLabel').textContent = bonds.label;
+            document.getElementById('bondsValue').style.color = getColor(bonds.score);
 
             // Contrarian signal (rotation-focused)
             let contrarianText;
@@ -946,8 +953,9 @@
             const goldHistory = gold?.history || [];
             const stocksHistory = stocks?.history || [];
             const cryptoHistory = crypto?.history || [];
+            const bondsHistory = bonds?.history || [];
 
-            if (goldHistory.length === 0 && stocksHistory.length === 0 && cryptoHistory.length === 0) return;
+            if (goldHistory.length === 0 && stocksHistory.length === 0 && cryptoHistory.length === 0 && bondsHistory.length === 0) return;
 
             const canvas = document.getElementById('historyChart');
             const ctx = canvas.getContext('2d');
@@ -965,14 +973,18 @@
             const sortedCryptoHistory = [...cryptoHistory].sort((a, b) => new Date(a.date) - new Date(b.date));
             const limitedCryptoHistory = sortedCryptoHistory.slice(-days);
 
+            const sortedBondsHistory = [...bondsHistory].sort((a, b) => new Date(a.date) - new Date(b.date));
+            const limitedBondsHistory = sortedBondsHistory.slice(-days);
+
             const showGold = document.getElementById('toggleGold')?.checked !== false;
             const showStocks = document.getElementById('toggleStocks')?.checked !== false;
             const showCrypto = document.getElementById('toggleCrypto')?.checked !== false;
+            const showBonds = document.getElementById('toggleBonds')?.checked !== false;
 
-            drawChart(ctx, canvas, limitedGoldHistory, limitedStocksHistory, limitedCryptoHistory, showGold, showStocks, showCrypto);
+            drawChart(ctx, canvas, limitedGoldHistory, limitedStocksHistory, limitedCryptoHistory, limitedBondsHistory, showGold, showStocks, showCrypto, showBonds);
         }
 
-        function drawChart(ctx, canvas, goldData, stocksData, cryptoData, showGold, showStocks, showCrypto) {
+        function drawChart(ctx, canvas, goldData, stocksData, cryptoData, bondsData, showGold, showStocks, showCrypto, showBonds) {
             const width = canvas.width;
             const height = canvas.height;
             const paddingTop = 40;
@@ -1009,13 +1021,16 @@
             if (showGold && goldData.length > 0) {
                 drawLine(ctx, goldData, paddingTop, paddingSide, chartHeight, chartWidth, '#FFD700', 2);
             }
+            if (showBonds && bondsData.length > 0) {
+                drawLine(ctx, bondsData, paddingTop, paddingSide, chartHeight, chartWidth, '#10b981', 2);
+            }
 
             // Draw labels
-            const labelData = goldData.length > 0 ? goldData : (stocksData.length > 0 ? stocksData : cryptoData);
+            const labelData = goldData.length > 0 ? goldData : (stocksData.length > 0 ? stocksData : (cryptoData.length > 0 ? cryptoData : bondsData));
             if (labelData.length > 0) {
                 ctx.fillStyle = '#666';
                 ctx.font = '11px sans-serif';
-                const numLabels = labelData.length > 180 ? 8 : 5;
+                const numLabels = labelData.length <= 7 ? labelData.length : (labelData.length > 180 ? 8 : 5);
                 const step = Math.floor(labelData.length / (numLabels - 1));
 
                 for (let i = 0; i < numLabels; i++) {
@@ -1069,7 +1084,7 @@
         });
 
         // Toggle checkboxes
-        ['toggleGold', 'toggleStocks', 'toggleCrypto'].forEach(id => {
+        ['toggleGold', 'toggleStocks', 'toggleCrypto', 'toggleBonds'].forEach(id => {
             const toggle = document.getElementById(id);
             if (toggle) {
                 toggle.addEventListener('change', () => updateHistoryChart(currentPeriod));

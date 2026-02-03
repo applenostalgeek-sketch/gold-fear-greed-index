@@ -19,4 +19,5 @@ Allow: /index.html
 Allow: /gold.html
 Allow: /stocks.html
 Allow: /crypto.html
+Allow: /bonds.html
 Allow: /about.html

@@ -3,25 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Stock Market Fear & Greed Index - Real-Time Sentiment | OnOff.Markets</title>
+    <title>Bonds Fear & Greed Index - Real-Time Treasury Sentiment | OnOff.Markets</title>
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Real-time Stock Market Fear & Greed Index based on VIX, momentum, market breadth, and safe haven flows. Track stock market sentiment daily.">
-    <meta name="keywords" content="stock fear greed, stock market sentiment, market fear index, VIX indicator, stock sentiment today, market breadth">
+    <meta name="description" content="Real-time Bonds Fear & Greed Index based on credit spreads, yield curve, volatility, and safe haven flows. Track bond market sentiment daily.">
+    <meta name="keywords" content="bonds fear greed, bonds sentiment, treasury index, bond market sentiment, bonds trading indicator, yield curve">
     <meta name="author" content="OnOff.Markets">
 
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://onoff.markets/stocks.html">
-    <meta property="og:title" content="Stocks Fear & Greed Index | OnOff.Markets">
-    <meta property="og:description" content="Track stock market sentiment with our proprietary Fear & Greed Index. Updated daily.">
+    <meta property="og:url" content="https://onoff.markets/bonds.html">
+    <meta property="og:title" content="Bonds Fear & Greed Index | OnOff.Markets">
+    <meta property="og:description" content="Track bond market sentiment with our proprietary Fear & Greed Index. Updated daily.">
     <meta property="og:image" content="https://onoff.markets/android-chrome-512x512.png">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="https://onoff.markets/stocks.html">
-    <meta name="twitter:title" content="Stocks Fear & Greed Index">
-    <meta name="twitter:description" content="Real-time stock market sentiment indicator">
+    <meta name="twitter:url" content="https://onoff.markets/bonds.html">
+    <meta name="twitter:title" content="Bonds Fear & Greed Index">
+    <meta name="twitter:description" content="Real-time bond market sentiment indicator">
     <meta name="twitter:image" content="https://onoff.markets/android-chrome-512x512.png">
 
     <!-- Favicons -->
@@ -199,7 +199,7 @@
         .asset-title {
             font-size: 1.1rem;
             font-weight: 600;
-            color: #4A90E2;
+            color: #60a5fa;
             margin-top: 8px;
             display: flex;
             align-items: center;
@@ -268,6 +268,7 @@
             text-transform: uppercase;
             letter-spacing: 0.1em;
         }
+
 
         /* Components Grid */
         .components-section {
@@ -503,6 +504,8 @@
             .explanation-grid { grid-template-columns: 1fr; gap: 0; }
             .chart-container { height: 300px; padding: 20px 15px; }
             .components-grid { grid-template-columns: 1fr; gap: 0; }
+            .insight-box { padding: 24px 28px; }
+            .insight-text { font-size: 1.05rem; }
         }
     </style>
 </head>
@@ -524,9 +527,9 @@
             </button>
 
             <div class="nav-links">
-                <a href="bonds.html">Bonds</a>
+                <a href="bonds.html" class="active">Bonds</a>
                 <a href="gold.html">Gold</a>
-                <a href="stocks.html" class="active">Stocks</a>
+                <a href="stocks.html">Stocks</a>
                 <a href="crypto.html">Crypto</a>
                 <a href="about.html">About</a>
             </div>
@@ -540,7 +543,7 @@
         <!-- Header -->
         <div class="header">
             <h1>Fear & Greed Index</h1>
-            <div class="asset-title">📈 Stocks</div>
+            <div class="asset-title">📊 Bonds</div>
         </div>
 
         <!-- Hero Score -->
@@ -632,13 +635,13 @@
     </div>
 
     <script>
-        let stocksData;
+        let bondsData;
         let currentPeriod = 30;
 
         async function loadData() {
             try {
-                const response = await fetch('data/stocks-fear-greed.json');
-                stocksData = await response.json();
+                const response = await fetch('data/bonds-fear-greed.json');
+                bondsData = await response.json();
                 updateUI();
                 updateHistoryChart(30);
             } catch (error) {
@@ -647,9 +650,9 @@
         }
 
         function updateUI() {
-            if (!stocksData) return;
+            if (!bondsData) return;
 
-            const score = stocksData.score;
+            const score = bondsData.score;
             const position = score;
 
             // Update score
@@ -684,19 +687,19 @@
             scoreEl.style.color = color;
 
             // Update timestamp
-            if (stocksData.timestamp) {
-                const date = new Date(stocksData.timestamp);
+            if (bondsData.timestamp) {
+                const date = new Date(bondsData.timestamp);
                 const options = { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
                 const formattedDate = date.toLocaleDateString('en-US', options);
                 document.getElementById('updated').textContent = `Updated: ${formattedDate}`;
             }
 
             // Update components
-            if (stocksData.components) {
+            if (bondsData.components) {
                 const componentsGrid = document.getElementById('componentsGrid');
                 componentsGrid.innerHTML = '';
 
-                Object.entries(stocksData.components).forEach(([name, data]) => {
+                Object.entries(bondsData.components).forEach(([name, data]) => {
                     const card = document.createElement('div');
                     card.className = 'component-card';
                     card.innerHTML = `
@@ -710,7 +713,7 @@
         }
 
         function updateHistoryChart(days = 30) {
-            if (!stocksData || !stocksData.history) return;
+            if (!bondsData || !bondsData.history) return;
 
             const canvas = document.getElementById('historyChart');
             const ctx = canvas.getContext('2d');
@@ -719,7 +722,7 @@
             canvas.width = container.offsetWidth;
             canvas.height = container.offsetHeight;
 
-            const sortedHistory = [...stocksData.history].sort((a, b) => new Date(a.date) - new Date(b.date));
+            const sortedHistory = [...bondsData.history].sort((a, b) => new Date(a.date) - new Date(b.date));
             const limitedHistory = sortedHistory.slice(-days);
 
             drawChart(ctx, canvas, limitedHistory);
@@ -754,7 +757,7 @@
 
             // Draw line
             if (data.length > 1) {
-                ctx.strokeStyle = '#4A90E2';
+                ctx.strokeStyle = '#60a5fa';
                 ctx.lineWidth = 2;
                 ctx.beginPath();
 

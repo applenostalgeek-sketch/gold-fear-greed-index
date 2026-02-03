@@ -524,7 +524,7 @@
             </button>
 
             <div class="nav-links">
-                <a href="index.html">Market</a>
+                <a href="bonds.html">Bonds</a>
                 <a href="gold.html">Gold</a>
                 <a href="stocks.html">Stocks</a>
                 <a href="crypto.html" class="active">Crypto</a>
@@ -776,7 +776,7 @@
             if (data.length > 0) {
                 ctx.fillStyle = '#666';
                 ctx.font = '11px sans-serif';
-                const numLabels = data.length > 180 ? 8 : 5;
+                const numLabels = data.length <= 7 ? data.length : (data.length > 180 ? 8 : 5);
                 const step = Math.floor(data.length / (numLabels - 1));
 
                 for (let i = 0; i < numLabels; i++) {
@@ -852,14 +852,21 @@
         // Update logo dots color (fetch market data to get rotation position)
         async function updateLogoDots() {
             try {
-                const [goldRes, cryptoRes] = await Promise.all([
+                const [bondsRes, goldRes, stocksRes, cryptoRes] = await Promise.all([
+                    fetch('data/bonds-fear-greed.json'),
                     fetch('data/gold-fear-greed.json'),
+                    fetch('data/stocks-fear-greed.json'),
                     fetch('data/crypto-fear-greed.json')
                 ]);
+                const bonds = await bondsRes.json();
                 const gold = await goldRes.json();
+                const stocks = await stocksRes.json();
                 const crypto = await cryptoRes.json();
 
-                const rotationScore = crypto.score - gold.score;
+                // Risk-On vs Risk-Off calculation
+                const riskOn = (stocks.score + crypto.score) / 2;
+                const riskOff = (bonds.score + gold.score) / 2;
+                const rotationScore = riskOn - riskOff;
                 const position = ((rotationScore + 100) / 200) * 100;
 
                 const logoDots = document.querySelector('.logo-dots');

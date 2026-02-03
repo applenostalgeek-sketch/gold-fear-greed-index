@@ -249,6 +249,10 @@
             margin: 24px 0;
         }
 
+        .component-box.bonds {
+            border-left-color: #10b981;
+        }
+
         .component-box.gold {
             border-left-color: #FFD700;
         }
@@ -468,7 +472,7 @@
                 <span></span>
             </button>
             <div class="nav-links" id="navLinks">
-                <a href="index.html">Market</a>
+                <a href="bonds.html">Bonds</a>
                 <a href="gold.html">Gold</a>
                 <a href="stocks.html">Stocks</a>
                 <a href="crypto.html">Crypto</a>
@@ -499,7 +503,7 @@
                 "We use proprietary algorithms." "Our advanced models analyze sentiment." Cool—but <em>how?</em> What data? What weights? How often does it update? Silence.
             </p>
             <p>
-                So I built my own. First for gold (7 transparent components), then stocks, then crypto. Once I had all three, I realized I could create something unique: a <strong>Capital Rotation Indicator</strong> showing when money flows between safe havens and risk assets. That's how OnOff.Markets was born—not as a business plan, but as a personal project that grew into something bigger.
+                So I built my own. First for gold (7 transparent components), then stocks, then crypto, and finally bonds. Once I had all four, I realized I could create something unique: a <strong>Market Sentiment Indicator</strong> showing when money flows between safe havens (bonds + gold) and risk assets (stocks + crypto). That's how OnOff.Markets was born—not as a business plan, but as a personal project that grew into something bigger.
             </p>
         </div>
 
@@ -545,7 +549,7 @@
                     <strong>Risk-on signal:</strong> Crypto/Stocks rising + Gold falling = risk appetite returning.
                 </p>
                 <p>
-                    Use the Capital Rotation Indicator to visualize these flows in real-time.
+                    Use the Market Sentiment Indicator to visualize these flows in real-time.
                 </p>
             </div>
 
@@ -571,13 +575,78 @@
                 Jump to detailed component breakdowns:
             </p>
             <ul>
+                <li><a href="#bonds">Bonds Fear & Greed Index (7 components)</a></li>
                 <li><a href="#gold">Gold Fear & Greed Index (7 components)</a></li>
                 <li><a href="#stocks">Stocks Fear & Greed Index (6 components)</a></li>
                 <li><a href="#crypto">Crypto Fear & Greed Index (5 components)</a></li>
-                <li><a href="#rotation">Capital Rotation Indicator</a></li>
+                <li><a href="#rotation">Market Sentiment Indicator (Risk-On vs Risk-Off)</a></li>
                 <li><a href="#sources">Data Sources & Transparency</a></li>
                 <li><a href="#faq">Frequently Asked Questions</a></li>
             </ul>
+        </div>
+
+        <!-- Gold Index -->
+        <div class="section" id="bonds">
+            <h2>📊 Bonds Fear & Greed Index</h2>
+            <p>
+                The Bonds Index measures sentiment in the fixed income market using <strong>7 components</strong> with varying weights. All scores from 0-100:
+            </p>
+
+            <div class="component-box bonds">
+                <h4>1. Price Momentum (25%)</h4>
+                <p class="weight">TLT 14-day price movement (inverted)</p>
+                <p>
+                    Rising bond prices = falling yields = fear/defensive positioning. Falling bond prices = rising yields = risk appetite. Uses iShares 20+ Year Treasury ETF (TLT). <strong>Inverted:</strong> Bond rallies indicate fear, selloffs indicate greed.
+                </p>
+            </div>
+
+            <div class="component-box bonds">
+                <h4>2. Credit Spreads (20%)</h4>
+                <p class="weight">High Yield (HYG) vs Treasuries (TLT)</p>
+                <p>
+                    Widening spreads = investors demanding higher risk premiums = fear. Tightening spreads = risk appetite = greed. Compares iShares High Yield Corporate Bond ETF (HYG) performance vs safe Treasury bonds (TLT).
+                </p>
+            </div>
+
+            <div class="component-box bonds">
+                <h4>3. Yield Curve (15%)</h4>
+                <p class="weight">2-Year vs 10-Year Treasury spread</p>
+                <p>
+                    Steepening curve = growth optimism = greed. Flattening/inverting curve = recession fears = fear. Uses FRED API data (DGS2, DGS10). Inverted curves have historically preceded recessions.
+                </p>
+            </div>
+
+            <div class="component-box bonds">
+                <h4>4. Bond Volatility (15%)</h4>
+                <p class="weight">TLT 14-day volatility vs 30-day average</p>
+                <p>
+                    Higher volatility indicates uncertainty and stress in fixed income markets = fear. Lower volatility = confidence = greed. Serves as proxy for MOVE index (bond market VIX equivalent).
+                </p>
+            </div>
+
+            <div class="component-box bonds">
+                <h4>5. Safe Haven Flows (10%)</h4>
+                <p class="weight">TLT volume spikes</p>
+                <p>
+                    Surging Treasury ETF volume indicates flight-to-quality flows = fear. Normal volume = complacency = greed. Analyzes volume relative to 20-day average.
+                </p>
+            </div>
+
+            <div class="component-box bonds">
+                <h4>6. Real Rates (10%)</h4>
+                <p class="weight">10-Year TIPS yield from FRED</p>
+                <p>
+                    Falling real rates = easier financial conditions = greed. Rising real rates = tightening conditions = fear. Uses FRED API (DFII10) for accurate TIPS yield data.
+                </p>
+            </div>
+
+            <div class="component-box bonds">
+                <h4>7. Equity vs Bonds (5%)</h4>
+                <p class="weight">SPY vs TLT relative performance</p>
+                <p>
+                    Stocks outperforming bonds = risk-on = greed. Bonds outperforming stocks = defensive rotation = fear. Measures 14-day relative performance between S&P 500 (SPY) and long Treasuries (TLT).
+                </p>
+            </div>
         </div>
 
         <!-- Gold Index -->
@@ -748,32 +817,38 @@
             </div>
         </div>
 
-        <!-- Capital Rotation -->
+        <!-- Market Sentiment Indicator -->
         <div class="section" id="rotation">
-            <h2>Capital Rotation Indicator</h2>
+            <h2>Market Sentiment Indicator (Risk-On vs Risk-Off)</h2>
             <p>
-                Visualizes risk sentiment by comparing crypto (speculative/risk-on) against gold (defensive/risk-off). This helps identify market regime and capital flow direction.
+                Visualizes overall market risk appetite by comparing risk assets (Stocks + Crypto) against safe havens (Bonds + Gold). This multi-asset approach provides a comprehensive view of capital rotation and market regime, going beyond simple two-asset comparisons.
             </p>
 
             <h3>Calculation</h3>
             <div class="component-box">
                 <p style="font-family: 'Courier New', monospace; font-size: 0.95rem; margin: 0;">
-                    Rotation Score = Crypto Score - Gold Score<br>
-                    Position = ((Rotation Score + 100) / 200) × 100
+                    Risk-On = (Stocks Score + Crypto Score) / 2<br>
+                    Risk-Off = (Bonds Score + Gold Score) / 2<br>
+                    Market Sentiment = Risk-On - Risk-Off<br>
+                    Position = ((Market Sentiment + 100) / 200) × 100
                 </p>
             </div>
             <p>
-                This produces a 0-100 position: 0 = extreme defensive (gold outperforming), 100 = extreme risk appetite (crypto outperforming).
+                This produces a 0-100 position representing the balance between risk appetite and defensive positioning. The calculation uses equal weighting (50/50) within each category to capture "pure sentiment" without bias toward traditional or alternative markets.
             </p>
 
             <h3>Interpretation</h3>
             <ul>
-                <li><strong>0-25 (Extreme Risk-Off):</strong> Capital fleeing to safe havens, markets in distress</li>
-                <li><strong>25-45 (Risk-Off):</strong> Defensive rotation, elevated caution</li>
-                <li><strong>45-55 (Neutral):</strong> Balanced sentiment, no dominant flow</li>
-                <li><strong>55-75 (Risk-On):</strong> Risk appetite increasing, capital flowing to growth assets</li>
-                <li><strong>75-100 (Extreme Risk-On):</strong> Euphoric risk-taking, potential top warning</li>
+                <li><strong>0-25 (Extreme Risk-Off):</strong> Capital fleeing to safe havens (bonds + gold), markets in distress</li>
+                <li><strong>25-45 (Risk-Off):</strong> Defensive rotation dominant, elevated caution across markets</li>
+                <li><strong>45-55 (Neutral):</strong> Balanced sentiment, no dominant flow between risk-on and risk-off</li>
+                <li><strong>55-75 (Risk-On):</strong> Risk appetite increasing, capital flowing to stocks and crypto</li>
+                <li><strong>75-100 (Extreme Risk-On):</strong> Euphoric risk-taking across assets, potential top warning</li>
             </ul>
+
+            <p style="margin-top: 16px;">
+                <strong>Why this approach?</strong> Traditional markets (stocks/bonds) and alternative assets (crypto/gold) each provide unique insights into investor behavior. By combining all four indices, we capture a more complete picture of risk sentiment than any single pair of assets could provide.
+            </p>
         </div>
 
         <!-- Data Sources -->
@@ -810,9 +885,14 @@
                 Our Crypto index has been calibrated against Alternative.me's established index, achieving an average error of 8.3 points—a 60% improvement over uncalibrated models. Accuracy varies by market conditions; extreme readings (< 25 or > 75) tend to be more reliable as contrarian signals. These are analytical tools, not predictive guarantees.
             </p>
 
+            <h3>Why does the index sometimes react slowly to major news?</h3>
+            <p>
+                All indices use 14-day moving averages to capture sustained sentiment shifts rather than panic reactions. This means sudden 1-day events take 3-5 days to fully reflect in the scores. This is intentional—we track capital rotation and structural trends, not headlines. For day trading signals, other tools may be more appropriate.
+            </p>
+
             <h3>Is this better than CNN's Fear and Greed Index?</h3>
             <p>
-                CNN's index only covers US stocks. We provide <strong>three separate indices</strong> for Gold (safe haven), Stocks (equities), and Crypto (speculation), enabling cross-asset sentiment analysis. Our methodology is fully documented and transparent, unlike CNN's proprietary calculations. The Capital Rotation Indicator visualizes risk-on/risk-off flows—a feature not available elsewhere.
+                CNN's index only covers US stocks. We provide <strong>four separate indices</strong> for Bonds, Gold, Stocks, and Crypto, enabling comprehensive cross-asset sentiment analysis. Our methodology is fully documented and transparent, unlike CNN's proprietary calculations. The Market Sentiment Indicator visualizes risk-on/risk-off flows across all asset classes—a feature not available elsewhere.
             </p>
 
             <h3>Can I access historical data via API?</h3>
@@ -820,7 +900,7 @@
                 Yes! API access launches in <strong>Q2 2025</strong>. Features include:
             </p>
             <ul>
-                <li>Real-time sentiment scores for all three indices</li>
+                <li>Real-time sentiment scores for all four indices</li>
                 <li>365 days of historical data per index</li>
                 <li>Component-level breakdowns</li>
                 <li>JSON and CSV export formats</li>
@@ -835,6 +915,7 @@
                 Each asset class has unique market dynamics requiring tailored indicators:
             </p>
             <ul>
+                <li><strong>Bonds (7 components):</strong> Fixed income sentiment tracks yield curve, credit spreads, and flight-to-quality flows</li>
                 <li><strong>Gold (7 components):</strong> Safe haven behavior requires tracking dollar strength, real rates, and equity market fear</li>
                 <li><strong>Stocks (6 components):</strong> Equity sentiment focuses on breadth, volatility, and credit market signals</li>
                 <li><strong>Crypto (5 components):</strong> Highly momentum-driven market emphasizes trend strength and dominance metrics</li>
@@ -850,7 +931,7 @@
             <ul>
                 <li><strong>Contrarian entry signals:</strong> Consider buying when index < 25, reducing exposure when > 75</li>
                 <li><strong>Risk scaling:</strong> Adjust position sizes based on sentiment extremes</li>
-                <li><strong>Cross-asset rotation:</strong> Monitor capital flows via the Rotation Indicator</li>
+                <li><strong>Cross-asset rotation:</strong> Monitor capital flows via the Market Sentiment Indicator</li>
             </ul>
             <p>
                 Once the API launches (Q2 2025), programmatic access will be available. Current data accessible via JSON endpoints, updated daily. Always backtest thoroughly before deploying with real capital.
@@ -907,14 +988,21 @@
         // Logo dots animation with rotation indicator
         async function updateLogoDots() {
             try {
-                const [goldRes, cryptoRes] = await Promise.all([
+                const [bondsRes, goldRes, stocksRes, cryptoRes] = await Promise.all([
+                    fetch('data/bonds-fear-greed.json'),
                     fetch('data/gold-fear-greed.json'),
+                    fetch('data/stocks-fear-greed.json'),
                     fetch('data/crypto-fear-greed.json')
                 ]);
+                const bonds = await bondsRes.json();
                 const gold = await goldRes.json();
+                const stocks = await stocksRes.json();
                 const crypto = await cryptoRes.json();
 
-                const rotationScore = crypto.score - gold.score;
+                // Risk-On vs Risk-Off calculation
+                const riskOn = (stocks.score + crypto.score) / 2;
+                const riskOff = (bonds.score + gold.score) / 2;
+                const rotationScore = riskOn - riskOff;
                 const position = ((rotationScore + 100) / 200) * 100;
 
                 const logoDots = document.querySelector('.logo-dots');
