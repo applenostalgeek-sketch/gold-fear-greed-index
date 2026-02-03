@@ -1,6 +1,7 @@
 {
   "score": 52.3,
   "label": "Neutral",
+  "timestamp": "2026-02-03T13:55:16Z",
   "components": {
     "price_momentum": {
       "score": 53.6,
@@ -15,7 +16,7 @@
     "yield_curve": {
       "score": 50.0,
       "weight": 0.15,
-      "detail": "Data unavailable"
+      "detail": "FRED API key missing"
     },
     "bond_volatility": {
       "score": 43.6,
@@ -30,7 +31,7 @@
     "real_rates": {
       "score": 50.0,
       "weight": 0.1,
-      "detail": "Data unavailable"
+      "detail": "FRED API key missing"
     },
     "equity_vs_bonds": {
       "score": 54.7,
@@ -38,8 +39,6 @@
       "detail": "SPY vs TLT: +0.9%"
     }
   },
-  "timestamp": "2026-02-03T13:47:41.733109",
-  "last_update": "2026-02-03 13:47 UTC",
   "history": [
     {
       "date": "2025-02-04",
