@@ -1,45 +1,49 @@
 {
-  "score": 65.8,
+  "score": 66.8,
   "label": "Greed",
-  "timestamp": "2026-02-03T17:06:13Z",
+  "timestamp": "2026-02-04T04:12:23Z",
   "components": {
     "volatility": {
-      "score": 31.5,
+      "score": 30.9,
       "weight": 0.15,
-      "detail": "Vol 14j: 67.0% vs moy 30j: 48.9%"
+      "detail": "Vol 14j: 72.3% vs moy 30j: 52.3%"
     },
     "momentum": {
-      "score": 88.2,
+      "score": 88.8,
       "weight": 0.25,
-      "detail": "RSI: 61, Prix > MM50"
+      "detail": "RSI: 63, Prix > MM50"
     },
     "gold_vs_spy": {
-      "score": 69.2,
+      "score": 75.2,
       "weight": 0.15,
-      "detail": "Gold +7.7% vs SPY -0.0%"
+      "detail": "Gold +10.0% vs SPY -0.1%"
     },
     "etf_flows": {
       "score": 100,
       "weight": 0.15,
-      "detail": "GLD volume +106.6%, price +6.8%"
+      "detail": "GLD volume +115.8%, price +6.7%"
     },
     "vix": {
-      "score": 25.4,
+      "score": 26.6,
       "weight": 0.1,
-      "detail": "VIX: 17.6 vs avg: 17.1"
+      "detail": "VIX: 18.0 vs avg: 17.1"
     },
     "real_rates": {
-      "score": 42.9,
+      "score": 43.1,
       "weight": 0.1,
-      "detail": "10Y Yield: 4.28% (proxy, avg: 4.15%)"
+      "detail": "10Y Yield: 4.27% (proxy, avg: 4.15%)"
     },
     "dollar_index": {
-      "score": 67.7,
+      "score": 67.5,
       "weight": 0.1,
-      "detail": "DXY: 97.38 (-1.8% 14d, MA30: 98.15)"
+      "detail": "DXY: 97.39 (-1.8% 14d, MA30: 98.15)"
     }
   },
   "history": [
+    {
+      "date": "2026-02-04",
+      "score": 66.8
+    },
     {
       "date": "2026-02-03",
       "score": 65.8
@@ -1495,10 +1499,6 @@
     {
       "date": "2025-02-05",
       "score": 55.3
-    },
-    {
-      "date": "2025-02-04",
-      "score": 55.5
     }
   ]
 }

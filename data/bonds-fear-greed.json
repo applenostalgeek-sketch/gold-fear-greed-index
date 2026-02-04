@@ -1,40 +1,35 @@
 {
-  "score": 57.1,
-  "label": "Greed",
-  "timestamp": "2026-02-03T19:55:14Z",
+  "score": 49.0,
+  "label": "Neutral",
+  "timestamp": "2026-02-04T04:12:27Z",
   "components": {
     "Yield Curve": {
-      "score": 54.8,
+      "score": 50.0,
       "weight": 0.3,
-      "detail": "Spread 10Y-2Y: +0.74%"
+      "detail": "Data unavailable"
     },
     "Duration Risk": {
-      "score": 47.8,
+      "score": 47.3,
       "weight": 0.25,
-      "detail": "TLT 20j: -0.3%"
+      "detail": "TLT 20j: -0.2%"
     },
     "Real Yields": {
-      "score": 83.0,
+      "score": 50.0,
       "weight": 0.2,
-      "detail": "TIPS 10Y: +1.90%"
+      "detail": "Data unavailable"
     },
     "Credit Quality": {
-      "score": 53.9,
+      "score": 54.3,
       "weight": 0.15,
-      "detail": "LQD vs TLT: +0.2%"
+      "detail": "LQD vs TLT: +0.3%"
     },
     "Term Premium": {
-      "score": 39.9,
+      "score": 40.6,
       "weight": 0.1,
-      "detail": "TLT vs SHY: -1.0%"
+      "detail": "TLT vs SHY: -0.9%"
     }
   },
   "history": [
-    {
-      "date": "2025-02-04",
-      "score": 51.6,
-      "label": "Neutral"
-    },
     {
       "date": "2025-02-05",
       "score": 50.8,
@@ -1854,6 +1849,11 @@
       "date": "2026-02-03",
       "score": 57.1,
       "label": "Greed"
+    },
+    {
+      "date": "2026-02-04",
+      "score": 49.0,
+      "label": "Neutral"
     }
   ]
 }

@@ -1,45 +1,49 @@
 {
-  "score": 52.5,
+  "score": 51.9,
   "label": "Neutral",
-  "timestamp": "2026-02-03T17:06:15Z",
+  "timestamp": "2026-02-04T04:12:25Z",
   "components": {
     "momentum": {
-      "score": 57.8,
+      "score": 57.5,
       "weight": 0.2,
       "detail": "RSI: 46, Price > MA50"
     },
     "vix": {
       "score": 55.0,
       "weight": 0.2,
-      "detail": "VIX: 17.6 vs avg: 17.1"
+      "detail": "VIX: 18.0 vs avg: 17.1"
     },
     "market_breadth": {
-      "score": 52.3,
+      "score": 51.3,
       "weight": 0.15,
-      "detail": "RSP +0.1% vs SPY -0.0%"
+      "detail": "RSP -0.1% vs SPY -0.1%"
     },
     "sector_rotation": {
-      "score": 25.0,
+      "score": 25.4,
       "weight": 0.15,
-      "detail": "QQQ -0.4% vs XLP +4.6%"
+      "detail": "QQQ -0.5% vs XLP +4.4%"
     },
     "junk_bonds": {
-      "score": 66.7,
+      "score": 65.0,
       "weight": 0.15,
-      "detail": "HYG -0.0% vs TLT -1.7%"
+      "detail": "HYG +0.1% vs TLT -1.4%"
     },
     "safe_haven": {
-      "score": 58.5,
+      "score": 57.0,
       "weight": 0.1,
-      "detail": "TLT -1.7% 14d"
+      "detail": "TLT -1.4% 14d"
     },
     "price_strength": {
-      "score": 49.8,
+      "score": 49.4,
       "weight": 0.05,
-      "detail": "SPY -0.0% 14d"
+      "detail": "SPY -0.1% 14d"
     }
   },
   "history": [
+    {
+      "date": "2026-02-04",
+      "score": 51.9
+    },
     {
       "date": "2026-02-03",
       "score": 52.5
@@ -1495,10 +1499,6 @@
     {
       "date": "2025-02-05",
       "score": 45.8
-    },
-    {
-      "date": "2025-02-04",
-      "score": 50.5
     }
   ]
 }
