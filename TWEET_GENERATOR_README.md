@@ -28,9 +28,15 @@ python3 generate_tweet.py
 ₿ Crypto: 12 (Extreme Fear)
 
 Market: Risk-Off (37.0%)
+💡 Gold 🟢 | Bonds ⚪ | Stocks ⚪ | Crypto 🔴
 
 → onoff.markets
 ```
+
+**Visual indicators:**
+- 🟢 Greed (high sentiment)
+- ⚪ Neutral
+- 🔴 Fear (low sentiment)
 
 ## How It Works
 

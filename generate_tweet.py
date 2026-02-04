@@ -23,8 +23,18 @@ def load_index_data(filename):
         print(f"❌ Error loading {filename}: {e}")
         return None
 
+def get_sentiment_emoji(label):
+    """Convert sentiment label to emoji indicator"""
+    label_lower = label.lower()
+    if 'greed' in label_lower:
+        return '🟢'
+    elif 'fear' in label_lower:
+        return '🔴'
+    else:  # Neutral
+        return '⚪'
+
 def calculate_market_rotation(bonds, gold, stocks, crypto):
-    """Calculate Risk-On vs Risk-Off score"""
+    """Calculate Risk-On vs Risk-Off score with label and context"""
     risk_off = (bonds + gold) / 2
     risk_on = (stocks + crypto) / 2
 
@@ -35,12 +45,24 @@ def calculate_market_rotation(bonds, gold, stocks, crypto):
     rotation_score = 50 + (net_score / 2)
     rotation_score = max(0, min(100, rotation_score))
 
-    if rotation_score >= 55:
-        return "Risk-On", round(rotation_score, 1)
-    elif rotation_score <= 45:
-        return "Risk-Off", round(rotation_score, 1)
+    # Determine label and context based on site logic
+    if rotation_score < 25:
+        label = "🪙 EXTREME RISK-OFF"
+        context = "Massive flight into safe havens"
+    elif rotation_score < 45:
+        label = "🛡️ DEFENSIVE"
+        context = "Capital rotating to safety"
+    elif rotation_score < 55:
+        label = "⚖️ BALANCED"
+        context = "Neutral capital allocation"
+    elif rotation_score < 75:
+        label = "🚀 RISK-ON"
+        context = "Capital flowing to risk assets"
     else:
-        return "Neutral", round(rotation_score, 1)
+        label = "⚡ EXTREME RISK-ON"
+        context = "Aggressive rush into crypto"
+
+    return label, round(rotation_score, 1), context
 
 def format_tweet(bonds_data, gold_data, stocks_data, crypto_data):
     """Format the daily tweet message"""
@@ -58,9 +80,15 @@ def format_tweet(bonds_data, gold_data, stocks_data, crypto_data):
     crypto_label = crypto_data['label']
 
     # Calculate market rotation
-    rotation_label, rotation_score = calculate_market_rotation(
+    rotation_label, rotation_score, rotation_context = calculate_market_rotation(
         bonds_score, gold_score, stocks_score, crypto_score
     )
+
+    # Get emoji indicators
+    bonds_emoji = get_sentiment_emoji(bonds_label)
+    gold_emoji = get_sentiment_emoji(gold_label)
+    stocks_emoji = get_sentiment_emoji(stocks_label)
+    crypto_emoji = get_sentiment_emoji(crypto_label)
 
     # Format date (Paris time)
     date_str = datetime.now().strftime("%d %b %Y")
@@ -73,7 +101,8 @@ def format_tweet(bonds_data, gold_data, stocks_data, crypto_data):
 📈 Stocks: {int(stocks_score)} ({stocks_label})
 ₿ Crypto: {int(crypto_score)} ({crypto_label})
 
-Market: {rotation_label} ({rotation_score}%)
+{rotation_label} ({rotation_score}%) - {rotation_context}
+💡 Bonds {bonds_emoji} | Gold {gold_emoji} | Stocks {stocks_emoji} | Crypto {crypto_emoji}
 
 → onoff.markets"""
 
