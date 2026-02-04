@@ -1,13 +1,11 @@
 #!/usr/bin/env python3
 """
-Daily Twitter bot for OnOff.Markets sentiment indices
-Posts market sentiment update at 09:00 Paris time
+Local tweet generator for OnOff.Markets
+Run this script to generate a formatted tweet to copy-paste manually
 """
 
 import json
-import os
 from datetime import datetime
-import tweepy
 
 def load_index_data(filename):
     """Load sentiment index data from JSON file"""
@@ -15,7 +13,7 @@ def load_index_data(filename):
         with open(f'data/{filename}', 'r') as f:
             return json.load(f)
     except Exception as e:
-        print(f"Error loading {filename}: {e}")
+        print(f"❌ Error loading {filename}: {e}")
         return None
 
 def calculate_market_rotation(bonds, gold, stocks, crypto):
@@ -27,7 +25,6 @@ def calculate_market_rotation(bonds, gold, stocks, crypto):
     net_score = risk_on - risk_off
 
     # Convert to 0-100 scale (0 = Extreme Risk-Off, 100 = Extreme Risk-On)
-    # Assuming max delta is ±50, map to 0-100
     rotation_score = 50 + (net_score / 2)
     rotation_score = max(0, min(100, rotation_score))
 
@@ -75,48 +72,12 @@ Market: {rotation_label} ({rotation_score}%)
 
     return tweet
 
-def post_tweet(tweet_text):
-    """Post tweet using Twitter API v1.1"""
-
-    # Get credentials from environment variables
-    api_key = os.environ.get('TWITTER_API_KEY')
-    api_secret = os.environ.get('TWITTER_API_SECRET')
-    access_token = os.environ.get('TWITTER_ACCESS_TOKEN')
-    access_token_secret = os.environ.get('TWITTER_ACCESS_TOKEN_SECRET')
-
-    if not all([api_key, api_secret, access_token, access_token_secret]):
-        raise ValueError("Missing Twitter API credentials in environment variables")
-
-    # Authenticate with Twitter
-    auth = tweepy.OAuth1UserHandler(
-        api_key, api_secret,
-        access_token, access_token_secret
-    )
-
-    # Create API object (v1.1)
-    api = tweepy.API(auth)
-
-    # Verify credentials
-    try:
-        api.verify_credentials()
-        print("✅ Twitter authentication successful")
-    except Exception as e:
-        raise Exception(f"Twitter authentication failed: {e}")
-
-    # Post tweet
-    try:
-        response = api.update_status(tweet_text)
-        print(f"✅ Tweet posted successfully!")
-        print(f"Tweet ID: {response.id}")
-        print(f"URL: https://twitter.com/user/status/{response.id}")
-        return response
-    except Exception as e:
-        raise Exception(f"Failed to post tweet: {e}")
-
 def main():
     """Main execution function"""
 
-    print("🤖 Starting daily Twitter bot...")
+    print("\n" + "="*60)
+    print("🤖 OnOff.Markets - Tweet Generator")
+    print("="*60 + "\n")
 
     # Load all index data
     print("📥 Loading sentiment data...")
@@ -126,27 +87,27 @@ def main():
     crypto_data = load_index_data('crypto-fear-greed.json')
 
     if not all([bonds_data, gold_data, stocks_data, crypto_data]):
-        raise Exception("Failed to load one or more index data files")
+        print("\n❌ Failed to load one or more index data files")
+        return
 
-    print("✅ All data loaded successfully")
+    print("✅ All data loaded successfully\n")
 
     # Format tweet
-    print("✍️  Formatting tweet...")
     tweet_text = format_tweet(bonds_data, gold_data, stocks_data, crypto_data)
 
-    print("\n" + "="*50)
-    print("Tweet preview:")
-    print("="*50)
+    # Display tweet
+    print("="*60)
+    print("📋 TWEET TO COPY-PASTE:")
+    print("="*60)
+    print()
     print(tweet_text)
-    print("="*50)
+    print()
+    print("="*60)
     print(f"Character count: {len(tweet_text)}/280")
-    print("="*50 + "\n")
-
-    # Post to Twitter
-    print("📤 Posting to Twitter...")
-    post_tweet(tweet_text)
-
-    print("✅ Daily update complete!")
+    print("="*60)
+    print()
+    print("✅ Copy the text above and paste it on Twitter!")
+    print()
 
 if __name__ == "__main__":
     main()
