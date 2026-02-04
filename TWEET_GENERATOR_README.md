@@ -7,8 +7,15 @@ Simple script to generate formatted tweets for daily market sentiment updates.
 Run this script each morning to generate a ready-to-post tweet:
 
 ```bash
+# From anywhere on your system
+python3 /Users/admin/gold-fear-greed-index/generate_tweet.py
+
+# Or from the project directory
+cd /Users/admin/gold-fear-greed-index
 python3 generate_tweet.py
 ```
+
+**The script uses absolute paths, so it works from any directory!**
 
 ## Output Example
 

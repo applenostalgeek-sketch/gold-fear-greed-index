@@ -5,12 +5,19 @@ Run this script to generate a formatted tweet to copy-paste manually
 """
 
 import json
+import os
 from datetime import datetime
+from pathlib import Path
+
+# Get the directory where the script is located
+SCRIPT_DIR = Path(__file__).parent.absolute()
+DATA_DIR = SCRIPT_DIR / 'data'
 
 def load_index_data(filename):
     """Load sentiment index data from JSON file"""
     try:
-        with open(f'data/{filename}', 'r') as f:
+        file_path = DATA_DIR / filename
+        with open(file_path, 'r') as f:
             return json.load(f)
     except Exception as e:
         print(f"❌ Error loading {filename}: {e}")
