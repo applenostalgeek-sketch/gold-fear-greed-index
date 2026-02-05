@@ -410,8 +410,45 @@ class BondsFearGreedIndex:
                 print("insufficient data")
                 return 50.0
 
-            # 1. YIELD CURVE (30% weight) - Using neutral fallback (no FRED for historical)
-            yield_curve_score = 50.0
+            # 1. YIELD CURVE (30% weight) - Using FRED API for historical accuracy
+            if self.fred_api_key:
+                try:
+                    date_str = target_date.strftime('%Y-%m-%d')
+                    url_2y = f"https://api.stlouisfed.org/fred/series/observations?series_id=DGS2&api_key={self.fred_api_key}&file_type=json&observation_start={date_str}&observation_end={date_str}"
+                    url_10y = f"https://api.stlouisfed.org/fred/series/observations?series_id=DGS10&api_key={self.fred_api_key}&file_type=json&observation_start={date_str}&observation_end={date_str}"
+
+                    response_2y = requests.get(url_2y, timeout=10)
+                    response_10y = requests.get(url_10y, timeout=10)
+
+                    if response_2y.status_code == 200 and response_10y.status_code == 200:
+                        data_2y = response_2y.json()
+                        data_10y = response_10y.json()
+
+                        if data_2y['observations'] and data_10y['observations']:
+                            yield_2y = float(data_2y['observations'][0]['value'])
+                            yield_10y = float(data_10y['observations'][0]['value'])
+                            spread = yield_10y - yield_2y
+
+                            # Same scoring logic as current-day calculation
+                            if spread >= 2.5:
+                                yield_curve_score = 90 + min(10, (spread - 2.5) * 10)
+                            elif spread >= 1.5:
+                                yield_curve_score = 70 + (spread - 1.5) * 20
+                            elif spread >= 0.5:
+                                yield_curve_score = 50 + (spread - 0.5) * 20
+                            elif spread >= 0:
+                                yield_curve_score = 30 + spread * 40
+                            else:
+                                yield_curve_score = max(0, 30 + spread * 60)
+                            yield_curve_score = max(0, min(100, yield_curve_score))
+                        else:
+                            yield_curve_score = 50.0
+                    else:
+                        yield_curve_score = 50.0
+                except:
+                    yield_curve_score = 50.0
+            else:
+                yield_curve_score = 50.0
 
             # 2. DURATION RISK APPETITE (25% weight) - TLT momentum + volume
             if len(tlt_hist) >= 20:
@@ -436,8 +473,40 @@ class BondsFearGreedIndex:
             else:
                 duration_risk_score = 50.0
 
-            # 3. REAL YIELDS (20% weight) - Using neutral fallback (no FRED for historical)
-            real_yields_score = 50.0
+            # 3. REAL YIELDS (20% weight) - Using FRED API for historical accuracy
+            if self.fred_api_key:
+                try:
+                    date_str = target_date.strftime('%Y-%m-%d')
+                    url = f"https://api.stlouisfed.org/fred/series/observations?series_id=DFII10&api_key={self.fred_api_key}&file_type=json&observation_start={date_str}&observation_end={date_str}"
+
+                    response = requests.get(url, timeout=10)
+
+                    if response.status_code == 200:
+                        data = response.json()
+
+                        if data['observations']:
+                            real_rate = float(data['observations'][0]['value'])
+
+                            # Same scoring logic as current-day calculation
+                            if real_rate >= 2.0:
+                                real_yields_score = 85 + min(15, (real_rate - 2.0) * 10)
+                            elif real_rate >= 1.0:
+                                real_yields_score = 65 + (real_rate - 1.0) * 20
+                            elif real_rate >= 0:
+                                real_yields_score = 45 + real_rate * 20
+                            elif real_rate >= -1.0:
+                                real_yields_score = 25 + (real_rate + 1.0) * 20
+                            else:
+                                real_yields_score = max(0, 25 + (real_rate + 1.0) * 25)
+                            real_yields_score = max(0, min(100, real_yields_score))
+                        else:
+                            real_yields_score = 50.0
+                    else:
+                        real_yields_score = 50.0
+                except:
+                    real_yields_score = 50.0
+            else:
+                real_yields_score = 50.0
 
             # 4. CREDIT QUALITY SPREAD (15% weight) - LQD vs TLT
             if len(lqd_hist) >= 20 and len(tlt_hist) >= 20:

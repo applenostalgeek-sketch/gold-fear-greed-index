@@ -593,13 +593,56 @@ class GoldFearGreedIndex:
             else:
                 vix_score = 50.0
 
-            # 6. REAL RATES (10% weight) - Using TNX as fallback (no FRED for historical)
-            if len(tnx_hist) > 0:
-                current_yield = tnx_hist['Close'].iloc[-1]
-                real_rates_score = 100 - ((current_yield - 2) * 25)
-                real_rates_score = max(0, min(100, real_rates_score))
+            # 6. REAL RATES (10% weight) - Using FRED API for historical accuracy
+            if self.fred_api_key:
+                try:
+                    date_str = target_date.strftime('%Y-%m-%d')
+                    url = f"https://api.stlouisfed.org/fred/series/observations?series_id=DFII10&api_key={self.fred_api_key}&file_type=json&observation_start={date_str}&observation_end={date_str}"
+
+                    response = requests.get(url, timeout=10)
+
+                    if response.status_code == 200:
+                        data = response.json()
+
+                        if data['observations'] and data['observations'][0]['value'] != '.':
+                            tips_rate = float(data['observations'][0]['value'])
+
+                            # Same scoring logic as current-day calculation
+                            # Score: lower real rates = higher gold appeal = higher score
+                            real_rates_score = 75 - (tips_rate * 18.75)
+                            real_rates_score = max(0, min(100, real_rates_score))
+                        else:
+                            # Fallback to TNX if FRED data unavailable
+                            if len(tnx_hist) > 0:
+                                current_yield = tnx_hist['Close'].iloc[-1]
+                                real_rates_score = 100 - ((current_yield - 2) * 25)
+                                real_rates_score = max(0, min(100, real_rates_score))
+                            else:
+                                real_rates_score = 50.0
+                    else:
+                        # Fallback to TNX if FRED request fails
+                        if len(tnx_hist) > 0:
+                            current_yield = tnx_hist['Close'].iloc[-1]
+                            real_rates_score = 100 - ((current_yield - 2) * 25)
+                            real_rates_score = max(0, min(100, real_rates_score))
+                        else:
+                            real_rates_score = 50.0
+                except:
+                    # Fallback to TNX on exception
+                    if len(tnx_hist) > 0:
+                        current_yield = tnx_hist['Close'].iloc[-1]
+                        real_rates_score = 100 - ((current_yield - 2) * 25)
+                        real_rates_score = max(0, min(100, real_rates_score))
+                    else:
+                        real_rates_score = 50.0
             else:
-                real_rates_score = 50.0
+                # No FRED API key, use TNX fallback
+                if len(tnx_hist) > 0:
+                    current_yield = tnx_hist['Close'].iloc[-1]
+                    real_rates_score = 100 - ((current_yield - 2) * 25)
+                    real_rates_score = max(0, min(100, real_rates_score))
+                else:
+                    real_rates_score = 50.0
 
             # 7. DOLLAR INDEX (10% weight)
             if len(dxy_hist) >= 14:
