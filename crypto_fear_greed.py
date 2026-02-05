@@ -122,22 +122,22 @@ class CryptoFearGreedIndex:
         """
         try:
             btc = yf.Ticker("BTC-USD")
-            hist = btc.history(period="2mo")
+            hist = btc.history(period="3mo")
 
-            if len(hist) < 14:
+            if len(hist) < 30:
                 raise ValueError("Insufficient data")
 
             current_price = hist['Close'].iloc[-1]
-            price_14d_ago = hist['Close'].iloc[-14] if len(hist) >= 14 else hist['Close'].iloc[0]
+            price_30d_ago = hist['Close'].iloc[-30] if len(hist) >= 30 else hist['Close'].iloc[0]
 
-            # 14-day price change
-            change_14d = ((current_price - price_14d_ago) / price_14d_ago) * 100
+            # 30-day price change
+            change_30d = ((current_price - price_30d_ago) / price_30d_ago) * 100
 
-            # CALIBRATED: Baseline 30, multiplier 1.6 (compensate for shorter period), cap ±30
-            score = 30 + max(-30, min(30, change_14d * 1.6))
+            # CALIBRATED: Baseline 30, multiplier 0.8, cap ±30
+            score = 30 + max(-30, min(30, change_30d * 0.8))
             score = max(0, min(100, score))
 
-            detail = f"14-day change: {change_14d:+.1f}%"
+            detail = f"30-day change: {change_30d:+.1f}%"
 
             return (round(score, 1), detail)
 
@@ -347,14 +347,14 @@ class CryptoFearGreedIndex:
             else:
                 momentum_score = 30.0
 
-            # 2. CONTEXT (35% weight) - 14-day trend
-            if len(btc_hist) >= 14:
+            # 2. CONTEXT (35% weight) - 30-day trend
+            if len(btc_hist) >= 30:
                 current_price = btc_hist['Close'].iloc[-1]
-                price_14d_ago = btc_hist['Close'].iloc[-14]
-                change_14d = ((current_price - price_14d_ago) / price_14d_ago) * 100
+                price_30d_ago = btc_hist['Close'].iloc[-30]
+                change_30d = ((current_price - price_30d_ago) / price_30d_ago) * 100
 
-                # CALIBRATED: Baseline 30, multiplier 1.6 (compensate for shorter period), cap ±30
-                context_score = 30 + max(-30, min(30, change_14d * 1.6))
+                # CALIBRATED: Baseline 30, multiplier 0.8, cap ±30
+                context_score = 30 + max(-30, min(30, change_30d * 0.8))
                 context_score = max(0, min(100, context_score))
             else:
                 context_score = 30.0

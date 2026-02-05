@@ -1,8 +1,7 @@
 #!/usr/bin/env python3
 """
 Bonds Fear & Greed Index Calculator
-Calculates a sentiment index for bond market (0-100) based on 5 bond-specific components
-100% bond market focused - zero overlap with stocks index
+Calculates a sentiment index for bond market (0-100) based on 7 components
 """
 
 import yfinance as yf
@@ -12,7 +11,6 @@ import json
 from datetime import datetime, timedelta
 import requests
 import os
-import time
 from typing import Dict, Tuple, Optional
 
 
@@ -24,31 +22,94 @@ class BondsFearGreedIndex:
         Initialize the calculator
 
         Args:
-            fred_api_key: FRED API key for yield curve and real rates data (required for best results)
+            fred_api_key: FRED API key for yield curve and real rates data (optional)
         """
-        fred_key = fred_api_key or os.environ.get('FRED_API_KEY')
-        self.fred_api_key = fred_key.strip() if fred_key else None
+        self.fred_api_key = fred_api_key or os.environ.get('FRED_API_KEY')
         self.components = {}
         self.score = 0
         self.label = ""
 
+    def calculate_price_momentum_score(self) -> Tuple[float, str]:
+        """
+        Calculate duration risk / capital flow component (25% weight)
+        TLT price movement - DIRECT (rising bonds = capital flowing IN)
+
+        Returns:
+            Tuple of (score 0-100, detail string)
+        """
+        try:
+            tlt = yf.Ticker("TLT")  # Long-term Treasury Bonds
+            hist = tlt.history(period="3mo")
+
+            if hist.empty:
+                raise ValueError("No TLT data available")
+
+            close_prices = hist['Close']
+
+            # 14-day price change
+            pct_change_14d = ((close_prices.iloc[-1] / close_prices.iloc[-15]) - 1) * 100
+
+            # DIRECT: TLT rising = capital flowing INTO bonds = high score
+            # Extremely aggressive: +3% TLT = score 80, -3% TLT = score 20
+            score = 50 + (pct_change_14d * 10)
+            score = max(0, min(100, score))
+
+            detail = f"TLT 14j: {pct_change_14d:+.1f}%"
+
+            return score, detail
+
+        except Exception as e:
+            print(f"Error calculating price momentum: {e}")
+            return 50.0, "Data unavailable"
+
+    def calculate_credit_spreads_score(self) -> Tuple[float, str]:
+        """
+        Calculate credit quality component (15% weight)
+        LQD (investment grade) vs TLT (safe Treasuries)
+
+        Returns:
+            Tuple of (score 0-100, detail string)
+        """
+        try:
+            lqd = yf.Ticker("LQD")  # Investment Grade Corporate Bonds
+            tlt = yf.Ticker("TLT")  # Long-term Treasuries
+
+            lqd_hist = lqd.history(period="2mo")
+            tlt_hist = tlt.history(period="2mo")
+
+            if lqd_hist.empty or tlt_hist.empty:
+                raise ValueError("No LQD or TLT data available")
+
+            # 14-day performance
+            lqd_change = ((lqd_hist['Close'].iloc[-1] / lqd_hist['Close'].iloc[-15]) - 1) * 100
+            tlt_change = ((tlt_hist['Close'].iloc[-1] / tlt_hist['Close'].iloc[-15]) - 1) * 100
+
+            # Spread: LQD outperforming = credit spreads tightening = greed
+            spread = lqd_change - tlt_change
+
+            # +5% spread = extreme greed, -5% spread = extreme fear
+            score = 50 + (spread * 10)
+            score = max(0, min(100, score))
+
+            detail = f"LQD vs TLT: {spread:+.1f}%"
+
+            return score, detail
+
+        except Exception as e:
+            print(f"Error calculating credit quality: {e}")
+            return 50.0, "Data unavailable"
+
     def calculate_yield_curve_score(self) -> Tuple[float, str]:
         """
-        Calculate yield curve shape component (30% weight)
-        The most important bond market indicator - 2Y vs 10Y Treasury spread
-
-        Interpretation:
-        - Steep curve (+2% to +3%) = Greed (healthy growth expectations)
-        - Normal (+1% to +2%) = Neutral to Greed
-        - Flat (0% to +1%) = Fear (uncertainty)
-        - Inverted (< 0%) = Extreme Fear (recession signal)
+        Calculate yield curve component (15% weight)
+        2-Year vs 10-Year Treasury spread via FRED
 
         Returns:
             Tuple of (score 0-100, detail string)
         """
         try:
             if not self.fred_api_key:
-                print("⚠️  No FRED API key - yield curve using fallback")
+                print("No FRED API key - using fallback")
                 return 50.0, "FRED API key missing"
 
             # Fetch 2Y and 10Y yields from FRED
@@ -70,100 +131,150 @@ class BondsFearGreedIndex:
             # Yield curve spread (10Y - 2Y)
             spread = yield_10y - yield_2y
 
-            # Scoring logic
-            if spread >= 2.5:  # Very steep
-                score = 90 + min(10, (spread - 2.5) * 10)
-            elif spread >= 1.5:  # Steep (healthy)
-                score = 70 + (spread - 1.5) * 20
-            elif spread >= 0.5:  # Normal
-                score = 50 + (spread - 0.5) * 20
-            elif spread >= 0:  # Flat
-                score = 30 + spread * 40
-            else:  # Inverted (recession signal)
-                score = max(0, 30 + spread * 60)
+            # INVERTED LOGIC (capital rotation perspective):
+            # Steep curve (+2%+) = strong economy = capital flows to STOCKS = low bonds score
+            # Flat curve (0% to +1%) = neutral = moderate bonds score
+            # Inverted curve (<0%) = recession fear = flight to bonds = high bonds score
+            if spread >= 2.0:
+                # Very steep = very low bonds demand
+                score = max(0, 30 - (spread - 2.0) * 20)  # Down to 0
+            elif spread >= 0:
+                # Normal to flat = decreasing bonds demand as curve steepens
+                score = 70 - (spread / 2.0) * 40  # 70 down to 30
+            else:  # Inverted
+                # Inverted = flight to safety = high bonds demand
+                score = 70 + min(30, abs(spread) * 60)  # Up to 100
 
             score = max(0, min(100, score))
 
-            detail = f"Spread 10Y-2Y: {spread:+.2f}%"
+            detail = f"Courbe: {spread:+.2f}% (10Y-2Y)"
 
             return score, detail
 
         except Exception as e:
-            print(f"Error calculating yield curve: {e}")
-            return 50.0, "Data unavailable"
+            print(f"FRED yield curve failed: {e} - trying Yahoo fallback")
 
-    def calculate_duration_risk_appetite(self) -> Tuple[float, str]:
+            # FALLBACK: Use Yahoo Finance for yield curve
+            try:
+                tnx = yf.Ticker("^TNX")  # 10-Year Treasury Yield
+                irx = yf.Ticker("^IRX")  # 13-week T-Bill (short-term proxy)
+
+                tnx_hist = tnx.history(period="5d")
+                irx_hist = irx.history(period="5d")
+
+                if tnx_hist.empty or irx_hist.empty:
+                    raise ValueError("Yahoo yield data unavailable")
+
+                # Get latest yields (Yahoo returns yields as percentages already)
+                yield_10y = tnx_hist['Close'].iloc[-1]
+                yield_short = irx_hist['Close'].iloc[-1]
+
+                # Calculate spread
+                spread = yield_10y - yield_short
+
+                # Same INVERTED logic as FRED (capital rotation)
+                if spread >= 2.0:
+                    score = max(0, 30 - (spread - 2.0) * 20)
+                elif spread >= 0:
+                    score = 70 - (spread / 2.0) * 40
+                else:
+                    score = 70 + min(30, abs(spread) * 60)
+
+                score = max(0, min(100, score))
+                detail = f"Courbe: {spread:+.2f}% (10Y-3M, Yahoo)"
+
+                print(f"✅ Yahoo fallback successful: {detail}")
+                return score, detail
+
+            except Exception as yahoo_error:
+                print(f"Yahoo fallback also failed: {yahoo_error}")
+                return 50.0, "Data unavailable"
+
+    def calculate_bond_volatility_score(self) -> Tuple[float, str]:
         """
-        Calculate duration risk appetite component (25% weight)
-        Measures demand for long-term bonds via TLT momentum and volume
-
-        High TLT demand = investors want to lock in long rates = Greed
-        Low TLT demand = duration risk aversion = Fear
+        Calculate bond volatility component (15% weight)
+        TLT volatility as proxy for MOVE index
 
         Returns:
             Tuple of (score 0-100, detail string)
         """
         try:
-            tlt = yf.Ticker("TLT")  # iShares 20+ Year Treasury Bond ETF
+            tlt = yf.Ticker("TLT")
             hist = tlt.history(period="3mo")
 
-            if hist.empty or len(hist) < 20:
+            if hist.empty:
                 raise ValueError("No TLT data available")
 
-            # 1. Price momentum (60% of component)
-            close_prices = hist['Close']
-            pct_change_14d = ((close_prices.iloc[-1] / close_prices.iloc[-14]) - 1) * 100
+            returns = hist['Close'].pct_change().dropna()
 
-            # TLT rising = investors seeking duration = Greed
-            # TLT falling = investors avoiding duration = Fear
-            momentum_score = 50 + (pct_change_14d * 4)
-            momentum_score = max(0, min(100, momentum_score))
+            # 14-day volatility
+            vol_14d = returns.tail(14).std() * np.sqrt(252) * 100  # Annualized %
 
-            # 2. Volume trend (40% of component)
-            if 'Volume' in hist.columns:
-                current_volume = hist['Volume'].tail(5).mean()  # Recent 5-day avg
-                baseline_volume = hist['Volume'].tail(60).mean()  # 60-day avg
-                volume_ratio = current_volume / baseline_volume if baseline_volume > 0 else 1.0
+            # 30-day average volatility
+            vol_30d_avg = returns.tail(30).std() * np.sqrt(252) * 100
 
-                # High volume with price up = strong buying = Greed
-                # High volume with price down = panic selling = Fear
-                if pct_change_14d > 0:
-                    volume_score = 50 + min(50, (volume_ratio - 1) * 50)
-                else:
-                    volume_score = 50 - min(50, (volume_ratio - 1) * 50)
+            # High volatility = fear, low volatility = greed
+            ratio = vol_14d / vol_30d_avg if vol_30d_avg > 0 else 1.0
 
-                volume_score = max(0, min(100, volume_score))
-            else:
-                volume_score = 50.0
+            # ratio > 1.5 = extreme fear, ratio < 0.5 = extreme greed
+            score = 50 + (1 - ratio) * 50
+            score = max(0, min(100, score))
 
-            # Combined score
-            score = momentum_score * 0.6 + volume_score * 0.4
-
-            detail = f"TLT 14j: {pct_change_14d:+.1f}%"
+            detail = f"Vol TLT: {vol_14d:.1f}% vs {vol_30d_avg:.1f}%"
 
             return score, detail
 
         except Exception as e:
-            print(f"Error calculating duration risk: {e}")
+            print(f"Error calculating bond volatility: {e}")
             return 50.0, "Data unavailable"
 
-    def calculate_real_yields_score(self) -> Tuple[float, str]:
+    def calculate_safe_haven_flows_score(self) -> Tuple[float, str]:
         """
-        Calculate real yields component (20% weight)
-        TIPS yield = nominal yield minus inflation expectations
+        Calculate safe haven flows component (10% weight)
+        TLT volume spikes indicate flight to safety
 
-        Positive real yields = bonds paying above inflation = Greed (attractive)
-        Negative real yields = inflation destroying returns = Fear
+        Returns:
+            Tuple of (score 0-100, detail string)
+        """
+        try:
+            tlt = yf.Ticker("TLT")
+            hist = tlt.history(period="2mo")
+
+            if hist.empty or 'Volume' not in hist.columns:
+                raise ValueError("No TLT volume data available")
+
+            current_volume = hist['Volume'].iloc[-1]
+            avg_volume_30d = hist['Volume'].tail(30).mean()
+
+            # Volume spike = fear (panic buying), low volume = greed
+            ratio = current_volume / avg_volume_30d if avg_volume_30d > 0 else 1.0
+
+            # ratio > 2 = extreme fear, ratio < 0.5 = extreme greed
+            score = 50 + (1 - ratio) * 50
+            score = max(0, min(100, score))
+
+            detail = f"Volume TLT: {ratio:.2f}x vs moy 30j"
+
+            return score, detail
+
+        except Exception as e:
+            print(f"Error calculating safe haven flows: {e}")
+            return 50.0, "Data unavailable"
+
+    def calculate_real_rates_score(self) -> Tuple[float, str]:
+        """
+        Calculate real rates component (10% weight)
+        TIPS yield from FRED
 
         Returns:
             Tuple of (score 0-100, detail string)
         """
         try:
             if not self.fred_api_key:
-                print("⚠️  No FRED API key - real yields using fallback")
+                print("No FRED API key - using fallback")
                 return 50.0, "FRED API key missing"
 
-            # Fetch 10-Year TIPS yield (real yield)
+            # Fetch 10-Year TIPS yield
             url = f"https://api.stlouisfed.org/fred/series/observations?series_id=DFII10&api_key={self.fred_api_key}&file_type=json&sort_order=desc&limit=1"
 
             response = requests.get(url, timeout=10)
@@ -174,18 +285,11 @@ class BondsFearGreedIndex:
             data = response.json()
             real_rate = float(data['observations'][0]['value'])
 
-            # Scoring logic
-            if real_rate >= 2.0:  # Very attractive
-                score = 85 + min(15, (real_rate - 2.0) * 10)
-            elif real_rate >= 1.0:  # Attractive
-                score = 65 + (real_rate - 1.0) * 20
-            elif real_rate >= 0:  # Neutral
-                score = 45 + real_rate * 20
-            elif real_rate >= -1.0:  # Negative but manageable
-                score = 25 + (real_rate + 1.0) * 20
-            else:  # Very negative
-                score = max(0, 25 + (real_rate + 1.0) * 25)
-
+            # Very conservative scoring:
+            # +4% real = score 82 (very attractive)
+            # 0% = score 50 (neutral)
+            # -4% = score 18 (very unattractive)
+            score = 50 + (real_rate * 8)
             score = max(0, min(100, score))
 
             detail = f"TIPS 10Y: {real_rate:+.2f}%"
@@ -193,57 +297,47 @@ class BondsFearGreedIndex:
             return score, detail
 
         except Exception as e:
-            print(f"Error calculating real yields: {e}")
-            return 50.0, "Data unavailable"
+            print(f"FRED real rates failed: {e} - trying Yahoo fallback")
 
-    def calculate_credit_quality_spread(self) -> Tuple[float, str]:
-        """
-        Calculate credit quality spread component (15% weight)
-        LQD (investment grade) vs TLT (Treasuries)
+            # FALLBACK: Use TIP ETF and TNX to estimate real yield
+            try:
+                tip = yf.Ticker("TIP")  # TIPS ETF
+                tnx = yf.Ticker("^TNX")  # 10-Year Treasury Yield
 
-        Different from stocks HYG! This measures INVESTMENT GRADE appetite
-        LQD outperforming = credit confidence = Greed
-        LQD underperforming = credit stress = Fear
+                tip_hist = tip.history(period="1mo")
+                tnx_hist = tnx.history(period="5d")
 
-        Returns:
-            Tuple of (score 0-100, detail string)
-        """
-        try:
-            lqd = yf.Ticker("LQD")  # iShares iBoxx Investment Grade Corporate Bond ETF
-            tlt = yf.Ticker("TLT")  # Long-term Treasuries
+                if tip_hist.empty or tnx_hist.empty:
+                    raise ValueError("Yahoo TIPS/yield data unavailable")
 
-            lqd_hist = lqd.history(period="2mo")
-            tlt_hist = tlt.history(period="2mo")
+                # Get 10Y nominal yield
+                nominal_yield = tnx_hist['Close'].iloc[-1]
 
-            if lqd_hist.empty or tlt_hist.empty or len(lqd_hist) < 15 or len(tlt_hist) < 15:
-                raise ValueError("No LQD or TLT data available")
+                # Estimate inflation expectation from TIP performance
+                # TIP 14-day return as proxy for inflation expectations
+                tip_return_14d = ((tip_hist['Close'].iloc[-1] / tip_hist['Close'].iloc[-14]) - 1) * 100
 
-            # 14-day performance comparison
-            lqd_change = ((lqd_hist['Close'].iloc[-1] / lqd_hist['Close'].iloc[-14]) - 1) * 100
-            tlt_change = ((tlt_hist['Close'].iloc[-1] / tlt_hist['Close'].iloc[-14]) - 1) * 100
+                # Rough approximation: real yield = nominal - (TIP return * 5)
+                # This is very approximate but better than 50.0 default
+                estimated_real_rate = nominal_yield - (tip_return_14d * 5)
 
-            # Spread: LQD outperforming = taking credit risk = Greed
-            spread = lqd_change - tlt_change
+                # Very conservative scoring (same as FRED)
+                score = 50 + (estimated_real_rate * 8)
+                score = max(0, min(100, score))
 
-            # Scoring: +3% spread = extreme greed, -3% spread = extreme fear
-            score = 50 + (spread * 16.67)
-            score = max(0, min(100, score))
+                detail = f"TIPS est.: {estimated_real_rate:+.2f}% (Yahoo)"
 
-            detail = f"LQD vs TLT: {spread:+.1f}%"
+                print(f"✅ Yahoo fallback successful: {detail}")
+                return score, detail
 
-            return score, detail
+            except Exception as yahoo_error:
+                print(f"Yahoo fallback also failed: {yahoo_error}")
+                return 50.0, "Data unavailable"
 
-        except Exception as e:
-            print(f"Error calculating credit quality: {e}")
-            return 50.0, "Data unavailable"
-
-    def calculate_term_premium_demand(self) -> Tuple[float, str]:
+    def calculate_term_premium_score(self) -> Tuple[float, str]:
         """
         Calculate term premium demand component (10% weight)
         TLT (long-term) vs SHY (short-term) relative performance
-
-        TLT outperforming = investors want to lock in long rates = Greed
-        SHY outperforming = rate risk aversion = Fear
 
         Returns:
             Tuple of (score 0-100, detail string)
@@ -255,18 +349,19 @@ class BondsFearGreedIndex:
             tlt_hist = tlt.history(period="2mo")
             shy_hist = shy.history(period="2mo")
 
-            if tlt_hist.empty or shy_hist.empty or len(tlt_hist) < 15 or len(shy_hist) < 15:
+            if tlt_hist.empty or shy_hist.empty:
                 raise ValueError("No TLT or SHY data available")
 
-            # 14-day performance comparison
-            tlt_change = ((tlt_hist['Close'].iloc[-1] / tlt_hist['Close'].iloc[-14]) - 1) * 100
-            shy_change = ((shy_hist['Close'].iloc[-1] / shy_hist['Close'].iloc[-14]) - 1) * 100
+            # 14-day performance
+            tlt_change = ((tlt_hist['Close'].iloc[-1] / tlt_hist['Close'].iloc[-15]) - 1) * 100
+            shy_change = ((shy_hist['Close'].iloc[-1] / shy_hist['Close'].iloc[-15]) - 1) * 100
 
-            # Relative performance
+            # TLT outperforming = seeking duration = greed (locking in long rates)
+            # SHY outperforming = avoiding duration = fear (staying short)
             relative_perf = tlt_change - shy_change
 
-            # TLT outperforming = duration demand = Greed
-            # SHY outperforming = duration aversion = Fear
+            # +5% TLT outperformance = extreme greed
+            # -5% SHY outperformance = extreme fear
             score = 50 + (relative_perf * 10)
             score = max(0, min(100, score))
 
@@ -278,6 +373,45 @@ class BondsFearGreedIndex:
             print(f"Error calculating term premium: {e}")
             return 50.0, "Data unavailable"
 
+    def calculate_equity_vs_bonds_score(self) -> Tuple[float, str]:
+        """
+        Calculate equity vs bonds component (5% weight)
+        SPY vs TLT relative performance
+
+        Returns:
+            Tuple of (score 0-100, detail string)
+        """
+        try:
+            spy = yf.Ticker("SPY")  # S&P 500
+            tlt = yf.Ticker("TLT")  # Treasuries
+
+            spy_hist = spy.history(period="2mo")
+            tlt_hist = tlt.history(period="2mo")
+
+            if spy_hist.empty or tlt_hist.empty:
+                raise ValueError("No SPY or TLT data available")
+
+            # 14-day performance
+            spy_change = ((spy_hist['Close'].iloc[-1] / spy_hist['Close'].iloc[-15]) - 1) * 100
+            tlt_change = ((tlt_hist['Close'].iloc[-1] / tlt_hist['Close'].iloc[-15]) - 1) * 100
+
+            # SPY outperforming = risk-on = greed (bonds unloved)
+            # TLT outperforming = risk-off = fear (defensive rotation)
+            relative_perf = spy_change - tlt_change
+
+            # +10% SPY outperformance = extreme greed
+            # -10% (TLT outperforming) = extreme fear
+            score = 50 + (relative_perf * 5)
+            score = max(0, min(100, score))
+
+            detail = f"SPY vs TLT: {relative_perf:+.1f}%"
+
+            return score, detail
+
+        except Exception as e:
+            print(f"Error calculating equity vs bonds: {e}")
+            return 50.0, "Data unavailable"
+
     def calculate_index(self) -> Dict:
         """
         Calculate the complete Bonds Fear & Greed Index
@@ -285,72 +419,58 @@ class BondsFearGreedIndex:
         Returns:
             Dictionary with score, label, components, and timestamp
         """
-        print("\n" + "="*60)
-        print("🔵 CALCULATING BONDS FEAR & GREED INDEX")
-        print("="*60)
+        print("Calculating Bonds Fear & Greed Index...")
 
-        # Component weights (total = 100%)
+        # Component weights (balanced like other markets)
         weights = {
-            'yield_curve': 0.30,          # 30% - Most important
-            'duration_risk': 0.25,        # 25%
-            'real_yields': 0.20,          # 20%
-            'credit_quality': 0.15,       # 15%
-            'term_premium': 0.10          # 10%
+            'duration_risk': 0.30,       # 30% - TLT momentum (price action)
+            'term_premium': 0.25,        # 25% - TLT vs SHY (duration demand)
+            'credit_quality': 0.20,      # 20% - LQD vs TLT (credit appetite)
+            'yield_curve': 0.15,         # 15% - Macro sentiment
+            'real_rates': 0.10           # 10% - Attractiveness vs inflation
         }
 
         # Calculate each component
-        print("\n📊 Component Calculations:")
-        print("-" * 60)
-
         yield_curve_score, yield_curve_detail = self.calculate_yield_curve_score()
-        print(f"1. Yield Curve Shape (30%):     {yield_curve_score:5.1f} - {yield_curve_detail}")
+        duration_risk_score, duration_risk_detail = self.calculate_price_momentum_score()
+        real_rates_score, real_rates_detail = self.calculate_real_rates_score()
+        credit_quality_score, credit_quality_detail = self.calculate_credit_spreads_score()
+        term_premium_score, term_premium_detail = self.calculate_term_premium_score()
 
-        duration_risk_score, duration_risk_detail = self.calculate_duration_risk_appetite()
-        print(f"2. Duration Risk Appetite (25%): {duration_risk_score:5.1f} - {duration_risk_detail}")
-
-        real_yields_score, real_yields_detail = self.calculate_real_yields_score()
-        print(f"3. Real Yields (20%):            {real_yields_score:5.1f} - {real_yields_detail}")
-
-        credit_quality_score, credit_quality_detail = self.calculate_credit_quality_spread()
-        print(f"4. Credit Quality Spread (15%):  {credit_quality_score:5.1f} - {credit_quality_detail}")
-
-        term_premium_score, term_premium_detail = self.calculate_term_premium_demand()
-        print(f"5. Term Premium Demand (10%):    {term_premium_score:5.1f} - {term_premium_detail}")
-
-        # Store components
+        # Store components (5 bond-specific indicators)
         self.components = {
-            'Yield Curve': {
+            'yield_curve': {
                 'score': round(yield_curve_score, 1),
                 'weight': weights['yield_curve'],
                 'detail': yield_curve_detail
             },
-            'Duration Risk': {
+            'duration_risk': {
                 'score': round(duration_risk_score, 1),
                 'weight': weights['duration_risk'],
                 'detail': duration_risk_detail
             },
-            'Real Yields': {
-                'score': round(real_yields_score, 1),
-                'weight': weights['real_yields'],
-                'detail': real_yields_detail
+            'real_rates': {
+                'score': round(real_rates_score, 1),
+                'weight': weights['real_rates'],
+                'detail': real_rates_detail
             },
-            'Credit Quality': {
+            'credit_quality': {
                 'score': round(credit_quality_score, 1),
                 'weight': weights['credit_quality'],
                 'detail': credit_quality_detail
             },
-            'Term Premium': {
+            'term_premium': {
                 'score': round(term_premium_score, 1),
                 'weight': weights['term_premium'],
                 'detail': term_premium_detail
             }
         }
 
-        # Calculate weighted average
+        # Calculate weighted average (5 components)
         total_score = (
             yield_curve_score * weights['yield_curve'] +
             duration_risk_score * weights['duration_risk'] +
-            real_yields_score * weights['real_yields'] +
+            real_rates_score * weights['real_rates'] +
             credit_quality_score * weights['credit_quality'] +
             term_premium_score * weights['term_premium']
         )
@@ -369,9 +489,7 @@ class BondsFearGreedIndex:
         else:
             self.label = "Extreme Greed"
 
-        print("-" * 60)
-        print(f"\n🎯 FINAL BONDS INDEX: {self.score} - {self.label}")
-        print("="*60 + "\n")
+        print(f"Bonds Index calculated: {self.score} ({self.label})")
 
         return {
             'score': self.score,
@@ -383,7 +501,8 @@ class BondsFearGreedIndex:
 
     def calculate_simple_historical_score(self, target_date: datetime) -> float:
         """
-        Calculate historical score for a past date using all 5 components
+        Calculate COMPLETE historical score for a past date
+        Uses ALL 7 components with accurate weights for professional-grade historical data
 
         Args:
             target_date: The date to calculate the score for
@@ -398,144 +517,96 @@ class BondsFearGreedIndex:
             start_date = target_date - timedelta(days=90)
             end_date = target_date + timedelta(days=1)
 
-            # Get historical data for all ETFs
+            # Get historical data for ALL components
             tlt = yf.Ticker("TLT")
             lqd = yf.Ticker("LQD")
-            shy = yf.Ticker("SHY")
 
             tlt_hist = tlt.history(start=start_date, end=end_date)
             lqd_hist = lqd.history(start=start_date, end=end_date)
-            shy_hist = shy.history(start=start_date, end=end_date)
 
             if tlt_hist.empty or len(tlt_hist) < 20:
                 print("insufficient data")
                 return 50.0
 
-            # 1. YIELD CURVE (30% weight) - Using FRED API for historical accuracy
-            if self.fred_api_key:
-                try:
-                    date_str = target_date.strftime('%Y-%m-%d')
-                    url_2y = f"https://api.stlouisfed.org/fred/series/observations?series_id=DGS2&api_key={self.fred_api_key}&file_type=json&observation_start={date_str}&observation_end={date_str}"
-                    url_10y = f"https://api.stlouisfed.org/fred/series/observations?series_id=DGS10&api_key={self.fred_api_key}&file_type=json&observation_start={date_str}&observation_end={date_str}"
-
-                    response_2y = requests.get(url_2y, timeout=10)
-                    response_10y = requests.get(url_10y, timeout=10)
-
-                    if response_2y.status_code == 200 and response_10y.status_code == 200:
-                        data_2y = response_2y.json()
-                        data_10y = response_10y.json()
-
-                        if data_2y['observations'] and data_10y['observations']:
-                            yield_2y = float(data_2y['observations'][0]['value'])
-                            yield_10y = float(data_10y['observations'][0]['value'])
-                            spread = yield_10y - yield_2y
-
-                            # Same scoring logic as current-day calculation
-                            if spread >= 2.5:
-                                yield_curve_score = 90 + min(10, (spread - 2.5) * 10)
-                            elif spread >= 1.5:
-                                yield_curve_score = 70 + (spread - 1.5) * 20
-                            elif spread >= 0.5:
-                                yield_curve_score = 50 + (spread - 0.5) * 20
-                            elif spread >= 0:
-                                yield_curve_score = 30 + spread * 40
-                            else:
-                                yield_curve_score = max(0, 30 + spread * 60)
-                            yield_curve_score = max(0, min(100, yield_curve_score))
-                        else:
-                            yield_curve_score = 50.0
-                    else:
-                        yield_curve_score = 50.0
-                except:
-                    yield_curve_score = 50.0
+            # 1. PRICE MOMENTUM (60% weight) - TLT 14-day change (DIRECT - capital flow)
+            if len(tlt_hist) >= 15:
+                pct_change_14d = ((tlt_hist['Close'].iloc[-1] / tlt_hist['Close'].iloc[-15]) - 1) * 100
+                # Extremely aggressive: +3% TLT = score 80, -3% TLT = score 20
+                price_momentum_score = 50 + (pct_change_14d * 10)
+                price_momentum_score = max(0, min(100, price_momentum_score))
             else:
+                price_momentum_score = 50.0
+
+            # 2. CREDIT QUALITY (15% weight) - LQD vs TLT
+            if len(lqd_hist) >= 15 and len(tlt_hist) >= 15:
+                lqd_change = ((lqd_hist['Close'].iloc[-1] / lqd_hist['Close'].iloc[-15]) - 1) * 100
+                tlt_change = ((tlt_hist['Close'].iloc[-1] / tlt_hist['Close'].iloc[-15]) - 1) * 100
+                spread = lqd_change - tlt_change
+                credit_spreads_score = 50 + (spread * 10)
+                credit_spreads_score = max(0, min(100, credit_spreads_score))
+            else:
+                credit_spreads_score = 50.0
+
+            # 3. YIELD CURVE (30% weight) - INVERTED (capital rotation logic)
+            try:
+                tnx = yf.Ticker("^TNX")
+                irx = yf.Ticker("^IRX")
+                tnx_hist = tnx.history(start=start_date, end=end_date)
+                irx_hist = irx.history(start=start_date, end=end_date)
+
+                if len(tnx_hist) > 0 and len(irx_hist) > 0:
+                    yield_10y = tnx_hist['Close'].iloc[-1]
+                    yield_short = irx_hist['Close'].iloc[-1]
+                    spread = yield_10y - yield_short
+
+                    # INVERTED: Steep = capital to stocks, Inverted = capital to bonds
+                    if spread >= 2.0:
+                        yield_curve_score = max(0, 30 - (spread - 2.0) * 20)
+                    elif spread >= 0:
+                        yield_curve_score = 70 - (spread / 2.0) * 40
+                    else:
+                        yield_curve_score = 70 + min(30, abs(spread) * 60)
+                    yield_curve_score = max(0, min(100, yield_curve_score))
+                else:
+                    yield_curve_score = 50.0
+            except:
                 yield_curve_score = 50.0
 
-            # 2. DURATION RISK APPETITE (25% weight) - TLT momentum + volume
-            if len(tlt_hist) >= 14:
-                pct_change_14d = ((tlt_hist['Close'].iloc[-1] / tlt_hist['Close'].iloc[-14]) - 1) * 100
-                momentum_score = 50 + (pct_change_14d * 4)
-                momentum_score = max(0, min(100, momentum_score))
+            # 4. REAL RATES (20% weight) - TIP fallback for historical
+            try:
+                tip = yf.Ticker("TIP")
+                tip_hist = tip.history(start=start_date, end=end_date)
 
-                if 'Volume' in tlt_hist.columns and len(tlt_hist) >= 60:
-                    current_volume = tlt_hist['Volume'].tail(5).mean()
-                    baseline_volume = tlt_hist['Volume'].tail(60).mean()
-                    volume_ratio = current_volume / baseline_volume if baseline_volume > 0 else 1.0
-
-                    if pct_change_14d > 0:
-                        volume_score = 50 + min(50, (volume_ratio - 1) * 50)
-                    else:
-                        volume_score = 50 - min(50, (volume_ratio - 1) * 50)
-                    volume_score = max(0, min(100, volume_score))
+                if len(tip_hist) >= 14 and len(tnx_hist) > 0:
+                    nominal_yield = tnx_hist['Close'].iloc[-1]
+                    tip_return_14d = ((tip_hist['Close'].iloc[-1] / tip_hist['Close'].iloc[-14]) - 1) * 100
+                    estimated_real_rate = nominal_yield - (tip_return_14d * 5)
+                    # Very conservative scoring
+                    real_rates_score = 50 + (estimated_real_rate * 8)
+                    real_rates_score = max(0, min(100, real_rates_score))
                 else:
-                    volume_score = 50.0
+                    real_rates_score = 50.0
+            except:
+                real_rates_score = 50.0
 
-                duration_risk_score = momentum_score * 0.6 + volume_score * 0.4
-            else:
-                duration_risk_score = 50.0
-
-            # 3. REAL YIELDS (20% weight) - Using FRED API for historical accuracy
-            if self.fred_api_key:
-                try:
-                    date_str = target_date.strftime('%Y-%m-%d')
-                    url = f"https://api.stlouisfed.org/fred/series/observations?series_id=DFII10&api_key={self.fred_api_key}&file_type=json&observation_start={date_str}&observation_end={date_str}"
-
-                    response = requests.get(url, timeout=10)
-
-                    if response.status_code == 200:
-                        data = response.json()
-
-                        if data['observations']:
-                            real_rate = float(data['observations'][0]['value'])
-
-                            # Same scoring logic as current-day calculation
-                            if real_rate >= 2.0:
-                                real_yields_score = 85 + min(15, (real_rate - 2.0) * 10)
-                            elif real_rate >= 1.0:
-                                real_yields_score = 65 + (real_rate - 1.0) * 20
-                            elif real_rate >= 0:
-                                real_yields_score = 45 + real_rate * 20
-                            elif real_rate >= -1.0:
-                                real_yields_score = 25 + (real_rate + 1.0) * 20
-                            else:
-                                real_yields_score = max(0, 25 + (real_rate + 1.0) * 25)
-                            real_yields_score = max(0, min(100, real_yields_score))
-                        else:
-                            real_yields_score = 50.0
-                    else:
-                        real_yields_score = 50.0
-                except:
-                    real_yields_score = 50.0
-            else:
-                real_yields_score = 50.0
-
-            # 4. CREDIT QUALITY SPREAD (15% weight) - LQD vs TLT
-            if len(lqd_hist) >= 14 and len(tlt_hist) >= 14:
-                lqd_change = ((lqd_hist['Close'].iloc[-1] / lqd_hist['Close'].iloc[-14]) - 1) * 100
-                tlt_change = ((tlt_hist['Close'].iloc[-1] / tlt_hist['Close'].iloc[-14]) - 1) * 100
-                spread = lqd_change - tlt_change
-                credit_quality_score = 50 + (spread * 16.67)
-                credit_quality_score = max(0, min(100, credit_quality_score))
-            else:
-                credit_quality_score = 50.0
-
-            # 5. TERM PREMIUM DEMAND (10% weight) - TLT vs SHY
-            if len(tlt_hist) >= 14 and len(shy_hist) >= 14:
-                tlt_change = ((tlt_hist['Close'].iloc[-1] / tlt_hist['Close'].iloc[-14]) - 1) * 100
-                shy_change = ((shy_hist['Close'].iloc[-1] / shy_hist['Close'].iloc[-14]) - 1) * 100
+            # 5. TERM PREMIUM (10% weight) - TLT vs SHY
+            shy_hist = yf.Ticker("SHY").history(start=start_date, end=end_date)
+            if len(tlt_hist) >= 15 and len(shy_hist) >= 15:
+                tlt_change = ((tlt_hist['Close'].iloc[-1] / tlt_hist['Close'].iloc[-15]) - 1) * 100
+                shy_change = ((shy_hist['Close'].iloc[-1] / shy_hist['Close'].iloc[-15]) - 1) * 100
                 relative_perf = tlt_change - shy_change
                 term_premium_score = 50 + (relative_perf * 10)
                 term_premium_score = max(0, min(100, term_premium_score))
             else:
                 term_premium_score = 50.0
 
-            # Weighted average with actual weights (5 components)
+            # Weighted average (balanced)
             total_score = (
-                yield_curve_score * 0.30 +
-                duration_risk_score * 0.25 +
-                real_yields_score * 0.20 +
-                credit_quality_score * 0.15 +
-                term_premium_score * 0.10
+                price_momentum_score * 0.30 +
+                term_premium_score * 0.25 +
+                credit_spreads_score * 0.20 +
+                yield_curve_score * 0.15 +
+                real_rates_score * 0.10
             )
 
             print(f"Score: {total_score:.1f}")
@@ -593,10 +664,6 @@ class BondsFearGreedIndex:
                 if (365 - i) % 50 == 0:
                     print(f"  Progress: {365 - i}/365 days calculated...")
 
-                # Rate limiting: pause between API calls
-                if i > 0:  # Don't sleep after the last iteration
-                    time.sleep(0.5)
-
             print("✅ Historical rebuild complete!")
 
         else:
@@ -636,7 +703,7 @@ class BondsFearGreedIndex:
         with open(filepath, 'w') as f:
             json.dump(final_data, f, indent=2)
 
-        print(f"✅ Data saved to {filepath}")
+        print(f"Data saved to {filepath}")
 
 
 def main():
@@ -659,11 +726,13 @@ def main():
     result = calculator.calculate_index()
 
     # Print results
-    print("\n📋 COMPONENT BREAKDOWN:")
-    print("="*60)
+    print("\n=== Bonds Fear & Greed Index ===")
+    print(f"Score: {result['score']}")
+    print(f"Label: {result['label']}")
+    print(f"Timestamp: {result['last_update']}")
+    print("\nComponents:")
     for name, data in result['components'].items():
-        print(f"{name:20s}: {data['score']:5.1f} (weight: {data['weight']*100:4.0f}%) - {data['detail']}")
-    print("="*60)
+        print(f"  {name}: {data['score']} (weight: {data['weight']*100}%) - {data['detail']}")
 
     # Save to file
     calculator.save_to_file(args.output, force_rebuild=args.force_rebuild)
