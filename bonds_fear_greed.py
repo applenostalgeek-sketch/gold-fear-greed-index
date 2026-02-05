@@ -12,6 +12,7 @@ import json
 from datetime import datetime, timedelta
 import requests
 import os
+import time
 from typing import Dict, Tuple, Optional
 
 
@@ -591,6 +592,10 @@ class BondsFearGreedIndex:
 
                 if (365 - i) % 50 == 0:
                     print(f"  Progress: {365 - i}/365 days calculated...")
+
+                # Rate limiting: pause between API calls
+                if i > 0:  # Don't sleep after the last iteration
+                    time.sleep(0.5)
 
             print("✅ Historical rebuild complete!")
 

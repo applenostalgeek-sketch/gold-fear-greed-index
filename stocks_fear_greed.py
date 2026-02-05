@@ -11,6 +11,7 @@ import numpy as np
 from datetime import datetime, timedelta
 import json
 import os
+import time
 
 
 class StocksFearGreedIndex:
@@ -568,6 +569,10 @@ class StocksFearGreedIndex:
 
                     if (i + 1) % 50 == 0:
                         print(f"  Calculated {365 - i}/365 days...")
+
+                    # Rate limiting: pause between API calls
+                    if i > 0:  # Don't sleep after the last iteration
+                        time.sleep(0.5)
             else:
                 # Incremental update: only add today's score
                 print(f"📊 Updating index for {today_str}...")
