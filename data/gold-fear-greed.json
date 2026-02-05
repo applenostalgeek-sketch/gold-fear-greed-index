@@ -1,12 +1,12 @@
 {
-  "score": 65.5,
+  "score": 65.3,
   "label": "Greed",
-  "timestamp": "2026-02-05T09:31:43Z",
+  "timestamp": "2026-02-05T10:16:55Z",
   "components": {
     "volatility": {
       "score": 31.7,
       "weight": 0.15,
-      "detail": "Vol 14j: 64.1% vs moy 30j: 46.9%"
+      "detail": "Vol 14j: 64.2% vs moy 30j: 47.0%"
     },
     "momentum": {
       "score": 87.2,
@@ -14,7 +14,7 @@
       "detail": "RSI: 57, Prix > MM50"
     },
     "gold_vs_spy": {
-      "score": 67.9,
+      "score": 67.8,
       "weight": 0.15,
       "detail": "Gold +6.3% vs SPY -0.9%"
     },
@@ -24,9 +24,9 @@
       "detail": "GLD volume +90.1%, price +7.2%"
     },
     "vix": {
-      "score": 32.6,
+      "score": 31.8,
       "weight": 0.1,
-      "detail": "VIX: 19.8 vs avg: 17.1"
+      "detail": "VIX: 19.5 vs avg: 17.1"
     },
     "real_rates": {
       "score": 39.0,
@@ -34,15 +34,15 @@
       "detail": "TIPS 10Y: 1.92% (avg: 1.91%)"
     },
     "dollar_index": {
-      "score": 65.7,
+      "score": 65.0,
       "weight": 0.1,
-      "detail": "DXY: 97.83 (-1.6% 14d, MA30: 98.11)"
+      "detail": "DXY: 97.90 (-1.5% 14d, MA30: 98.11)"
     }
   },
   "history": [
     {
       "date": "2026-02-05",
-      "score": 65.5
+      "score": 65.3
     },
     {
       "date": "2026-02-04",

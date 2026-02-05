@@ -1,38 +1,38 @@
 {
-  "score": 11.2,
+  "score": 11.1,
   "label": "Extreme Fear",
-  "timestamp": "2026-02-05T09:31:46Z",
+  "timestamp": "2026-02-05T10:16:58Z",
   "components": {
     "momentum": {
       "score": 4.0,
       "weight": 0.1,
-      "detail": "RSI: 16, Price vs MA200: -30.5%"
+      "detail": "RSI: 16, Price vs MA200: -30.8%"
     },
     "context": {
-      "score": 12.7,
+      "score": 12.5,
       "weight": 0.35,
-      "detail": "30-day change: -21.6%"
+      "detail": "30-day change: -21.9%"
     },
     "volatility": {
       "score": 0,
       "weight": 0.15,
-      "detail": "Vol 14d: 50.2% annualized"
+      "detail": "Vol 14d: 50.3% annualized"
     },
     "dominance": {
       "score": 14.5,
       "weight": 0.25,
-      "detail": "BTC -20.0% vs ETH -27.8% (14d)"
+      "detail": "BTC -20.3% vs ETH -28.1% (14d)"
     },
     "price_momentum": {
-      "score": 18.0,
+      "score": 17.8,
       "weight": 0.15,
-      "detail": "14-day change: -20.0%"
+      "detail": "14-day change: -20.3%"
     }
   },
   "history": [
     {
       "date": "2026-02-05",
-      "score": 11.2
+      "score": 11.1
     },
     {
       "date": "2026-02-04",

@@ -1,7 +1,7 @@
 {
   "score": 53.1,
   "label": "Neutral",
-  "timestamp": "2026-02-05T09:31:45Z",
+  "timestamp": "2026-02-05T10:16:57Z",
   "components": {
     "momentum": {
       "score": 57.5,
@@ -11,7 +11,7 @@
     "vix": {
       "score": 55.0,
       "weight": 0.2,
-      "detail": "VIX: 19.8 vs avg: 17.1"
+      "detail": "VIX: 19.5 vs avg: 17.1"
     },
     "market_breadth": {
       "score": 74.9,
