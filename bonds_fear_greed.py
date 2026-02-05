@@ -50,8 +50,9 @@ class BondsFearGreedIndex:
             pct_change_14d = ((close_prices.iloc[-1] / close_prices.iloc[-15]) - 1) * 100
 
             # DIRECT: TLT rising = capital flowing INTO bonds = high score
-            # Extremely aggressive: +3% TLT = score 80, -3% TLT = score 20
-            score = 50 + (pct_change_14d * 10)
+            # Recalibrated: +4% TLT = score 100, -4% TLT = score 0
+            # This reflects TLT's actual volatility (90% of moves within ±3.7%)
+            score = 50 + (pct_change_14d * 12.5)
             score = max(0, min(100, score))
 
             detail = f"TLT 14j: {pct_change_14d:+.1f}%"
@@ -531,8 +532,8 @@ class BondsFearGreedIndex:
             # 1. PRICE MOMENTUM (60% weight) - TLT 14-day change (DIRECT - capital flow)
             if len(tlt_hist) >= 15:
                 pct_change_14d = ((tlt_hist['Close'].iloc[-1] / tlt_hist['Close'].iloc[-15]) - 1) * 100
-                # Extremely aggressive: +3% TLT = score 80, -3% TLT = score 20
-                price_momentum_score = 50 + (pct_change_14d * 10)
+                # Recalibrated: +4% TLT = score 100, -4% TLT = score 0
+                price_momentum_score = 50 + (pct_change_14d * 12.5)
                 price_momentum_score = max(0, min(100, price_momentum_score))
             else:
                 price_momentum_score = 50.0
