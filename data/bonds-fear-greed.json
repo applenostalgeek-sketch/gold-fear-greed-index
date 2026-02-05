@@ -1,7 +1,7 @@
 {
   "score": 57.2,
   "label": "Greed",
-  "timestamp": "2026-02-05T07:41:39Z",
+  "timestamp": "2026-02-05T07:56:25Z",
   "components": {
     "Yield Curve": {
       "score": 54.2,
@@ -32,7 +32,7 @@
   "history": [
     {
       "date": "2025-02-06",
-      "score": 49.9,
+      "score": 50.8,
       "label": "Neutral"
     },
     {
@@ -47,27 +47,27 @@
     },
     {
       "date": "2025-02-09",
-      "score": 48.7,
+      "score": 49.9,
       "label": "Neutral"
     },
     {
       "date": "2025-02-10",
-      "score": 48.4,
+      "score": 48.7,
       "label": "Neutral"
     },
     {
       "date": "2025-02-11",
-      "score": 49.6,
+      "score": 48.4,
       "label": "Neutral"
     },
     {
       "date": "2025-02-12",
-      "score": 50.2,
+      "score": 49.6,
       "label": "Neutral"
     },
     {
       "date": "2025-02-13",
-      "score": 49.6,
+      "score": 50.2,
       "label": "Neutral"
     },
     {
@@ -82,27 +82,27 @@
     },
     {
       "date": "2025-02-16",
-      "score": 50.0,
+      "score": 49.6,
       "label": "Neutral"
     },
     {
       "date": "2025-02-17",
-      "score": 50.5,
+      "score": 50.0,
       "label": "Neutral"
     },
     {
       "date": "2025-02-18",
-      "score": 50.4,
+      "score": 50.5,
       "label": "Neutral"
     },
     {
       "date": "2025-02-19",
-      "score": 49.2,
+      "score": 50.4,
       "label": "Neutral"
     },
     {
       "date": "2025-02-20",
-      "score": 49.9,
+      "score": 49.2,
       "label": "Neutral"
     },
     {
@@ -117,27 +117,27 @@
     },
     {
       "date": "2025-02-23",
-      "score": 49.8,
+      "score": 49.9,
       "label": "Neutral"
     },
     {
       "date": "2025-02-24",
-      "score": 50.0,
+      "score": 49.8,
       "label": "Neutral"
     },
     {
       "date": "2025-02-25",
-      "score": 48.3,
+      "score": 50.0,
       "label": "Neutral"
     },
     {
       "date": "2025-02-26",
-      "score": 48.9,
+      "score": 48.3,
       "label": "Neutral"
     },
     {
       "date": "2025-02-27",
-      "score": 49.5,
+      "score": 48.9,
       "label": "Neutral"
     },
     {
@@ -152,27 +152,27 @@
     },
     {
       "date": "2025-03-02",
-      "score": 51.0,
+      "score": 49.5,
       "label": "Neutral"
     },
     {
       "date": "2025-03-03",
-      "score": 52.2,
+      "score": 51.0,
       "label": "Neutral"
     },
     {
       "date": "2025-03-04",
+      "score": 52.2,
+      "label": "Neutral"
+    },
+    {
+      "date": "2025-03-05",
       "score": 55.4,
       "label": "Greed"
     },
     {
-      "date": "2025-03-05",
-      "score": 53.3,
-      "label": "Neutral"
-    },
-    {
       "date": "2025-03-06",
-      "score": 52.3,
+      "score": 53.3,
       "label": "Neutral"
     },
     {
@@ -187,17 +187,17 @@
     },
     {
       "date": "2025-03-09",
-      "score": 52.5,
+      "score": 52.3,
       "label": "Neutral"
     },
     {
       "date": "2025-03-10",
-      "score": 50.3,
+      "score": 52.5,
       "label": "Neutral"
     },
     {
       "date": "2025-03-11",
-      "score": 48.1,
+      "score": 50.3,
       "label": "Neutral"
     },
     {
@@ -222,18 +222,18 @@
     },
     {
       "date": "2025-03-16",
+      "score": 48.1,
+      "label": "Neutral"
+    },
+    {
+      "date": "2025-03-17",
       "score": 44.9,
       "label": "Fear"
     },
     {
-      "date": "2025-03-17",
+      "date": "2025-03-18",
       "score": 44.5,
       "label": "Fear"
-    },
-    {
-      "date": "2025-03-18",
-      "score": 46.2,
-      "label": "Neutral"
     },
     {
       "date": "2025-03-19",
@@ -242,7 +242,7 @@
     },
     {
       "date": "2025-03-20",
-      "score": 46.1,
+      "score": 46.2,
       "label": "Neutral"
     },
     {
@@ -257,27 +257,27 @@
     },
     {
       "date": "2025-03-23",
-      "score": 50.3,
+      "score": 46.1,
       "label": "Neutral"
     },
     {
       "date": "2025-03-24",
-      "score": 51.8,
+      "score": 50.3,
       "label": "Neutral"
     },
     {
       "date": "2025-03-25",
-      "score": 51.7,
+      "score": 51.8,
       "label": "Neutral"
     },
     {
       "date": "2025-03-26",
-      "score": 53.4,
+      "score": 51.7,
       "label": "Neutral"
     },
     {
       "date": "2025-03-27",
-      "score": 52.4,
+      "score": 53.4,
       "label": "Neutral"
     },
     {
@@ -292,27 +292,27 @@
     },
     {
       "date": "2025-03-30",
-      "score": 50.8,
+      "score": 52.4,
       "label": "Neutral"
     },
     {
       "date": "2025-03-31",
-      "score": 49.7,
+      "score": 50.8,
       "label": "Neutral"
     },
     {
       "date": "2025-04-01",
-      "score": 50.2,
+      "score": 49.7,
       "label": "Neutral"
     },
     {
       "date": "2025-04-02",
-      "score": 50.5,
+      "score": 50.2,
       "label": "Neutral"
     },
     {
       "date": "2025-04-03",
-      "score": 51.2,
+      "score": 50.5,
       "label": "Neutral"
     },
     {
@@ -327,27 +327,27 @@
     },
     {
       "date": "2025-04-06",
+      "score": 51.2,
+      "label": "Neutral"
+    },
+    {
+      "date": "2025-04-07",
       "score": 42.5,
       "label": "Fear"
     },
     {
-      "date": "2025-04-07",
+      "date": "2025-04-08",
       "score": 39.8,
       "label": "Fear"
     },
     {
-      "date": "2025-04-08",
+      "date": "2025-04-09",
       "score": 44.2,
       "label": "Fear"
     },
     {
-      "date": "2025-04-09",
-      "score": 42.2,
-      "label": "Fear"
-    },
-    {
       "date": "2025-04-10",
-      "score": 43.2,
+      "score": 42.2,
       "label": "Fear"
     },
     {
@@ -362,22 +362,22 @@
     },
     {
       "date": "2025-04-13",
-      "score": 43.6,
+      "score": 43.2,
       "label": "Fear"
     },
     {
       "date": "2025-04-14",
+      "score": 43.6,
+      "label": "Fear"
+    },
+    {
+      "date": "2025-04-15",
       "score": 45.9,
       "label": "Neutral"
     },
     {
-      "date": "2025-04-15",
-      "score": 49.5,
-      "label": "Neutral"
-    },
-    {
       "date": "2025-04-16",
-      "score": 49.0,
+      "score": 49.5,
       "label": "Neutral"
     },
     {
@@ -397,27 +397,27 @@
     },
     {
       "date": "2025-04-20",
-      "score": 48.1,
+      "score": 49.0,
       "label": "Neutral"
     },
     {
       "date": "2025-04-21",
-      "score": 47.5,
+      "score": 48.1,
       "label": "Neutral"
     },
     {
       "date": "2025-04-22",
-      "score": 46.3,
+      "score": 47.5,
       "label": "Neutral"
     },
     {
       "date": "2025-04-23",
-      "score": 47.7,
+      "score": 46.3,
       "label": "Neutral"
     },
     {
       "date": "2025-04-24",
-      "score": 48.5,
+      "score": 47.7,
       "label": "Neutral"
     },
     {
@@ -432,27 +432,27 @@
     },
     {
       "date": "2025-04-27",
-      "score": 53.2,
+      "score": 48.5,
       "label": "Neutral"
     },
     {
       "date": "2025-04-28",
+      "score": 53.2,
+      "label": "Neutral"
+    },
+    {
+      "date": "2025-04-29",
       "score": 55.8,
       "label": "Greed"
     },
     {
-      "date": "2025-04-29",
+      "date": "2025-04-30",
       "score": 53.8,
       "label": "Neutral"
     },
     {
-      "date": "2025-04-30",
-      "score": 57.1,
-      "label": "Greed"
-    },
-    {
       "date": "2025-05-01",
-      "score": 56.7,
+      "score": 57.1,
       "label": "Greed"
     },
     {
@@ -467,27 +467,27 @@
     },
     {
       "date": "2025-05-04",
-      "score": 57.0,
+      "score": 56.7,
       "label": "Greed"
     },
     {
       "date": "2025-05-05",
-      "score": 57.1,
+      "score": 57.0,
       "label": "Greed"
     },
     {
       "date": "2025-05-06",
+      "score": 57.1,
+      "label": "Greed"
+    },
+    {
+      "date": "2025-05-07",
       "score": 54.2,
       "label": "Neutral"
     },
     {
-      "date": "2025-05-07",
-      "score": 50.3,
-      "label": "Neutral"
-    },
-    {
       "date": "2025-05-08",
-      "score": 52.5,
+      "score": 50.3,
       "label": "Neutral"
     },
     {
@@ -502,27 +502,27 @@
     },
     {
       "date": "2025-05-11",
+      "score": 52.5,
+      "label": "Neutral"
+    },
+    {
+      "date": "2025-05-12",
       "score": 57.0,
       "label": "Greed"
     },
     {
-      "date": "2025-05-12",
+      "date": "2025-05-13",
       "score": 55.1,
       "label": "Greed"
     },
     {
-      "date": "2025-05-13",
+      "date": "2025-05-14",
       "score": 53.2,
       "label": "Neutral"
     },
     {
-      "date": "2025-05-14",
-      "score": 51.3,
-      "label": "Neutral"
-    },
-    {
       "date": "2025-05-15",
-      "score": 50.7,
+      "score": 51.3,
       "label": "Neutral"
     },
     {
@@ -537,22 +537,22 @@
     },
     {
       "date": "2025-05-18",
-      "score": 49.7,
+      "score": 50.7,
       "label": "Neutral"
     },
     {
       "date": "2025-05-19",
-      "score": 51.8,
+      "score": 49.7,
       "label": "Neutral"
     },
     {
       "date": "2025-05-20",
-      "score": 48.8,
+      "score": 51.8,
       "label": "Neutral"
     },
     {
       "date": "2025-05-21",
-      "score": 50.0,
+      "score": 48.8,
       "label": "Neutral"
     },
     {
@@ -577,22 +577,22 @@
     },
     {
       "date": "2025-05-26",
-      "score": 51.3,
+      "score": 50.0,
       "label": "Neutral"
     },
     {
       "date": "2025-05-27",
-      "score": 50.7,
+      "score": 51.3,
       "label": "Neutral"
     },
     {
       "date": "2025-05-28",
-      "score": 54.1,
+      "score": 50.7,
       "label": "Neutral"
     },
     {
       "date": "2025-05-29",
-      "score": 53.7,
+      "score": 54.1,
       "label": "Neutral"
     },
     {
@@ -607,27 +607,27 @@
     },
     {
       "date": "2025-06-01",
-      "score": 54.0,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-06-02",
-      "score": 55.2,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-06-03",
-      "score": 55.9,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-06-04",
       "score": 53.7,
       "label": "Neutral"
     },
     {
+      "date": "2025-06-02",
+      "score": 54.0,
+      "label": "Neutral"
+    },
+    {
+      "date": "2025-06-03",
+      "score": 55.2,
+      "label": "Greed"
+    },
+    {
+      "date": "2025-06-04",
+      "score": 55.9,
+      "label": "Greed"
+    },
+    {
       "date": "2025-06-05",
-      "score": 53.8,
+      "score": 53.7,
       "label": "Neutral"
     },
     {
@@ -642,27 +642,27 @@
     },
     {
       "date": "2025-06-08",
-      "score": 53.5,
+      "score": 53.8,
       "label": "Neutral"
     },
     {
       "date": "2025-06-09",
-      "score": 52.3,
+      "score": 53.5,
       "label": "Neutral"
     },
     {
       "date": "2025-06-10",
-      "score": 53.9,
+      "score": 52.3,
       "label": "Neutral"
     },
     {
       "date": "2025-06-11",
-      "score": 53.6,
+      "score": 53.9,
       "label": "Neutral"
     },
     {
       "date": "2025-06-12",
-      "score": 53.2,
+      "score": 53.6,
       "label": "Neutral"
     },
     {
@@ -677,17 +677,17 @@
     },
     {
       "date": "2025-06-15",
-      "score": 53.1,
+      "score": 53.2,
       "label": "Neutral"
     },
     {
       "date": "2025-06-16",
-      "score": 51.5,
+      "score": 53.1,
       "label": "Neutral"
     },
     {
       "date": "2025-06-17",
-      "score": 50.2,
+      "score": 51.5,
       "label": "Neutral"
     },
     {
@@ -697,7 +697,7 @@
     },
     {
       "date": "2025-06-19",
-      "score": 49.8,
+      "score": 50.2,
       "label": "Neutral"
     },
     {
@@ -712,27 +712,27 @@
     },
     {
       "date": "2025-06-22",
-      "score": 50.7,
+      "score": 49.8,
       "label": "Neutral"
     },
     {
       "date": "2025-06-23",
-      "score": 51.6,
+      "score": 50.7,
       "label": "Neutral"
     },
     {
       "date": "2025-06-24",
-      "score": 49.3,
+      "score": 51.6,
       "label": "Neutral"
     },
     {
       "date": "2025-06-25",
-      "score": 49.9,
+      "score": 49.3,
       "label": "Neutral"
     },
     {
       "date": "2025-06-26",
-      "score": 51.9,
+      "score": 49.9,
       "label": "Neutral"
     },
     {
@@ -747,22 +747,22 @@
     },
     {
       "date": "2025-06-29",
-      "score": 51.5,
+      "score": 51.9,
       "label": "Neutral"
     },
     {
       "date": "2025-06-30",
-      "score": 50.9,
+      "score": 51.5,
       "label": "Neutral"
     },
     {
       "date": "2025-07-01",
-      "score": 53.0,
+      "score": 50.9,
       "label": "Neutral"
     },
     {
       "date": "2025-07-02",
-      "score": 53.1,
+      "score": 53.0,
       "label": "Neutral"
     },
     {
@@ -782,27 +782,27 @@
     },
     {
       "date": "2025-07-06",
-      "score": 51.6,
+      "score": 53.1,
       "label": "Neutral"
     },
     {
       "date": "2025-07-07",
-      "score": 51.1,
+      "score": 51.6,
       "label": "Neutral"
     },
     {
       "date": "2025-07-08",
-      "score": 50.6,
+      "score": 51.1,
       "label": "Neutral"
     },
     {
       "date": "2025-07-09",
-      "score": 49.9,
+      "score": 50.6,
       "label": "Neutral"
     },
     {
       "date": "2025-07-10",
-      "score": 52.3,
+      "score": 49.9,
       "label": "Neutral"
     },
     {
@@ -822,22 +822,22 @@
     },
     {
       "date": "2025-07-14",
-      "score": 49.8,
+      "score": 52.3,
       "label": "Neutral"
     },
     {
       "date": "2025-07-15",
-      "score": 50.3,
+      "score": 49.8,
       "label": "Neutral"
     },
     {
       "date": "2025-07-16",
-      "score": 50.6,
+      "score": 50.3,
       "label": "Neutral"
     },
     {
       "date": "2025-07-17",
-      "score": 51.2,
+      "score": 50.6,
       "label": "Neutral"
     },
     {
@@ -852,27 +852,27 @@
     },
     {
       "date": "2025-07-20",
-      "score": 50.0,
+      "score": 51.2,
       "label": "Neutral"
     },
     {
       "date": "2025-07-21",
-      "score": 49.9,
+      "score": 50.0,
       "label": "Neutral"
     },
     {
       "date": "2025-07-22",
-      "score": 52.2,
+      "score": 49.9,
       "label": "Neutral"
     },
     {
       "date": "2025-07-23",
-      "score": 52.9,
+      "score": 52.2,
       "label": "Neutral"
     },
     {
       "date": "2025-07-24",
-      "score": 53.2,
+      "score": 52.9,
       "label": "Neutral"
     },
     {
@@ -887,27 +887,27 @@
     },
     {
       "date": "2025-07-27",
-      "score": 54.2,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-07-28",
       "score": 53.2,
       "label": "Neutral"
     },
     {
+      "date": "2025-07-28",
+      "score": 54.2,
+      "label": "Neutral"
+    },
+    {
       "date": "2025-07-29",
-      "score": 51.4,
+      "score": 53.2,
       "label": "Neutral"
     },
     {
       "date": "2025-07-30",
-      "score": 51.5,
+      "score": 51.4,
       "label": "Neutral"
     },
     {
       "date": "2025-07-31",
-      "score": 52.6,
+      "score": 51.5,
       "label": "Neutral"
     },
     {
@@ -922,7 +922,7 @@
     },
     {
       "date": "2025-08-03",
-      "score": 54.1,
+      "score": 52.6,
       "label": "Neutral"
     },
     {
@@ -932,17 +932,17 @@
     },
     {
       "date": "2025-08-05",
-      "score": 54.6,
+      "score": 54.1,
       "label": "Neutral"
     },
     {
       "date": "2025-08-06",
-      "score": 52.8,
+      "score": 54.6,
       "label": "Neutral"
     },
     {
       "date": "2025-08-07",
-      "score": 50.2,
+      "score": 52.8,
       "label": "Neutral"
     },
     {
@@ -957,27 +957,27 @@
     },
     {
       "date": "2025-08-10",
-      "score": 49.1,
+      "score": 50.2,
       "label": "Neutral"
     },
     {
       "date": "2025-08-11",
-      "score": 50.5,
+      "score": 49.1,
       "label": "Neutral"
     },
     {
       "date": "2025-08-12",
-      "score": 50.1,
+      "score": 50.5,
       "label": "Neutral"
     },
     {
       "date": "2025-08-13",
-      "score": 49.4,
+      "score": 50.1,
       "label": "Neutral"
     },
     {
       "date": "2025-08-14",
-      "score": 51.5,
+      "score": 49.4,
       "label": "Neutral"
     },
     {
@@ -992,27 +992,27 @@
     },
     {
       "date": "2025-08-17",
-      "score": 51.6,
+      "score": 51.5,
       "label": "Neutral"
     },
     {
       "date": "2025-08-18",
-      "score": 49.8,
+      "score": 51.6,
       "label": "Neutral"
     },
     {
       "date": "2025-08-19",
-      "score": 49.6,
+      "score": 49.8,
       "label": "Neutral"
     },
     {
       "date": "2025-08-20",
-      "score": 48.6,
+      "score": 49.6,
       "label": "Neutral"
     },
     {
       "date": "2025-08-21",
-      "score": 49.0,
+      "score": 48.6,
       "label": "Neutral"
     },
     {
@@ -1027,27 +1027,27 @@
     },
     {
       "date": "2025-08-24",
-      "score": 51.1,
+      "score": 49.0,
       "label": "Neutral"
     },
     {
       "date": "2025-08-25",
-      "score": 50.7,
+      "score": 51.1,
       "label": "Neutral"
     },
     {
       "date": "2025-08-26",
-      "score": 51.3,
+      "score": 50.7,
       "label": "Neutral"
     },
     {
       "date": "2025-08-27",
-      "score": 52.2,
+      "score": 51.3,
       "label": "Neutral"
     },
     {
       "date": "2025-08-28",
-      "score": 52.0,
+      "score": 52.2,
       "label": "Neutral"
     },
     {
@@ -1067,23 +1067,23 @@
     },
     {
       "date": "2025-09-01",
-      "score": 52.3,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-09-02",
-      "score": 50.5,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-09-03",
       "score": 52.0,
       "label": "Neutral"
     },
     {
+      "date": "2025-09-02",
+      "score": 52.3,
+      "label": "Neutral"
+    },
+    {
+      "date": "2025-09-03",
+      "score": 50.5,
+      "label": "Neutral"
+    },
+    {
       "date": "2025-09-04",
-      "score": 55.5,
-      "label": "Greed"
+      "score": 52.0,
+      "label": "Neutral"
     },
     {
       "date": "2025-09-05",
@@ -1097,13 +1097,13 @@
     },
     {
       "date": "2025-09-07",
-      "score": 55.6,
+      "score": 55.5,
       "label": "Greed"
     },
     {
       "date": "2025-09-08",
-      "score": 53.6,
-      "label": "Neutral"
+      "score": 55.6,
+      "label": "Greed"
     },
     {
       "date": "2025-09-09",
@@ -1112,12 +1112,12 @@
     },
     {
       "date": "2025-09-10",
-      "score": 54.2,
+      "score": 53.6,
       "label": "Neutral"
     },
     {
       "date": "2025-09-11",
-      "score": 51.5,
+      "score": 54.2,
       "label": "Neutral"
     },
     {
@@ -1132,17 +1132,17 @@
     },
     {
       "date": "2025-09-14",
-      "score": 51.4,
+      "score": 51.5,
       "label": "Neutral"
     },
     {
       "date": "2025-09-15",
-      "score": 51.6,
+      "score": 51.4,
       "label": "Neutral"
     },
     {
       "date": "2025-09-16",
-      "score": 52.1,
+      "score": 51.6,
       "label": "Neutral"
     },
     {
@@ -1152,7 +1152,7 @@
     },
     {
       "date": "2025-09-18",
-      "score": 52.2,
+      "score": 52.1,
       "label": "Neutral"
     },
     {
@@ -1167,32 +1167,32 @@
     },
     {
       "date": "2025-09-21",
-      "score": 52.9,
+      "score": 52.2,
       "label": "Neutral"
     },
     {
       "date": "2025-09-22",
-      "score": 51.5,
+      "score": 52.9,
       "label": "Neutral"
     },
     {
       "date": "2025-09-23",
-      "score": 49.3,
+      "score": 51.5,
       "label": "Neutral"
     },
     {
       "date": "2025-09-24",
-      "score": 47.7,
+      "score": 49.3,
       "label": "Neutral"
     },
     {
       "date": "2025-09-25",
-      "score": 46.4,
+      "score": 47.7,
       "label": "Neutral"
     },
     {
       "date": "2025-09-26",
-      "score": 46.4,
+      "score": 46.3,
       "label": "Neutral"
     },
     {
@@ -1207,22 +1207,22 @@
     },
     {
       "date": "2025-09-29",
-      "score": 46.8,
+      "score": 46.4,
       "label": "Neutral"
     },
     {
       "date": "2025-09-30",
-      "score": 46.9,
+      "score": 46.8,
       "label": "Neutral"
     },
     {
       "date": "2025-10-01",
-      "score": 48.5,
+      "score": 46.9,
       "label": "Neutral"
     },
     {
       "date": "2025-10-02",
-      "score": 51.0,
+      "score": 48.5,
       "label": "Neutral"
     },
     {
@@ -1237,27 +1237,27 @@
     },
     {
       "date": "2025-10-05",
-      "score": 50.2,
+      "score": 51.0,
       "label": "Neutral"
     },
     {
       "date": "2025-10-06",
-      "score": 50.9,
+      "score": 50.2,
       "label": "Neutral"
     },
     {
       "date": "2025-10-07",
-      "score": 52.1,
+      "score": 50.9,
       "label": "Neutral"
     },
     {
       "date": "2025-10-08",
-      "score": 51.5,
+      "score": 52.1,
       "label": "Neutral"
     },
     {
       "date": "2025-10-09",
-      "score": 48.7,
+      "score": 51.5,
       "label": "Neutral"
     },
     {
@@ -1272,27 +1272,27 @@
     },
     {
       "date": "2025-10-12",
-      "score": 49.4,
+      "score": 48.7,
       "label": "Neutral"
     },
     {
       "date": "2025-10-13",
-      "score": 50.3,
+      "score": 49.4,
       "label": "Neutral"
     },
     {
       "date": "2025-10-14",
-      "score": 49.3,
+      "score": 50.3,
       "label": "Neutral"
     },
     {
       "date": "2025-10-15",
-      "score": 49.6,
+      "score": 49.3,
       "label": "Neutral"
     },
     {
       "date": "2025-10-16",
-      "score": 47.8,
+      "score": 49.6,
       "label": "Neutral"
     },
     {
@@ -1307,27 +1307,27 @@
     },
     {
       "date": "2025-10-19",
-      "score": 49.4,
+      "score": 47.8,
       "label": "Neutral"
     },
     {
       "date": "2025-10-20",
-      "score": 48.9,
+      "score": 49.4,
       "label": "Neutral"
     },
     {
       "date": "2025-10-21",
-      "score": 49.3,
+      "score": 48.9,
       "label": "Neutral"
     },
     {
       "date": "2025-10-22",
-      "score": 49.1,
+      "score": 49.3,
       "label": "Neutral"
     },
     {
       "date": "2025-10-23",
-      "score": 50.7,
+      "score": 49.1,
       "label": "Neutral"
     },
     {
@@ -1342,27 +1342,27 @@
     },
     {
       "date": "2025-10-26",
-      "score": 50.0,
+      "score": 50.7,
       "label": "Neutral"
     },
     {
       "date": "2025-10-27",
-      "score": 49.2,
+      "score": 50.0,
       "label": "Neutral"
     },
     {
       "date": "2025-10-28",
-      "score": 49.4,
+      "score": 49.2,
       "label": "Neutral"
     },
     {
       "date": "2025-10-29",
-      "score": 47.5,
+      "score": 49.4,
       "label": "Neutral"
     },
     {
       "date": "2025-10-30",
-      "score": 46.5,
+      "score": 47.5,
       "label": "Neutral"
     },
     {
@@ -1377,27 +1377,27 @@
     },
     {
       "date": "2025-11-02",
-      "score": 46.6,
+      "score": 46.5,
       "label": "Neutral"
     },
     {
       "date": "2025-11-03",
-      "score": 47.3,
+      "score": 46.6,
       "label": "Neutral"
     },
     {
       "date": "2025-11-04",
-      "score": 47.6,
+      "score": 47.3,
       "label": "Neutral"
     },
     {
       "date": "2025-11-05",
-      "score": 49.7,
+      "score": 47.6,
       "label": "Neutral"
     },
     {
       "date": "2025-11-06",
-      "score": 48.3,
+      "score": 49.7,
       "label": "Neutral"
     },
     {
@@ -1412,27 +1412,27 @@
     },
     {
       "date": "2025-11-09",
-      "score": 48.2,
+      "score": 48.3,
       "label": "Neutral"
     },
     {
       "date": "2025-11-10",
-      "score": 48.4,
+      "score": 48.2,
       "label": "Neutral"
     },
     {
       "date": "2025-11-11",
-      "score": 50.0,
+      "score": 48.4,
       "label": "Neutral"
     },
     {
       "date": "2025-11-12",
-      "score": 49.7,
+      "score": 50.0,
       "label": "Neutral"
     },
     {
       "date": "2025-11-13",
-      "score": 48.9,
+      "score": 49.7,
       "label": "Neutral"
     },
     {
@@ -1447,27 +1447,27 @@
     },
     {
       "date": "2025-11-16",
-      "score": 49.4,
+      "score": 48.9,
       "label": "Neutral"
     },
     {
       "date": "2025-11-17",
-      "score": 49.8,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-11-18",
-      "score": 49.5,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-11-19",
       "score": 49.4,
       "label": "Neutral"
     },
     {
+      "date": "2025-11-18",
+      "score": 49.8,
+      "label": "Neutral"
+    },
+    {
+      "date": "2025-11-19",
+      "score": 49.5,
+      "label": "Neutral"
+    },
+    {
       "date": "2025-11-20",
-      "score": 50.3,
+      "score": 49.4,
       "label": "Neutral"
     },
     {
@@ -1482,12 +1482,12 @@
     },
     {
       "date": "2025-11-23",
-      "score": 50.9,
+      "score": 50.3,
       "label": "Neutral"
     },
     {
       "date": "2025-11-24",
-      "score": 51.7,
+      "score": 50.9,
       "label": "Neutral"
     },
     {
@@ -1502,7 +1502,7 @@
     },
     {
       "date": "2025-11-27",
-      "score": 52.7,
+      "score": 51.7,
       "label": "Neutral"
     },
     {
@@ -1517,27 +1517,27 @@
     },
     {
       "date": "2025-11-30",
-      "score": 51.6,
+      "score": 52.7,
       "label": "Neutral"
     },
     {
       "date": "2025-12-01",
-      "score": 51.4,
+      "score": 51.6,
       "label": "Neutral"
     },
     {
       "date": "2025-12-02",
-      "score": 51.0,
+      "score": 51.4,
       "label": "Neutral"
     },
     {
       "date": "2025-12-03",
-      "score": 51.9,
+      "score": 51.0,
       "label": "Neutral"
     },
     {
       "date": "2025-12-04",
-      "score": 53.1,
+      "score": 51.9,
       "label": "Neutral"
     },
     {
@@ -1552,27 +1552,27 @@
     },
     {
       "date": "2025-12-07",
-      "score": 52.9,
+      "score": 53.1,
       "label": "Neutral"
     },
     {
       "date": "2025-12-08",
-      "score": 52.5,
+      "score": 52.9,
       "label": "Neutral"
     },
     {
       "date": "2025-12-09",
-      "score": 53.3,
+      "score": 52.5,
       "label": "Neutral"
     },
     {
       "date": "2025-12-10",
-      "score": 52.3,
+      "score": 53.3,
       "label": "Neutral"
     },
     {
       "date": "2025-12-11",
-      "score": 50.6,
+      "score": 52.3,
       "label": "Neutral"
     },
     {
@@ -1592,22 +1592,22 @@
     },
     {
       "date": "2025-12-15",
-      "score": 49.9,
+      "score": 50.6,
       "label": "Neutral"
     },
     {
       "date": "2025-12-16",
-      "score": 49.5,
+      "score": 49.9,
       "label": "Neutral"
     },
     {
       "date": "2025-12-17",
-      "score": 50.5,
+      "score": 49.5,
       "label": "Neutral"
     },
     {
       "date": "2025-12-18",
-      "score": 51.3,
+      "score": 50.5,
       "label": "Neutral"
     },
     {
@@ -1622,17 +1622,17 @@
     },
     {
       "date": "2025-12-21",
-      "score": 51.7,
+      "score": 51.3,
       "label": "Neutral"
     },
     {
       "date": "2025-12-22",
-      "score": 51.6,
+      "score": 51.7,
       "label": "Neutral"
     },
     {
       "date": "2025-12-23",
-      "score": 52.4,
+      "score": 51.6,
       "label": "Neutral"
     },
     {
@@ -1642,7 +1642,7 @@
     },
     {
       "date": "2025-12-25",
-      "score": 52.9,
+      "score": 52.4,
       "label": "Neutral"
     },
     {
@@ -1657,17 +1657,17 @@
     },
     {
       "date": "2025-12-28",
-      "score": 52.4,
+      "score": 52.9,
       "label": "Neutral"
     },
     {
       "date": "2025-12-29",
-      "score": 52.1,
+      "score": 52.4,
       "label": "Neutral"
     },
     {
       "date": "2025-12-30",
-      "score": 51.5,
+      "score": 52.1,
       "label": "Neutral"
     },
     {
@@ -1677,7 +1677,7 @@
     },
     {
       "date": "2026-01-01",
-      "score": 50.6,
+      "score": 51.5,
       "label": "Neutral"
     },
     {
@@ -1692,27 +1692,27 @@
     },
     {
       "date": "2026-01-04",
-      "score": 51.1,
+      "score": 50.6,
       "label": "Neutral"
     },
     {
       "date": "2026-01-05",
-      "score": 50.9,
+      "score": 51.1,
       "label": "Neutral"
     },
     {
       "date": "2026-01-06",
-      "score": 51.6,
+      "score": 50.9,
       "label": "Neutral"
     },
     {
       "date": "2026-01-07",
-      "score": 49.8,
+      "score": 51.6,
       "label": "Neutral"
     },
     {
       "date": "2026-01-08",
-      "score": 51.2,
+      "score": 49.8,
       "label": "Neutral"
     },
     {
@@ -1727,27 +1727,27 @@
     },
     {
       "date": "2026-01-11",
-      "score": 51.4,
+      "score": 51.2,
       "label": "Neutral"
     },
     {
       "date": "2026-01-12",
-      "score": 51.6,
+      "score": 51.4,
       "label": "Neutral"
     },
     {
       "date": "2026-01-13",
-      "score": 51.9,
+      "score": 51.6,
       "label": "Neutral"
     },
     {
       "date": "2026-01-14",
-      "score": 51.5,
+      "score": 51.9,
       "label": "Neutral"
     },
     {
       "date": "2026-01-15",
-      "score": 49.9,
+      "score": 51.5,
       "label": "Neutral"
     },
     {
@@ -1767,22 +1767,22 @@
     },
     {
       "date": "2026-01-19",
-      "score": 48.4,
+      "score": 49.9,
       "label": "Neutral"
     },
     {
       "date": "2026-01-20",
-      "score": 48.5,
+      "score": 48.4,
       "label": "Neutral"
     },
     {
       "date": "2026-01-21",
-      "score": 53.5,
+      "score": 48.5,
       "label": "Neutral"
     },
     {
       "date": "2026-01-22",
-      "score": 49.7,
+      "score": 53.5,
       "label": "Neutral"
     },
     {
@@ -1797,27 +1797,27 @@
     },
     {
       "date": "2026-01-25",
-      "score": 52.1,
+      "score": 49.7,
       "label": "Neutral"
     },
     {
       "date": "2026-01-26",
-      "score": 50.4,
+      "score": 52.1,
       "label": "Neutral"
     },
     {
       "date": "2026-01-27",
-      "score": 49.8,
+      "score": 50.4,
       "label": "Neutral"
     },
     {
       "date": "2026-01-28",
-      "score": 50.9,
+      "score": 49.8,
       "label": "Neutral"
     },
     {
       "date": "2026-01-29",
-      "score": 50.4,
+      "score": 50.9,
       "label": "Neutral"
     },
     {
@@ -1832,22 +1832,22 @@
     },
     {
       "date": "2026-02-01",
-      "score": 49.5,
+      "score": 50.4,
       "label": "Neutral"
     },
     {
       "date": "2026-02-02",
-      "score": 49.0,
+      "score": 49.5,
       "label": "Neutral"
     },
     {
       "date": "2026-02-03",
-      "score": 57.1,
-      "label": "Greed"
+      "score": 49.0,
+      "label": "Neutral"
     },
     {
       "date": "2026-02-04",
-      "score": 49.0,
+      "score": 49.3,
       "label": "Neutral"
     },
     {
