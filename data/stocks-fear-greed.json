@@ -1,43 +1,43 @@
 {
-  "score": 43.2,
+  "score": 43.5,
   "label": "Fear",
-  "timestamp": "2026-02-05T20:55:39Z",
+  "timestamp": "2026-02-05T21:53:01Z",
   "components": {
     "price_strength": {
-      "score": 39.5,
+      "score": 39.9,
       "weight": 0.3,
-      "detail": "SPY -2.1% 14d"
+      "detail": "SPY -2.0% 14d"
     },
     "vix": {
       "score": 40.0,
       "weight": 0.2,
-      "detail": "VIX: 21.4 vs avg: 17.1"
+      "detail": "VIX: 21.8 vs avg: 17.1"
     },
     "momentum": {
-      "score": 38.2,
+      "score": 38.3,
       "weight": 0.15,
       "detail": "RSI: 37, Price < MA50"
     },
     "market_breadth": {
-      "score": 84.6,
+      "score": 85.7,
       "weight": 0.15,
-      "detail": "RSP -0.4% vs SPY -2.1%"
+      "detail": "RSP -0.2% vs SPY -2.0%"
     },
     "sector_rotation": {
-      "score": 1.6,
+      "score": 1.2,
       "weight": 0.1,
-      "detail": "QQQ -3.9% vs XLP +5.7%"
+      "detail": "QQQ -3.9% vs XLP +5.9%"
     },
     "junk_bonds": {
-      "score": 48.0,
+      "score": 47.8,
       "weight": 0.1,
-      "detail": "HYG -0.2% vs TLT -0.0%"
+      "detail": "HYG -0.2% vs TLT +0.0%"
     }
   },
   "history": [
     {
       "date": "2026-02-05",
-      "score": 43.2
+      "score": 43.5
     },
     {
       "date": "2026-02-04",
