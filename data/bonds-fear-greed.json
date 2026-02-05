@@ -1,7 +1,7 @@
 {
-  "score": 49.0,
+  "score": 49.3,
   "label": "Neutral",
-  "timestamp": "2026-02-04T04:12:27Z",
+  "timestamp": "2026-02-05T04:16:54Z",
   "components": {
     "Yield Curve": {
       "score": 50.0,
@@ -9,9 +9,9 @@
       "detail": "Data unavailable"
     },
     "Duration Risk": {
-      "score": 47.3,
+      "score": 45.5,
       "weight": 0.25,
-      "detail": "TLT 20j: -0.2%"
+      "detail": "TLT 20j: -1.0%"
     },
     "Real Yields": {
       "score": 50.0,
@@ -19,22 +19,17 @@
       "detail": "Data unavailable"
     },
     "Credit Quality": {
-      "score": 54.3,
+      "score": 64.8,
       "weight": 0.15,
-      "detail": "LQD vs TLT: +0.3%"
+      "detail": "LQD vs TLT: +0.9%"
     },
     "Term Premium": {
-      "score": 40.6,
+      "score": 32.2,
       "weight": 0.1,
-      "detail": "TLT vs SHY: -0.9%"
+      "detail": "TLT vs SHY: -1.8%"
     }
   },
   "history": [
-    {
-      "date": "2025-02-05",
-      "score": 50.8,
-      "label": "Neutral"
-    },
     {
       "date": "2025-02-06",
       "score": 49.9,
@@ -1853,6 +1848,11 @@
     {
       "date": "2026-02-04",
       "score": 49.0,
+      "label": "Neutral"
+    },
+    {
+      "date": "2026-02-05",
+      "score": 49.3,
       "label": "Neutral"
     }
   ]
