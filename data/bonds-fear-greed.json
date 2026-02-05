@@ -1,7 +1,7 @@
 {
-  "score": 47.5,
+  "score": 49.0,
   "label": "Neutral",
-  "timestamp": "2026-02-05T15:12:06Z",
+  "timestamp": "2026-02-05T19:43:55Z",
   "components": {
     "yield_curve": {
       "score": 55.8,
@@ -9,9 +9,9 @@
       "detail": "Courbe: +0.71% (10Y-2Y)"
     },
     "duration_risk": {
-      "score": 39.5,
+      "score": 42.7,
       "weight": 0.3,
-      "detail": "TLT 14j: -1.0%"
+      "detail": "TLT 14j: -0.7%"
     },
     "real_rates": {
       "score": 65.4,
@@ -19,14 +19,14 @@
       "detail": "TIPS 10Y: +1.92%"
     },
     "credit_quality": {
-      "score": 58.5,
+      "score": 57.3,
       "weight": 0.2,
-      "detail": "LQD vs TLT: +0.8%"
+      "detail": "LQD vs TLT: +0.7%"
     },
     "term_premium": {
-      "score": 36.2,
+      "score": 39.2,
       "weight": 0.25,
-      "detail": "TLT vs SHY: -1.4%"
+      "detail": "TLT vs SHY: -1.1%"
     }
   },
   "history": [
@@ -1852,7 +1852,7 @@
     },
     {
       "date": "2026-02-05",
-      "score": 47.5,
+      "score": 49.0,
       "label": "Neutral"
     }
   ]
