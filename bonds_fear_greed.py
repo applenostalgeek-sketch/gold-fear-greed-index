@@ -111,11 +111,11 @@ class BondsFearGreedIndex:
 
             # 1. Price momentum (60% of component)
             close_prices = hist['Close']
-            pct_change_20d = ((close_prices.iloc[-1] / close_prices.iloc[-20]) - 1) * 100
+            pct_change_14d = ((close_prices.iloc[-1] / close_prices.iloc[-14]) - 1) * 100
 
             # TLT rising = investors seeking duration = Greed
             # TLT falling = investors avoiding duration = Fear
-            momentum_score = 50 + (pct_change_20d * 4)
+            momentum_score = 50 + (pct_change_14d * 4)
             momentum_score = max(0, min(100, momentum_score))
 
             # 2. Volume trend (40% of component)
@@ -126,7 +126,7 @@ class BondsFearGreedIndex:
 
                 # High volume with price up = strong buying = Greed
                 # High volume with price down = panic selling = Fear
-                if pct_change_20d > 0:
+                if pct_change_14d > 0:
                     volume_score = 50 + min(50, (volume_ratio - 1) * 50)
                 else:
                     volume_score = 50 - min(50, (volume_ratio - 1) * 50)
@@ -138,7 +138,7 @@ class BondsFearGreedIndex:
             # Combined score
             score = momentum_score * 0.6 + volume_score * 0.4
 
-            detail = f"TLT 20j: {pct_change_20d:+.1f}%"
+            detail = f"TLT 14j: {pct_change_14d:+.1f}%"
 
             return score, detail
 
@@ -217,9 +217,9 @@ class BondsFearGreedIndex:
             if lqd_hist.empty or tlt_hist.empty or len(lqd_hist) < 15 or len(tlt_hist) < 15:
                 raise ValueError("No LQD or TLT data available")
 
-            # 20-day performance comparison
-            lqd_change = ((lqd_hist['Close'].iloc[-1] / lqd_hist['Close'].iloc[-20]) - 1) * 100
-            tlt_change = ((tlt_hist['Close'].iloc[-1] / tlt_hist['Close'].iloc[-20]) - 1) * 100
+            # 14-day performance comparison
+            lqd_change = ((lqd_hist['Close'].iloc[-1] / lqd_hist['Close'].iloc[-14]) - 1) * 100
+            tlt_change = ((tlt_hist['Close'].iloc[-1] / tlt_hist['Close'].iloc[-14]) - 1) * 100
 
             # Spread: LQD outperforming = taking credit risk = Greed
             spread = lqd_change - tlt_change
@@ -257,9 +257,9 @@ class BondsFearGreedIndex:
             if tlt_hist.empty or shy_hist.empty or len(tlt_hist) < 15 or len(shy_hist) < 15:
                 raise ValueError("No TLT or SHY data available")
 
-            # 15-day performance comparison
-            tlt_change = ((tlt_hist['Close'].iloc[-1] / tlt_hist['Close'].iloc[-15]) - 1) * 100
-            shy_change = ((shy_hist['Close'].iloc[-1] / shy_hist['Close'].iloc[-15]) - 1) * 100
+            # 14-day performance comparison
+            tlt_change = ((tlt_hist['Close'].iloc[-1] / tlt_hist['Close'].iloc[-14]) - 1) * 100
+            shy_change = ((shy_hist['Close'].iloc[-1] / shy_hist['Close'].iloc[-14]) - 1) * 100
 
             # Relative performance
             relative_perf = tlt_change - shy_change
@@ -451,9 +451,9 @@ class BondsFearGreedIndex:
                 yield_curve_score = 50.0
 
             # 2. DURATION RISK APPETITE (25% weight) - TLT momentum + volume
-            if len(tlt_hist) >= 20:
-                pct_change_20d = ((tlt_hist['Close'].iloc[-1] / tlt_hist['Close'].iloc[-20]) - 1) * 100
-                momentum_score = 50 + (pct_change_20d * 4)
+            if len(tlt_hist) >= 14:
+                pct_change_14d = ((tlt_hist['Close'].iloc[-1] / tlt_hist['Close'].iloc[-14]) - 1) * 100
+                momentum_score = 50 + (pct_change_14d * 4)
                 momentum_score = max(0, min(100, momentum_score))
 
                 if 'Volume' in tlt_hist.columns and len(tlt_hist) >= 60:
@@ -461,7 +461,7 @@ class BondsFearGreedIndex:
                     baseline_volume = tlt_hist['Volume'].tail(60).mean()
                     volume_ratio = current_volume / baseline_volume if baseline_volume > 0 else 1.0
 
-                    if pct_change_20d > 0:
+                    if pct_change_14d > 0:
                         volume_score = 50 + min(50, (volume_ratio - 1) * 50)
                     else:
                         volume_score = 50 - min(50, (volume_ratio - 1) * 50)
@@ -509,9 +509,9 @@ class BondsFearGreedIndex:
                 real_yields_score = 50.0
 
             # 4. CREDIT QUALITY SPREAD (15% weight) - LQD vs TLT
-            if len(lqd_hist) >= 20 and len(tlt_hist) >= 20:
-                lqd_change = ((lqd_hist['Close'].iloc[-1] / lqd_hist['Close'].iloc[-20]) - 1) * 100
-                tlt_change = ((tlt_hist['Close'].iloc[-1] / tlt_hist['Close'].iloc[-20]) - 1) * 100
+            if len(lqd_hist) >= 14 and len(tlt_hist) >= 14:
+                lqd_change = ((lqd_hist['Close'].iloc[-1] / lqd_hist['Close'].iloc[-14]) - 1) * 100
+                tlt_change = ((tlt_hist['Close'].iloc[-1] / tlt_hist['Close'].iloc[-14]) - 1) * 100
                 spread = lqd_change - tlt_change
                 credit_quality_score = 50 + (spread * 16.67)
                 credit_quality_score = max(0, min(100, credit_quality_score))
@@ -519,9 +519,9 @@ class BondsFearGreedIndex:
                 credit_quality_score = 50.0
 
             # 5. TERM PREMIUM DEMAND (10% weight) - TLT vs SHY
-            if len(tlt_hist) >= 15 and len(shy_hist) >= 15:
-                tlt_change = ((tlt_hist['Close'].iloc[-1] / tlt_hist['Close'].iloc[-15]) - 1) * 100
-                shy_change = ((shy_hist['Close'].iloc[-1] / shy_hist['Close'].iloc[-15]) - 1) * 100
+            if len(tlt_hist) >= 14 and len(shy_hist) >= 14:
+                tlt_change = ((tlt_hist['Close'].iloc[-1] / tlt_hist['Close'].iloc[-14]) - 1) * 100
+                shy_change = ((shy_hist['Close'].iloc[-1] / shy_hist['Close'].iloc[-14]) - 1) * 100
                 relative_perf = tlt_change - shy_change
                 term_premium_score = 50 + (relative_perf * 10)
                 term_premium_score = max(0, min(100, term_premium_score))
