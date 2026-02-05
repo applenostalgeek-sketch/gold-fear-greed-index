@@ -587,9 +587,9 @@
                 Jump to detailed component breakdowns (ordered by risk spectrum):
             </p>
             <ul>
-                <li><a href="#gold">🪙 Gold Fear & Greed Index (7 components) - Extreme Risk-Off</a></li>
+                <li><a href="#gold">🪙 Gold Fear & Greed Index (6 components) - Extreme Risk-Off</a></li>
                 <li><a href="#bonds">📊 Bonds Fear & Greed Index (5 components) - Risk-Off</a></li>
-                <li><a href="#stocks">📈 Stocks Fear & Greed Index (7 components) - Risk-On</a></li>
+                <li><a href="#stocks">📈 Stocks Fear & Greed Index (6 components) - Risk-On</a></li>
                 <li><a href="#crypto">₿ Crypto Fear & Greed Index (5 components) - Extreme Risk-On</a></li>
                 <li><a href="#rotation">Market Sentiment Indicator (Risk-On vs Risk-Off)</a></li>
                 <li><a href="#sources">Data Sources, Fallbacks & Transparency</a></li>
@@ -597,66 +597,71 @@
             </ul>
         </div>
 
-        <!-- Gold Index - will be moved here -->
+        <!-- Gold Index -->
         <div class="section" id="gold">
             <h2>🪙 Gold Fear & Greed Index</h2>
             <p>
-                The Gold Index measures sentiment in the gold market using <strong>7 components</strong> with varying weights. All scores from 0-100:
+                The Gold Index measures <strong>sentiment TOWARDS gold</strong> using <strong>6 recalibrated components</strong>. Philosophy: Like Alternative.me measures crypto sentiment, we measure whether investors are buying or selling gold, regardless of the reason. All scores from 0-100:
             </p>
 
             <div class="component-box gold">
-                <h4>1. Volatility (15%)</h4>
-                <p class="weight">14-day volatility vs 30-day average</p>
+                <h4>1. GLD Price Momentum (30%)</h4>
+                <p class="weight">Direct 14-day GLD performance (PRIMARY INDICATOR)</p>
                 <p>
-                    Lower volatility indicates confidence (greed), higher volatility suggests uncertainty (fear). Calculated from daily returns of gold futures (GC=F).
+                    <strong>Highest weight component.</strong> Measures direct SPDR Gold Trust (GLD) price change over 14 days.
+                    <strong>GLD +5% = score 100 (extreme greed), GLD -5% = score 0 (extreme fear).</strong> This captures
+                    actual buying/selling sentiment regardless of macro reasons. Gold rallying +8% = high score = investors
+                    are buying gold = greed towards gold.
                 </p>
             </div>
 
             <div class="component-box gold">
-                <h4>2. Momentum (25%)</h4>
-                <p class="weight">RSI + 50-day & 200-day moving averages</p>
+                <h4>2. Dollar Index (20%)</h4>
+                <p class="weight">USD strength (inverted correlation)</p>
                 <p>
-                    Combines 14-day RSI with price position relative to 50-day and 200-day MAs. Price above both MAs = strong bullish momentum. RSI >70 = overbought, <30 = oversold.
+                    Gold and the dollar typically move inversely. <strong>Weakening dollar = stronger gold demand = higher score.</strong>
+                    Tracks 14-day change in DXY (US Dollar Index vs basket of currencies). Dollar down 5% = score 100,
+                    dollar up 5% = score 0. Critical macro factor for gold pricing.
                 </p>
             </div>
 
             <div class="component-box gold">
-                <h4>3. Gold vs S&P 500 (15%)</h4>
-                <p class="weight">14-day relative performance</p>
+                <h4>3. Real Rates (20%)</h4>
+                <p class="weight">10-Year TIPS yield (inflation-adjusted)</p>
                 <p>
-                    Gold outperforming stocks = flight to safety. Stocks outperforming gold = risk-on sentiment.
+                    Gold is a non-yielding asset, so <strong>lower real rates = more attractive gold = higher score.</strong>
+                    Uses FRED API (DFII10 - 10-Year Treasury Inflation-Indexed Security) with Yahoo fallback (^TNX for nominal yields).
+                    Real rate at -1% = score 100, at +3% = score 0. Fundamental driver of gold valuation.
                 </p>
             </div>
 
             <div class="component-box gold">
-                <h4>4. ETF Flows (15%)</h4>
-                <p class="weight">GLD volume and price trends</p>
+                <h4>4. Gold vs S&P 500 (15%)</h4>
+                <p class="weight">14-day relative performance vs stocks</p>
                 <p>
-                    Analyzes SPDR Gold Trust (GLD) trading volume and price as proxy for institutional flows.
+                    Measures capital rotation between gold and equities. <strong>Gold outperforming SPY = higher score
+                    (capital flowing TO gold).</strong> Stocks outperforming = lower score (capital leaving gold).
+                    Gold +10% vs SPY = score 100, Gold -10% vs SPY = score 0.
                 </p>
             </div>
 
             <div class="component-box gold">
                 <h4>5. VIX (10%)</h4>
-                <p class="weight">Market fear gauge</p>
+                <p class="weight">Market volatility / safe haven demand</p>
                 <p>
-                    High VIX = market stress = increased gold demand. Low VIX = complacency.
+                    CBOE Volatility Index measures stock market fear. <strong>High VIX = market stress = increased safe haven
+                    gold demand = higher score.</strong> VIX at 40 = score 100 (extreme safe haven demand), VIX at 10 = score 0
+                    (no defensive positioning). Captures gold's role as portfolio insurance.
                 </p>
             </div>
 
             <div class="component-box gold">
-                <h4>6. Real Rates (10%)</h4>
-                <p class="weight">10-Year TIPS yield</p>
+                <h4>6. Volatility (5%)</h4>
+                <p class="weight">14-day vs 30-day gold volatility (secondary indicator)</p>
                 <p>
-                    Lower real rates make non-yielding gold more attractive. Uses FRED API (DFII10) with Yahoo fallback (TIP ETF).
-                </p>
-            </div>
-
-            <div class="component-box gold">
-                <h4>7. Dollar Index (10%)</h4>
-                <p class="weight">USD strength (inverted)</p>
-                <p>
-                    Gold typically moves inversely to the dollar. Weakening dollar = stronger gold.
+                    Compares current 14-day annualized volatility to 30-day average from gold futures (GC=F).
+                    <strong>Lower volatility = confidence = higher score.</strong> Rising volatility suggests uncertainty.
+                    Weighted low (5%) as secondary confirmation indicator.
                 </p>
             </div>
         </div>
@@ -720,62 +725,72 @@
         <div class="section" id="stocks">
             <h2>📈 Stocks Fear & Greed Index</h2>
             <p>
-                The Stocks Index measures sentiment in the equity market using <strong>7 components</strong>:
+                The Stocks Index measures <strong>sentiment towards equities</strong> using <strong>6 recalibrated components</strong>. Philosophy: 30% direct SPY performance captures buying/selling sentiment, ensuring the index reflects when "people are buying stocks" or "people are panicking and selling". All scores from 0-100:
             </p>
 
             <div class="component-box stocks">
-                <h4>1. Momentum (20%)</h4>
-                <p class="weight">RSI + 50-day & 200-day moving averages</p>
+                <h4>1. Price Strength (30%)</h4>
+                <p class="weight">Direct SPY 14-day performance (PRIMARY INDICATOR)</p>
                 <p>
-                    S&P 500 (SPY) RSI combined with price position relative to MAs. Weighted 60% RSI, 40% MA position.
+                    <strong>Highest weight component.</strong> Measures S&P 500 (SPY) price change over 14 days.
+                    <strong>SPY +10% = people buying stocks = high score. SPY -10% = people selling = low score.</strong>
+                    This directly captures buying/selling sentiment. Increased from 5% to 30% to ensure the index
+                    reflects actual market participation, not just conditions. When stocks crash -15%, this component
+                    drives the score to Extreme Fear, signaling panic selling.
                 </p>
             </div>
 
             <div class="component-box stocks">
                 <h4>2. VIX (20%)</h4>
-                <p class="weight">Volatility Index (inverted)</p>
+                <p class="weight">Market fear gauge (CBOE Volatility Index)</p>
                 <p>
-                    VIX <12 = extreme complacency (greed), VIX >30 = panic (extreme fear).
+                    Measures expected stock market volatility. <strong>VIX <12 = extreme complacency = greed (score 85+).
+                    VIX >30 = panic = extreme fear (score <25).</strong> Uses tiered scoring: VIX <15 = 70+,
+                    VIX 15-20 = 55, VIX 20-25 = 40, VIX >25 = <25. Called the "fear index" - captures investor anxiety
+                    in real-time through options pricing.
                 </p>
             </div>
 
             <div class="component-box stocks">
-                <h4>3. Market Breadth (15%)</h4>
-                <p class="weight">Equal-weight vs cap-weight performance</p>
+                <h4>3. Momentum (15%)</h4>
+                <p class="weight">RSI + 50-day moving average position</p>
                 <p>
-                    Compares RSP (equal-weight) to SPY. Equal-weight outperforming = broad participation = greed.
+                    Combines 14-day RSI (60% weight) with price position relative to 50-day MA (40% weight).
+                    <strong>RSI >70 + Price > MA50 = overbought/bullish = high score.</strong> RSI <30 + Price < MA50 =
+                    oversold/bearish = low score. Captures technical momentum and trend strength beyond raw price moves.
                 </p>
             </div>
 
             <div class="component-box stocks">
-                <h4>4. Sector Rotation (15%)</h4>
+                <h4>4. Market Breadth (15%)</h4>
+                <p class="weight">Equal-weight vs cap-weight performance (RSP vs SPY)</p>
+                <p>
+                    Compares Invesco S&P 500 Equal Weight ETF (RSP) to SPY over 14 days. <strong>RSP outperforming SPY =
+                    broad participation across all stocks = healthy greed.</strong> SPY outperforming RSP = narrow leadership
+                    (only mega-caps rising) = fragile market = lower score. Detects when rallies are driven by few stocks
+                    vs widespread buying.
+                </p>
+            </div>
+
+            <div class="component-box stocks">
+                <h4>5. Sector Rotation (10%)</h4>
                 <p class="weight">Tech vs Defensive rotation (QQQ vs XLP)</p>
                 <p>
-                    Measures capital flows between offensive (technology) and defensive (consumer staples) sectors. QQQ (Nasdaq-100) outperforming XLP (Consumer Staples) = risk-on sentiment = greed. XLP outperforming QQQ = defensive rotation = fear. Captures intra-equity risk appetite before broader market moves.
+                    Measures capital flows between offensive and defensive sectors via 14-day relative performance.
+                    <strong>QQQ (Nasdaq-100 tech) outperforming XLP (Consumer Staples) = risk-on = greed.</strong>
+                    XLP outperforming QQQ = defensive rotation = fear. Leading indicator - sector rotation often precedes
+                    broader market moves as investors reposition before major trends.
                 </p>
             </div>
 
             <div class="component-box stocks">
-                <h4>5. Junk Bond Demand (15%)</h4>
-                <p class="weight">High-yield vs Treasuries</p>
+                <h4>6. Junk Bond Demand (10%)</h4>
+                <p class="weight">High-yield corporate bonds vs Treasuries (HYG vs TLT)</p>
                 <p>
-                    HYG outperforming TLT = risk-on. TLT outperforming = flight to safety.
-                </p>
-            </div>
-
-            <div class="component-box stocks">
-                <h4>6. Safe Haven Demand (10%)</h4>
-                <p class="weight">Treasury bond flows (inverted)</p>
-                <p>
-                    TLT rising = fear. TLT falling = risk-on sentiment.
-                </p>
-            </div>
-
-            <div class="component-box stocks">
-                <h4>7. Price Strength (5%)</h4>
-                <p class="weight">SPY 14-day momentum</p>
-                <p>
-                    Simple 14-day price momentum. Positive = greed, negative = fear.
+                    Compares iShares High Yield Corporate Bond ETF (HYG) to 20+ Year Treasury ETF (TLT) over 14 days.
+                    <strong>HYG outperforming TLT = risk appetite for junk bonds = greed.</strong> TLT outperforming HYG =
+                    flight to safety from risky corporate debt = fear. Credit markets often signal equity sentiment changes
+                    before they appear in stock prices.
                 </p>
             </div>
         </div>

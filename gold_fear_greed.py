@@ -161,45 +161,37 @@ class GoldFearGreedIndex:
             print(f"Error calculating gold vs SPY: {e}")
             return 50.0, "Data unavailable"
 
-    def calculate_etf_flows_score(self) -> Tuple[float, str]:
+    def calculate_gld_price_momentum_score(self) -> Tuple[float, str]:
         """
-        Calculate ETF flows component (20% weight)
-        Based on GLD (SPDR Gold Trust) holdings change
+        Calculate GLD Price Momentum component (30% weight)
+        Direct measurement of GLD ETF performance over 14 days
+        Primary indicator: captures actual buying/selling sentiment
 
         Returns:
             Tuple of (score 0-100, detail string)
         """
         try:
             gld = yf.Ticker("GLD")
-
-            # Get shares outstanding (proxy for holdings)
-            # Note: yfinance doesn't provide direct holdings data
-            # We'll use volume and price trends as proxy
             hist = gld.history(period="1mo")
 
             if len(hist) < 14:
                 raise ValueError("Insufficient GLD data")
 
-            # Calculate average volume trend
-            recent_vol = hist['Volume'].tail(7).mean()
-            previous_vol = hist['Volume'].iloc[-14:-7].mean()
-
-            # Calculate price trend (as proxy for holdings interest)
+            # Calculate 14-day price change
             recent_price_change = (hist['Close'].iloc[-1] / hist['Close'].iloc[-14] - 1) * 100
 
-            # Score: increasing volume + price = greed, decreasing = fear
-            vol_change = (recent_vol / previous_vol - 1) * 100 if previous_vol > 0 else 0
-
-            # Combine volume and price trends
-            score = 50 + (vol_change * 2) + (recent_price_change * 2)
+            # Aggressive scoring to capture sentiment:
+            # GLD +5% = score 100 (extreme greed)
+            # GLD -5% = score 0 (extreme fear)
+            score = 50 + (recent_price_change * 10)
             score = max(0, min(100, score))
 
-            detail = f"GLD volume {vol_change:+.1f}%, price {recent_price_change:+.1f}%"
+            detail = f"GLD 14d: {recent_price_change:+.1f}%"
 
             return score, detail
 
         except Exception as e:
-            print(f"Error calculating ETF flows: {e}")
+            print(f"Error calculating GLD price momentum: {e}")
             return 50.0, "Data unavailable"
 
     def calculate_vix_score(self) -> Tuple[float, str]:
@@ -369,49 +361,46 @@ class GoldFearGreedIndex:
             Dictionary with score, label, components, and history
         """
         # Define weights (total must equal 1.0)
+        # PHILOSOPHY: Measure sentiment TOWARDS gold (like Alternative.me measures sentiment towards crypto)
         weights = {
-            'volatility': 0.15,      # Reduced from 0.20
-            'momentum': 0.25,        # Unchanged - most important
-            'gold_vs_spy': 0.15,     # Unchanged
-            'etf_flows': 0.15,       # Reduced from 0.20
-            'vix': 0.10,             # Unchanged
-            'real_rates': 0.10,      # Unchanged
-            'dollar_index': 0.10     # NEW - critical for gold
+            'gld_price': 0.30,       # PRIMARY: Direct GLD performance = buying sentiment
+            'dollar_index': 0.20,    # Dollar inverse correlation (increased)
+            'real_rates': 0.20,      # Critical macro factor for gold
+            'gold_vs_spy': 0.15,     # Relative performance vs stocks
+            'vix': 0.10,             # Safe haven demand indicator
+            'volatility': 0.05       # Secondary: market stress indicator
         }
 
         # Calculate each component
-        print("Calculating Gold Fear & Greed Index...")
+        print("Calculating RECALIBRATED Gold Fear & Greed Index...")
+        print("(Philosophy: Measure sentiment TOWARDS gold, like Alternative.me)")
 
-        vol_score, vol_detail = self.calculate_volatility_score()
-        print(f"Volatility: {vol_score:.1f} - {vol_detail}")
-
-        momentum_score, momentum_detail = self.calculate_momentum_score()
-        print(f"Momentum: {momentum_score:.1f} - {momentum_detail}")
-
-        gold_spy_score, gold_spy_detail = self.calculate_gold_vs_spy_score()
-        print(f"Gold vs SPY: {gold_spy_score:.1f} - {gold_spy_detail}")
-
-        etf_score, etf_detail = self.calculate_etf_flows_score()
-        print(f"ETF Flows: {etf_score:.1f} - {etf_detail}")
-
-        vix_score, vix_detail = self.calculate_vix_score()
-        print(f"VIX: {vix_score:.1f} - {vix_detail}")
-
-        real_rates_score, real_rates_detail = self.calculate_real_rates_score()
-        print(f"Real Rates: {real_rates_score:.1f} - {real_rates_detail}")
+        gld_price_score, gld_price_detail = self.calculate_gld_price_momentum_score()
+        print(f"GLD Price (30%): {gld_price_score:.1f} - {gld_price_detail}")
 
         dxy_score, dxy_detail = self.calculate_dollar_index_score()
-        print(f"Dollar Index: {dxy_score:.1f} - {dxy_detail}")
+        print(f"Dollar Index (20%): {dxy_score:.1f} - {dxy_detail}")
+
+        real_rates_score, real_rates_detail = self.calculate_real_rates_score()
+        print(f"Real Rates (20%): {real_rates_score:.1f} - {real_rates_detail}")
+
+        gold_spy_score, gold_spy_detail = self.calculate_gold_vs_spy_score()
+        print(f"Gold vs SPY (15%): {gold_spy_score:.1f} - {gold_spy_detail}")
+
+        vix_score, vix_detail = self.calculate_vix_score()
+        print(f"VIX (10%): {vix_score:.1f} - {vix_detail}")
+
+        vol_score, vol_detail = self.calculate_volatility_score()
+        print(f"Volatility (5%): {vol_score:.1f} - {vol_detail}")
 
         # Calculate weighted average
         total_score = (
-            vol_score * weights['volatility'] +
-            momentum_score * weights['momentum'] +
-            gold_spy_score * weights['gold_vs_spy'] +
-            etf_score * weights['etf_flows'] +
-            vix_score * weights['vix'] +
+            gld_price_score * weights['gld_price'] +
+            dxy_score * weights['dollar_index'] +
             real_rates_score * weights['real_rates'] +
-            dxy_score * weights['dollar_index']
+            gold_spy_score * weights['gold_vs_spy'] +
+            vix_score * weights['vix'] +
+            vol_score * weights['volatility']
         )
 
         # Determine label
@@ -428,40 +417,35 @@ class GoldFearGreedIndex:
 
         # Build components dictionary
         components = {
-            'volatility': {
-                'score': round(vol_score, 1),
-                'weight': weights['volatility'],
-                'detail': vol_detail
+            'gld_price': {
+                'score': round(gld_price_score, 1),
+                'weight': weights['gld_price'],
+                'detail': gld_price_detail
             },
-            'momentum': {
-                'score': round(momentum_score, 1),
-                'weight': weights['momentum'],
-                'detail': momentum_detail
-            },
-            'gold_vs_spy': {
-                'score': round(gold_spy_score, 1),
-                'weight': weights['gold_vs_spy'],
-                'detail': gold_spy_detail
-            },
-            'etf_flows': {
-                'score': round(etf_score, 1),
-                'weight': weights['etf_flows'],
-                'detail': etf_detail
-            },
-            'vix': {
-                'score': round(vix_score, 1),
-                'weight': weights['vix'],
-                'detail': vix_detail
+            'dollar_index': {
+                'score': round(dxy_score, 1),
+                'weight': weights['dollar_index'],
+                'detail': dxy_detail
             },
             'real_rates': {
                 'score': round(real_rates_score, 1),
                 'weight': weights['real_rates'],
                 'detail': real_rates_detail
             },
-            'dollar_index': {
-                'score': round(dxy_score, 1),
-                'weight': weights['dollar_index'],
-                'detail': dxy_detail
+            'gold_vs_spy': {
+                'score': round(gold_spy_score, 1),
+                'weight': weights['gold_vs_spy'],
+                'detail': gold_spy_detail
+            },
+            'vix': {
+                'score': round(vix_score, 1),
+                'weight': weights['vix'],
+                'detail': vix_detail
+            },
+            'volatility': {
+                'score': round(vol_score, 1),
+                'weight': weights['volatility'],
+                'detail': vol_detail
             }
         }
 
@@ -492,10 +476,10 @@ class GoldFearGreedIndex:
     def calculate_simple_historical_score(self, target_date: datetime) -> float:
         """
         Calculate COMPLETE historical score for a past date
-        Uses ALL 7 components with accurate weights for professional-grade historical data
+        Uses ALL 6 RECALIBRATED components with new weights (30% GLD price focus)
 
         Args:
-            target_date: The date to calculate the score for
+            target: The date to calculate the score for
 
         Returns:
             Historical score (0-100)
@@ -526,74 +510,25 @@ class GoldFearGreedIndex:
                 print("insufficient data")
                 return 50.0
 
-            # 1. VOLATILITY (15% weight)
-            returns = gold_hist['Close'].pct_change().dropna()
-            if len(returns) >= 44:  # Need 14 + 30 days
-                current_vol = returns.tail(14).std() * np.sqrt(252) * 100
-                vol_30d = returns.tail(30).std() * np.sqrt(252) * 100
-                ratio = current_vol / vol_30d if vol_30d > 0 else 1.0
-                volatility_score = 50 + (1 - ratio) * 50
-                volatility_score = max(0, min(100, volatility_score))
-            else:
-                volatility_score = 50.0
-
-            # 2. MOMENTUM (25% weight)
-            close_prices = gold_hist['Close']
-            if len(close_prices) >= 200:
-                ma50 = close_prices.rolling(window=50).mean().iloc[-1]
-                ma200 = close_prices.rolling(window=200).mean().iloc[-1]
-                current_price = close_prices.iloc[-1]
-
-                # RSI calculation
-                delta = close_prices.diff()
-                gain = (delta.where(delta > 0, 0)).rolling(window=14).mean()
-                loss = (-delta.where(delta < 0, 0)).rolling(window=14).mean()
-                rs = gain / loss
-                rsi = 100 - (100 / (1 + rs))
-                current_rsi = rsi.iloc[-1]
-
-                # Scoring
-                ma_score = 0
-                if current_price > ma50:
-                    ma_score += 40
-                if current_price > ma200:
-                    ma_score += 30
-                rsi_score = current_rsi * 0.3
-
-                momentum_score = ma_score + rsi_score
-            else:
-                momentum_score = 50.0
-
-            # 3. GOLD VS SPY (15% weight)
-            if len(gold_hist) >= 14 and len(spy_hist) >= 14:
-                gold_return = (gold_hist['Close'].iloc[-1] / gold_hist['Close'].iloc[-14] - 1) * 100
-                spy_return = (spy_hist['Close'].iloc[-1] / spy_hist['Close'].iloc[-14] - 1) * 100
-                relative_perf = gold_return - spy_return
-                gold_spy_score = 50 + (relative_perf * 2.5)
-                gold_spy_score = max(0, min(100, gold_spy_score))
-            else:
-                gold_spy_score = 50.0
-
-            # 4. ETF FLOWS (15% weight)
+            # 1. GLD PRICE MOMENTUM (30% weight) - PRIMARY INDICATOR
             if len(gld_hist) >= 14:
-                recent_vol = gld_hist['Volume'].tail(7).mean()
-                previous_vol = gld_hist['Volume'].iloc[-14:-7].mean()
                 recent_price_change = (gld_hist['Close'].iloc[-1] / gld_hist['Close'].iloc[-14] - 1) * 100
-                vol_change = (recent_vol / previous_vol - 1) * 100 if previous_vol > 0 else 0
-                etf_flows_score = 50 + (vol_change * 2) + (recent_price_change * 2)
-                etf_flows_score = max(0, min(100, etf_flows_score))
+                gld_price_score = 50 + (recent_price_change * 10)
+                gld_price_score = max(0, min(100, gld_price_score))
             else:
-                etf_flows_score = 50.0
+                gld_price_score = 50.0
 
-            # 5. VIX (10% weight)
-            if len(vix_hist) > 0:
-                current_vix = vix_hist['Close'].iloc[-1]
-                vix_score = (current_vix - 10) * 3.33
-                vix_score = max(0, min(100, vix_score))
+            # 2. DOLLAR INDEX (20% weight)
+            if len(dxy_hist) >= 14:
+                current_dxy = dxy_hist['Close'].iloc[-1]
+                dxy_14d_ago = dxy_hist['Close'].iloc[-14]
+                dxy_change = ((current_dxy - dxy_14d_ago) / dxy_14d_ago) * 100
+                dxy_score = 50 - (dxy_change * 10)
+                dxy_score = max(0, min(100, dxy_score))
             else:
-                vix_score = 50.0
+                dxy_score = 50.0
 
-            # 6. REAL RATES (10% weight) - Using FRED API for historical accuracy
+            # 3. REAL RATES (20% weight) - Using FRED API for historical accuracy
             if self.fred_api_key:
                 try:
                     date_str = target_date.strftime('%Y-%m-%d')
@@ -606,13 +541,9 @@ class GoldFearGreedIndex:
 
                         if data['observations'] and data['observations'][0]['value'] != '.':
                             tips_rate = float(data['observations'][0]['value'])
-
-                            # Same scoring logic as current-day calculation
-                            # Score: lower real rates = higher gold appeal = higher score
                             real_rates_score = 75 - (tips_rate * 18.75)
                             real_rates_score = max(0, min(100, real_rates_score))
                         else:
-                            # Fallback to TNX if FRED data unavailable
                             if len(tnx_hist) > 0:
                                 current_yield = tnx_hist['Close'].iloc[-1]
                                 real_rates_score = 100 - ((current_yield - 2) * 25)
@@ -620,7 +551,6 @@ class GoldFearGreedIndex:
                             else:
                                 real_rates_score = 50.0
                     else:
-                        # Fallback to TNX if FRED request fails
                         if len(tnx_hist) > 0:
                             current_yield = tnx_hist['Close'].iloc[-1]
                             real_rates_score = 100 - ((current_yield - 2) * 25)
@@ -628,7 +558,6 @@ class GoldFearGreedIndex:
                         else:
                             real_rates_score = 50.0
                 except:
-                    # Fallback to TNX on exception
                     if len(tnx_hist) > 0:
                         current_yield = tnx_hist['Close'].iloc[-1]
                         real_rates_score = 100 - ((current_yield - 2) * 25)
@@ -636,7 +565,6 @@ class GoldFearGreedIndex:
                     else:
                         real_rates_score = 50.0
             else:
-                # No FRED API key, use TNX fallback
                 if len(tnx_hist) > 0:
                     current_yield = tnx_hist['Close'].iloc[-1]
                     real_rates_score = 100 - ((current_yield - 2) * 25)
@@ -644,25 +572,43 @@ class GoldFearGreedIndex:
                 else:
                     real_rates_score = 50.0
 
-            # 7. DOLLAR INDEX (10% weight)
-            if len(dxy_hist) >= 14:
-                current_dxy = dxy_hist['Close'].iloc[-1]
-                dxy_14d_ago = dxy_hist['Close'].iloc[-14]
-                dxy_change = ((current_dxy - dxy_14d_ago) / dxy_14d_ago) * 100
-                dxy_score = 50 - (dxy_change * 10)
-                dxy_score = max(0, min(100, dxy_score))
+            # 4. GOLD VS SPY (15% weight)
+            if len(gold_hist) >= 14 and len(spy_hist) >= 14:
+                gold_return = (gold_hist['Close'].iloc[-1] / gold_hist['Close'].iloc[-14] - 1) * 100
+                spy_return = (spy_hist['Close'].iloc[-1] / spy_hist['Close'].iloc[-14] - 1) * 100
+                relative_perf = gold_return - spy_return
+                gold_spy_score = 50 + (relative_perf * 2.5)
+                gold_spy_score = max(0, min(100, gold_spy_score))
             else:
-                dxy_score = 50.0
+                gold_spy_score = 50.0
 
-            # Weighted average with REAL weights (7 components)
+            # 5. VIX (10% weight)
+            if len(vix_hist) > 0:
+                current_vix = vix_hist['Close'].iloc[-1]
+                vix_score = (current_vix - 10) * 3.33
+                vix_score = max(0, min(100, vix_score))
+            else:
+                vix_score = 50.0
+
+            # 6. VOLATILITY (5% weight)
+            returns = gold_hist['Close'].pct_change().dropna()
+            if len(returns) >= 44:  # Need 14 + 30 days
+                current_vol = returns.tail(14).std() * np.sqrt(252) * 100
+                vol_30d = returns.tail(30).std() * np.sqrt(252) * 100
+                ratio = current_vol / vol_30d if vol_30d > 0 else 1.0
+                volatility_score = 50 + (1 - ratio) * 50
+                volatility_score = max(0, min(100, volatility_score))
+            else:
+                volatility_score = 50.0
+
+            # Weighted average with RECALIBRATED weights (6 components)
             total_score = (
-                volatility_score * 0.15 +
-                momentum_score * 0.25 +
+                gld_price_score * 0.30 +
+                dxy_score * 0.20 +
+                real_rates_score * 0.20 +
                 gold_spy_score * 0.15 +
-                etf_flows_score * 0.15 +
                 vix_score * 0.10 +
-                real_rates_score * 0.10 +
-                dxy_score * 0.10
+                volatility_score * 0.05
             )
 
             print(f"Score: {total_score:.1f}")

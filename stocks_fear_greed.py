@@ -294,49 +294,46 @@ class StocksFearGreedIndex:
         Returns: Dictionary with score, label, components
         """
         # Define weights (total must equal 1.0)
+        # PHILOSOPHY: 30% direct SPY performance to measure "people buying stocks" sentiment
         weights = {
-            'momentum': 0.20,           # Reduced from 0.25
-            'vix': 0.20,                # Unchanged
-            'market_breadth': 0.15,     # Unchanged
-            'sector_rotation': 0.15,    # NEW: Tech vs Defensive rotation
-            'junk_bonds': 0.15,         # Unchanged
-            'safe_haven': 0.10,         # Reduced from 0.15
-            'price_strength': 0.05      # Reduced from 0.10
+            'price_strength': 0.30,     # PRIMARY: Direct SPY performance (increased from 0.05)
+            'vix': 0.20,                # Market fear gauge
+            'momentum': 0.15,           # RSI-based momentum (reduced from 0.20)
+            'market_breadth': 0.15,     # Advance/Decline ratio
+            'sector_rotation': 0.10,    # Risk-on vs Risk-off sectors (reduced from 0.15)
+            'junk_bonds': 0.10          # Credit risk appetite (reduced from 0.15)
         }
 
         # Calculate each component
-        print("\nCalculating Stocks Fear & Greed Index...")
-
-        momentum_score, momentum_detail = self.calculate_momentum_score()
-        print(f"Momentum: {momentum_score} - {momentum_detail}")
-
-        vix_score, vix_detail = self.calculate_vix_score()
-        print(f"VIX: {vix_score} - {vix_detail}")
-
-        breadth_score, breadth_detail = self.calculate_market_breadth_score()
-        print(f"Market Breadth: {breadth_score} - {breadth_detail}")
-
-        rotation_score, rotation_detail = self.calculate_sector_rotation_score()
-        print(f"Sector Rotation: {rotation_score} - {rotation_detail}")
-
-        junk_score, junk_detail = self.calculate_junk_bond_score()
-        print(f"Junk Bonds: {junk_score} - {junk_detail}")
-
-        haven_score, haven_detail = self.calculate_safe_haven_score()
-        print(f"Safe Haven: {haven_score} - {haven_detail}")
+        print("\nCalculating RECALIBRATED Stocks Fear & Greed Index...")
+        print("(30% direct SPY performance = measures buying/selling sentiment)")
 
         strength_score, strength_detail = self.calculate_price_strength_score()
-        print(f"Price Strength: {strength_score} - {strength_detail}")
+        print(f"Price Strength (30%): {strength_score} - {strength_detail}")
 
-        # Store components
+        vix_score, vix_detail = self.calculate_vix_score()
+        print(f"VIX (20%): {vix_score} - {vix_detail}")
+
+        momentum_score, momentum_detail = self.calculate_momentum_score()
+        print(f"Momentum (15%): {momentum_score} - {momentum_detail}")
+
+        breadth_score, breadth_detail = self.calculate_market_breadth_score()
+        print(f"Market Breadth (15%): {breadth_score} - {breadth_detail}")
+
+        rotation_score, rotation_detail = self.calculate_sector_rotation_score()
+        print(f"Sector Rotation (10%): {rotation_score} - {rotation_detail}")
+
+        junk_score, junk_detail = self.calculate_junk_bond_score()
+        print(f"Junk Bonds (10%): {junk_score} - {junk_detail}")
+
+        # Store components (ordered by weight)
         self.components = {
-            'momentum': {'score': momentum_score, 'weight': weights['momentum'], 'detail': momentum_detail},
+            'price_strength': {'score': strength_score, 'weight': weights['price_strength'], 'detail': strength_detail},
             'vix': {'score': vix_score, 'weight': weights['vix'], 'detail': vix_detail},
+            'momentum': {'score': momentum_score, 'weight': weights['momentum'], 'detail': momentum_detail},
             'market_breadth': {'score': breadth_score, 'weight': weights['market_breadth'], 'detail': breadth_detail},
             'sector_rotation': {'score': rotation_score, 'weight': weights['sector_rotation'], 'detail': rotation_detail},
-            'junk_bonds': {'score': junk_score, 'weight': weights['junk_bonds'], 'detail': junk_detail},
-            'safe_haven': {'score': haven_score, 'weight': weights['safe_haven'], 'detail': haven_detail},
-            'price_strength': {'score': strength_score, 'weight': weights['price_strength'], 'detail': strength_detail}
+            'junk_bonds': {'score': junk_score, 'weight': weights['junk_bonds'], 'detail': junk_detail}
         }
 
         # Calculate weighted average
@@ -377,7 +374,7 @@ class StocksFearGreedIndex:
     def calculate_simple_historical_score(self, target_date: datetime) -> float:
         """
         Calculate COMPLETE historical score for a past date
-        Uses ALL 7 components with accurate weights for professional-grade historical data
+        Uses ALL 6 RECALIBRATED components (30% direct SPY performance)
 
         Args:
             target_date: The date to calculate the score for
@@ -471,7 +468,7 @@ class StocksFearGreedIndex:
             else:
                 rotation_score = 50
 
-            # 5. Calculate Junk Bond Demand (15% weight)
+            # 5. Calculate Junk Bond Demand (10% weight - reduced from 15%)
             if len(hyg_hist) >= 14 and len(tlt_hist) >= 14:
                 hyg_return = ((hyg_hist['Close'].iloc[-1] - hyg_hist['Close'].iloc[-14]) / hyg_hist['Close'].iloc[-14]) * 100
                 tlt_return = ((tlt_hist['Close'].iloc[-1] - tlt_hist['Close'].iloc[-14]) / tlt_hist['Close'].iloc[-14]) * 100
@@ -481,20 +478,7 @@ class StocksFearGreedIndex:
             else:
                 junk_score = 50
 
-            # 6. Calculate Safe Haven Demand (10% weight)
-            if len(tlt_hist) >= 30:
-                current_tlt = tlt_hist['Close'].iloc[-1]
-                if len(tlt_hist) >= 14:
-                    price_14d_ago = tlt_hist['Close'].iloc[-14]
-                    momentum_14d = ((current_tlt - price_14d_ago) / price_14d_ago) * 100
-                    haven_score = 50 - (momentum_14d * 5)
-                    haven_score = max(0, min(100, haven_score))
-                else:
-                    haven_score = 50
-            else:
-                haven_score = 50
-
-            # 7. Calculate Price Strength (5% weight)
+            # 6. Calculate Price Strength (30% weight - PRIMARY INDICATOR, increased from 5%)
             if len(spy_hist) >= 14:
                 current_price = spy_hist['Close'].iloc[-1]
                 price_14d_ago = spy_hist['Close'].iloc[-14]
@@ -504,15 +488,14 @@ class StocksFearGreedIndex:
             else:
                 strength_score = 50
 
-            # Weighted average with REAL weights (7 components)
+            # Weighted average with RECALIBRATED weights (6 components)
             total_score = (
-                momentum_score * 0.20 +
+                strength_score * 0.30 +
                 vix_score * 0.20 +
+                momentum_score * 0.15 +
                 breadth_score * 0.15 +
-                rotation_score * 0.15 +
-                junk_score * 0.15 +
-                haven_score * 0.10 +
-                strength_score * 0.05
+                rotation_score * 0.10 +
+                junk_score * 0.10
             )
 
             print(f"Score: {total_score:.1f}")
