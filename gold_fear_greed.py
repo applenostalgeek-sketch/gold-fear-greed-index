@@ -24,7 +24,8 @@ class GoldFearGreedIndex:
         Args:
             fred_api_key: FRED API key for real rates data (optional)
         """
-        self.fred_api_key = fred_api_key or os.environ.get('FRED_API_KEY')
+        fred_key = fred_api_key or os.environ.get('FRED_API_KEY')
+        self.fred_api_key = fred_key.strip() if fred_key else None
         self.components = {}
         self.score = 0
         self.label = ""
