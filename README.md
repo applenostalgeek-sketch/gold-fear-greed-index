@@ -1,307 +1,344 @@
-# Gold Fear & Greed Index
+# OnOff.Markets - Multi-Asset Fear & Greed Indices
 
-A market sentiment indicator for gold, similar to the cryptocurrency Fear & Greed Index by Alternative.me, but adapted to the specifics of the gold market.
+Real-time sentiment tracking across **4 major asset classes**: Gold, Bonds, Stocks, and Crypto. Independent, transparent indices with complete methodology disclosure.
 
-![Gold Fear & Greed Index](https://img.shields.io/badge/Status-Active-success)
+![Status](https://img.shields.io/badge/Status-Live-success)
 ![Python](https://img.shields.io/badge/Python-3.9+-blue)
+![Updated](https://img.shields.io/badge/Updated-Daily%20at%202%3A00%20UTC-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
+
+**Live Site**: [onoff.markets](https://onoff.markets)
+
+---
 
 ## Overview
 
-The Gold Fear & Greed Index aggregates 6 different market indicators into a single score (0-100) that represents market sentiment toward gold:
+OnOff.Markets provides **transparent Fear & Greed indices** for four markets:
 
+- **🪙 Gold** - Safe haven sentiment (6 components)
+- **📊 Bonds** - Treasury market sentiment (5 components)
+- **📈 Stocks** - Equity market sentiment (6 components)
+- **₿ Crypto** - Cryptocurrency sentiment (5 components, calibrated vs Alternative.me)
+
+Each index outputs a **0-100 score**:
 - **0-25**: Extreme Fear 🔴
 - **26-45**: Fear 🟠
 - **46-55**: Neutral 🟡
 - **56-75**: Greed 🟢
 - **76-100**: Extreme Greed 🟦
 
+**Unique Feature**: Market Rotation Indicator showing Risk-On vs Risk-Off capital flows across all 4 asset classes.
+
+---
+
+## Philosophy
+
+Unlike black-box proprietary indices:
+- ✅ **Complete transparency** - All formulas published on about.html
+- ✅ **Open methodology** - Every component weight disclosed
+- ✅ **Free data sources** - Yahoo Finance + FRED API only
+- ✅ **Daily updates** - Automated via GitHub Actions
+- ✅ **No subscriptions** - Free forever
+
+Each index measures **sentiment TOWARDS that market** (whether people are buying or selling), following Alternative.me's philosophy for crypto.
+
+---
+
 ## Index Components
 
+### 🪙 Gold (6 Components)
 | Component | Weight | Description |
 |-----------|--------|-------------|
-| **Volatility** | 20% | Current 14-day volatility vs 30-day average |
-| **Momentum** | 25% | Price vs MA50/MA200 + RSI(14) |
-| **Gold vs Stocks** | 15% | 14-day performance: Gold vs S&P500 |
-| **ETF Flows** | 20% | GLD (SPDR Gold Trust) volume & price trends |
-| **VIX** | 10% | Current VIX level vs average |
-| **Real Rates** | 10% | 10-Year TIPS yields |
+| GLD Price Momentum | 30% | Direct 14-day GLD ETF performance (PRIMARY) |
+| Dollar Index | 20% | DXY 14-day change (inverse correlation) |
+| Real Rates | 20% | 10-Year TIPS yields from FRED |
+| Gold vs S&P 500 | 15% | 14-day relative performance |
+| VIX | 10% | Safe haven demand indicator |
+| Volatility | 5% | 14-day GLD price volatility |
+
+**Recalibrated Jan 2026**: Increased direct GLD performance weight from 25% to 30% to better capture buying/selling sentiment.
+
+### 📊 Bonds (5 Components)
+| Component | Weight | Description |
+|-----------|--------|-------------|
+| TLT Price Momentum | 30% | Direct 14-day TLT ETF performance (PRIMARY) |
+| Yield Curve | 15% | 10Y-2Y Treasury spread from FRED |
+| Credit Quality | 20% | LQD vs TLT performance (credit spreads) |
+| Real Rates | 10% | 10-Year TIPS yields |
+| Term Premium | 25% | TLT vs SHY (long vs short treasuries) |
+
+**Recalibrated Feb 2026**: Adjusted TLT scaling from ±5% to ±4% to reflect actual volatility (90% of moves within ±3.7%).
+
+### 📈 Stocks (6 Components)
+| Component | Weight | Description |
+|-----------|--------|-------------|
+| Price Strength | 30% | Direct 14-day SPY performance (PRIMARY) |
+| VIX | 20% | Market fear gauge (inverted) |
+| Momentum | 15% | SPY RSI(14) momentum |
+| Market Breadth | 15% | RSP vs SPY (equal-weight vs cap-weight) |
+| Sector Rotation | 10% | XLY vs XLU (cyclical vs defensive) |
+| Junk Bonds | 10% | HYG vs LQD (credit risk appetite) |
+
+**Recalibrated Jan 2026**: Increased Price Strength from 5% to 30% to emphasize direct buying/selling sentiment.
+
+### ₿ Crypto (5 Components)
+| Component | Weight | Description |
+|-----------|--------|-------------|
+| Context | 35% | 30-day BTC price trend (PRIMARY) |
+| Bitcoin Dominance | 25% | BTC vs ETH performance (inverted) |
+| Volatility | 15% | 14-day annualized volatility (inverted) |
+| Price Momentum | 15% | 14-day BTC price change |
+| Momentum | 10% | BTC RSI + moving averages |
+
+**Calibrated vs Alternative.me** with 8.3 points average error.
+
+---
 
 ## Data Sources
 
-All data sources are **100% free**:
-- **Yahoo Finance** (via yfinance): Gold, S&P500, VIX, GLD prices
-- **FRED API** (Federal Reserve): 10-Year TIPS real rates
+All data is **100% free** and publicly accessible:
+
+- **Yahoo Finance** (via yfinance): All price, volume, and technical data
+  - ETFs: GLD, TLT, SPY, SHY, LQD, HYG, RSP, XLY, XLU, TIP
+  - Indices: ^VIX, DXY
+  - Crypto: BTC-USD, ETH-USD
+
+- **FRED API** (Federal Reserve): Treasury yields and TIPS
+  - DGS2, DGS10 (2Y/10Y Treasury yields)
+  - DFII10 (10-Year TIPS real yields)
+
+**Fallback Strategy**: FRED → Yahoo Finance for weekend/holiday protection (never defaults to neutral 50.0).
+
+---
 
 ## Project Structure
 
 ```
 gold-fear-greed-index/
-├── gold_fear_greed.py          # Main calculation script
-├── requirements.txt            # Python dependencies
-├── index.html                  # Frontend interface
-├── style.css                   # Styling
-├── script.js                   # Frontend logic
+├── gold_fear_greed.py          # Gold index calculator
+├── bonds_fear_greed.py         # Bonds index calculator
+├── stocks_fear_greed.py        # Stocks index calculator
+├── crypto_fear_greed.py        # Crypto index calculator
+├── index.html                  # Homepage (market rotation)
+├── gold.html / bonds.html      # Individual index pages
+├── stocks.html / crypto.html
+├── about.html                  # Complete methodology
 ├── data/
-│   └── gold-fear-greed.json   # Generated index data
-├── assets/                     # Optional images/icons
+│   ├── gold-fear-greed.json    # Gold historical data (365 days)
+│   ├── bonds-fear-greed.json   # Bonds historical data (365 days)
+│   ├── stocks-fear-greed.json  # Stocks historical data (365 days)
+│   └── crypto-fear-greed.json  # Crypto historical data (365 days)
 ├── .github/
 │   └── workflows/
-│       └── update-index.yml   # GitHub Actions automation
-├── .gitignore
+│       └── update-index.yml    # Daily automation (2:00 UTC)
 └── README.md
 ```
 
-## Installation & Setup
+---
+
+## Installation & Local Development
 
 ### Prerequisites
 
-- Python 3.9 or higher
+- Python 3.9+
 - Git
 - GitHub account (for automation)
-- Netlify account (for hosting)
 
-### Step 1: Clone the Repository
+### Step 1: Clone & Install
 
 ```bash
-git clone https://github.com/YOUR-USERNAME/gold-fear-greed-index.git
+git clone https://github.com/applenostalgeek-sketch/gold-fear-greed-index.git
 cd gold-fear-greed-index
-```
-
-### Step 2: Install Python Dependencies
-
-```bash
 pip install -r requirements.txt
 ```
 
-### Step 3: Get FRED API Key (Optional but Recommended)
+### Step 2: Get FRED API Key
 
-1. Visit [FRED API Key Registration](https://fred.stlouisfed.org/docs/api/api_key.html)
-2. Create a free account
-3. Generate an API key
-4. Set it as an environment variable:
+1. Visit [FRED API](https://fred.stlouisfed.org/docs/api/api_key.html)
+2. Create free account & generate API key
+3. Set environment variable:
 
 ```bash
 export FRED_API_KEY="your_api_key_here"
 ```
 
-Or add it to your `.env` file:
+### Step 3: Run Locally
 
+Calculate all 4 indices:
 ```bash
-echo "FRED_API_KEY=your_api_key_here" > .env
-```
-
-### Step 4: Run the Script Locally
-
-```bash
+# Individual indices
 python gold_fear_greed.py
+python bonds_fear_greed.py --FRED_API_KEY="your_key"
+python stocks_fear_greed.py
+python crypto_fear_greed.py
+
+# Force rebuild 365-day history
+python gold_fear_greed.py --force-rebuild
 ```
 
-This will:
-- Calculate the current Gold Fear & Greed Index
-- Display component scores in the terminal
-- Generate/update `data/gold-fear-greed.json`
-
-### Step 5: Test the Frontend Locally
-
-Open `index.html` in your browser or use a local server:
+### Step 4: Test Frontend
 
 ```bash
-# Python 3
-python -m http.server 8000
-
-# Then visit http://localhost:8000
+python -m http.server 8080
+# Visit http://localhost:8080
 ```
 
-## Deployment to Netlify
+---
 
-### Method 1: GitHub Integration (Recommended)
+## Deployment (GitHub Pages)
 
-1. **Push your code to GitHub**:
-   ```bash
-   git init
-   git add .
-   git commit -m "Initial commit: Gold Fear & Greed Index"
-   git branch -M main
-   git remote add origin https://github.com/YOUR-USERNAME/gold-fear-greed-index.git
-   git push -u origin main
-   ```
+The site auto-deploys to GitHub Pages from the `main` branch.
 
-2. **Connect to Netlify**:
-   - Go to [Netlify](https://www.netlify.com/)
-   - Click "Add new site" → "Import an existing project"
-   - Choose GitHub and select your repository
-   - Build settings:
-     - **Base directory**: (leave empty)
-     - **Build command**: (leave empty - this is a static site)
-     - **Publish directory**: `/` (root)
-   - Click "Deploy site"
+### Setup GitHub Pages
 
-3. **Configure GitHub Secrets**:
-   - Go to your GitHub repository
-   - Settings → Secrets and variables → Actions
-   - Add new secret:
-     - Name: `FRED_API_KEY`
-     - Value: Your FRED API key
+1. Go to repo Settings → Pages
+2. Source: Deploy from branch `main`
+3. Folder: `/ (root)`
+4. Save
 
-### Method 2: Manual Deploy
+### Configure Secrets
 
-1. Install Netlify CLI:
-   ```bash
-   npm install -g netlify-cli
-   ```
+Add to Settings → Secrets and variables → Actions:
+- `FRED_API_KEY`: Your FRED API key
 
-2. Deploy:
-   ```bash
-   netlify deploy --prod
-   ```
+### Automation
 
-## Automation with GitHub Actions
+GitHub Actions workflow runs **daily at 2:00 UTC**:
 
-The included workflow (`.github/workflows/update-index.yml`) automatically:
+1. Calculates all 4 indices
+2. Generates/updates JSON files in `data/`
+3. Commits changes to `main`
+4. GitHub Pages auto-redeploys
 
-- Runs daily at 8:00 UTC
-- Calculates the updated index
-- Commits the new `data/gold-fear-greed.json`
-- Triggers Netlify to redeploy
+**Manual trigger**: Actions tab → "Update Fear & Greed Indices" → Run workflow
 
-### Workflow Configuration
-
-The workflow requires:
-- `FRED_API_KEY` secret (set in GitHub repository secrets)
-- Write permissions for the `GITHUB_TOKEN` (enabled by default)
-
-To test the workflow manually:
-1. Go to your GitHub repository
-2. Actions → "Update Gold Fear & Greed Index"
-3. Click "Run workflow"
+---
 
 ## Customization
 
 ### Adjust Component Weights
 
-Edit `gold_fear_greed.py` line ~264:
+Edit the Python files (e.g., `gold_fear_greed.py` line ~365):
 
 ```python
 weights = {
-    'volatility': 0.20,      # Change to desired weight
-    'momentum': 0.25,
-    'gold_vs_spy': 0.15,
-    'etf_flows': 0.20,
-    'vix': 0.10,
-    'real_rates': 0.10
+    'gld_price': 0.30,      # Modify as needed
+    'dollar_index': 0.20,
+    # ... ensure total = 1.0
 }
 ```
 
-**Note**: Weights must sum to 1.0
+### Modify Scoring Thresholds
 
-### Change Score Thresholds
-
-Edit `gold_fear_greed.py` line ~288:
+Change extreme fear/greed boundaries:
 
 ```python
-if total_score <= 25:
+if score <= 25:
     label = "Extreme Fear"
-elif total_score <= 45:
+elif score <= 45:
     label = "Fear"
-# ... modify as needed
+# etc.
 ```
 
-### Customize Frontend Design
+### Frontend Design
 
-- **Colors**: Edit CSS variables in `style.css` (lines 8-17)
-- **Gauge design**: Modify SVG in `index.html` (lines 21-36)
-- **Chart style**: Update canvas drawing functions in `script.js`
+- Colors: Edit CSS variables in each HTML file
+- Layout: Modify HTML structure
+- Charts: Canvas.js code in `<script>` sections
+
+---
 
 ## Troubleshooting
 
-### Issue: "No data available" error
+### "No data available" errors
 
-**Solution**: Check data sources
+Check Yahoo Finance connection:
 ```bash
-python -c "import yfinance as yf; print(yf.Ticker('GC=F').history(period='1d'))"
+python -c "import yfinance as yf; print(yf.Ticker('GLD').history(period='1d'))"
 ```
 
-### Issue: FRED API errors
+### FRED API errors
 
-**Solution**: Verify API key
+Verify API key:
 ```bash
 echo $FRED_API_KEY
 ```
 
-If missing or invalid, the index will use a neutral score (50) for real rates.
+Falls back to Yahoo Finance (TIP ETF) if FRED unavailable.
 
-### Issue: GitHub Actions fails
+### GitHub Actions fails
 
-**Solution**: Check workflow logs
-1. Go to Actions tab in GitHub
-2. Click on the failed run
-3. Review error messages
-4. Ensure `FRED_API_KEY` secret is set correctly
+1. Check Actions tab for error logs
+2. Verify `FRED_API_KEY` secret is set
+3. Ensure repo has write permissions for `GITHUB_TOKEN`
 
-### Issue: Netlify not updating
-
-**Solution**:
-1. Check if GitHub Actions successfully committed changes
-2. Verify Netlify build hooks are configured
-3. Manually trigger a redeploy from Netlify dashboard
+---
 
 ## Data Update Schedule
 
-- **Calculation**: Daily at 8:00 UTC (via GitHub Actions)
-- **Market data**: Real-time (when script runs)
-- **History retention**: Last 30 days
+- **Calculation**: Daily at 2:00 AM UTC (3:00 AM Paris / 9:00 PM ET)
+- **Market data**: Real-time when script runs
+- **History retention**: 365 days rolling window
+- **Methodology**: Fully documented at [onoff.markets/about.html](https://onoff.markets/about.html)
+
+---
 
 ## API Rate Limits
 
-| Source | Limit | Notes |
+| Source | Limit | Usage |
 |--------|-------|-------|
-| Yahoo Finance (yfinance) | Unlimited | Free tier, no registration |
-| FRED API | 120 requests/minute | Free with API key |
+| Yahoo Finance | Unlimited | ~15-20 calls/day |
+| FRED API | 120 req/min | ~5 calls/day |
 
-This project uses well below these limits (6-7 API calls per day).
+Well within free tier limits.
 
-## Contributing
+---
 
-Contributions are welcome! Please:
+## Philosophy & Transparency
 
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/amazing-feature`)
-3. Commit your changes (`git commit -m 'Add amazing feature'`)
-4. Push to the branch (`git push origin feature/amazing-feature`)
-5. Open a Pull Request
+**Why this project exists:**
+
+Every sentiment tool claims to measure "fear & greed," but none explain *how*. Vague methodology. Hidden calculations. "Proprietary algorithms."
+
+OnOff.Markets was built on the opposite principle:
+- **Complete transparency** - Every formula published
+- **Open source approach** - All calculations verifiable
+- **No black boxes** - Full methodology on about.html
+- **Free forever** - No subscriptions, no paywalls
+
+If you can't verify it, you can't trust it.
+
+---
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+MIT License - See [LICENSE](LICENSE) file
+
+---
 
 ## Disclaimer
 
-⚠️ **Important**: This index is provided for informational purposes only and does not constitute financial advice. Investments carry risks. Always consult a qualified financial advisor before making investment decisions.
+⚠️ **Important**: This index is provided for informational purposes only and does not constitute financial advice. Investments carry risks. Consult a qualified financial advisor before making investment decisions.
 
-The index is experimental and should not be the sole basis for trading decisions.
+These indices are analytical tools designed to complement—not replace—fundamental analysis and risk management.
+
+---
 
 ## Acknowledgments
 
 - Inspired by [Alternative.me's Crypto Fear & Greed Index](https://alternative.me/crypto/fear-and-greed-index/)
-- Data provided by Yahoo Finance and Federal Reserve Economic Data (FRED)
+- Data: Yahoo Finance & Federal Reserve Economic Data (FRED)
 - Built with Claude Code
-
-## Contact & Support
-
-- **Issues**: [GitHub Issues](https://github.com/YOUR-USERNAME/gold-fear-greed-index/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/YOUR-USERNAME/gold-fear-greed-index/discussions)
-
-## Roadmap
-
-Potential future enhancements:
-- [ ] Add more data sources (sentiment analysis, social media)
-- [ ] Historical backtesting against gold price movements
-- [ ] API endpoint for programmatic access
-- [ ] Email/SMS alerts for extreme readings
-- [ ] Multiple language support
-- [ ] Mobile app
+- Hosted on GitHub Pages
 
 ---
 
-**Star ⭐ this repository if you find it useful!**
+## Contact
+
+- **Live Site**: [onoff.markets](https://onoff.markets)
+- **Email**: contact@onoff.markets
+- **Issues**: [GitHub Issues](https://github.com/applenostalgeek-sketch/gold-fear-greed-index/issues)
+
+---
+
+**⭐ Star this repository if you find it useful!**
