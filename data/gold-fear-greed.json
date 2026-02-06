@@ -1,20 +1,20 @@
 {
-  "score": 68.3,
+  "score": 68.7,
   "label": "Greed",
-  "timestamp": "2026-02-06T19:38:28Z",
+  "timestamp": "2026-02-06T19:55:03Z",
   "components": {
     "gld_price": {
-      "score": 78.8,
+      "score": 80.1,
       "weight": 0.3,
-      "detail": "GLD 14d: +4.1%"
+      "detail": "GLD 14d: +4.3%"
     },
     "momentum": {
-      "score": 80.2,
+      "score": 80.0,
       "weight": 0.25,
       "detail": "RSI: 60, Prix > MM50"
     },
     "dollar_index": {
-      "score": 65.2,
+      "score": 65.3,
       "weight": 0.2,
       "detail": "DXY: 97.64 (-1.0% 14d, MA30: 98.10)"
     },
@@ -24,7 +24,7 @@
       "detail": "TIPS 10Y: 1.94% (avg: 1.91%)"
     },
     "vix": {
-      "score": 57.8,
+      "score": 58.1,
       "weight": 0.1,
       "detail": "VIX: 18.0 (avg: 17.1, z: +0.3)"
     }
@@ -32,7 +32,7 @@
   "history": [
     {
       "date": "2026-02-06",
-      "score": 68.3
+      "score": 68.7
     },
     {
       "date": "2026-02-05",
