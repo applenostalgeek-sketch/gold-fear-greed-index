@@ -11,7 +11,7 @@ Environment variables (for posting):
     TWITTER_API_KEY
     TWITTER_API_SECRET
     TWITTER_ACCESS_TOKEN
-    TWITTER_ACCESS_SECRET
+    TWITTER_ACCESS_TOKEN_SECRET
 """
 
 import json
@@ -187,11 +187,11 @@ def post_tweet(tweet_text):
     api_key = os.environ.get('TWITTER_API_KEY')
     api_secret = os.environ.get('TWITTER_API_SECRET')
     access_token = os.environ.get('TWITTER_ACCESS_TOKEN')
-    access_secret = os.environ.get('TWITTER_ACCESS_SECRET')
+    access_secret = os.environ.get('TWITTER_ACCESS_TOKEN_SECRET')
 
     if not all([api_key, api_secret, access_token, access_secret]):
         print("Error: Missing Twitter API credentials.")
-        print("Required env vars: TWITTER_API_KEY, TWITTER_API_SECRET, TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_SECRET")
+        print("Required env vars: TWITTER_API_KEY, TWITTER_API_SECRET, TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_TOKEN_SECRET")
         sys.exit(1)
 
     client = tweepy.Client(
