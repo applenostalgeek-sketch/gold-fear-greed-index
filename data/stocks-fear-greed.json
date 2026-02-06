@@ -1,7 +1,7 @@
 {
-  "score": 54.6,
+  "score": 54.7,
   "label": "Neutral",
-  "timestamp": "2026-02-06T19:32:30Z",
+  "timestamp": "2026-02-06T19:38:30Z",
   "components": {
     "price_strength": {
       "score": 58.7,
@@ -9,9 +9,9 @@
       "detail": "SPY +1.7% 14d"
     },
     "vix": {
-      "score": 64.1,
+      "score": 64.4,
       "weight": 0.2,
-      "detail": "VIX: 18.1 vs avg: 17.1"
+      "detail": "VIX: 18.0 vs avg: 17.1"
     },
     "momentum": {
       "score": 59.0,
@@ -19,7 +19,7 @@
       "detail": "RSI: 48, Price > MA50"
     },
     "market_breadth": {
-      "score": 64.4,
+      "score": 64.1,
       "weight": 0.15,
       "detail": "RSP +2.9% vs SPY +1.7%"
     },
@@ -34,15 +34,15 @@
       "detail": "TLT +1.2% 14d"
     },
     "sector_rotation": {
-      "score": 30.8,
+      "score": 30.9,
       "weight": 0.1,
-      "detail": "QQQ +0.1% vs XLP +6.5%"
+      "detail": "QQQ +0.1% vs XLP +6.4%"
     }
   },
   "history": [
     {
       "date": "2026-02-06",
-      "score": 54.6
+      "score": 54.7
     },
     {
       "date": "2026-02-05",
