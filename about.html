@@ -800,26 +800,28 @@
             <h2>₿ Crypto Fear & Greed Index</h2>
             <p>
                 The Crypto Index measures <strong>sentiment towards crypto</strong> using <strong>5 components</strong>.
-                Calibrated against Alternative.me's index with 8.3 points average error. All scores from 0-100:
+                Philosophy: Calibrated against Alternative.me's methodology with 8.3 points average error. Focuses on behavioral indicators rather than raw price alone. All scores from 0-100:
             </p>
 
             <div class="component-box crypto">
                 <h4>1. Momentum (10%)</h4>
                 <p class="weight">Bitcoin RSI + moving averages</p>
                 <p>
-                    <strong>RSI component:</strong> score = (RSI - 50) × 2.0. RSI < 30 = extreme fear (score 0-40), RSI > 70 = extreme greed (score 60-100).<br>
-                    <strong>MA component:</strong> Bull market (price > MA200): score 40 if above MA50, else 30. Bear market (price < MA200): score 20 if above MA50, else 10.<br>
-                    <strong>Final:</strong> 60% RSI + 40% MA position.
+                    Combines technical momentum indicators to assess trend strength. <strong>RSI (Relative Strength Index) measures overbought/oversold conditions:</strong>
+                    RSI below 30 = extreme fear (investors panic-selling), RSI above 70 = extreme greed (euphoric buying).
+                    Moving average position provides additional context: price above both MA50 and MA200 signals bull market confidence,
+                    while price below both MAs indicates bear market fear. <strong>Weighted 60% RSI + 40% MA position.</strong>
                 </p>
             </div>
 
             <div class="component-box crypto">
                 <h4>2. Context (35%)</h4>
-                <p class="weight">30-day price trend (highest weight)</p>
+                <p class="weight">30-day price trend (PRIMARY INDICATOR)</p>
                 <p>
-                    <strong>Formula:</strong> score = 30 + (30-day price change × 0.8), capped at ±30.<br>
-                    Example: BTC +50% in 30 days → score = 30 + (50 × 0.8) = 60 (capped). BTC -40% → score = 30 - 30 = 0.<br>
-                    Most influential component - captures medium-term market trend.
+                    <strong>Highest weight component.</strong> Captures the medium-term trend that drives overall sentiment.
+                    <strong>Bitcoin rallying +50% over 30 days = greed (score rises), Bitcoin down -40% = extreme fear (score near 0).</strong>
+                    This reflects the reality that prolonged price movement—not single-day spikes—shapes investor psychology.
+                    Uses baseline of 30 with 0.8 multiplier and ±30 caps to prevent overreaction to extreme moves while staying responsive to real trends.
                 </p>
             </div>
 
@@ -827,9 +829,10 @@
                 <h4>3. Volatility (15%)</h4>
                 <p class="weight">14-day annualized volatility (inverted)</p>
                 <p>
-                    <strong>Calculation:</strong> 14-day rolling standard deviation, annualized (× √365).<br>
-                    <strong>Mapping:</strong> Volatility ≥40% = fear (score 0), volatility ≤20% = confidence (score 100). Linear interpolation between. Final score multiplied by 0.6 for calibration.<br>
-                    High volatility = panic, low volatility = calm confidence.
+                    Crypto's wild price swings reveal market psychology. <strong>High volatility (≥40%) = extreme fear and uncertainty = score 0.</strong>
+                    Low volatility (≤20%) = calm confidence = score 100. Calculated using 14-day rolling standard deviation, annualized.
+                    When Bitcoin swings ±10% daily, investors are nervous. When price is stable, greed grows.
+                    Multiplied by 0.6 for calibration to match Alternative.me's patterns.
                 </p>
             </div>
 
@@ -837,9 +840,11 @@
                 <h4>4. Bitcoin Dominance (25%)</h4>
                 <p class="weight">BTC vs ETH performance (inverted)</p>
                 <p>
-                    <strong>Formula:</strong> score = 30 - ((BTC 14d % - ETH 14d %) × 2.0).<br>
-                    <strong>INVERTED logic:</strong> BTC outperforms ETH → score decreases (fear, capital fleeing alts). ETH outperforms BTC → score increases (greed, altcoin season).<br>
-                    Example: BTC +10%, ETH +20% → relative -10pp → score = 30 - (-10 × 2) = 50. BTC +20%, ETH +10% → relative +10pp → score = 30 - (+10 × 2) = 10 (fear).
+                    Tracks capital rotation between Bitcoin (digital gold) and Ethereum (altcoin proxy). <strong>INVERTED logic:</strong>
+                    When Bitcoin outperforms Ethereum, investors are rotating TO safety (BTC) FROM risk (alts) = fear = lower score.
+                    When Ethereum outperforms Bitcoin, "altcoin season" = risk appetite = greed = higher score.
+                    <strong>Example:</strong> BTC +10% while ETH +20% over 14 days = ETH outperforms by 10pp = greed signal (score increases).
+                    BTC +20% while ETH +10% = BTC outperforms = defensive rotation = fear (score decreases).
                 </p>
             </div>
 
@@ -847,9 +852,9 @@
                 <h4>5. Price Momentum (15%)</h4>
                 <p class="weight">14-day price change</p>
                 <p>
-                    <strong>Formula:</strong> score = 30 + (14-day price change × 0.6), capped at ±30.<br>
-                    Example: BTC +60% in 14 days → score = 30 + 30 = 60 (capped). BTC -50% → score = 30 - 30 = 0.<br>
-                    Captures short-term momentum complementing the 30-day Context component.
+                    Complements the 30-day Context with short-term momentum. <strong>Bitcoin surging +60% in just 14 days = strong greed signal.</strong>
+                    Bitcoin crashing -50% = extreme fear. Uses baseline of 30 with 0.6 multiplier and ±30 caps—similar to Context but on shorter timeframe.
+                    This dual-timeframe approach (14d + 30d) captures both immediate reactions and sustained trends without double-counting.
                 </p>
             </div>
         </div>
