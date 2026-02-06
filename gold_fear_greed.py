@@ -101,18 +101,24 @@ class GoldFearGreedIndex:
             rsi = 100 - (100 / (1 + rs))
             current_rsi = rsi.iloc[-1]
 
-            # Scoring
-            ma_score = 0
-            if current_price > ma50:
-                ma_score += 40
-            if current_price > ma200:
-                ma_score += 30
+            # Scoring - proportional to distance from MAs + RSI
+            # Base 50 (neutral), MA contribution ±25, RSI contribution ±25
 
-            # RSI contribution (30 points)
-            # RSI > 70 = overbought (greed), RSI < 30 = oversold (fear)
-            rsi_score = current_rsi * 0.3  # Simple normalization
+            # MA50 distance contribution (max ±15 points)
+            ma50_pct = ((current_price - ma50) / ma50) * 100
+            ma50_contrib = max(-15, min(15, ma50_pct * 1.5))
 
-            total_score = ma_score + rsi_score
+            # MA200 distance contribution (max ±10 points)
+            ma200_pct = ((current_price - ma200) / ma200) * 100
+            ma200_contrib = max(-10, min(10, ma200_pct * 0.5))
+
+            # RSI contribution (max ±25 points)
+            # RSI 50 = 0, RSI 70 = +10, RSI 80 = +15, RSI 30 = -10
+            rsi_contrib = (current_rsi - 50) * 0.5
+            rsi_contrib = max(-25, min(25, rsi_contrib))
+
+            total_score = 50 + ma50_contrib + ma200_contrib + rsi_contrib
+            total_score = max(0, min(100, total_score))
 
             ma_status = "Prix > MM50" if current_price > ma50 else "Prix < MM50"
             detail = f"RSI: {current_rsi:.0f}, {ma_status}"
@@ -163,7 +169,7 @@ class GoldFearGreedIndex:
 
     def calculate_gld_price_momentum_score(self) -> Tuple[float, str]:
         """
-        Calculate GLD Price Momentum component (30% weight)
+        Calculate GLD Price Momentum component (25% weight)
         Direct measurement of GLD ETF performance over 14 days
         Primary indicator: captures actual buying/selling sentiment
 
@@ -180,10 +186,9 @@ class GoldFearGreedIndex:
             # Calculate 14-day price change
             recent_price_change = (hist['Close'].iloc[-1] / hist['Close'].iloc[-14] - 1) * 100
 
-            # Aggressive scoring to capture sentiment:
-            # GLD +5% = score 100 (extreme greed)
-            # GLD -5% = score 0 (extreme fear)
-            score = 50 + (recent_price_change * 10)
+            # Scoring: GLD +7% = score 100, GLD -7% = score 0
+            # Multiplier 7 avoids saturation (old multiplier 10 saturated at ±5%)
+            score = 50 + (recent_price_change * 7)
             score = max(0, min(100, score))
 
             detail = f"GLD 14d: {recent_price_change:+.1f}%"
@@ -197,8 +202,8 @@ class GoldFearGreedIndex:
     def calculate_vix_score(self) -> Tuple[float, str]:
         """
         Calculate VIX component (10% weight)
+        Uses z-score vs 3-month average for context-aware scoring
         High VIX = market fear = people buy gold = greed for gold = high score
-        Low VIX = market confidence = less gold demand = fear for gold = low score
 
         Returns:
             Tuple of (score 0-100, detail string)
@@ -212,13 +217,20 @@ class GoldFearGreedIndex:
 
             current_vix = hist['Close'].iloc[-1]
             avg_vix = hist['Close'].mean()
+            std_vix = hist['Close'].std()
 
-            # Score: higher VIX = higher score (more demand for gold as safe haven)
-            # VIX at 10 = 0, VIX at 40 = 100
-            score = (current_vix - 10) * 3.33
+            # Z-score approach: contextualizes VIX relative to recent history
+            # VIX 1 std above avg = score 75, 2 std above = 100
+            # VIX 1 std below avg = score 25, 2 std below = 0
+            if std_vix > 0:
+                z_score = (current_vix - avg_vix) / std_vix
+            else:
+                z_score = 0
+
+            score = 50 + (z_score * 25)
             score = max(0, min(100, score))
 
-            detail = f"VIX: {current_vix:.1f} vs avg: {avg_vix:.1f}"
+            detail = f"VIX: {current_vix:.1f} (avg: {avg_vix:.1f}, z: {z_score:+.1f})"
 
             return score, detail
 
@@ -341,8 +353,9 @@ class GoldFearGreedIndex:
                 dxy_change = 0
 
             # Score: Dollar FALLS = Gold RISES = Higher score
-            # DXY down 5% = 100, DXY up 5% = 0
-            score = 50 - (dxy_change * 10)
+            # DXY down 3.3% = 100, DXY up 3.3% = 0
+            # Multiplier 15 adapted to DXY's lower volatility vs gold
+            score = 50 - (dxy_change * 15)
             score = max(0, min(100, score))
 
             detail = f"DXY: {current_dxy:.2f} ({dxy_change:+.1f}% 14d, MA30: {ma_30:.2f})"
@@ -364,43 +377,38 @@ class GoldFearGreedIndex:
         # PHILOSOPHY: Measure sentiment TOWARDS gold (like Alternative.me measures sentiment towards crypto)
         weights = {
             'gld_price': 0.30,       # PRIMARY: Direct GLD performance = buying sentiment
-            'dollar_index': 0.20,    # Dollar inverse correlation (increased)
-            'real_rates': 0.20,      # Critical macro factor for gold
-            'gold_vs_spy': 0.15,     # Relative performance vs stocks
-            'vix': 0.10,             # Safe haven demand indicator
-            'volatility': 0.05       # Secondary: market stress indicator
+            'momentum': 0.25,        # RSI + MA mean-reversion signal
+            'dollar_index': 0.20,    # Dollar inverse correlation
+            'real_rates': 0.15,      # Critical macro factor for gold
+            'vix': 0.10,             # Safe haven demand indicator (z-score)
         }
 
         # Calculate each component
-        print("Calculating RECALIBRATED Gold Fear & Greed Index...")
-        print("(Philosophy: Measure sentiment TOWARDS gold, like Alternative.me)")
+        print("Calculating RECALIBRATED Gold Fear & Greed Index v2...")
+        print("(Philosophy: Measure sentiment TOWARDS gold)")
 
         gld_price_score, gld_price_detail = self.calculate_gld_price_momentum_score()
         print(f"GLD Price (30%): {gld_price_score:.1f} - {gld_price_detail}")
+
+        momentum_score, momentum_detail = self.calculate_momentum_score()
+        print(f"RSI/MA Momentum (25%): {momentum_score:.1f} - {momentum_detail}")
 
         dxy_score, dxy_detail = self.calculate_dollar_index_score()
         print(f"Dollar Index (20%): {dxy_score:.1f} - {dxy_detail}")
 
         real_rates_score, real_rates_detail = self.calculate_real_rates_score()
-        print(f"Real Rates (20%): {real_rates_score:.1f} - {real_rates_detail}")
-
-        gold_spy_score, gold_spy_detail = self.calculate_gold_vs_spy_score()
-        print(f"Gold vs SPY (15%): {gold_spy_score:.1f} - {gold_spy_detail}")
+        print(f"Real Rates (15%): {real_rates_score:.1f} - {real_rates_detail}")
 
         vix_score, vix_detail = self.calculate_vix_score()
         print(f"VIX (10%): {vix_score:.1f} - {vix_detail}")
 
-        vol_score, vol_detail = self.calculate_volatility_score()
-        print(f"Volatility (5%): {vol_score:.1f} - {vol_detail}")
-
         # Calculate weighted average
         total_score = (
             gld_price_score * weights['gld_price'] +
+            momentum_score * weights['momentum'] +
             dxy_score * weights['dollar_index'] +
             real_rates_score * weights['real_rates'] +
-            gold_spy_score * weights['gold_vs_spy'] +
-            vix_score * weights['vix'] +
-            vol_score * weights['volatility']
+            vix_score * weights['vix']
         )
 
         # Determine label
@@ -422,6 +430,11 @@ class GoldFearGreedIndex:
                 'weight': weights['gld_price'],
                 'detail': gld_price_detail
             },
+            'momentum': {
+                'score': round(momentum_score, 1),
+                'weight': weights['momentum'],
+                'detail': momentum_detail
+            },
             'dollar_index': {
                 'score': round(dxy_score, 1),
                 'weight': weights['dollar_index'],
@@ -432,20 +445,10 @@ class GoldFearGreedIndex:
                 'weight': weights['real_rates'],
                 'detail': real_rates_detail
             },
-            'gold_vs_spy': {
-                'score': round(gold_spy_score, 1),
-                'weight': weights['gold_vs_spy'],
-                'detail': gold_spy_detail
-            },
             'vix': {
                 'score': round(vix_score, 1),
                 'weight': weights['vix'],
                 'detail': vix_detail
-            },
-            'volatility': {
-                'score': round(vol_score, 1),
-                'weight': weights['volatility'],
-                'detail': vol_detail
             }
         }
 
@@ -476,10 +479,10 @@ class GoldFearGreedIndex:
     def calculate_simple_historical_score(self, target_date: datetime) -> float:
         """
         Calculate COMPLETE historical score for a past date
-        Uses ALL 6 RECALIBRATED components with new weights (30% GLD price focus)
+        Uses 5 RECALIBRATED components: GLD Price, RSI/MA, DXY, Real Rates, VIX
 
         Args:
-            target: The date to calculate the score for
+            target_date: The date to calculate the score for
 
         Returns:
             Historical score (0-100)
@@ -493,42 +496,65 @@ class GoldFearGreedIndex:
 
             # Get historical data for ALL components
             gold = yf.Ticker("GC=F")
-            spy = yf.Ticker("SPY")
             vix = yf.Ticker("^VIX")
             dxy = yf.Ticker("DX-Y.NYB")
             gld = yf.Ticker("GLD")
             tnx = yf.Ticker("^TNX")
 
             gold_hist = gold.history(start=start_date, end=end_date + timedelta(days=1))
-            spy_hist = spy.history(start=start_date, end=end_date + timedelta(days=1))
             vix_hist = vix.history(start=start_date, end=end_date + timedelta(days=1))
             dxy_hist = dxy.history(start=start_date, end=end_date + timedelta(days=1))
             gld_hist = gld.history(start=start_date, end=end_date + timedelta(days=1))
             tnx_hist = tnx.history(start=start_date, end=end_date + timedelta(days=1))
 
-            if len(gold_hist) < 20 or len(spy_hist) < 20:
+            if len(gold_hist) < 20:
                 print("insufficient data")
                 return 50.0
 
-            # 1. GLD PRICE MOMENTUM (30% weight) - PRIMARY INDICATOR
+            # 1. GLD PRICE MOMENTUM (25% weight) - PRIMARY INDICATOR
             if len(gld_hist) >= 14:
                 recent_price_change = (gld_hist['Close'].iloc[-1] / gld_hist['Close'].iloc[-14] - 1) * 100
-                gld_price_score = 50 + (recent_price_change * 10)
+                gld_price_score = 50 + (recent_price_change * 7)
                 gld_price_score = max(0, min(100, gld_price_score))
             else:
                 gld_price_score = 50.0
 
-            # 2. DOLLAR INDEX (20% weight)
+            # 2. RSI/MA MOMENTUM (25% weight) - Mean-reversion signal
+            if len(gold_hist) >= 200:
+                close_prices = gold_hist['Close']
+                current_price = close_prices.iloc[-1]
+                ma50 = close_prices.rolling(window=50).mean().iloc[-1]
+                ma200 = close_prices.rolling(window=200).mean().iloc[-1]
+
+                # RSI calculation
+                delta = close_prices.diff()
+                gain = (delta.where(delta > 0, 0)).rolling(window=14).mean()
+                loss = (-delta.where(delta < 0, 0)).rolling(window=14).mean()
+                rs = gain / loss
+                rsi = 100 - (100 / (1 + rs))
+                current_rsi = rsi.iloc[-1]
+
+                ma50_pct = ((current_price - ma50) / ma50) * 100
+                ma50_contrib = max(-15, min(15, ma50_pct * 1.5))
+                ma200_pct = ((current_price - ma200) / ma200) * 100
+                ma200_contrib = max(-10, min(10, ma200_pct * 0.5))
+                rsi_contrib = max(-25, min(25, (current_rsi - 50) * 0.5))
+                momentum_score = 50 + ma50_contrib + ma200_contrib + rsi_contrib
+                momentum_score = max(0, min(100, momentum_score))
+            else:
+                momentum_score = 50.0
+
+            # 3. DOLLAR INDEX (20% weight)
             if len(dxy_hist) >= 14:
                 current_dxy = dxy_hist['Close'].iloc[-1]
                 dxy_14d_ago = dxy_hist['Close'].iloc[-14]
                 dxy_change = ((current_dxy - dxy_14d_ago) / dxy_14d_ago) * 100
-                dxy_score = 50 - (dxy_change * 10)
+                dxy_score = 50 - (dxy_change * 15)
                 dxy_score = max(0, min(100, dxy_score))
             else:
                 dxy_score = 50.0
 
-            # 3. REAL RATES (20% weight) - Using FRED API for historical accuracy
+            # 4. REAL RATES (20% weight) - Using FRED API for historical accuracy
             if self.fred_api_key:
                 try:
                     date_str = target_date.strftime('%Y-%m-%d')
@@ -557,7 +583,7 @@ class GoldFearGreedIndex:
                             real_rates_score = max(0, min(100, real_rates_score))
                         else:
                             real_rates_score = 50.0
-                except:
+                except Exception:
                     if len(tnx_hist) > 0:
                         current_yield = tnx_hist['Close'].iloc[-1]
                         real_rates_score = 100 - ((current_yield - 2) * 25)
@@ -572,43 +598,27 @@ class GoldFearGreedIndex:
                 else:
                     real_rates_score = 50.0
 
-            # 4. GOLD VS SPY (15% weight)
-            if len(gold_hist) >= 14 and len(spy_hist) >= 14:
-                gold_return = (gold_hist['Close'].iloc[-1] / gold_hist['Close'].iloc[-14] - 1) * 100
-                spy_return = (spy_hist['Close'].iloc[-1] / spy_hist['Close'].iloc[-14] - 1) * 100
-                relative_perf = gold_return - spy_return
-                gold_spy_score = 50 + (relative_perf * 2.5)
-                gold_spy_score = max(0, min(100, gold_spy_score))
-            else:
-                gold_spy_score = 50.0
-
-            # 5. VIX (10% weight)
-            if len(vix_hist) > 0:
+            # 5. VIX (10% weight) - Z-score vs 3-month average
+            if len(vix_hist) > 10:
                 current_vix = vix_hist['Close'].iloc[-1]
-                vix_score = (current_vix - 10) * 3.33
+                avg_vix = vix_hist['Close'].mean()
+                std_vix = vix_hist['Close'].std()
+                if std_vix > 0:
+                    z_score = (current_vix - avg_vix) / std_vix
+                else:
+                    z_score = 0
+                vix_score = 50 + (z_score * 25)
                 vix_score = max(0, min(100, vix_score))
             else:
                 vix_score = 50.0
 
-            # 6. VOLATILITY (5% weight)
-            returns = gold_hist['Close'].pct_change().dropna()
-            if len(returns) >= 44:  # Need 14 + 30 days
-                current_vol = returns.tail(14).std() * np.sqrt(252) * 100
-                vol_30d = returns.tail(30).std() * np.sqrt(252) * 100
-                ratio = current_vol / vol_30d if vol_30d > 0 else 1.0
-                volatility_score = 50 + (1 - ratio) * 50
-                volatility_score = max(0, min(100, volatility_score))
-            else:
-                volatility_score = 50.0
-
-            # Weighted average with RECALIBRATED weights (6 components)
+            # Weighted average with RECALIBRATED weights (5 components)
             total_score = (
                 gld_price_score * 0.30 +
+                momentum_score * 0.25 +
                 dxy_score * 0.20 +
-                real_rates_score * 0.20 +
-                gold_spy_score * 0.15 +
-                vix_score * 0.10 +
-                volatility_score * 0.05
+                real_rates_score * 0.15 +
+                vix_score * 0.10
             )
 
             print(f"Score: {total_score:.1f}")
@@ -652,6 +662,8 @@ class GoldFearGreedIndex:
                     historical_date_str = historical_date.strftime('%Y-%m-%d')
 
                     if i == 0:
+                        if not self.score:
+                            self.calculate_index()
                         score = self.score
                     else:
                         score = self.calculate_simple_historical_score(

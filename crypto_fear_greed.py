@@ -21,8 +21,8 @@ class CryptoFearGreedIndex:
 
     def calculate_momentum_score(self) -> tuple:
         """
-        CALIBRATED: Calculate BTC momentum score based on RSI and moving averages
-        Lower baseline (RSI centered at 50) for more realistic bear market scores
+        Calculate BTC momentum score based on RSI and moving averages (20% weight)
+        RSI used directly (0-100 natural range) for full granularity
         Returns: (score, detail_string)
         """
         try:
@@ -47,17 +47,15 @@ class CryptoFearGreedIndex:
             ma200 = close_prices.rolling(window=200).mean().iloc[-1]
             current_price = close_prices.iloc[-1]
 
-            # RSI component - CALIBRATED: centered at 50, multiplier 2.0
-            # RSI < 30 = extreme fear, RSI > 70 = extreme greed
-            rsi_score = max(0, min(100, (current_rsi - 50) * 2.0))
+            # RSI used directly as score (natural 0-100 range)
+            # RSI 13 = 13 (extreme fear), RSI 70 = 70 (greed), RSI 85 = 85 (extreme greed)
+            rsi_score = max(0, min(100, current_rsi))
 
-            # MA component - CALIBRATED: lower baseline for bear markets
+            # MA component
             if current_price > ma200:
-                # Bull market
-                ma_score = 40 if current_price > ma50 else 30
+                ma_score = 80 if current_price > ma50 else 60
             else:
-                # Bear market - MUCH lower to reflect reality
-                ma_score = 20 if current_price > ma50 else 10
+                ma_score = 40 if current_price > ma50 else 20
 
             # Weighted average (60% RSI, 40% MA)
             score = (rsi_score * 0.6) + (ma_score * 0.4)
@@ -69,12 +67,12 @@ class CryptoFearGreedIndex:
 
         except Exception as e:
             print(f"Momentum error: {e}")
-            return (30.0, "Data unavailable")
+            return (50.0, "Data unavailable")
 
     def calculate_volatility_score(self) -> tuple:
         """
-        CALIBRATED & FIXED: Calculate volatility score
-        High volatility = fear (low score), Low volatility = confidence (high score)
+        Calculate volatility score (15% weight)
+        Thresholds adapted to crypto's higher natural volatility (40-80%)
         Returns: (score, detail_string)
         """
         try:
@@ -90,20 +88,17 @@ class CryptoFearGreedIndex:
             # Current 14-day volatility (annualized %)
             vol_14d = returns.tail(14).std() * np.sqrt(365) * 100
 
-            # FIXED: Simple linear mapping
-            # vol >= 40% = extreme fear (0 points)
-            # vol <= 20% = extreme greed (100 points)
+            # Crypto-adapted thresholds:
+            # vol >= 80% = extreme fear (score 0)
+            # vol <= 40% = extreme greed (score 100)
             # Linear interpolation between
-            if vol_14d >= 40:
-                vol_score = 0
-            elif vol_14d <= 20:
-                vol_score = 100
+            if vol_14d >= 80:
+                score = 0
+            elif vol_14d <= 40:
+                score = 100
             else:
-                # Linear: 100 at 20%, 0 at 40%
-                vol_score = 100 - ((vol_14d - 20) / 20) * 100
+                score = 100 - ((vol_14d - 40) / 40) * 100
 
-            # Apply calibrated multiplier (0.6)
-            score = vol_score * 0.6
             score = max(0, min(100, score))
 
             detail = f"Vol 14d: {vol_14d:.1f}% annualized"
@@ -112,12 +107,12 @@ class CryptoFearGreedIndex:
 
         except Exception as e:
             print(f"Volatility error: {e}")
-            return (30.0, "Data unavailable")
+            return (50.0, "Data unavailable")
 
     def calculate_context_score(self) -> tuple:
         """
-        CALIBRATED: Calculate market context score based on 30-day trend
-        Baseline 30 instead of 50 for more realistic bear market scores
+        Calculate market context score based on 30-day trend (30% weight)
+        Baseline 50, full 0-100 range
         Returns: (score, detail_string)
         """
         try:
@@ -133,8 +128,9 @@ class CryptoFearGreedIndex:
             # 30-day price change
             change_30d = ((current_price - price_30d_ago) / price_30d_ago) * 100
 
-            # CALIBRATED: Baseline 30, multiplier 0.8, cap ±30
-            score = 30 + max(-30, min(30, change_30d * 0.8))
+            # Baseline 50, multiplier 1.5, cap ±50 → full 0-100 range
+            # +33% in 30d = score 100, -33% = score 0
+            score = 50 + max(-50, min(50, change_30d * 2.0))
             score = max(0, min(100, score))
 
             detail = f"30-day change: {change_30d:+.1f}%"
@@ -143,12 +139,13 @@ class CryptoFearGreedIndex:
 
         except Exception as e:
             print(f"Context error: {e}")
-            return (30.0, "Data unavailable")
+            return (50.0, "Data unavailable")
 
     def calculate_btc_dominance_score(self) -> tuple:
         """
-        CALIBRATED: Calculate Bitcoin Dominance score (INVERTED)
+        Calculate Bitcoin Dominance score (20% weight, INVERTED)
         BTC outperforms ETH = dominance up = fear (capital fleeing alts)
+        Baseline 50, full range
         Returns: (score, detail_string)
         """
         try:
@@ -167,9 +164,9 @@ class CryptoFearGreedIndex:
 
             relative_perf = btc_return - eth_return
 
-            # CALIBRATED & INVERTED: BTC outperforms = fear (capital rotation to safety)
-            # Baseline 30, multiplier 2.0
-            score = 30 - (relative_perf * 2.0)
+            # INVERTED: BTC outperforms = fear (capital rotation to safety)
+            # Baseline 50, multiplier 3.0 → saturates at ±16.7%
+            score = 50 - (relative_perf * 3.0)
             score = max(0, min(100, score))
 
             detail = f"BTC {btc_return:+.1f}% vs ETH {eth_return:+.1f}% (14d)"
@@ -178,81 +175,91 @@ class CryptoFearGreedIndex:
 
         except Exception as e:
             print(f"BTC Dominance error: {e}")
-            return (30.0, "Data unavailable")
+            return (50.0, "Data unavailable")
 
-    def calculate_price_momentum_score(self) -> tuple:
+    def calculate_volume_trend_score(self) -> tuple:
         """
-        CALIBRATED: Calculate 14-day price momentum score
-        Baseline 30 instead of 50 for more realistic bear market scores
+        Calculate volume trend score (15% weight)
+        Volume is an independent signal from price — high volume during rallies = greed,
+        high volume during selloffs = fear
         Returns: (score, detail_string)
         """
         try:
             btc = yf.Ticker("BTC-USD")
-            hist = btc.history(period="1mo")
+            hist = btc.history(period="3mo")
 
-            if len(hist) < 14:
+            if len(hist) < 30:
                 raise ValueError("Insufficient data")
 
-            # 14-day price change
-            current_price = hist['Close'].iloc[-1]
-            price_14d_ago = hist['Close'].iloc[-14]
-            change_14d = ((current_price - price_14d_ago) / price_14d_ago) * 100
+            # Average volume comparison
+            vol_avg_30d = hist['Volume'].tail(30).mean()
+            vol_avg_7d = hist['Volume'].tail(7).mean()
 
-            # CALIBRATED: Baseline 30, multiplier 0.6, cap ±30
-            score = 30 + max(-30, min(30, change_14d * 0.6))
+            if vol_avg_30d <= 0:
+                return (50.0, "No volume data")
+
+            ratio = vol_avg_7d / vol_avg_30d
+
+            # Determine price direction over 7 days
+            price_now = hist['Close'].iloc[-1]
+            price_7d_ago = hist['Close'].iloc[-7]
+            price_direction = 1 if price_now > price_7d_ago else -1
+
+            # High volume + rising price = greed (people rushing to buy)
+            # High volume + falling price = fear (panic selling)
+            # Low volume = neutral
+            score = 50 + (ratio - 1) * 50 * price_direction
             score = max(0, min(100, score))
 
-            detail = f"14-day change: {change_14d:+.1f}%"
+            direction_label = "up" if price_direction > 0 else "down"
+            detail = f"Vol 7d/30d: {ratio:.2f}x, price {direction_label}"
 
             return (round(score, 1), detail)
 
         except Exception as e:
-            print(f"Price momentum error: {e}")
-            return (30.0, "Data unavailable")
+            print(f"Volume trend error: {e}")
+            return (50.0, "Data unavailable")
 
     def calculate_index(self):
         """
-        CALIBRATED: Calculate the complete Crypto Fear & Greed Index
-        Optimized weights and parameters from calibration vs Alternative.me
-        Average error: 8.3 points (60% improvement from 21.2 points)
+        Calculate the complete Crypto Fear & Greed Index v2
+        Diversified signals with full 0-100 range
         Returns: Dictionary with score, label, components
         """
-        # CALIBRATED weights (total must equal 1.0)
-        # Optimized via systematic calibration against Alternative.me reference data
+        # Weights (total must equal 1.0)
         weights = {
-            'momentum': 0.10,       # RSI + MA position
-            'context': 0.35,        # 30-day trend (highest weight)
-            'volatility': 0.15,     # Annualized volatility
-            'dominance': 0.25,      # BTC vs ETH (inverted)
-            'price_momentum': 0.15  # 14-day change
+            'context': 0.30,        # 30-day trend (highest weight)
+            'momentum': 0.20,       # RSI + MA position
+            'dominance': 0.20,      # BTC vs ETH (inverted)
+            'volume': 0.15,         # Volume trend (price-independent)
+            'volatility': 0.15      # Annualized volatility
         }
 
         # Calculate each component
-        print("\nCalculating CALIBRATED Crypto Fear & Greed Index...")
-        print("(Optimized to match Alternative.me with 8.3pt avg error)")
-
-        momentum_score, momentum_detail = self.calculate_momentum_score()
-        print(f"  Momentum: {momentum_score:>5.1f} (wt: {weights['momentum']:.2f}) - {momentum_detail}")
+        print("\nCalculating Crypto Fear & Greed Index v2...")
 
         context_score, context_detail = self.calculate_context_score()
-        print(f"  Context:  {context_score:>5.1f} (wt: {weights['context']:.2f}) - {context_detail}")
+        print(f"  Context (30%):    {context_score:>5.1f} - {context_detail}")
 
-        volatility_score, volatility_detail = self.calculate_volatility_score()
-        print(f"  Volatility: {volatility_score:>5.1f} (wt: {weights['volatility']:.2f}) - {volatility_detail}")
+        momentum_score, momentum_detail = self.calculate_momentum_score()
+        print(f"  Momentum (20%):   {momentum_score:>5.1f} - {momentum_detail}")
 
         dominance_score, dominance_detail = self.calculate_btc_dominance_score()
-        print(f"  Dominance: {dominance_score:>5.1f} (wt: {weights['dominance']:.2f}) - {dominance_detail}")
+        print(f"  Dominance (20%):  {dominance_score:>5.1f} - {dominance_detail}")
 
-        price_momentum_score, price_momentum_detail = self.calculate_price_momentum_score()
-        print(f"  Price Mom: {price_momentum_score:>5.1f} (wt: {weights['price_momentum']:.2f}) - {price_momentum_detail}")
+        volume_score, volume_detail = self.calculate_volume_trend_score()
+        print(f"  Volume (15%):     {volume_score:>5.1f} - {volume_detail}")
+
+        volatility_score, volatility_detail = self.calculate_volatility_score()
+        print(f"  Volatility (15%): {volatility_score:>5.1f} - {volatility_detail}")
 
         # Store components
         self.components = {
-            'momentum': {'score': momentum_score, 'weight': weights['momentum'], 'detail': momentum_detail},
             'context': {'score': context_score, 'weight': weights['context'], 'detail': context_detail},
-            'volatility': {'score': volatility_score, 'weight': weights['volatility'], 'detail': volatility_detail},
+            'momentum': {'score': momentum_score, 'weight': weights['momentum'], 'detail': momentum_detail},
             'dominance': {'score': dominance_score, 'weight': weights['dominance'], 'detail': dominance_detail},
-            'price_momentum': {'score': price_momentum_score, 'weight': weights['price_momentum'], 'detail': price_momentum_detail}
+            'volume': {'score': volume_score, 'weight': weights['volume'], 'detail': volume_detail},
+            'volatility': {'score': volatility_score, 'weight': weights['volatility'], 'detail': volatility_detail}
         }
 
         # Calculate weighted average
@@ -293,7 +300,7 @@ class CryptoFearGreedIndex:
     def calculate_simple_historical_score(self, target_date: datetime) -> float:
         """
         Calculate COMPLETE historical score for a past date
-        Uses ALL 5 components with accurate weights for professional-grade historical data
+        Uses 5 components: Context, Momentum, Dominance, Volume, Volatility
 
         Args:
             target_date: The date to calculate the score for
@@ -317,12 +324,22 @@ class CryptoFearGreedIndex:
 
             if len(btc_hist) < 20:
                 print("insufficient data")
-                return 30.0  # Lower baseline for crypto (matches calibrated fallback)
+                return 50.0
 
-            # 1. MOMENTUM (10% weight) - RSI + MA position
+            # 1. CONTEXT (30% weight) - 30-day trend
+            if len(btc_hist) >= 30:
+                current_price = btc_hist['Close'].iloc[-1]
+                price_30d_ago = btc_hist['Close'].iloc[-30]
+                change_30d = ((current_price - price_30d_ago) / price_30d_ago) * 100
+
+                context_score = 50 + max(-50, min(50, change_30d * 2.0))
+                context_score = max(0, min(100, context_score))
+            else:
+                context_score = 50.0
+
+            # 2. MOMENTUM (20% weight) - RSI + MA position
             close_prices = btc_hist['Close']
             if len(close_prices) >= 200:
-                # RSI calculation
                 delta = close_prices.diff()
                 gain = (delta.where(delta > 0, 0)).rolling(window=14).mean()
                 loss = (-delta.where(delta < 0, 0)).rolling(window=14).mean()
@@ -330,84 +347,74 @@ class CryptoFearGreedIndex:
                 rsi = 100 - (100 / (1 + rs))
                 current_rsi = rsi.iloc[-1]
 
-                # MA position
                 ma50 = close_prices.rolling(window=50).mean().iloc[-1]
                 ma200 = close_prices.rolling(window=200).mean().iloc[-1]
                 current_price = close_prices.iloc[-1]
 
-                # CALIBRATED scoring (matching daily calculation)
-                rsi_score = max(0, min(100, (current_rsi - 50) * 2.0))
+                # RSI used directly (natural 0-100 range)
+                rsi_score = max(0, min(100, current_rsi))
                 if current_price > ma200:
-                    ma_score = 40 if current_price > ma50 else 30
+                    ma_score = 80 if current_price > ma50 else 60
                 else:
-                    ma_score = 20 if current_price > ma50 else 10
+                    ma_score = 40 if current_price > ma50 else 20
 
                 momentum_score = (rsi_score * 0.6) + (ma_score * 0.4)
                 momentum_score = max(0, min(100, momentum_score))
             else:
-                momentum_score = 30.0
+                momentum_score = 50.0
 
-            # 2. CONTEXT (35% weight) - 30-day trend
-            if len(btc_hist) >= 30:
-                current_price = btc_hist['Close'].iloc[-1]
-                price_30d_ago = btc_hist['Close'].iloc[-30]
-                change_30d = ((current_price - price_30d_ago) / price_30d_ago) * 100
-
-                # CALIBRATED: Baseline 30, multiplier 0.8, cap ±30
-                context_score = 30 + max(-30, min(30, change_30d * 0.8))
-                context_score = max(0, min(100, context_score))
-            else:
-                context_score = 30.0
-
-            # 3. VOLATILITY (15% weight) - 14-day annualized volatility
-            returns = btc_hist['Close'].pct_change().dropna()
-            if len(returns) >= 14:
-                vol_14d = returns.tail(14).std() * np.sqrt(365) * 100
-
-                # CALIBRATED: Linear mapping with multiplier
-                if vol_14d >= 40:
-                    vol_score = 0
-                elif vol_14d <= 20:
-                    vol_score = 100
-                else:
-                    vol_score = 100 - ((vol_14d - 20) / 20) * 100
-
-                volatility_score = vol_score * 0.6
-                volatility_score = max(0, min(100, volatility_score))
-            else:
-                volatility_score = 30.0
-
-            # 4. DOMINANCE (25% weight) - BTC vs ETH (inverted)
+            # 3. DOMINANCE (20% weight) - BTC vs ETH (inverted)
             if len(btc_hist) >= 14 and len(eth_hist) >= 14:
                 btc_return = ((btc_hist['Close'].iloc[-1] - btc_hist['Close'].iloc[-14]) / btc_hist['Close'].iloc[-14]) * 100
                 eth_return = ((eth_hist['Close'].iloc[-1] - eth_hist['Close'].iloc[-14]) / eth_hist['Close'].iloc[-14]) * 100
                 relative_perf = btc_return - eth_return
 
-                # CALIBRATED & INVERTED: BTC outperforms = fear
-                dominance_score = 30 - (relative_perf * 2.0)
+                dominance_score = 50 - (relative_perf * 3.0)
                 dominance_score = max(0, min(100, dominance_score))
             else:
-                dominance_score = 30.0
+                dominance_score = 50.0
 
-            # 5. PRICE MOMENTUM (15% weight) - 14-day price change
-            if len(btc_hist) >= 14:
-                current_price = btc_hist['Close'].iloc[-1]
-                price_14d_ago = btc_hist['Close'].iloc[-14]
-                change_14d = ((current_price - price_14d_ago) / price_14d_ago) * 100
+            # 4. VOLUME TREND (15% weight) - Volume direction
+            if len(btc_hist) >= 30 and 'Volume' in btc_hist.columns:
+                vol_avg_30d = btc_hist['Volume'].tail(30).mean()
+                vol_avg_7d = btc_hist['Volume'].tail(7).mean()
 
-                # CALIBRATED: Baseline 30, multiplier 0.6, cap ±30
-                price_momentum_score = 30 + max(-30, min(30, change_14d * 0.6))
-                price_momentum_score = max(0, min(100, price_momentum_score))
+                if vol_avg_30d > 0:
+                    ratio = vol_avg_7d / vol_avg_30d
+                    price_now = btc_hist['Close'].iloc[-1]
+                    price_7d_ago = btc_hist['Close'].iloc[-7]
+                    price_direction = 1 if price_now > price_7d_ago else -1
+
+                    volume_score = 50 + (ratio - 1) * 50 * price_direction
+                    volume_score = max(0, min(100, volume_score))
+                else:
+                    volume_score = 50.0
             else:
-                price_momentum_score = 30.0
+                volume_score = 50.0
 
-            # Weighted average with REAL weights (5 components, matching daily calculation)
+            # 5. VOLATILITY (15% weight) - 14-day annualized volatility
+            returns = btc_hist['Close'].pct_change().dropna()
+            if len(returns) >= 14:
+                vol_14d = returns.tail(14).std() * np.sqrt(365) * 100
+
+                if vol_14d >= 80:
+                    volatility_score = 0
+                elif vol_14d <= 40:
+                    volatility_score = 100
+                else:
+                    volatility_score = 100 - ((vol_14d - 40) / 40) * 100
+
+                volatility_score = max(0, min(100, volatility_score))
+            else:
+                volatility_score = 50.0
+
+            # Weighted average (5 components)
             total_score = (
-                momentum_score * 0.10 +
-                context_score * 0.35 +
-                volatility_score * 0.15 +
-                dominance_score * 0.25 +
-                price_momentum_score * 0.15
+                context_score * 0.30 +
+                momentum_score * 0.20 +
+                dominance_score * 0.20 +
+                volume_score * 0.15 +
+                volatility_score * 0.15
             )
 
             print(f"Score: {total_score:.1f}")
@@ -415,7 +422,7 @@ class CryptoFearGreedIndex:
 
         except Exception as e:
             print(f"error: {e}")
-            return 30.0  # Lower baseline for crypto
+            return 50.0
 
     def save_to_file(self, filepath: str = 'data/crypto-fear-greed.json', force_rebuild: bool = False):
         """
@@ -451,6 +458,8 @@ class CryptoFearGreedIndex:
                     historical_date_str = historical_date.strftime('%Y-%m-%d')
 
                     if i == 0:
+                        if not self.score:
+                            self.calculate_index()
                         score = self.score
                     else:
                         score = self.calculate_simple_historical_score(

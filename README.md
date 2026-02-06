@@ -15,10 +15,10 @@ Real-time sentiment tracking across **4 major asset classes**: Gold, Bonds, Stoc
 
 OnOff.Markets provides **transparent Fear & Greed indices** for four markets:
 
-- **🪙 Gold** - Safe haven sentiment (6 components)
-- **📊 Bonds** - Treasury market sentiment (5 components)
-- **📈 Stocks** - Equity market sentiment (6 components)
-- **₿ Crypto** - Cryptocurrency sentiment (5 components, calibrated vs Alternative.me)
+- **🪙 Gold** - Safe haven sentiment (5 components)
+- **📊 Bonds** - Treasury market sentiment (6 components)
+- **📈 Stocks** - Equity market sentiment (7 components)
+- **₿ Crypto** - Cryptocurrency sentiment (5 components)
 
 Each index outputs a **0-100 score**:
 - **0-25**: Extreme Fear 🔴
@@ -46,51 +46,52 @@ Each index measures **sentiment TOWARDS that market** (whether people are buying
 
 ## Index Components
 
-### 🪙 Gold (6 Components)
+### 🪙 Gold (5 Components)
 | Component | Weight | Description |
 |-----------|--------|-------------|
 | GLD Price Momentum | 30% | Direct 14-day GLD ETF performance (PRIMARY) |
-| Dollar Index | 20% | DXY 14-day change (inverse correlation) |
-| Real Rates | 20% | 10-Year TIPS yields from FRED |
-| Gold vs S&P 500 | 15% | 14-day relative performance |
-| VIX | 10% | Safe haven demand indicator |
-| Volatility | 5% | 14-day GLD price volatility |
+| RSI & Moving Averages | 25% | Proportional distance-based MA50/MA200 + RSI signal |
+| Dollar Index | 20% | DXY 14-day change with ×15 multiplier (inverse correlation) |
+| Real Rates | 15% | 10-Year TIPS yields from FRED (×18.75 scoring) |
+| VIX | 10% | Z-score vs 3-month average (safe haven demand) |
 
-**Recalibrated Jan 2026**: Increased direct GLD performance weight from 25% to 30% to better capture buying/selling sentiment.
+**Recalibrated Feb 2026**: Removed Gold vs S&P 500 and Volatility (redundant/insignificant). Added RSI/MA mean-reversion signal. VIX uses z-score normalization.
 
-### 📊 Bonds (5 Components)
+### 📊 Bonds (6 Components)
 | Component | Weight | Description |
 |-----------|--------|-------------|
-| TLT Price Momentum | 30% | Direct 14-day TLT ETF performance (PRIMARY) |
-| Yield Curve | 15% | 10Y-2Y Treasury spread from FRED |
+| Yield Curve Shape | 20% | 10Y-2Y Treasury spread from FRED (structural signal) |
+| Duration Risk / TLT | 20% | Direct 14-day TLT ETF performance |
 | Credit Quality | 20% | LQD vs TLT performance (credit spreads) |
-| Real Rates | 10% | 10-Year TIPS yields |
-| Term Premium | 25% | TLT vs SHY (long vs short treasuries) |
+| Real Rates | 15% | 10-Year TIPS yields (×6 multiplier) |
+| Bond Volatility | 15% | 5-day vs 30-day TLT vol (MOVE proxy, ×75) |
+| Equity vs Bonds | 10% | TLT vs SPY relative performance (×8) |
 
-**Recalibrated Feb 2026**: Adjusted TLT scaling from ±5% to ±4% to reflect actual volatility (90% of moves within ±3.7%).
+**Recalibrated Feb 2026**: Removed Term Premium (redundant with TLT). Added Bond Volatility and Equity vs Bonds rotation signals. Rebalanced weights for better crisis detection.
 
-### 📈 Stocks (6 Components)
+### 📈 Stocks (7 Components)
 | Component | Weight | Description |
 |-----------|--------|-------------|
-| Price Strength | 30% | Direct 14-day SPY performance (PRIMARY) |
-| VIX | 20% | Market fear gauge (inverted) |
-| Momentum | 15% | SPY RSI(14) momentum |
-| Market Breadth | 15% | RSP vs SPY (equal-weight vs cap-weight) |
-| Sector Rotation | 10% | XLY vs XLU (cyclical vs defensive) |
-| Junk Bonds | 10% | HYG vs LQD (credit risk appetite) |
+| Price Strength | 20% | Direct 14-day SPY performance (×5 multiplier) |
+| VIX | 20% | Continuous linear formula: 90 - (VIX-10) × 3.2 |
+| Momentum | 15% | SPY RSI(14) + MA50 position |
+| Market Breadth | 15% | RSP vs SPY (×12 multiplier, equal vs cap-weight) |
+| Junk Bonds | 10% | HYG vs TLT (credit risk appetite) |
+| Safe Haven | 10% | TLT momentum inverted (flight-to-safety signal) |
+| Sector Rotation | 10% | QQQ vs XLP (tech vs defensive, ×3 multiplier) |
 
-**Recalibrated Jan 2026**: Increased Price Strength from 5% to 30% to emphasize direct buying/selling sentiment.
+**Recalibrated Feb 2026**: Added Safe Haven signal. VIX uses continuous formula (no step cliffs). Reduced Price Strength to 20% for better signal diversity.
 
 ### ₿ Crypto (5 Components)
 | Component | Weight | Description |
 |-----------|--------|-------------|
-| Context | 35% | 30-day BTC price trend (PRIMARY) |
-| Bitcoin Dominance | 25% | BTC vs ETH performance (inverted) |
-| Volatility | 15% | 14-day annualized volatility (inverted) |
-| Price Momentum | 15% | 14-day BTC price change |
-| Momentum | 10% | BTC RSI + moving averages |
+| Context | 30% | 30-day BTC price trend (×2.0 multiplier, centered at 50) |
+| RSI & Moving Averages | 20% | BTC RSI direct (60%) + MA position (40%) |
+| Bitcoin Dominance | 20% | BTC vs ETH performance (inverted, ×3.0) |
+| Volume Trend | 15% | 7d vs 30d volume ratio, direction-adjusted (×50) |
+| Volatility | 15% | 14-day annualized vol (inverted, 40-80% thresholds) |
 
-**Calibrated vs Alternative.me** with 8.3 points average error.
+**Recalibrated Feb 2026**: Removed Price Momentum (redundant with Context). Added Volume Trend as price-independent signal. Recentered all baselines to 50. Adapted volatility thresholds for crypto (40-80% vs old 20-40%).
 
 ---
 
@@ -99,8 +100,8 @@ Each index measures **sentiment TOWARDS that market** (whether people are buying
 All data is **100% free** and publicly accessible:
 
 - **Yahoo Finance** (via yfinance): All price, volume, and technical data
-  - ETFs: GLD, TLT, SPY, SHY, LQD, HYG, RSP, XLY, XLU, TIP
-  - Indices: ^VIX, DXY
+  - ETFs: GLD, TLT, SPY, SHY, LQD, HYG, RSP, QQQ, XLP, TIP
+  - Indices: ^VIX, DX-Y.NYB (DXY), ^TNX, ^IRX
   - Crypto: BTC-USD, ETH-USD
 
 - **FRED API** (Federal Reserve): Treasury yields and TIPS
