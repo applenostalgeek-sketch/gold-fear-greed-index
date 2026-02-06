@@ -1,7 +1,7 @@
 {
   "score": 49.1,
   "label": "Neutral",
-  "timestamp": "2026-02-05T21:53:03Z",
+  "timestamp": "2026-02-06T04:16:57Z",
   "components": {
     "yield_curve": {
       "score": 55.6,
@@ -30,11 +30,6 @@
     }
   },
   "history": [
-    {
-      "date": "2025-02-06",
-      "score": 64.7,
-      "label": "Greed"
-    },
     {
       "date": "2025-02-07",
       "score": 64.7,
@@ -1852,6 +1847,11 @@
     },
     {
       "date": "2026-02-05",
+      "score": 49.1,
+      "label": "Neutral"
+    },
+    {
+      "date": "2026-02-06",
       "score": 49.1,
       "label": "Neutral"
     }
