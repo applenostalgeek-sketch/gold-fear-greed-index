@@ -12,18 +12,18 @@
 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OnOff.Markets - Real-Time Market Sentiment & Capital Rotation</title>
+    <title>OnOff.Markets - Real-Time Market Sentiment & Fear Greed Index</title>
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Track real-time market sentiment across Bonds, Gold, Stocks, and Crypto. Unique capital rotation indicator showing risk-on/risk-off dynamics. Updated daily.">
-    <meta name="keywords" content="market sentiment, fear and greed index, capital rotation, bonds sentiment, gold sentiment, crypto fear greed, stock market sentiment, risk on risk off">
+    <meta name="description" content="Track real-time market sentiment across Bonds, Gold, Stocks, and Crypto. Multi-asset Fear & Greed indices showing risk-on/risk-off dynamics. Updated daily.">
+    <meta name="keywords" content="market sentiment, fear and greed index, market rotation, bonds sentiment, gold sentiment, crypto fear greed, stock market sentiment, risk on risk off">
     <meta name="author" content="OnOff.Markets">
 
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://onoff.markets/">
     <meta property="og:title" content="OnOff.Markets - Market Sentiment Dashboard">
-    <meta property="og:description" content="Real-time Fear & Greed indices for Bonds, Gold, Stocks, and Crypto with capital rotation analysis.">
+    <meta property="og:description" content="Real-time Fear & Greed indices for Bonds, Gold, Stocks, and Crypto. See where sentiment shifts across markets.">
     <meta property="og:image" content="https://onoff.markets/android-chrome-512x512.png">
 
     <!-- Twitter Card -->
@@ -838,23 +838,23 @@
             if (position < 25) {
                 label = "🪙 EXTREME RISK-OFF";
                 color = "#ef4444";
-                context = "Massive flight into safe havens";
+                context = "Massive flight to safety across markets";
             } else if (position < 45) {
                 label = "🛡️ DEFENSIVE";
                 color = "#f59e0b";
-                context = "Capital rotating to safety";
+                context = "Investors shifting toward safe havens";
             } else if (position < 55) {
                 label = "⚖️ BALANCED";
                 color = "#ffffff";
-                context = "Neutral capital allocation";
+                context = "No clear sentiment bias across markets";
             } else if (position < 75) {
                 label = "🚀 RISK-ON";
                 color = "#22c55e";
-                context = "Capital flowing to risk assets";
+                context = "Risk appetite growing across markets";
             } else {
                 label = "⚡ EXTREME RISK-ON";
                 color = "#06b6d4";
-                context = "Aggressive rush into crypto";
+                context = "Euphoric sentiment toward risk assets";
             }
 
             // Update bar with color and width
@@ -887,7 +887,7 @@
                 const strongRiskOff = bonds.score > 60 || gold.score > 60;
 
                 if (strongRiskOff) {
-                    insight = `Defensive positioning. Capital flowing into safe havens (Bonds ${Math.round(bonds.score)}, Gold ${Math.round(gold.score)}) as investors reduce exposure to risk assets (Stocks ${Math.round(stocks.score)}, Crypto ${Math.round(crypto.score)}). Risk aversion rising.`;
+                    insight = `Defensive positioning. Investors favoring safe havens (Bonds ${Math.round(bonds.score)}, Gold ${Math.round(gold.score)}) while reducing exposure to risk assets (Stocks ${Math.round(stocks.score)}, Crypto ${Math.round(crypto.score)}). Risk aversion rising.`;
                 } else {
                     insight = `Moderate Risk-Off. Investors cautiously favoring defensive assets over risk assets. ${describeAsset(bonds.score, 'Bonds')}, ${describeAsset(gold.score, 'gold')}, ${describeAsset(stocks.score, 'stocks')}, ${describeAsset(crypto.score, 'crypto')}.`;
                 }
@@ -897,9 +897,9 @@
                 const allNeutral = Math.abs(bonds.score - 50) < 15 && Math.abs(gold.score - 50) < 15 && Math.abs(stocks.score - 50) < 15 && Math.abs(crypto.score - 50) < 15;
 
                 if (allNeutral) {
-                    insight = `Perfectly balanced markets. All asset classes near neutral - Bonds (${Math.round(bonds.score)}), Gold (${Math.round(gold.score)}), Stocks (${Math.round(stocks.score)}), Crypto (${Math.round(crypto.score)}). No clear risk preference.`;
+                    insight = `Perfectly balanced markets. All asset classes near neutral - Bonds (${Math.round(bonds.score)}), Gold (${Math.round(gold.score)}), Stocks (${Math.round(stocks.score)}), Crypto (${Math.round(crypto.score)}). No clear sentiment bias.`;
                 } else {
-                    insight = `Balanced allocation between Risk-On and Risk-Off. ${describeAsset(bonds.score, 'Bonds')}, ${describeAsset(gold.score, 'gold')}, ${describeAsset(stocks.score, 'stocks')}, ${describeAsset(crypto.score, 'crypto')}. Mixed signals across markets.`;
+                    insight = `Mixed sentiment across Risk-On and Risk-Off assets. ${describeAsset(bonds.score, 'Bonds')}, ${describeAsset(gold.score, 'gold')}, ${describeAsset(stocks.score, 'stocks')}, ${describeAsset(crypto.score, 'crypto')}. Diverging signals across markets.`;
                 }
 
             } else if (position < 75) {
@@ -907,9 +907,9 @@
                 const strongRiskOn = stocks.score > 60 || crypto.score > 60;
 
                 if (strongRiskOn) {
-                    insight = `Risk-On environment. Capital flowing into risk assets (Stocks ${Math.round(stocks.score)}, Crypto ${Math.round(crypto.score)}) while safe havens cool off (Bonds ${Math.round(bonds.score)}, Gold ${Math.round(gold.score)}). Growing risk appetite.`;
+                    insight = `Risk-On environment. Growing appetite for risk assets (Stocks ${Math.round(stocks.score)}, Crypto ${Math.round(crypto.score)}) while safe haven sentiment fades (Bonds ${Math.round(bonds.score)}, Gold ${Math.round(gold.score)}). Confidence rising.`;
                 } else {
-                    insight = `Moderate Risk-On. Investors cautiously moving into risk assets. ${describeAsset(stocks.score, 'Stocks')}, ${describeAsset(crypto.score, 'crypto')}, ${describeAsset(bonds.score, 'bonds')}, ${describeAsset(gold.score, 'gold')}.`;
+                    insight = `Moderate Risk-On. Investors cautiously leaning toward risk assets. ${describeAsset(stocks.score, 'Stocks')}, ${describeAsset(crypto.score, 'crypto')}, ${describeAsset(bonds.score, 'bonds')}, ${describeAsset(gold.score, 'gold')}.`;
                 }
 
             } else {
@@ -917,9 +917,9 @@
                 const euphoria = crypto.score > 75 && stocks.score > 75;
 
                 if (euphoria) {
-                    insight = `Extreme Risk-On euphoria. Aggressive speculation with ${describeAsset(stocks.score, 'stocks')} and ${describeAsset(crypto.score, 'crypto')} while safe havens are abandoned: ${describeAsset(bonds.score, 'bonds')}, ${describeAsset(gold.score, 'gold')}. Maximum risk appetite - contrarians watch for overextension.`;
+                    insight = `Extreme Risk-On euphoria. Peak greed across risk assets with ${describeAsset(stocks.score, 'stocks')} and ${describeAsset(crypto.score, 'crypto')} while safe havens are ignored: ${describeAsset(bonds.score, 'bonds')}, ${describeAsset(gold.score, 'gold')}. Maximum risk appetite - contrarians watch for overextension.`;
                 } else {
-                    insight = `Strong Risk-On rotation. Risk assets outperforming (Stocks ${Math.round(stocks.score)}, Crypto ${Math.round(crypto.score)}) while defensive assets are sold (Bonds ${Math.round(bonds.score)}, Gold ${Math.round(gold.score)}). High risk appetite prevailing.`;
+                    insight = `Strong Risk-On sentiment. Greed dominating risk assets (Stocks ${Math.round(stocks.score)}, Crypto ${Math.round(crypto.score)}) while defensive positioning weakens (Bonds ${Math.round(bonds.score)}, Gold ${Math.round(gold.score)}). High risk appetite prevailing.`;
                 }
             }
 
@@ -945,35 +945,35 @@
             // Contrarian signal (rotation-focused)
             let contrarianText;
             if (strength > 70) {
-                // Strong signal - extreme divergence between gold and crypto
+                // Strong signal - extreme divergence between risk-on and risk-off
                 if (position < 25) {
-                    // Extreme risk-off - crypto way down, gold way up
-                    contrarianText = `<strong>Extreme risk-off rotation:</strong> Capital fleeing crypto into gold at extreme levels. Historically, when everyone rushes to safety, contrarian opportunities emerge in oversold risk assets. Patient investors may find value.`;
+                    // Extreme risk-off
+                    contrarianText = `<strong>Extreme fear across risk assets:</strong> Investors overwhelmingly favoring safety over speculation. Historically, when everyone rushes to safety, contrarian opportunities emerge in oversold risk assets. Patient investors may find value.`;
                 } else if (position < 45) {
-                    // Defensive rotation
-                    contrarianText = `<strong>Strong defensive rotation:</strong> Heavy capital flow into safe havens. Risk assets being sold off. For contrarians, this defensive positioning could signal upcoming opportunities in discounted assets.`;
+                    // Defensive
+                    contrarianText = `<strong>Strong defensive sentiment:</strong> Heavy preference for safe havens. Risk assets under pressure. For contrarians, this level of fear could signal upcoming opportunities in discounted assets.`;
                 } else if (position > 75) {
-                    // Extreme risk-on - crypto way up, gold way down
-                    contrarianText = `<strong>Extreme risk-on rotation:</strong> Aggressive capital flows into crypto while gold is being abandoned. When everyone is this speculative, contrarians prepare for potential reversals. Consider risk management.`;
+                    // Extreme risk-on
+                    contrarianText = `<strong>Extreme greed across risk assets:</strong> Euphoric sentiment toward speculative assets while safe havens are ignored. When everyone is this greedy, contrarians prepare for potential reversals. Consider risk management.`;
                 } else if (position > 55) {
-                    // Risk-on rotation
-                    contrarianText = `<strong>Strong risk-on rotation:</strong> Capital flowing aggressively toward risk assets. Markets showing strong risk appetite. Contrarians monitor for signs of overextension or rotation reversal.`;
+                    // Risk-on
+                    contrarianText = `<strong>Strong risk appetite:</strong> Investors aggressively favoring risk assets. Markets showing high confidence. Contrarians monitor for signs of overextension or sentiment reversal.`;
                 } else {
                     // Neutral but strong divergence (unusual)
-                    contrarianText = `Strong capital movement detected but allocation remains balanced. Wait for clearer directional rotation before positioning.`;
+                    contrarianText = `Strong divergence detected across asset classes but overall sentiment remains balanced. Wait for clearer directional bias before positioning.`;
                 }
             } else if (strength > 45) {
                 // Moderate signal
                 if (position < 45) {
-                    contrarianText = `Moderate defensive rotation. Some capital moving to safe havens. Could be early signal of risk-off shift or temporary rebalancing. Monitor for acceleration.`;
+                    contrarianText = `Moderate defensive shift. Investors leaning toward safe havens. Could be an early signal of risk-off sentiment or temporary rebalancing. Monitor for acceleration.`;
                 } else if (position > 55) {
-                    contrarianText = `Moderate risk-on rotation. Some capital flowing to risk assets. Not extreme yet, but trend worth watching for profit-taking or entry opportunities.`;
+                    contrarianText = `Moderate risk-on shift. Investors leaning toward risk assets. Not extreme yet, but trend worth watching for profit-taking or entry opportunities.`;
                 } else {
-                    contrarianText = `Neutral allocation with moderate flows. No clear rotation dominance. Balanced positioning recommended until clearer trend emerges.`;
+                    contrarianText = `Neutral sentiment with moderate divergence. No clear bias across markets. Balanced positioning recommended until a clearer trend emerges.`;
                 }
             } else {
                 // Weak signal
-                contrarianText = `Minimal rotation between asset classes. Markets balanced with no strong capital flow preference. Not ideal for rotation-based trades. Wait for stronger signals.`;
+                contrarianText = `Minimal divergence between asset classes. Sentiment balanced with no strong directional bias. Not ideal for rotation-based trades. Wait for stronger signals.`;
             }
 
             document.getElementById('contrarianText').innerHTML = contrarianText;
