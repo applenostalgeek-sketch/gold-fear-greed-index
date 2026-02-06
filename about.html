@@ -512,7 +512,7 @@
                 So I built what I wanted to see: <strong>multi-asset sentiment indices with complete methodology transparency</strong>. Every component explained. Every weight published. Every data source cited. Updated daily via automated workflows.
             </p>
             <p>
-                First Gold, then Stocks, then Crypto, then Bonds. Once all four were live, I realized I had something unique: a <strong>Market Rotation Indicator</strong> showing when capital flows between safe havens (bonds + gold) and risk assets (stocks + crypto). That's the core insight behind OnOff.Markets.
+                First Gold, then Stocks, then Crypto, then Bonds. Once all four were live, I realized I had something unique: a <strong>Market Sentiment Indicator</strong> showing when investors shift between safe havens (bonds + gold) and risk assets (stocks + crypto). That's the core insight behind OnOff.Markets.
             </p>
             <p>
                 <strong>No subscriptions. No paywalls. No proprietary secrets.</strong> Just transparent quantitative analysis, updated every day at 02:00 UTC.
@@ -661,22 +661,22 @@
         <div class="section" id="bonds">
             <h2>📊 Bonds Fear & Greed Index</h2>
             <p>
-                The Bonds Index measures sentiment in the fixed income market using <strong>6 bond-specific components</strong> with zero overlap with equity markets. Optimized to measure capital flows, duration demand, and credit conditions. All scores from 0-100:
+                The Bonds Index measures sentiment in the fixed income market using <strong>6 bond-specific components</strong> with zero overlap with equity markets. Optimized to measure bond demand, duration appetite, and credit conditions. All scores from 0-100:
             </p>
 
             <div class="component-box bonds">
                 <h4>1. Yield Curve Shape (20%)</h4>
                 <p class="weight">10-Year vs 2-Year Treasury spread (FRED API with Yahoo fallback)</p>
                 <p>
-                    Classic recession indicator measuring yield curve shape. <strong>Inverted logic (capital rotation perspective):</strong> Steep curve (+2%+) = strong economy = capital flows to STOCKS (not bonds) = low bonds score. Flat/Normal curve (0% to +1%) = moderate bonds score. <strong>Inverted curve (&lt; 0%) = recession fear = flight to bonds = high score (up to 100).</strong> Uses FRED API data (DGS2, DGS10) with Yahoo fallback (^TNX, ^IRX) when FRED unavailable.
+                    Classic recession indicator measuring yield curve shape. <strong>Inverted logic (sentiment perspective):</strong> Steep curve (+2%+) = strong economy = investors favor STOCKS over bonds = low bonds score. Flat/Normal curve (0% to +1%) = moderate bonds score. <strong>Inverted curve (&lt; 0%) = recession fear = flight to bonds = high score (up to 100).</strong> Uses FRED API data (DGS2, DGS10) with Yahoo fallback (^TNX, ^IRX) when FRED unavailable.
                 </p>
             </div>
 
             <div class="component-box bonds">
-                <h4>2. Duration Risk / Capital Flow (20%)</h4>
+                <h4>2. Duration Risk / TLT (20%)</h4>
                 <p class="weight">TLT 14-day price momentum</p>
                 <p>
-                    Measures direct capital flows into long-duration Treasuries via iShares 20+ Year Treasury ETF (TLT). <strong>Rising TLT = capital flowing INTO bonds = high score.</strong> Falling TLT = capital leaving = low score. Uses ×12.5 multiplier: TLT +4% = score 100, TLT -4% = score 0. Captures real-time capital rotation.
+                    Measures demand for long-duration Treasuries via iShares 20+ Year Treasury ETF (TLT). <strong>Rising TLT = investors buying bonds = high score.</strong> Falling TLT = investors selling = low score. Uses ×12.5 multiplier: TLT +4% = score 100, TLT -4% = score 0. Captures real-time bond appetite.
                 </p>
             </div>
 
@@ -711,9 +711,9 @@
                 <h4>6. Equity vs Bonds Rotation (10%)</h4>
                 <p class="weight">TLT vs SPY relative performance</p>
                 <p>
-                    Measures capital rotation between stocks and bonds over 14 days.
-                    <strong>Bonds outperforming stocks = capital flowing TO bonds = high score (greed for bonds).</strong>
-                    Stocks outperforming = capital leaving bonds = low score (fear for bonds). Uses ×8 multiplier.
+                    Measures relative performance between stocks and bonds over 14 days.
+                    <strong>Bonds outperforming stocks = investors favoring bonds = high score (greed for bonds).</strong>
+                    Stocks outperforming = investors leaving bonds = low score (fear for bonds). Uses ×8 multiplier.
                     Independent signal capturing broader risk-on/risk-off rotation.
                 </p>
             </div>
@@ -792,7 +792,7 @@
                 <p>
                     Measures flight-to-safety flows via iShares 20+ Year Treasury ETF (TLT).
                     <strong>Rising TLT = investors buying safe Treasuries = fear for stocks = lower score.</strong>
-                    Falling TLT = capital leaving safe havens = confidence in stocks = higher score.
+                    Falling TLT = investors leaving safe havens = confidence in stocks = higher score.
                     Independent signal that captures defensive positioning before it shows in stock prices.
                 </p>
             </div>
@@ -801,7 +801,7 @@
                 <h4>7. Sector Rotation (10%)</h4>
                 <p class="weight">Tech vs Defensive rotation (QQQ vs XLP)</p>
                 <p>
-                    Measures capital flows between offensive and defensive sectors via 14-day relative performance with a ×3 multiplier.
+                    Measures sentiment shift between offensive and defensive sectors via 14-day relative performance with a ×3 multiplier.
                     <strong>QQQ (Nasdaq-100 tech) outperforming XLP (Consumer Staples) = risk-on = greed.</strong>
                     XLP outperforming QQQ = defensive rotation = fear. Saturates at ±16.7% divergence.
                 </p>
@@ -843,7 +843,7 @@
                 <h4>3. Bitcoin Dominance (20%)</h4>
                 <p class="weight">BTC vs ETH performance (inverted)</p>
                 <p>
-                    Tracks capital rotation between Bitcoin (digital gold) and Ethereum (altcoin proxy) with a ×3.0 multiplier centered at 50. <strong>INVERTED logic:</strong>
+                    Tracks relative performance between Bitcoin (digital gold) and Ethereum (altcoin proxy) with a ×3.0 multiplier centered at 50. <strong>INVERTED logic:</strong>
                     When Bitcoin outperforms Ethereum, investors are rotating TO safety (BTC) FROM risk (alts) = fear = lower score.
                     When Ethereum outperforms Bitcoin, "altcoin season" = risk appetite = greed = higher score.
                     <strong>Example:</strong> BTC +10% while ETH +20% over 14 days = ETH outperforms by 10pp = greed signal.
@@ -877,7 +877,7 @@
         <div class="section" id="rotation">
             <h2>Market Sentiment Indicator (Risk-On vs Risk-Off)</h2>
             <p>
-                Visualizes overall market risk appetite by comparing risk assets (Stocks + Crypto) against safe havens (Bonds + Gold). This multi-asset approach provides a comprehensive view of capital rotation and market regime, going beyond simple two-asset comparisons.
+                Visualizes overall market risk appetite by comparing risk assets (Stocks + Crypto) against safe havens (Bonds + Gold). This multi-asset approach provides a comprehensive view of investor behavior and market regime, going beyond simple two-asset comparisons.
             </p>
 
             <h3>Calculation</h3>
@@ -895,10 +895,10 @@
 
             <h3>Interpretation</h3>
             <ul>
-                <li><strong>0-25 (Extreme Risk-Off):</strong> Capital fleeing to safe havens (bonds + gold), markets in distress</li>
-                <li><strong>25-45 (Risk-Off):</strong> Defensive rotation dominant, elevated caution across markets</li>
-                <li><strong>45-55 (Neutral):</strong> Balanced sentiment, no dominant flow between risk-on and risk-off</li>
-                <li><strong>55-75 (Risk-On):</strong> Risk appetite increasing, capital flowing to stocks and crypto</li>
+                <li><strong>0-25 (Extreme Risk-Off):</strong> Investors fleeing to safe havens (bonds + gold), markets in distress</li>
+                <li><strong>25-45 (Risk-Off):</strong> Defensive sentiment dominant, elevated caution across markets</li>
+                <li><strong>45-55 (Neutral):</strong> Balanced sentiment, no dominant bias between risk-on and risk-off</li>
+                <li><strong>55-75 (Risk-On):</strong> Risk appetite increasing, investors favoring stocks and crypto</li>
                 <li><strong>75-100 (Extreme Risk-On):</strong> Euphoric risk-taking across assets, potential top warning</li>
             </ul>
 
@@ -965,7 +965,7 @@
 
             <h3>Why does the index sometimes react slowly to major news?</h3>
             <p>
-                All indices use 14-day moving averages to capture sustained sentiment shifts rather than panic reactions. This means sudden 1-day events take 3-5 days to fully reflect in the scores. This is intentional—we track capital rotation and structural trends, not headlines. For day trading signals, other tools may be more appropriate.
+                Most components use 14-day windows to capture sustained sentiment shifts rather than panic reactions. Some faster signals exist (VIX z-score, RSI, crypto volume 7-day), but the overall index typically takes 2-4 days to fully reflect sudden events. This is intentional—we track structural sentiment trends, not headlines. For day trading signals, other tools may be more appropriate.
             </p>
 
             <h3>Is this better than CNN's Fear and Greed Index?</h3>
@@ -987,8 +987,8 @@
             </p>
             <ul>
                 <li><strong>Gold (5 components):</strong> Safe haven behavior tracked via GLD price momentum (30%), RSI/MA mean-reversion (25%), dollar strength (20%), real rates (15%), and VIX z-score (10%). Captures flight-to-safety dynamics with diversified signals.</li>
-                <li><strong>Bonds (6 components):</strong> Bond market sentiment focuses purely on fixed income indicators—yield curve shape (20%), TLT capital flows (20%), credit quality spreads (20%), real yields (15%), bond volatility (15%), and equity vs bonds rotation (10%). Zero overlap with equity markets ensures independent measurement.</li>
-                <li><strong>Stocks (7 components):</strong> Equity sentiment captures price strength (20%), VIX (20%), RSI momentum (15%), market breadth (15%), junk bond demand (10%), safe haven flows (10%), and sector rotation (10%). Multi-faceted approach with both technical and cross-asset signals.</li>
+                <li><strong>Bonds (6 components):</strong> Bond market sentiment focuses purely on fixed income indicators—yield curve shape (20%), TLT demand (20%), credit quality spreads (20%), real yields (15%), bond volatility (15%), and equity vs bonds rotation (10%). Zero overlap with equity markets ensures independent measurement.</li>
+                <li><strong>Stocks (7 components):</strong> Equity sentiment captures price strength (20%), VIX (20%), RSI momentum (15%), market breadth (15%), junk bond demand (10%), safe haven demand (10%), and sector rotation (10%). Multi-faceted approach with both technical and cross-asset signals.</li>
                 <li><strong>Crypto (5 components):</strong> 30-day trend context (30%), RSI/MA momentum (20%), Bitcoin dominance vs ETH (20%), volume trend (15%), and volatility (15%). Calibrated for crypto's unique volatility profile with direction-adjusted volume as a price-independent signal.</li>
             </ul>
             <p>
@@ -1002,10 +1002,10 @@
             <ul>
                 <li><strong>Contrarian entry signals:</strong> Consider buying when index < 25, reducing exposure when > 75</li>
                 <li><strong>Risk scaling:</strong> Adjust position sizes based on sentiment extremes</li>
-                <li><strong>Cross-asset rotation:</strong> Monitor capital flows via the Market Sentiment Indicator</li>
+                <li><strong>Cross-asset analysis:</strong> Monitor sentiment shifts via the Market Sentiment Indicator</li>
             </ul>
             <p>
-                Current data is accessible via JSON endpoints (e.g., <code>/data/bonds-fear-greed.json</code>), updated daily at 02:00 UTC. Programmatic API access may be available in the future—contact us for details. Always backtest thoroughly before deploying with real capital.
+                Current data is accessible via JSON endpoints (e.g., <code>/data/bonds-fear-greed.json</code>), updated daily at 02:00 UTC. Programmatic API access may be available in the future—contact us for details. Always backtest thoroughly before deploying in production.
             </p>
         </div>
 
