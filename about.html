@@ -799,14 +799,17 @@
         <div class="section" id="crypto">
             <h2>₿ Crypto Fear & Greed Index</h2>
             <p>
-                The Crypto Index measures sentiment using <strong>5 components</strong>. Calibrated against Alternative.me's index (average error: 8.3 points):
+                The Crypto Index measures <strong>sentiment towards crypto</strong> using <strong>5 components</strong>.
+                Calibrated against Alternative.me's index with 8.3 points average error. All scores from 0-100:
             </p>
 
             <div class="component-box crypto">
                 <h4>1. Momentum (10%)</h4>
                 <p class="weight">Bitcoin RSI + moving averages</p>
                 <p>
-                    BTC-USD momentum combining RSI with 50/200-day MAs. Weighted 60% RSI, 40% MA position.
+                    <strong>RSI component:</strong> score = (RSI - 50) × 2.0. RSI < 30 = extreme fear (score 0-40), RSI > 70 = extreme greed (score 60-100).<br>
+                    <strong>MA component:</strong> Bull market (price > MA200): score 40 if above MA50, else 30. Bear market (price < MA200): score 20 if above MA50, else 10.<br>
+                    <strong>Final:</strong> 60% RSI + 40% MA position.
                 </p>
             </div>
 
@@ -814,7 +817,9 @@
                 <h4>2. Context (35%)</h4>
                 <p class="weight">30-day price trend (highest weight)</p>
                 <p>
-                    Bitcoin's 30-day price change. Most influential component capturing medium-term trend.
+                    <strong>Formula:</strong> score = 30 + (30-day price change × 0.8), capped at ±30.<br>
+                    Example: BTC +50% in 30 days → score = 30 + (50 × 0.8) = 60 (capped). BTC -40% → score = 30 - 30 = 0.<br>
+                    Most influential component - captures medium-term market trend.
                 </p>
             </div>
 
@@ -822,7 +827,9 @@
                 <h4>3. Volatility (15%)</h4>
                 <p class="weight">14-day annualized volatility (inverted)</p>
                 <p>
-                    High volatility (>40%) = extreme fear. Low volatility (<20%) = confidence.
+                    <strong>Calculation:</strong> 14-day rolling standard deviation, annualized (× √365).<br>
+                    <strong>Mapping:</strong> Volatility ≥40% = fear (score 0), volatility ≤20% = confidence (score 100). Linear interpolation between. Final score multiplied by 0.6 for calibration.<br>
+                    High volatility = panic, low volatility = calm confidence.
                 </p>
             </div>
 
@@ -830,7 +837,9 @@
                 <h4>4. Bitcoin Dominance (25%)</h4>
                 <p class="weight">BTC vs ETH performance (inverted)</p>
                 <p>
-                    BTC outperforming ETH = capital rotating to safety (fear). ETH outperforming = altcoin season (greed).
+                    <strong>Formula:</strong> score = 30 - ((BTC 14d % - ETH 14d %) × 2.0).<br>
+                    <strong>INVERTED logic:</strong> BTC outperforms ETH → score decreases (fear, capital fleeing alts). ETH outperforms BTC → score increases (greed, altcoin season).<br>
+                    Example: BTC +10%, ETH +20% → relative -10pp → score = 30 - (-10 × 2) = 50. BTC +20%, ETH +10% → relative +10pp → score = 30 - (+10 × 2) = 10 (fear).
                 </p>
             </div>
 
@@ -838,7 +847,9 @@
                 <h4>5. Price Momentum (15%)</h4>
                 <p class="weight">14-day price change</p>
                 <p>
-                    Short-term Bitcoin price momentum. Captures immediate market direction.
+                    <strong>Formula:</strong> score = 30 + (14-day price change × 0.6), capped at ±30.<br>
+                    Example: BTC +60% in 14 days → score = 30 + 30 = 60 (capped). BTC -50% → score = 30 - 30 = 0.<br>
+                    Captures short-term momentum complementing the 30-day Context component.
                 </p>
             </div>
         </div>
