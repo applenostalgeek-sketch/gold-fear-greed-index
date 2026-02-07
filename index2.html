@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>OnOff.Markets - V2 Test</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0a0a0a;
+            color: #ffffff;
+            min-height: 100vh;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 120px 20px 60px;
+        }
+
+        /* Navigation */
+        nav {
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid #1a1a1a;
+            padding: 20px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ffffff;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            letter-spacing: -0.02em;
+            font-family: 'Space Grotesk', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .logo-dots {
+            display: flex;
+            gap: 4px;
+            font-size: 0.8rem;
+            color: #666;
+            transition: color 0.6s ease;
+        }
+
+        .logo-suffix {
+            color: #666;
+            font-weight: 500;
+        }
+
+        .logo:hover {
+            opacity: 0.9;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #999;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s ease;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover {
+            color: #ffffff;
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            z-index: 101;
+        }
+
+        .mobile-menu-toggle span {
+            width: 24px;
+            height: 2px;
+            background: #ffffff;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        /* Mobile Menu Overlay */
+        .mobile-menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 99;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .mobile-menu-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 16px;
+        }
+
+        .header h1 {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.3em;
+        }
+
+        .tagline {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #ffffff;
+            margin-top: 8px;
+        }
+
+        .subtitle {
+            font-size: 0.8rem;
+            color: #555;
+            margin-top: 8px;
+            line-height: 1.5;
+        }
+
+        .subtitle a {
+            color: #666;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+            transition: color 0.2s;
+        }
+
+        .subtitle a:hover {
+            color: #fff;
+        }
+
+        /* Hero Score */
+        .hero {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .score-wrapper {
+            display: inline-block;
+            margin-bottom: 16px;
+        }
+
+        .score {
+            font-size: 12rem;
+            font-weight: 800;
+            line-height: 1;
+            letter-spacing: -0.05em;
+            transition: color 1s ease;
+        }
+
+        .score-denominator {
+            font-size: 3rem;
+            font-weight: 500;
+            color: #666;
+            vertical-align: top;
+            margin-left: 8px;
+        }
+
+        .label {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .updated {
+            font-size: 0.85rem;
+            color: #555;
+            margin-top: 12px;
+            font-weight: 400;
+        }
+
+        /* Progress Bar */
+        .bar-wrapper {
+            margin: 30px 0;
+        }
+
+        .bar {
+            height: 6px;
+            background: #1a1a1a;
+            position: relative;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .bar-fill {
+            height: 100%;
+            background: #ef4444;
+            width: 0%;
+            transition: width 1s cubic-bezier(0.4, 0, 0.2, 1), background-color 1s ease;
+            border-radius: 3px;
+        }
+
+        .bar-labels {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 10px;
+            font-size: 0.75rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Insight Box — placed BEFORE cards */
+        .insight-box {
+            background: #111;
+            border-left: 4px solid #fff;
+            padding: 28px 36px;
+            margin: 24px 0;
+            border-radius: 8px;
+            transition: border-color 1s ease, background-color 1s ease;
+        }
+
+        .insight-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .insight-icon {
+            font-size: 1.2rem;
+        }
+
+        .insight-title {
+            font-size: 0.8rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .insight-text {
+            font-size: 1.15rem;
+            line-height: 1.7;
+            color: #ffffff;
+            font-weight: 400;
+        }
+
+        /* Stats Grid */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1px;
+            background: #1a1a1a;
+            margin: 24px 0 0 0;
+        }
+
+        .stat-link {
+            text-decoration: none;
+            color: inherit;
+            display: block;
+            transition: transform 0.2s ease;
+        }
+
+        .stat-link:hover {
+            transform: translateY(-2px);
+        }
+
+        .stat {
+            background: #0a0a0a;
+            padding: 24px 16px;
+            text-align: center;
+            transition: background 0.2s ease;
+        }
+
+        .stat-link:hover .stat {
+            background: #1a1a1a;
+        }
+
+        .stat-icon {
+            font-size: 1.5rem;
+            margin-bottom: 6px;
+        }
+
+        .stat-name {
+            font-size: 0.65rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 6px;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+            margin-bottom: 2px;
+            line-height: 1;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: #666;
+            margin-bottom: 6px;
+        }
+
+        .stat-micro {
+            font-size: 0.65rem;
+            color: #555;
+            line-height: 1.3;
+            margin-top: 4px;
+        }
+
+        /* How it works banner */
+        .how-banner {
+            text-align: center;
+            margin: 32px 0 0 0;
+            padding: 16px;
+            border: 1px solid #1a1a1a;
+            border-radius: 8px;
+            background: #0d0d0d;
+        }
+
+        .how-banner p {
+            font-size: 0.85rem;
+            color: #777;
+            line-height: 1.5;
+        }
+
+        .how-banner a {
+            color: #999;
+            text-decoration: underline;
+            text-underline-offset: 2px;
+            transition: color 0.2s;
+        }
+
+        .how-banner a:hover {
+            color: #fff;
+        }
+
+        /* Historical Chart */
+        .history-section {
+            margin: 60px 0 60px 0;
+        }
+
+        .history-section h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .chart-container {
+            background: #0d0d0d;
+            border: 1px solid #1a1a1a;
+            border-radius: 12px;
+            padding: 30px 20px;
+            height: 400px;
+        }
+
+        .chart-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        .chart-toggles {
+            display: flex;
+            gap: 15px;
+        }
+
+        .chart-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            color: #999;
+        }
+
+        .chart-toggle input {
+            cursor: pointer;
+        }
+
+        .legend-label {
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-weight: 600;
+        }
+
+        .legend-bonds { background: rgba(16, 185, 129, 0.2); color: #10b981; }
+        .legend-gold { background: rgba(255, 215, 0, 0.2); color: #FFD700; }
+        .legend-stocks { background: rgba(74, 144, 226, 0.2); color: #4A90E2; }
+        .legend-crypto { background: rgba(247, 147, 26, 0.2); color: #F7931A; }
+
+        .period-selector {
+            display: flex;
+            gap: 8px;
+            background: #0d0d0d;
+            padding: 4px;
+            border-radius: 8px;
+            border: 1px solid #1a1a1a;
+        }
+
+        .period-btn {
+            background: transparent;
+            border: none;
+            color: #666;
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 500;
+            transition: all 0.2s ease;
+        }
+
+        .period-btn:hover {
+            color: #999;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .period-btn.active {
+            background: #1a1a1a;
+            color: #fff;
+        }
+
+        /* Footer */
+        footer {
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 1px solid #1a1a1a;
+        }
+
+        .disclaimer {
+            font-size: 0.8rem;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .credits {
+            font-size: 0.75rem;
+            color: #555;
+            text-align: center;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .nav-container { padding: 0 20px; }
+            .mobile-menu-toggle { display: flex; }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 280px;
+                height: 100vh;
+                background: #0a0a0a;
+                flex-direction: column;
+                padding: 80px 32px 32px;
+                gap: 16px;
+                transition: right 0.3s ease;
+                z-index: 100;
+                box-shadow: -4px 0 20px rgba(0, 0, 0, 0.5);
+                border-left: 1px solid #1a1a1a;
+            }
+
+            .nav-links.active { right: 0; }
+
+            .nav-links a {
+                font-size: 1.1rem;
+                padding: 16px 0;
+                border-bottom: 1px solid #1a1a1a;
+                width: 100%;
+            }
+
+            .mobile-menu-overlay { display: block; }
+            .container { padding: 100px 20px 60px; }
+            .tagline { font-size: 0.85rem; }
+            .score { font-size: 7rem; }
+            .score-denominator { font-size: 2rem; }
+            .label { font-size: 1.8rem; }
+            .stats { grid-template-columns: repeat(4, 1fr); gap: 1px; }
+            .stat { padding: 12px 4px; }
+            .stat-icon { font-size: 1rem; margin-bottom: 4px; }
+            .stat-name { font-size: 0.6rem; }
+            .stat-value { font-size: 1.1rem; }
+            .stat-label { font-size: 0.55rem; }
+            .stat-micro { font-size: 0.55rem; }
+            .insight-box { padding: 16px 20px; text-align: center; }
+            .insight-header { justify-content: center; margin-bottom: 10px; }
+            .insight-text { font-size: 0.95rem; }
+            .how-banner { padding: 12px; }
+            .how-banner p { font-size: 0.75rem; }
+            .chart-container { height: 300px; padding: 20px 15px; }
+            .chart-controls {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 12px;
+            }
+            .chart-toggles {
+                flex-direction: row;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            .chart-toggle { font-size: 0.8rem; }
+            .period-selector { justify-content: center; }
+            .period-btn { padding: 6px 12px; font-size: 0.8rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="index2.html" class="logo">
+                <span>On</span>
+                <span class="logo-dots">●●</span>
+                <span>Off</span>
+                <span class="logo-suffix">.Markets</span>
+            </a>
+
+            <button class="mobile-menu-toggle" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <div class="nav-links">
+                <a href="gold.html">Gold</a>
+                <a href="bonds.html">Bonds</a>
+                <a href="stocks.html">Stocks</a>
+                <a href="crypto.html">Crypto</a>
+                <a href="about.html">About</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay"></div>
+
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>Market Sentiment</h1>
+            <div class="tagline">Are investors fearful or greedy today?</div>
+            <div class="subtitle">We track sentiment across Gold, Bonds, Stocks & Crypto. <a href="about.html">How it works</a></div>
+        </div>
+
+        <!-- Hero Score -->
+        <div class="hero">
+            <div class="score-wrapper">
+                <span class="score" id="score">50</span><span class="score-denominator">/100</span>
+            </div>
+            <div class="label" id="label">NEUTRAL</div>
+            <div class="updated" id="updated">Updated: Loading...</div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div class="bar-wrapper">
+            <div class="bar">
+                <div class="bar-fill" id="barFill"></div>
+            </div>
+            <div class="bar-labels">
+                <span>Fear</span>
+                <span>Neutral</span>
+                <span>Greed</span>
+            </div>
+        </div>
+
+        <!-- Insight Box BEFORE cards -->
+        <div class="insight-box">
+            <div class="insight-header">
+                <span class="insight-icon">💡</span>
+                <span class="insight-title">What's happening</span>
+            </div>
+            <div class="insight-text" id="insight">
+                Loading market analysis...
+            </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats">
+            <a href="gold.html" class="stat-link">
+                <div class="stat">
+                    <div class="stat-icon">🪙</div>
+                    <div class="stat-name">Gold</div>
+                    <div class="stat-value" id="goldValue">--</div>
+                    <div class="stat-label" id="goldLabel">--</div>
+                    <div class="stat-micro" id="goldMicro"></div>
+                </div>
+            </a>
+
+            <a href="bonds.html" class="stat-link">
+                <div class="stat">
+                    <div class="stat-icon">📊</div>
+                    <div class="stat-name">Bonds</div>
+                    <div class="stat-value" id="bondsValue">--</div>
+                    <div class="stat-label" id="bondsLabel">--</div>
+                    <div class="stat-micro" id="bondsMicro"></div>
+                </div>
+            </a>
+
+            <a href="stocks.html" class="stat-link">
+                <div class="stat">
+                    <div class="stat-icon">📈</div>
+                    <div class="stat-name">Stocks</div>
+                    <div class="stat-value" id="stocksValue">--</div>
+                    <div class="stat-label" id="stocksLabel">--</div>
+                    <div class="stat-micro" id="stocksMicro"></div>
+                </div>
+            </a>
+
+            <a href="crypto.html" class="stat-link">
+                <div class="stat">
+                    <div class="stat-icon">₿</div>
+                    <div class="stat-name">Crypto</div>
+                    <div class="stat-value" id="cryptoValue">--</div>
+                    <div class="stat-label" id="cryptoLabel">--</div>
+                    <div class="stat-micro" id="cryptoMicro"></div>
+                </div>
+            </a>
+        </div>
+
+        <!-- How it works banner -->
+        <div class="how-banner">
+            <p>Each score measures investor sentiment from 0 (extreme fear) to 100 (extreme greed). <a href="about.html">Learn how we calculate them</a></p>
+        </div>
+
+        <!-- Historical Chart -->
+        <section class="history-section">
+            <div class="chart-controls">
+                <h2 style="margin: 0;">Historical Trend</h2>
+                <div style="display: flex; gap: 15px; align-items: center; flex-wrap: wrap;">
+                    <div class="chart-toggles">
+                        <label class="chart-toggle">
+                            <input type="checkbox" id="toggleGold" checked>
+                            <span class="legend-label legend-gold">🪙 Gold</span>
+                        </label>
+                        <label class="chart-toggle">
+                            <input type="checkbox" id="toggleBonds" checked>
+                            <span class="legend-label legend-bonds">📊 Bonds</span>
+                        </label>
+                        <label class="chart-toggle">
+                            <input type="checkbox" id="toggleStocks" checked>
+                            <span class="legend-label legend-stocks">📈 Stocks</span>
+                        </label>
+                        <label class="chart-toggle">
+                            <input type="checkbox" id="toggleCrypto" checked>
+                            <span class="legend-label legend-crypto">₿ Crypto</span>
+                        </label>
+                    </div>
+                    <div class="period-selector">
+                        <button class="period-btn" data-period="7">7D</button>
+                        <button class="period-btn active" data-period="30">30D</button>
+                        <button class="period-btn" data-period="90">90D</button>
+                        <button class="period-btn" data-period="180">180D</button>
+                        <button class="period-btn" data-period="365">1Y</button>
+                    </div>
+                </div>
+            </div>
+            <div class="chart-container">
+                <canvas id="historyChart"></canvas>
+            </div>
+        </section>
+
+        <!-- Footer -->
+        <footer>
+            <p class="disclaimer">
+                <strong>Disclaimer:</strong> This index is provided for informational purposes only and does not constitute financial advice.
+                Investments carry risks. Consult a financial advisor before making any investment decisions.
+            </p>
+            <p class="credits">
+                Sources: Yahoo Finance, FRED | Updated Daily | <a href="mailto:contact@onoff.markets" style="color: #666; text-decoration: none;">Contact</a>
+            </p>
+        </footer>
+    </div>
+
+    <script>
+        let gold, stocks, crypto, bonds;
+
+        async function loadData() {
+            try {
+                const [goldRes, stocksRes, cryptoRes, bondsRes] = await Promise.all([
+                    fetch('data/gold-fear-greed.json'),
+                    fetch('data/stocks-fear-greed.json'),
+                    fetch('data/crypto-fear-greed.json'),
+                    fetch('data/bonds-fear-greed.json')
+                ]);
+
+                gold = await goldRes.json();
+                stocks = await stocksRes.json();
+                crypto = await cryptoRes.json();
+                bonds = await bondsRes.json();
+
+                updateUI(gold, stocks, crypto, bonds);
+                updateHistoryChart(30);
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        // Micro-descriptions for each asset based on score
+        function getMicro(asset, score) {
+            if (asset === 'gold') {
+                if (score <= 25) return 'Investors selling gold';
+                if (score <= 45) return 'Low demand for gold';
+                if (score <= 55) return 'Stable gold demand';
+                if (score <= 75) return 'Investors buying gold';
+                return 'Strong rush to gold';
+            }
+            if (asset === 'bonds') {
+                if (score <= 25) return 'Investors leaving bonds';
+                if (score <= 45) return 'Low bond appetite';
+                if (score <= 55) return 'Neutral bond demand';
+                if (score <= 75) return 'Investors buying bonds';
+                return 'Strong flight to bonds';
+            }
+            if (asset === 'stocks') {
+                if (score <= 25) return 'Panic selling stocks';
+                if (score <= 45) return 'Cautious stock market';
+                if (score <= 55) return 'Stable equity market';
+                if (score <= 75) return 'Investors buying stocks';
+                return 'Euphoric stock buying';
+            }
+            if (asset === 'crypto') {
+                if (score <= 25) return 'Crypto sell-off';
+                if (score <= 45) return 'Low crypto confidence';
+                if (score <= 55) return 'Neutral crypto mood';
+                if (score <= 75) return 'Crypto appetite rising';
+                return 'Crypto euphoria';
+            }
+            return '';
+        }
+
+        function updateUI(gold, stocks, crypto, bonds) {
+            // Risk-On vs Risk-Off calculation
+            const riskOn = (stocks.score + crypto.score) / 2;
+            const riskOff = (bonds.score + gold.score) / 2;
+            const rotationScore = riskOn - riskOff;
+            const position = ((rotationScore + 100) / 200) * 100;
+
+            // Update score
+            const scoreEl = document.getElementById('score');
+            scoreEl.textContent = Math.round(position);
+
+            // Update logo dots
+            const logoDots = document.querySelector('.logo-dots');
+            let dotsColor;
+            if (position < 25) dotsColor = "#ef4444";
+            else if (position < 45) dotsColor = "#f59e0b";
+            else if (position < 55) dotsColor = "#ffffff";
+            else if (position < 75) dotsColor = "#22c55e";
+            else dotsColor = "#06b6d4";
+            if (logoDots) logoDots.style.color = dotsColor;
+
+            // Timestamp
+            if (crypto.timestamp) {
+                const date = new Date(crypto.timestamp);
+                const options = { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
+                document.getElementById('updated').textContent = `Updated: ${date.toLocaleDateString('en-US', options)}`;
+            }
+
+            // Simpler labels — no jargon
+            let label, color;
+            if (position < 25) {
+                label = "EXTREME FEAR";
+                color = "#ef4444";
+            } else if (position < 45) {
+                label = "FEAR";
+                color = "#f59e0b";
+            } else if (position < 55) {
+                label = "NEUTRAL";
+                color = "#ffffff";
+            } else if (position < 75) {
+                label = "GREED";
+                color = "#22c55e";
+            } else {
+                label = "EXTREME GREED";
+                color = "#06b6d4";
+            }
+
+            // Update bar
+            const barFill = document.getElementById('barFill');
+            barFill.style.width = position + '%';
+            barFill.style.backgroundColor = color;
+
+            document.getElementById('label').textContent = label;
+            scoreEl.style.color = color;
+
+            // Insight box styling
+            const insightBox = document.querySelector('.insight-box');
+            insightBox.style.borderLeftColor = color;
+            const r = parseInt(color.slice(1,3), 16);
+            const g = parseInt(color.slice(3,5), 16);
+            const b = parseInt(color.slice(5,7), 16);
+            insightBox.style.backgroundColor = `rgba(${r}, ${g}, ${b}, 0.07)`;
+
+            // Insight text — same logic as index.html
+            const assets = [
+                { name: 'Gold', score: gold.score },
+                { name: 'Bonds', score: bonds.score },
+                { name: 'Stocks', score: stocks.score },
+                { name: 'Crypto', score: crypto.score }
+            ];
+            const highest = assets.reduce((a, b) => a.score > b.score ? a : b);
+            const lowest = assets.reduce((a, b) => a.score < b.score ? a : b);
+
+            let insight = '';
+            if (position < 25) {
+                insight = `Markets are in full panic mode. ${lowest.name} faces the heaviest selling pressure, while ${highest.name} is the most sought-after asset right now.`;
+            } else if (position < 45) {
+                const strongRiskOff = bonds.score > 60 || gold.score > 60;
+                if (strongRiskOff) {
+                    insight = `Investors are playing it safe. ${highest.name} is attracting the most interest, while ${lowest.name} faces the heaviest selling pressure.`;
+                } else {
+                    insight = `Caution is the dominant mood. ${lowest.name} is under the most pressure, though no market is showing extreme behavior yet.`;
+                }
+            } else if (position < 55) {
+                const allNeutral = Math.abs(bonds.score - 50) < 15 && Math.abs(gold.score - 50) < 15 && Math.abs(stocks.score - 50) < 15 && Math.abs(crypto.score - 50) < 15;
+                if (allNeutral) {
+                    insight = `No strong conviction in any direction. All four markets are near neutral — investors are waiting for a clearer signal.`;
+                } else {
+                    insight = `Mixed signals. ${highest.name} is seeing the most buying interest while ${lowest.name} faces the most pressure — no clear trend yet.`;
+                }
+            } else if (position < 75) {
+                const strongRiskOn = stocks.score > 60 || crypto.score > 60;
+                if (strongRiskOn) {
+                    insight = `Risk appetite is growing. ${highest.name} is attracting the most confidence, while ${lowest.name} is losing interest.`;
+                } else {
+                    insight = `Optimism is building slowly. ${highest.name} leads the way, though the shift toward risk is gradual — no euphoria yet.`;
+                }
+            } else {
+                const euphoria = crypto.score > 75 && stocks.score > 75;
+                if (euphoria) {
+                    insight = `Full euphoria mode. ${highest.name} is seeing the most aggressive buying while ${lowest.name} is being ignored. Historically, this level of greed often precedes a correction.`;
+                } else {
+                    insight = `Strong risk appetite across markets. ${highest.name} is attracting the heaviest buying interest while ${lowest.name} is being neglected.`;
+                }
+            }
+
+            document.getElementById('insight').textContent = insight;
+
+            // Update stats with micro-descriptions
+            document.getElementById('goldValue').textContent = Math.round(gold.score);
+            document.getElementById('goldLabel').textContent = gold.label;
+            document.getElementById('goldValue').style.color = getColor(gold.score);
+            document.getElementById('goldMicro').textContent = getMicro('gold', gold.score);
+
+            document.getElementById('stocksValue').textContent = Math.round(stocks.score);
+            document.getElementById('stocksLabel').textContent = stocks.label;
+            document.getElementById('stocksValue').style.color = getColor(stocks.score);
+            document.getElementById('stocksMicro').textContent = getMicro('stocks', stocks.score);
+
+            document.getElementById('cryptoValue').textContent = Math.round(crypto.score);
+            document.getElementById('cryptoLabel').textContent = crypto.label;
+            document.getElementById('cryptoValue').style.color = getColor(crypto.score);
+            document.getElementById('cryptoMicro').textContent = getMicro('crypto', crypto.score);
+
+            document.getElementById('bondsValue').textContent = Math.round(bonds.score);
+            document.getElementById('bondsLabel').textContent = bonds.label;
+            document.getElementById('bondsValue').style.color = getColor(bonds.score);
+            document.getElementById('bondsMicro').textContent = getMicro('bonds', bonds.score);
+        }
+
+        function getColor(score) {
+            if (score <= 25) return '#ef4444';
+            if (score <= 45) return '#f59e0b';
+            if (score <= 55) return '#ffffff';
+            if (score <= 75) return '#22c55e';
+            return '#06b6d4';
+        }
+
+        loadData();
+
+        // Mobile Menu Toggle
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
+
+        function toggleMobileMenu() {
+            mobileMenuToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+            mobileMenuOverlay.classList.toggle('active');
+            document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+        }
+
+        mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+        mobileMenuOverlay.addEventListener('click', toggleMobileMenu);
+
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) toggleMobileMenu();
+            });
+        });
+
+        // Chart — identical to index.html
+        let currentPeriod = 30;
+
+        function updateHistoryChart(days = 30) {
+            const goldHistory = gold?.history || [];
+            const stocksHistory = stocks?.history || [];
+            const cryptoHistory = crypto?.history || [];
+            const bondsHistory = bonds?.history || [];
+
+            if (goldHistory.length === 0 && stocksHistory.length === 0 && cryptoHistory.length === 0 && bondsHistory.length === 0) return;
+
+            const canvas = document.getElementById('historyChart');
+            const ctx = canvas.getContext('2d');
+            const container = canvas.parentElement;
+            canvas.width = container.offsetWidth;
+            canvas.height = container.offsetHeight;
+
+            const sortAndSlice = (h) => [...h].sort((a, b) => new Date(a.date) - new Date(b.date)).slice(-days);
+
+            drawChart(ctx, canvas,
+                sortAndSlice(goldHistory),
+                sortAndSlice(stocksHistory),
+                sortAndSlice(cryptoHistory),
+                sortAndSlice(bondsHistory),
+                document.getElementById('toggleGold')?.checked !== false,
+                document.getElementById('toggleStocks')?.checked !== false,
+                document.getElementById('toggleCrypto')?.checked !== false,
+                document.getElementById('toggleBonds')?.checked !== false
+            );
+        }
+
+        function drawChart(ctx, canvas, goldData, stocksData, cryptoData, bondsData, showGold, showStocks, showCrypto, showBonds) {
+            const width = canvas.width;
+            const height = canvas.height;
+            const paddingTop = 40;
+            const paddingBottom = 60;
+            const paddingSide = 40;
+            const chartWidth = width - paddingSide * 2;
+            const chartHeight = height - paddingTop - paddingBottom;
+
+            ctx.clearRect(0, 0, width, height);
+
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.lineWidth = 1;
+            [0, 25, 50, 75, 100].forEach(score => {
+                const y = paddingTop + chartHeight - (score / 100) * chartHeight;
+                ctx.beginPath();
+                ctx.moveTo(paddingSide, y);
+                ctx.lineTo(paddingSide + chartWidth, y);
+                ctx.stroke();
+                ctx.fillStyle = '#666';
+                ctx.font = '12px sans-serif';
+                ctx.textAlign = 'right';
+                ctx.fillText(score, paddingSide - 10, y + 4);
+            });
+
+            if (showCrypto && cryptoData.length > 0) drawLine(ctx, cryptoData, paddingTop, paddingSide, chartHeight, chartWidth, '#F7931A', 2);
+            if (showStocks && stocksData.length > 0) drawLine(ctx, stocksData, paddingTop, paddingSide, chartHeight, chartWidth, '#4A90E2', 2);
+            if (showGold && goldData.length > 0) drawLine(ctx, goldData, paddingTop, paddingSide, chartHeight, chartWidth, '#FFD700', 2);
+            if (showBonds && bondsData.length > 0) drawLine(ctx, bondsData, paddingTop, paddingSide, chartHeight, chartWidth, '#10b981', 2);
+
+            const labelData = goldData.length > 0 ? goldData : (stocksData.length > 0 ? stocksData : (cryptoData.length > 0 ? cryptoData : bondsData));
+            if (labelData.length > 0) {
+                ctx.fillStyle = '#666';
+                ctx.font = '11px sans-serif';
+                const numLabels = labelData.length <= 7 ? labelData.length : (labelData.length > 180 ? 8 : 5);
+                const step = Math.floor(labelData.length / (numLabels - 1));
+                for (let i = 0; i < numLabels; i++) {
+                    const index = i === numLabels - 1 ? labelData.length - 1 : i * step;
+                    if (index < labelData.length) {
+                        const point = labelData[index];
+                        const x = paddingSide + (index / (labelData.length - 1)) * chartWidth;
+                        const date = new Date(point.date);
+                        ctx.save();
+                        ctx.translate(x, height - 20);
+                        ctx.rotate(-Math.PI / 6);
+                        ctx.textAlign = 'right';
+                        ctx.fillText(`${date.getDate()}/${date.getMonth() + 1}`, 0, 0);
+                        ctx.restore();
+                    }
+                }
+            }
+        }
+
+        function drawLine(ctx, data, paddingTop, paddingSide, chartHeight, chartWidth, color, lineWidth) {
+            if (data.length < 2) return;
+            ctx.strokeStyle = color;
+            ctx.lineWidth = lineWidth;
+            ctx.beginPath();
+            data.forEach((point, index) => {
+                const x = paddingSide + (index / (data.length - 1)) * chartWidth;
+                const y = paddingTop + chartHeight - (point.score / 100) * chartHeight;
+                if (index === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            });
+            ctx.stroke();
+        }
+
+        document.querySelectorAll('.period-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                document.querySelectorAll('.period-btn').forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                currentPeriod = parseInt(button.dataset.period);
+                updateHistoryChart(currentPeriod);
+            });
+        });
+
+        ['toggleGold', 'toggleStocks', 'toggleCrypto', 'toggleBonds'].forEach(id => {
+            const toggle = document.getElementById(id);
+            if (toggle) toggle.addEventListener('change', () => updateHistoryChart(currentPeriod));
+        });
+
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => updateHistoryChart(currentPeriod), 250);
+        });
+    </script>
+</body>
+</html>
