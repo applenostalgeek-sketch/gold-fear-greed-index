@@ -394,49 +394,39 @@
             color: #fff;
         }
 
-        /* How to Read */
-        .explanation-section {
-            margin: 60px 0;
+        /* How to Read - Compact Scale */
+        .scale-section {
+            margin-top: 24px;
         }
 
-        .explanation-section h2 {
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-bottom: 20px;
-            color: #fff;
-        }
-
-        .explanation-grid {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 1px;
-            background: #1a1a1a;
-        }
-
-        .explanation-item {
-            background: #0d0d0d;
-            padding: 20px 16px;
-            text-align: center;
-        }
-
-        .explanation-item strong {
-            display: block;
-            font-size: 0.85rem;
+        .scale-bar {
+            display: flex;
+            height: 6px;
+            border-radius: 3px;
+            overflow: hidden;
             margin-bottom: 8px;
-            color: #fff;
         }
 
-        .explanation-item p {
-            font-size: 0.75rem;
-            color: #666;
-            line-height: 1.5;
+        .scale-bar span {
+            flex: 1;
         }
 
-        .extreme-fear-bg { border-top: 3px solid #ef4444; }
-        .fear-bg { border-top: 3px solid #f59e0b; }
-        .neutral-bg { border-top: 3px solid #888; }
-        .greed-bg { border-top: 3px solid #22c55e; }
-        .extreme-greed-bg { border-top: 3px solid #06b6d4; }
+        .scale-labels {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.65rem;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .scale-labels span {
+            text-align: center;
+            flex: 1;
+        }
+
+        .scale-labels span:first-child { text-align: left; }
+        .scale-labels span:last-child { text-align: right; }
 
         /* Back Link */
         .back-link {
@@ -522,7 +512,6 @@
 
             .score { font-size: 7rem; }
             .label { font-size: 1.8rem; }
-            .explanation-grid { grid-template-columns: 1fr; gap: 0; }
             .chart-container { height: 300px; padding: 20px 15px; }
             .components-grid { grid-template-columns: 1fr; gap: 0; }
             .insight-box { padding: 24px 28px; }
@@ -586,6 +575,24 @@
                 <span>Neutral</span>
                 <span>Extreme Greed</span>
             </div>
+
+            <!-- How to Read - Compact Scale -->
+            <div class="scale-section">
+                <div class="scale-bar">
+                    <span style="background: #ef4444;"></span>
+                    <span style="background: #f59e0b;"></span>
+                    <span style="background: #888;"></span>
+                    <span style="background: #22c55e;"></span>
+                    <span style="background: #06b6d4;"></span>
+                </div>
+                <div class="scale-labels">
+                    <span>0-25<br>Extreme Fear</span>
+                    <span>26-45<br>Fear</span>
+                    <span>46-55<br>Neutral</span>
+                    <span>56-75<br>Greed</span>
+                    <span>76-100<br>Extreme Greed</span>
+                </div>
+            </div>
         </div>
 
         <!-- Components Breakdown -->
@@ -618,32 +625,6 @@
             </div>
         </section>
 
-        <!-- Explanation -->
-        <section class="explanation-section">
-            <h2>How to Read This Index?</h2>
-            <div class="explanation-grid">
-                <div class="explanation-item extreme-fear-bg">
-                    <strong>0-25: Extreme Fear</strong>
-                    <p>Very pessimistic sentiment. Potential buying opportunity.</p>
-                </div>
-                <div class="explanation-item fear-bg">
-                    <strong>26-45: Fear</strong>
-                    <p>Cautious sentiment. Investors seeking safety.</p>
-                </div>
-                <div class="explanation-item neutral-bg">
-                    <strong>46-55: Neutral</strong>
-                    <p>Balanced sentiment. No clear trend.</p>
-                </div>
-                <div class="explanation-item greed-bg">
-                    <strong>56-75: Greed</strong>
-                    <p>Optimistic sentiment. Investors taking risks.</p>
-                </div>
-                <div class="explanation-item extreme-greed-bg">
-                    <strong>76-100: Extreme Greed</strong>
-                    <p>Market euphoria. Potential correction ahead.</p>
-                </div>
-            </div>
-        </section>
 
         <!-- Footer -->
         <footer>
