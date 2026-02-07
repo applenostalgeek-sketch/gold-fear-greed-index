@@ -326,13 +326,6 @@
             margin-bottom: 20px;
         }
 
-        .insight-contrarian {
-            font-size: 1rem;
-            line-height: 1.8;
-            color: #ccc;
-            padding-top: 20px;
-            border-top: 1px solid #1a1a1a;
-        }
 
         /* Stats Grid */
         .stats {
@@ -391,16 +384,6 @@
             color: #666;
         }
 
-        /* Contrarian stat highlighting */
-        .contrarian-stat {
-            display: inline-block;
-            background: rgba(255, 255, 255, 0.05);
-            padding: 4px 12px;
-            border-radius: 4px;
-            font-weight: 700;
-            color: #fff;
-            margin: 0 4px;
-        }
 
         /* Historical Chart */
         .history-section {
@@ -584,7 +567,6 @@
             .stat-label { font-size: 0.55rem; }
             .insight-box { padding: 24px 28px; }
             .insight-text { font-size: 1.05rem; }
-            .insight-contrarian { font-size: 0.95rem; }
             .chart-container { height: 300px; padding: 20px 15px; }
             .chart-controls {
                 flex-direction: column;
@@ -716,9 +698,6 @@
             </div>
             <div class="insight-text" id="insight">
                 Loading market analysis...
-            </div>
-            <div class="insight-contrarian" id="contrarianText">
-                Loading contrarian analysis...
             </div>
         </div>
 
@@ -939,41 +918,6 @@
             document.getElementById('bondsLabel').textContent = bonds.label;
             document.getElementById('bondsValue').style.color = getColor(bonds.score);
 
-            // Contrarian signal (rotation-focused)
-            let contrarianText;
-            if (strength > 70) {
-                // Strong signal - extreme divergence between risk-on and risk-off
-                if (position < 25) {
-                    // Extreme risk-off
-                    contrarianText = `<strong>Extreme fear across risk assets:</strong> Investors overwhelmingly favoring safety over speculation. Historically, when everyone rushes to safety, contrarian opportunities emerge in oversold risk assets. Patient investors may find value.`;
-                } else if (position < 45) {
-                    // Defensive
-                    contrarianText = `<strong>Strong defensive sentiment:</strong> Heavy preference for safe havens. Risk assets under pressure. For contrarians, this level of fear could signal upcoming opportunities in discounted assets.`;
-                } else if (position > 75) {
-                    // Extreme risk-on
-                    contrarianText = `<strong>Extreme greed across risk assets:</strong> Euphoric sentiment toward speculative assets while safe havens are ignored. When everyone is this greedy, contrarians prepare for potential reversals. Consider risk management.`;
-                } else if (position > 55) {
-                    // Risk-on
-                    contrarianText = `<strong>Strong risk appetite:</strong> Investors aggressively favoring risk assets. Markets showing high confidence. Contrarians monitor for signs of overextension or sentiment reversal.`;
-                } else {
-                    // Neutral but strong divergence (unusual)
-                    contrarianText = `Strong divergence detected across asset classes but overall sentiment remains balanced. Wait for clearer directional bias before positioning.`;
-                }
-            } else if (strength > 45) {
-                // Moderate signal
-                if (position < 45) {
-                    contrarianText = `Moderate defensive shift. Investors leaning toward safe havens. Could be an early signal of risk-off sentiment or temporary rebalancing. Monitor for acceleration.`;
-                } else if (position > 55) {
-                    contrarianText = `Moderate risk-on shift. Investors leaning toward risk assets. Not extreme yet, but trend worth watching for profit-taking or entry opportunities.`;
-                } else {
-                    contrarianText = `Neutral sentiment with moderate divergence. No clear bias across markets. Balanced positioning recommended until a clearer trend emerges.`;
-                }
-            } else {
-                // Weak signal
-                contrarianText = `Minimal divergence between asset classes. Sentiment balanced with no strong directional bias. Not ideal for rotation-based trades. Wait for stronger signals.`;
-            }
-
-            document.getElementById('contrarianText').innerHTML = contrarianText;
         }
 
         function getColor(score) {
