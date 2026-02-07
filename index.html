@@ -867,60 +867,56 @@
             document.getElementById('context').textContent = context;
             scoreEl.style.color = color;
 
-            // Update insight - Risk-On vs Risk-Off logic
+            // Update insight - dynamic with highest/lowest asset names
             let insight = '';
 
-            // Helper to describe asset state
-            const describeAsset = (score, name) => {
-                if (score <= 25) return `${name} in extreme fear (${score})`;
-                if (score <= 45) return `${name} showing fear (${score})`;
-                if (score <= 55) return `${name} neutral (${score})`;
-                if (score <= 75) return `${name} in greed (${score})`;
-                return `${name} in extreme greed (${score})`;
-            };
+            // Find highest and lowest scoring assets
+            const assets = [
+                { name: 'Gold', score: gold.score },
+                { name: 'Bonds', score: bonds.score },
+                { name: 'Stocks', score: stocks.score },
+                { name: 'Crypto', score: crypto.score }
+            ];
+            const highest = assets.reduce((a, b) => a.score > b.score ? a : b);
+            const lowest = assets.reduce((a, b) => a.score < b.score ? a : b);
 
             if (position < 25) {
-                // EXTREME RISK-OFF: Bonds + Gold dominate
-                insight = `Extreme Risk-Off environment. Safe havens dominating with ${describeAsset(bonds.score, 'bonds')} and ${describeAsset(gold.score, 'gold')}, while risk assets struggle: ${describeAsset(stocks.score, 'stocks')}, ${describeAsset(crypto.score, 'crypto')}. Classic flight to safety.`;
+                insight = `Markets are in full panic mode. ${lowest.name} faces the heaviest selling pressure, while ${highest.name} is the most sought-after asset right now.`;
 
             } else if (position < 45) {
-                // DEFENSIVE: Moderate risk-off
                 const strongRiskOff = bonds.score > 60 || gold.score > 60;
 
                 if (strongRiskOff) {
-                    insight = `Defensive positioning. Investors favoring safe havens (Bonds ${Math.round(bonds.score)}, Gold ${Math.round(gold.score)}) while reducing exposure to risk assets (Stocks ${Math.round(stocks.score)}, Crypto ${Math.round(crypto.score)}). Risk aversion rising.`;
+                    insight = `Investors are playing it safe. ${highest.name} is attracting the most interest, while ${lowest.name} faces the heaviest selling pressure.`;
                 } else {
-                    insight = `Moderate Risk-Off. Investors cautiously favoring defensive assets over risk assets. ${describeAsset(bonds.score, 'Bonds')}, ${describeAsset(gold.score, 'gold')}, ${describeAsset(stocks.score, 'stocks')}, ${describeAsset(crypto.score, 'crypto')}.`;
+                    insight = `Caution is the dominant mood. ${lowest.name} is under the most pressure, though no market is showing extreme behavior yet.`;
                 }
 
             } else if (position < 55) {
-                // BALANCED: No clear preference
                 const allNeutral = Math.abs(bonds.score - 50) < 15 && Math.abs(gold.score - 50) < 15 && Math.abs(stocks.score - 50) < 15 && Math.abs(crypto.score - 50) < 15;
 
                 if (allNeutral) {
-                    insight = `Perfectly balanced markets. All asset classes near neutral - Bonds (${Math.round(bonds.score)}), Gold (${Math.round(gold.score)}), Stocks (${Math.round(stocks.score)}), Crypto (${Math.round(crypto.score)}). No clear sentiment bias.`;
+                    insight = `No strong conviction in any direction. All four markets are near neutral — investors are waiting for a clearer signal.`;
                 } else {
-                    insight = `Mixed sentiment across Risk-On and Risk-Off assets. ${describeAsset(bonds.score, 'Bonds')}, ${describeAsset(gold.score, 'gold')}, ${describeAsset(stocks.score, 'stocks')}, ${describeAsset(crypto.score, 'crypto')}. Diverging signals across markets.`;
+                    insight = `Mixed signals. ${highest.name} is seeing the most buying interest while ${lowest.name} faces the most pressure — no clear trend yet.`;
                 }
 
             } else if (position < 75) {
-                // RISK-ON: Moderate appetite for risk
                 const strongRiskOn = stocks.score > 60 || crypto.score > 60;
 
                 if (strongRiskOn) {
-                    insight = `Risk-On environment. Growing appetite for risk assets (Stocks ${Math.round(stocks.score)}, Crypto ${Math.round(crypto.score)}) while safe haven sentiment fades (Bonds ${Math.round(bonds.score)}, Gold ${Math.round(gold.score)}). Confidence rising.`;
+                    insight = `Risk appetite is growing. ${highest.name} is attracting the most confidence, while ${lowest.name} is losing interest.`;
                 } else {
-                    insight = `Moderate Risk-On. Investors cautiously leaning toward risk assets. ${describeAsset(stocks.score, 'Stocks')}, ${describeAsset(crypto.score, 'crypto')}, ${describeAsset(bonds.score, 'bonds')}, ${describeAsset(gold.score, 'gold')}.`;
+                    insight = `Optimism is building slowly. ${highest.name} leads the way, though the shift toward risk is gradual — no euphoria yet.`;
                 }
 
             } else {
-                // EXTREME RISK-ON: Full speculation mode
                 const euphoria = crypto.score > 75 && stocks.score > 75;
 
                 if (euphoria) {
-                    insight = `Extreme Risk-On euphoria. Peak greed across risk assets with ${describeAsset(stocks.score, 'stocks')} and ${describeAsset(crypto.score, 'crypto')} while safe havens are ignored: ${describeAsset(bonds.score, 'bonds')}, ${describeAsset(gold.score, 'gold')}. Maximum risk appetite - contrarians watch for overextension.`;
+                    insight = `Full euphoria mode. ${highest.name} is seeing the most aggressive buying while ${lowest.name} is being ignored. Historically, this level of greed often precedes a correction.`;
                 } else {
-                    insight = `Strong Risk-On sentiment. Greed dominating risk assets (Stocks ${Math.round(stocks.score)}, Crypto ${Math.round(crypto.score)}) while defensive positioning weakens (Bonds ${Math.round(bonds.score)}, Gold ${Math.round(gold.score)}). High risk appetite prevailing.`;
+                    insight = `Strong risk appetite across markets. ${highest.name} is attracting the heaviest buying interest while ${lowest.name} is being neglected.`;
                 }
             }
 
