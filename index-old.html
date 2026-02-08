@@ -44,7 +44,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&family=JetBrains+Mono:wght@700&family=Orbitron:wght@700;900&family=Rajdhani:wght@700&display=swap" rel="stylesheet">
 
     <style>
         * {
@@ -157,6 +157,18 @@
             border-radius: 2px;
         }
 
+        .mobile-menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(7px, 7px);
+        }
+
+        .mobile-menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
         /* Mobile Menu Overlay */
         .mobile-menu-overlay {
             display: none;
@@ -181,7 +193,7 @@
         /* Header */
         .header {
             text-align: center;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
         }
 
         .header h1 {
@@ -192,40 +204,22 @@
             letter-spacing: 0.3em;
         }
 
-        .tagline {
+        .asset-title {
             font-size: 1.1rem;
             font-weight: 600;
             color: #ffffff;
             margin-top: 8px;
         }
 
-        .subtitle {
-            font-size: 0.8rem;
-            color: #555;
-            margin-top: 8px;
-            line-height: 1.5;
-        }
-
-        .subtitle a {
-            color: #666;
-            text-decoration: underline;
-            text-underline-offset: 2px;
-            transition: color 0.2s;
-        }
-
-        .subtitle a:hover {
-            color: #fff;
-        }
-
         /* Hero Score */
         .hero {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 60px;
         }
 
         .score-wrapper {
             display: inline-block;
-            margin-bottom: 16px;
+            margin-bottom: 20px;
         }
 
         .score {
@@ -247,7 +241,7 @@
         .label {
             font-size: 2rem;
             font-weight: 600;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
             letter-spacing: 0.1em;
             text-transform: uppercase;
         }
@@ -255,13 +249,13 @@
         .updated {
             font-size: 0.85rem;
             color: #555;
-            margin-top: 12px;
+            margin-top: 16px;
             font-weight: 400;
         }
 
         /* Progress Bar */
         .bar-wrapper {
-            margin: 30px 0;
+            margin: 40px 0;
         }
 
         .bar {
@@ -283,19 +277,19 @@
         .bar-labels {
             display: flex;
             justify-content: space-between;
-            margin-top: 10px;
+            margin-top: 12px;
             font-size: 0.75rem;
             color: #666;
             text-transform: uppercase;
             letter-spacing: 0.1em;
         }
 
-        /* Insight Box — placed BEFORE cards */
+        /* Combined Insight Box */
         .insight-box {
             background: #111;
             border-left: 4px solid #fff;
-            padding: 28px 36px;
-            margin: 24px 0;
+            padding: 32px 40px;
+            margin: 20px 0 60px 0;
             border-radius: 8px;
             transition: border-color 1s ease, background-color 1s ease;
         }
@@ -303,27 +297,29 @@
         .insight-header {
             display: flex;
             align-items: center;
-            gap: 10px;
-            margin-bottom: 14px;
+            gap: 12px;
+            margin-bottom: 20px;
         }
 
         .insight-icon {
-            font-size: 1.2rem;
+            font-size: 1.3rem;
         }
 
         .insight-title {
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             color: #666;
             text-transform: uppercase;
             letter-spacing: 0.1em;
         }
 
         .insight-text {
-            font-size: 1.15rem;
+            font-size: 1.25rem;
             line-height: 1.7;
             color: #ffffff;
             font-weight: 400;
+            margin-bottom: 20px;
         }
+
 
         /* Stats Grid */
         .stats {
@@ -331,7 +327,7 @@
             grid-template-columns: repeat(4, 1fr);
             gap: 1px;
             background: #1a1a1a;
-            margin: 24px 0 0 0;
+            margin: 60px 0 20px 0;
         }
 
         .stat-link {
@@ -347,7 +343,7 @@
 
         .stat {
             background: #0a0a0a;
-            padding: 24px 16px;
+            padding: 24px 20px;
             text-align: center;
             transition: background 0.2s ease;
         }
@@ -358,7 +354,7 @@
 
         .stat-icon {
             font-size: 1.5rem;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
 
         .stat-name {
@@ -366,60 +362,26 @@
             color: #666;
             text-transform: uppercase;
             letter-spacing: 0.1em;
-            margin-bottom: 6px;
+            margin-bottom: 8px;
         }
 
         .stat-value {
             font-size: 2rem;
             font-weight: 700;
             letter-spacing: -0.02em;
-            margin-bottom: 2px;
+            margin-bottom: 4px;
             line-height: 1;
         }
 
         .stat-label {
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             color: #666;
-            margin-bottom: 6px;
         }
 
-        .stat-micro {
-            font-size: 0.65rem;
-            color: #555;
-            line-height: 1.3;
-            margin-top: 4px;
-        }
-
-        /* How it works banner */
-        .how-banner {
-            text-align: center;
-            margin: 32px 0 0 0;
-            padding: 16px;
-            border: 1px solid #1a1a1a;
-            border-radius: 8px;
-            background: #0d0d0d;
-        }
-
-        .how-banner p {
-            font-size: 0.85rem;
-            color: #777;
-            line-height: 1.5;
-        }
-
-        .how-banner a {
-            color: #999;
-            text-decoration: underline;
-            text-underline-offset: 2px;
-            transition: color 0.2s;
-        }
-
-        .how-banner a:hover {
-            color: #fff;
-        }
 
         /* Historical Chart */
         .history-section {
-            margin: 60px 0 60px 0;
+            margin: 80px 0 60px 0;
         }
 
         .history-section h2 {
@@ -470,10 +432,25 @@
             font-weight: 600;
         }
 
-        .legend-bonds { background: rgba(16, 185, 129, 0.2); color: #10b981; }
-        .legend-gold { background: rgba(255, 215, 0, 0.2); color: #FFD700; }
-        .legend-stocks { background: rgba(74, 144, 226, 0.2); color: #4A90E2; }
-        .legend-crypto { background: rgba(247, 147, 26, 0.2); color: #F7931A; }
+        .legend-bonds {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+
+        .legend-gold {
+            background: rgba(255, 215, 0, 0.2);
+            color: #FFD700;
+        }
+
+        .legend-stocks {
+            background: rgba(74, 144, 226, 0.2);
+            color: #4A90E2;
+        }
+
+        .legend-crypto {
+            background: rgba(247, 147, 26, 0.2);
+            color: #F7931A;
+        }
 
         .period-selector {
             display: flex;
@@ -506,6 +483,7 @@
             color: #fff;
         }
 
+
         /* Footer */
         footer {
             margin-top: 80px;
@@ -528,8 +506,13 @@
 
         /* Mobile */
         @media (max-width: 768px) {
-            .nav-container { padding: 0 20px; }
-            .mobile-menu-toggle { display: flex; }
+            .nav-container {
+                padding: 0 20px;
+            }
+
+            .mobile-menu-toggle {
+                display: flex;
+            }
 
             .nav-links {
                 position: fixed;
@@ -547,7 +530,9 @@
                 border-left: 1px solid #1a1a1a;
             }
 
-            .nav-links.active { right: 0; }
+            .nav-links.active {
+                right: 0;
+            }
 
             .nav-links a {
                 font-size: 1.1rem;
@@ -556,24 +541,26 @@
                 width: 100%;
             }
 
-            .mobile-menu-overlay { display: block; }
-            .container { padding: 100px 20px 60px; }
-            .tagline { font-size: 0.85rem; }
+            .mobile-menu-overlay {
+                display: block;
+            }
+
+            .container {
+                padding: 100px 20px 60px;
+            }
+
+            .asset-title { font-size: 0.85rem; }
             .score { font-size: 7rem; }
             .score-denominator { font-size: 2rem; }
             .label { font-size: 1.8rem; }
-            .stats { grid-template-columns: repeat(4, 1fr); gap: 1px; }
+            .stats { grid-template-columns: repeat(4, 1fr); gap: 1px; margin-top: 20px; }
             .stat { padding: 12px 4px; }
             .stat-icon { font-size: 1rem; margin-bottom: 4px; }
             .stat-name { font-size: 0.6rem; }
             .stat-value { font-size: 1.1rem; }
             .stat-label { font-size: 0.55rem; }
-            .stat-micro { font-size: 0.55rem; }
-            .insight-box { padding: 16px 20px; text-align: center; }
-            .insight-header { justify-content: center; margin-bottom: 10px; }
-            .insight-text { font-size: 0.95rem; }
-            .how-banner { padding: 12px; }
-            .how-banner p { font-size: 0.75rem; }
+            .insight-box { padding: 24px 28px; }
+            .insight-text { font-size: 1.05rem; }
             .chart-container { height: 300px; padding: 20px 15px; }
             .chart-controls {
                 flex-direction: column;
@@ -586,9 +573,16 @@
                 flex-wrap: wrap;
                 gap: 10px;
             }
-            .chart-toggle { font-size: 0.8rem; }
-            .period-selector { justify-content: center; }
-            .period-btn { padding: 6px 12px; font-size: 0.8rem; }
+            .chart-toggle {
+                font-size: 0.8rem;
+            }
+            .period-selector {
+                justify-content: center;
+            }
+            .period-btn {
+                padding: 6px 12px;
+                font-size: 0.8rem;
+            }
         }
     </style>
 </head>
@@ -626,7 +620,7 @@
         <!-- Header -->
         <div class="header">
             <h1>Market Sentiment</h1>
-            <div class="tagline">Are investors fearful or greedy today?</div>
+            <div class="asset-title">Which markets are investors betting on today?</div>
         </div>
 
         <!-- Hero Score -->
@@ -634,7 +628,7 @@
             <div class="score-wrapper">
                 <span class="score" id="score">50</span><span class="score-denominator">/100</span>
             </div>
-            <div class="label" id="label">NEUTRAL</div>
+            <div class="label" id="label">CALM</div>
             <div class="updated" id="updated">Updated: Loading...</div>
         </div>
 
@@ -644,9 +638,9 @@
                 <div class="bar-fill" id="barFill"></div>
             </div>
             <div class="bar-labels">
-                <span>Fear</span>
-                <span>Neutral</span>
-                <span>Greed</span>
+                <span>Risk-Off</span>
+                <span>Balanced</span>
+                <span>Risk-On</span>
             </div>
         </div>
 
@@ -658,7 +652,6 @@
                     <div class="stat-name">Gold</div>
                     <div class="stat-value" id="goldValue">--</div>
                     <div class="stat-label" id="goldLabel">--</div>
-                    <div class="stat-micro" id="goldMicro"></div>
                 </div>
             </a>
 
@@ -668,7 +661,6 @@
                     <div class="stat-name">Bonds</div>
                     <div class="stat-value" id="bondsValue">--</div>
                     <div class="stat-label" id="bondsLabel">--</div>
-                    <div class="stat-micro" id="bondsMicro"></div>
                 </div>
             </a>
 
@@ -678,7 +670,6 @@
                     <div class="stat-name">Stocks</div>
                     <div class="stat-value" id="stocksValue">--</div>
                     <div class="stat-label" id="stocksLabel">--</div>
-                    <div class="stat-micro" id="stocksMicro"></div>
                 </div>
             </a>
 
@@ -688,12 +679,11 @@
                     <div class="stat-name">Crypto</div>
                     <div class="stat-value" id="cryptoValue">--</div>
                     <div class="stat-label" id="cryptoLabel">--</div>
-                    <div class="stat-micro" id="cryptoMicro"></div>
                 </div>
             </a>
         </div>
 
-        <!-- Insight Box -->
+        <!-- Combined Insight Box -->
         <div class="insight-box">
             <div class="insight-header">
                 <span class="insight-icon">💡</span>
@@ -702,11 +692,6 @@
             <div class="insight-text" id="insight">
                 Loading market analysis...
             </div>
-        </div>
-
-        <!-- How it works banner -->
-        <div class="how-banner">
-            <p>Each score measures investor sentiment from 0 (extreme fear) to 100 (extreme greed). <a href="about.html">Learn how we calculate them</a></p>
         </div>
 
         <!-- Historical Chart -->
@@ -753,7 +738,7 @@
                 Investments carry risks. Consult a financial advisor before making any investment decisions.
             </p>
             <p class="credits">
-                Sources: Yahoo Finance, FRED | Updated Daily | <a href="mailto:contact@onoff.markets" style="color: #666; text-decoration: none;">Contact</a>
+                Sources: Yahoo Finance, FRED | Updated Daily | <a href="mailto:contact@onoff.markets" style="color: #666; text-decoration: none; transition: color 0.2s ease;" onmouseover="this.style.color='#999'" onmouseout="this.style.color='#666'">Contact</a>
             </p>
         </footer>
     </div>
@@ -782,87 +767,65 @@
             }
         }
 
-        // Micro-descriptions for each asset based on score
-        function getMicro(asset, score) {
-            if (asset === 'gold') {
-                if (score <= 25) return 'Investors selling gold';
-                if (score <= 45) return 'Low demand for gold';
-                if (score <= 55) return 'Stable gold demand';
-                if (score <= 75) return 'Investors buying gold';
-                return 'Strong rush to gold';
-            }
-            if (asset === 'bonds') {
-                if (score <= 25) return 'Investors leaving bonds';
-                if (score <= 45) return 'Low bond appetite';
-                if (score <= 55) return 'Neutral bond demand';
-                if (score <= 75) return 'Investors buying bonds';
-                return 'Strong flight to bonds';
-            }
-            if (asset === 'stocks') {
-                if (score <= 25) return 'Panic selling stocks';
-                if (score <= 45) return 'Cautious stock market';
-                if (score <= 55) return 'Stable equity market';
-                if (score <= 75) return 'Investors buying stocks';
-                return 'Euphoric stock buying';
-            }
-            if (asset === 'crypto') {
-                if (score <= 25) return 'Crypto sell-off';
-                if (score <= 45) return 'Low crypto confidence';
-                if (score <= 55) return 'Neutral crypto mood';
-                if (score <= 75) return 'Crypto appetite rising';
-                return 'Crypto euphoria';
-            }
-            return '';
-        }
-
         function updateUI(gold, stocks, crypto, bonds) {
             // Risk-On vs Risk-Off calculation
             const riskOn = (stocks.score + crypto.score) / 2;
             const riskOff = (bonds.score + gold.score) / 2;
             const rotationScore = riskOn - riskOff;
             const position = ((rotationScore + 100) / 200) * 100;
+            const spread = Math.abs(rotationScore);
+            const strength = Math.min(100, (spread / 50) * 100);
 
             // Update score
             const scoreEl = document.getElementById('score');
             scoreEl.textContent = Math.round(position);
 
-            // Update logo dots
+            // Update logo dots color based on market sentiment
             const logoDots = document.querySelector('.logo-dots');
             let dotsColor;
-            if (position < 25) dotsColor = "#ef4444";
-            else if (position < 45) dotsColor = "#f59e0b";
-            else if (position < 55) dotsColor = "#ffffff";
-            else if (position < 75) dotsColor = "#22c55e";
-            else dotsColor = "#06b6d4";
-            if (logoDots) logoDots.style.color = dotsColor;
+            if (position < 25) {
+                dotsColor = "#ef4444"; // Red - Extreme Risk-Off
+            } else if (position < 45) {
+                dotsColor = "#f59e0b"; // Orange - Defensive
+            } else if (position < 55) {
+                dotsColor = "#ffffff"; // White - Balanced
+            } else if (position < 75) {
+                dotsColor = "#22c55e"; // Green - Risk-On
+            } else {
+                dotsColor = "#06b6d4"; // Cyan - Extreme Risk-On
+            }
+            if (logoDots) {
+                logoDots.style.color = dotsColor;
+            }
 
-            // Timestamp
+            // Update timestamp (use crypto timestamp as reference)
             if (crypto.timestamp) {
                 const date = new Date(crypto.timestamp);
                 const options = { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-                document.getElementById('updated').textContent = `Updated: ${date.toLocaleDateString('en-US', options)}`;
+                const formattedDate = date.toLocaleDateString('en-US', options);
+                document.getElementById('updated').textContent = `Updated: ${formattedDate}`;
             }
 
-            // Simpler labels — no jargon
+            // Determine label and color
             let label, color;
             if (position < 25) {
-                label = "EXTREME FEAR";
+                label = "🪙 EXTREME RISK-OFF";
                 color = "#ef4444";
             } else if (position < 45) {
-                label = "FEAR";
+                label = "🛡️ DEFENSIVE";
                 color = "#f59e0b";
             } else if (position < 55) {
-                label = "NEUTRAL";
+                label = "⚖️ BALANCED";
                 color = "#ffffff";
             } else if (position < 75) {
-                label = "GREED";
+                label = "🚀 RISK-ON";
                 color = "#22c55e";
             } else {
-                label = "EXTREME GREED";
+                label = "⚡ EXTREME RISK-ON";
                 color = "#06b6d4";
             }
 
-            // Update bar
+            // Update bar with color and width
             const barFill = document.getElementById('barFill');
             barFill.style.width = position + '%';
             barFill.style.backgroundColor = color;
@@ -870,15 +833,19 @@
             document.getElementById('label').textContent = label;
             scoreEl.style.color = color;
 
-            // Insight box styling
+            // Update insight box border and background color
             const insightBox = document.querySelector('.insight-box');
             insightBox.style.borderLeftColor = color;
+            // Convert hex to RGB for subtle background tint
             const r = parseInt(color.slice(1,3), 16);
             const g = parseInt(color.slice(3,5), 16);
             const b = parseInt(color.slice(5,7), 16);
             insightBox.style.backgroundColor = `rgba(${r}, ${g}, ${b}, 0.07)`;
 
-            // Insight text — same logic as index.html
+            // Update insight - dynamic with highest/lowest asset names
+            let insight = '';
+
+            // Find highest and lowest scoring assets
             const assets = [
                 { name: 'Gold', score: gold.score },
                 { name: 'Bonds', score: bonds.score },
@@ -888,32 +855,39 @@
             const highest = assets.reduce((a, b) => a.score > b.score ? a : b);
             const lowest = assets.reduce((a, b) => a.score < b.score ? a : b);
 
-            let insight = '';
             if (position < 25) {
                 insight = `Markets are in full panic mode. ${lowest.name} faces the heaviest selling pressure, while ${highest.name} is the most sought-after asset right now.`;
+
             } else if (position < 45) {
                 const strongRiskOff = bonds.score > 60 || gold.score > 60;
+
                 if (strongRiskOff) {
                     insight = `Investors are playing it safe. ${highest.name} is attracting the most interest, while ${lowest.name} faces the heaviest selling pressure.`;
                 } else {
                     insight = `Caution is the dominant mood. ${lowest.name} is under the most pressure, though no market is showing extreme behavior yet.`;
                 }
+
             } else if (position < 55) {
                 const allNeutral = Math.abs(bonds.score - 50) < 15 && Math.abs(gold.score - 50) < 15 && Math.abs(stocks.score - 50) < 15 && Math.abs(crypto.score - 50) < 15;
+
                 if (allNeutral) {
                     insight = `No strong conviction in any direction. All four markets are near neutral — investors are waiting for a clearer signal.`;
                 } else {
                     insight = `Mixed signals. ${highest.name} is seeing the most buying interest while ${lowest.name} faces the most pressure — no clear trend yet.`;
                 }
+
             } else if (position < 75) {
                 const strongRiskOn = stocks.score > 60 || crypto.score > 60;
+
                 if (strongRiskOn) {
                     insight = `Risk appetite is growing. ${highest.name} is attracting the most confidence, while ${lowest.name} is losing interest.`;
                 } else {
                     insight = `Optimism is building slowly. ${highest.name} leads the way, though the shift toward risk is gradual — no euphoria yet.`;
                 }
+
             } else {
                 const euphoria = crypto.score > 75 && stocks.score > 75;
+
                 if (euphoria) {
                     insight = `Full euphoria mode. ${highest.name} is seeing the most aggressive buying while ${lowest.name} is being ignored. Historically, this level of greed often precedes a correction.`;
                 } else {
@@ -923,26 +897,23 @@
 
             document.getElementById('insight').textContent = insight;
 
-            // Update stats with micro-descriptions
+            // Update stats
             document.getElementById('goldValue').textContent = Math.round(gold.score);
             document.getElementById('goldLabel').textContent = gold.label;
             document.getElementById('goldValue').style.color = getColor(gold.score);
-            document.getElementById('goldMicro').textContent = getMicro('gold', gold.score);
 
             document.getElementById('stocksValue').textContent = Math.round(stocks.score);
             document.getElementById('stocksLabel').textContent = stocks.label;
             document.getElementById('stocksValue').style.color = getColor(stocks.score);
-            document.getElementById('stocksMicro').textContent = getMicro('stocks', stocks.score);
 
             document.getElementById('cryptoValue').textContent = Math.round(crypto.score);
             document.getElementById('cryptoLabel').textContent = crypto.label;
             document.getElementById('cryptoValue').style.color = getColor(crypto.score);
-            document.getElementById('cryptoMicro').textContent = getMicro('crypto', crypto.score);
 
             document.getElementById('bondsValue').textContent = Math.round(bonds.score);
             document.getElementById('bondsLabel').textContent = bonds.label;
             document.getElementById('bondsValue').style.color = getColor(bonds.score);
-            document.getElementById('bondsMicro').textContent = getMicro('bonds', bonds.score);
+
         }
 
         function getColor(score) {
@@ -970,13 +941,16 @@
         mobileMenuToggle.addEventListener('click', toggleMobileMenu);
         mobileMenuOverlay.addEventListener('click', toggleMobileMenu);
 
+        // Close menu when clicking on a link
         navLinks.querySelectorAll('a').forEach(link => {
             link.addEventListener('click', () => {
-                if (window.innerWidth <= 768) toggleMobileMenu();
+                if (window.innerWidth <= 768) {
+                    toggleMobileMenu();
+                }
             });
         });
 
-        // Chart — identical to index.html
+        // Chart functionality
         let currentPeriod = 30;
 
         function updateHistoryChart(days = 30) {
@@ -989,22 +963,29 @@
 
             const canvas = document.getElementById('historyChart');
             const ctx = canvas.getContext('2d');
+
             const container = canvas.parentElement;
             canvas.width = container.offsetWidth;
             canvas.height = container.offsetHeight;
 
-            const sortAndSlice = (h) => [...h].sort((a, b) => new Date(a.date) - new Date(b.date)).slice(-days);
+            const sortedGoldHistory = [...goldHistory].sort((a, b) => new Date(a.date) - new Date(b.date));
+            const limitedGoldHistory = sortedGoldHistory.slice(-days);
 
-            drawChart(ctx, canvas,
-                sortAndSlice(goldHistory),
-                sortAndSlice(stocksHistory),
-                sortAndSlice(cryptoHistory),
-                sortAndSlice(bondsHistory),
-                document.getElementById('toggleGold')?.checked !== false,
-                document.getElementById('toggleStocks')?.checked !== false,
-                document.getElementById('toggleCrypto')?.checked !== false,
-                document.getElementById('toggleBonds')?.checked !== false
-            );
+            const sortedStocksHistory = [...stocksHistory].sort((a, b) => new Date(a.date) - new Date(b.date));
+            const limitedStocksHistory = sortedStocksHistory.slice(-days);
+
+            const sortedCryptoHistory = [...cryptoHistory].sort((a, b) => new Date(a.date) - new Date(b.date));
+            const limitedCryptoHistory = sortedCryptoHistory.slice(-days);
+
+            const sortedBondsHistory = [...bondsHistory].sort((a, b) => new Date(a.date) - new Date(b.date));
+            const limitedBondsHistory = sortedBondsHistory.slice(-days);
+
+            const showGold = document.getElementById('toggleGold')?.checked !== false;
+            const showStocks = document.getElementById('toggleStocks')?.checked !== false;
+            const showCrypto = document.getElementById('toggleCrypto')?.checked !== false;
+            const showBonds = document.getElementById('toggleBonds')?.checked !== false;
+
+            drawChart(ctx, canvas, limitedGoldHistory, limitedStocksHistory, limitedCryptoHistory, limitedBondsHistory, showGold, showStocks, showCrypto, showBonds);
         }
 
         function drawChart(ctx, canvas, goldData, stocksData, cryptoData, bondsData, showGold, showStocks, showCrypto, showBonds) {
@@ -1018,6 +999,7 @@
 
             ctx.clearRect(0, 0, width, height);
 
+            // Draw grid
             ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
             ctx.lineWidth = 1;
             [0, 25, 50, 75, 100].forEach(score => {
@@ -1026,34 +1008,48 @@
                 ctx.moveTo(paddingSide, y);
                 ctx.lineTo(paddingSide + chartWidth, y);
                 ctx.stroke();
+
                 ctx.fillStyle = '#666';
                 ctx.font = '12px sans-serif';
                 ctx.textAlign = 'right';
                 ctx.fillText(score, paddingSide - 10, y + 4);
             });
 
-            if (showCrypto && cryptoData.length > 0) drawLine(ctx, cryptoData, paddingTop, paddingSide, chartHeight, chartWidth, '#F7931A', 2);
-            if (showStocks && stocksData.length > 0) drawLine(ctx, stocksData, paddingTop, paddingSide, chartHeight, chartWidth, '#4A90E2', 2);
-            if (showGold && goldData.length > 0) drawLine(ctx, goldData, paddingTop, paddingSide, chartHeight, chartWidth, '#FFD700', 2);
-            if (showBonds && bondsData.length > 0) drawLine(ctx, bondsData, paddingTop, paddingSide, chartHeight, chartWidth, '#10b981', 2);
+            // Draw lines
+            if (showCrypto && cryptoData.length > 0) {
+                drawLine(ctx, cryptoData, paddingTop, paddingSide, chartHeight, chartWidth, '#F7931A', 2);
+            }
+            if (showStocks && stocksData.length > 0) {
+                drawLine(ctx, stocksData, paddingTop, paddingSide, chartHeight, chartWidth, '#4A90E2', 2);
+            }
+            if (showGold && goldData.length > 0) {
+                drawLine(ctx, goldData, paddingTop, paddingSide, chartHeight, chartWidth, '#FFD700', 2);
+            }
+            if (showBonds && bondsData.length > 0) {
+                drawLine(ctx, bondsData, paddingTop, paddingSide, chartHeight, chartWidth, '#10b981', 2);
+            }
 
+            // Draw labels
             const labelData = goldData.length > 0 ? goldData : (stocksData.length > 0 ? stocksData : (cryptoData.length > 0 ? cryptoData : bondsData));
             if (labelData.length > 0) {
                 ctx.fillStyle = '#666';
                 ctx.font = '11px sans-serif';
                 const numLabels = labelData.length <= 7 ? labelData.length : (labelData.length > 180 ? 8 : 5);
                 const step = Math.floor(labelData.length / (numLabels - 1));
+
                 for (let i = 0; i < numLabels; i++) {
                     const index = i === numLabels - 1 ? labelData.length - 1 : i * step;
                     if (index < labelData.length) {
                         const point = labelData[index];
                         const x = paddingSide + (index / (labelData.length - 1)) * chartWidth;
                         const date = new Date(point.date);
+                        const label = `${date.getDate()}/${date.getMonth() + 1}`;
+
                         ctx.save();
                         ctx.translate(x, height - 20);
                         ctx.rotate(-Math.PI / 6);
                         ctx.textAlign = 'right';
-                        ctx.fillText(`${date.getDate()}/${date.getMonth() + 1}`, 0, 0);
+                        ctx.fillText(label, 0, 0);
                         ctx.restore();
                     }
                 }
@@ -1062,18 +1058,26 @@
 
         function drawLine(ctx, data, paddingTop, paddingSide, chartHeight, chartWidth, color, lineWidth) {
             if (data.length < 2) return;
+
             ctx.strokeStyle = color;
             ctx.lineWidth = lineWidth;
             ctx.beginPath();
+
             data.forEach((point, index) => {
                 const x = paddingSide + (index / (data.length - 1)) * chartWidth;
                 const y = paddingTop + chartHeight - (point.score / 100) * chartHeight;
-                if (index === 0) ctx.moveTo(x, y);
-                else ctx.lineTo(x, y);
+
+                if (index === 0) {
+                    ctx.moveTo(x, y);
+                } else {
+                    ctx.lineTo(x, y);
+                }
             });
+
             ctx.stroke();
         }
 
+        // Period buttons
         document.querySelectorAll('.period-btn').forEach(button => {
             button.addEventListener('click', () => {
                 document.querySelectorAll('.period-btn').forEach(btn => btn.classList.remove('active'));
@@ -1083,11 +1087,15 @@
             });
         });
 
+        // Toggle checkboxes
         ['toggleGold', 'toggleStocks', 'toggleCrypto', 'toggleBonds'].forEach(id => {
             const toggle = document.getElementById(id);
-            if (toggle) toggle.addEventListener('change', () => updateHistoryChart(currentPeriod));
+            if (toggle) {
+                toggle.addEventListener('change', () => updateHistoryChart(currentPeriod));
+            }
         });
 
+        // Resize handler
         let resizeTimeout;
         window.addEventListener('resize', () => {
             clearTimeout(resizeTimeout);
