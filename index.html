@@ -920,6 +920,12 @@
                 }
             }
 
+            // Feature 3: Cross-market insight
+            const gap = Math.round(highest.score - lowest.score);
+            if (gap >= 40) {
+                insight += ` ${highest.name} and ${lowest.name} are ${gap} points apart.`;
+            }
+
             document.getElementById('insight').textContent = insight;
 
             // Update stats with micro-descriptions

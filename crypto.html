@@ -802,8 +802,32 @@
                     phrase1 = 'Crypto euphoria. FOMO is driving aggressive buying across the board.';
                 }
 
+                // Feature 2: 7-day trend
+                let trendPhrase = '';
+                const history = cryptoData.history || [];
+                if (history.length >= 7) {
+                    const score7d = history[6].score;
+                    const diff = Math.round(score - score7d);
+                    if (diff > 3) trendPhrase = `Score up ${diff} pts this week.`;
+                    else if (diff < -3) trendPhrase = `Score down ${Math.abs(diff)} pts this week.`;
+                    else trendPhrase = 'Stable over the past week.';
+                }
+
+                // Feature 1: Historical context
+                let contextPhrase = '';
+                if (history.length >= 30) {
+                    const last30 = history.slice(0, 30);
+                    const scores30 = last30.map(h => h.score);
+                    const high30 = Math.round(Math.max(...scores30));
+                    const low30 = Math.round(Math.min(...scores30));
+                    if (score >= high30 - 1) contextPhrase = 'Near its 30-day high.';
+                    else if (score <= low30 + 1) contextPhrase = 'Near its 30-day low.';
+                }
+
                 const phrase2 = `Mainly driven by ${strongName}, while ${weakName} is the weakest signal.`;
-                document.getElementById('insight').textContent = `${phrase1} ${phrase2}`;
+                const extra = [trendPhrase, contextPhrase].filter(Boolean).join(' ');
+                const fullText = extra ? `${phrase1} ${extra} ${phrase2}` : `${phrase1} ${phrase2}`;
+                document.getElementById('insight').textContent = fullText;
             }
 
             // Update components
