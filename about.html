@@ -33,6 +33,64 @@
     <meta name="twitter:description" content="Building transparent market sentiment tools">
     <meta name="twitter:image" content="https://onoff.markets/og-about.png">
 
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "How accurate is the Fear and Greed Index?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Our indices use multi-component quantitative models designed to capture market sentiment shifts. Extreme readings (below 25 or above 75) tend to be more reliable as contrarian signals. These are analytical tools designed to complement, not replace, fundamental analysis."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why does the index sometimes react slowly to major news?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Most components use 14-day windows to capture sustained sentiment shifts rather than panic reactions. The overall index typically takes 2-4 days to fully reflect sudden events. This is intentional — we track structural sentiment trends, not headlines."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Is this better than CNN's Fear and Greed Index?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "CNN's index only covers US stocks. OnOff.Markets provides four separate indices for Bonds, Gold, Stocks, and Crypto, enabling comprehensive cross-asset sentiment analysis. Our methodology is fully documented and transparent, unlike CNN's proprietary calculations."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can I access historical data via API?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "All data is available via public JSON endpoints (e.g., /data/bonds-fear-greed.json) updated daily at 02:00 UTC. These files contain current scores, component breakdowns, and 365 days of historical data."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why are there different numbers of components for each index?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Each asset class has unique market dynamics requiring tailored indicators. Gold uses 5 components, Bonds uses 6, Stocks uses 7, and Crypto uses 5. More components doesn't mean better — it means more relevant. Each index is optimized for its specific market."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Can I use this for automated trading?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Yes. Common use cases include contrarian entry signals (buying when index is below 25), risk scaling based on sentiment extremes, and cross-asset analysis via the Market Sentiment Indicator. Always backtest thoroughly before deploying in production."
+                }
+            }
+        ]
+    }
+    </script>
+
     <!-- Favicons -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
