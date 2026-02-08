@@ -1,7 +1,7 @@
 {
-  "score": 15.3,
+  "score": 15.2,
   "label": "Extreme Fear",
-  "timestamp": "2026-02-08T01:14:31Z",
+  "timestamp": "2026-02-08T04:33:59Z",
   "components": {
     "context": {
       "score": 3.0,
@@ -14,12 +14,12 @@
       "detail": "RSI: 28, Price vs MA200: -32.5%"
     },
     "dominance": {
-      "score": 32.5,
+      "score": 31.7,
       "weight": 0.2,
-      "detail": "BTC -20.0% vs ETH -25.8% (14d)"
+      "detail": "BTC -20.0% vs ETH -26.1% (14d)"
     },
     "volume": {
-      "score": 20.3,
+      "score": 20.5,
       "weight": 0.15,
       "detail": "Vol 7d/30d: 1.59x, price down"
     },
@@ -32,7 +32,7 @@
   "history": [
     {
       "date": "2026-02-08",
-      "score": 15.3
+      "score": 15.2
     },
     {
       "date": "2026-02-07",
