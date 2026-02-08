@@ -591,7 +591,7 @@
                 <li><a href="#bonds">📊 Bonds Fear & Greed Index (6 components) - Risk-Off</a></li>
                 <li><a href="#stocks">📈 Stocks Fear & Greed Index (7 components) - Risk-On</a></li>
                 <li><a href="#crypto">₿ Crypto Fear & Greed Index (5 components) - Extreme Risk-On</a></li>
-                <li><a href="#rotation">Market Sentiment Indicator (Risk-On vs Risk-Off)</a></li>
+                <li><a href="#rotation">Market Sentiment Indicator (Fear vs Greed)</a></li>
                 <li><a href="#sources">Data Sources, Fallbacks & Transparency</a></li>
                 <li><a href="#faq">Frequently Asked Questions</a></li>
             </ul>
@@ -875,35 +875,35 @@
 
         <!-- Market Sentiment Indicator -->
         <div class="section" id="rotation">
-            <h2>Market Sentiment Indicator (Risk-On vs Risk-Off)</h2>
+            <h2>Market Sentiment Indicator (Fear vs Greed)</h2>
             <p>
-                Visualizes overall market risk appetite by comparing risk assets (Stocks + Crypto) against safe havens (Bonds + Gold). This multi-asset approach provides a comprehensive view of investor behavior and market regime, going beyond simple two-asset comparisons.
+                Measures overall market mood by comparing how investors feel about risk assets (Stocks + Crypto) versus safe havens (Bonds + Gold). When money flows toward safety, the market is fearful. When money flows toward risk, the market is greedy.
             </p>
 
             <h3>Calculation</h3>
             <div class="component-box">
                 <p style="font-family: 'Courier New', monospace; font-size: 0.95rem; margin: 0;">
-                    Risk-On = (Stocks Score + Crypto Score) / 2<br>
-                    Risk-Off = (Bonds Score + Gold Score) / 2<br>
-                    Market Sentiment = Risk-On - Risk-Off<br>
+                    Greed Side = (Stocks Score + Crypto Score) / 2<br>
+                    Fear Side = (Bonds Score + Gold Score) / 2<br>
+                    Market Sentiment = Greed Side - Fear Side<br>
                     Position = ((Market Sentiment + 100) / 200) × 100
                 </p>
             </div>
             <p>
-                This produces a 0-100 position representing the balance between risk appetite and defensive positioning. The calculation uses equal weighting (50/50) within each category to capture "pure sentiment" without bias toward traditional or alternative markets.
+                This produces a 0-100 score. Below 50, fear dominates — investors prefer safe havens. Above 50, greed dominates — investors chase risk. The calculation uses equal weighting (50/50) within each side to avoid bias toward traditional or alternative markets.
             </p>
 
             <h3>Interpretation</h3>
             <ul>
-                <li><strong>0-25 (Extreme Risk-Off):</strong> Investors fleeing to safe havens (bonds + gold), markets in distress</li>
-                <li><strong>25-45 (Risk-Off):</strong> Defensive sentiment dominant, elevated caution across markets</li>
-                <li><strong>45-55 (Neutral):</strong> Balanced sentiment, no dominant bias between risk-on and risk-off</li>
-                <li><strong>55-75 (Risk-On):</strong> Risk appetite increasing, investors favoring stocks and crypto</li>
-                <li><strong>75-100 (Extreme Risk-On):</strong> Euphoric risk-taking across assets, potential top warning</li>
+                <li><strong>0-25 (Extreme Fear):</strong> Investors fleeing to safe havens (bonds + gold), markets in distress</li>
+                <li><strong>25-45 (Fear):</strong> Cautious sentiment, investors favoring safety over risk</li>
+                <li><strong>45-55 (Neutral):</strong> No clear direction, balanced between fear and greed</li>
+                <li><strong>55-75 (Greed):</strong> Growing risk appetite, investors favoring stocks and crypto</li>
+                <li><strong>75-100 (Extreme Greed):</strong> Euphoric risk-taking across assets, potential top warning</li>
             </ul>
 
             <p style="margin-top: 16px;">
-                <strong>Why this approach?</strong> Traditional markets (stocks/bonds) and alternative assets (crypto/gold) each provide unique insights into investor behavior. By combining all four indices, we capture a more complete picture of risk sentiment than any single pair of assets could provide.
+                <strong>Why this approach?</strong> Traditional markets (stocks/bonds) and alternative assets (crypto/gold) each reveal different aspects of investor psychology. By combining all four indices, we capture a more complete picture of market mood than any single asset could provide.
             </p>
         </div>
 
