@@ -423,7 +423,7 @@ def detect_component_extreme(data):
             'price_strength': 'S&P 500 strength',
             'vix': 'VIX',
             'momentum': 'RSI & moving averages',
-            'market_breadth': 'market breadth',
+            'market_participation': 'market participation',
             'junk_bonds': 'junk bond demand',
             'safe_haven': 'safe haven demand',
             'sector_rotation': 'sector rotation',

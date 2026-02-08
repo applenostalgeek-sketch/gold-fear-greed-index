@@ -108,9 +108,9 @@ class StocksFearGreedIndex:
             print(f"VIX error: {e}")
             return (50.0, "Data unavailable")
 
-    def calculate_market_breadth_score(self) -> tuple:
+    def calculate_market_participation_score(self) -> tuple:
         """
-        Calculate market breadth using RSP (equal weight) vs SPY (cap weight)
+        Calculate market participation using RSP (equal weight) vs SPY (cap weight)
         When equal-weight outperforms cap-weight = broader participation = greed
         Returns: (score, detail_string)
         """
@@ -141,7 +141,7 @@ class StocksFearGreedIndex:
             return (round(score, 1), detail)
 
         except Exception as e:
-            print(f"Market breadth error: {e}")
+            print(f"Market participation error: {e}")
             return (50.0, "Data unavailable")
 
     def calculate_junk_bond_score(self) -> tuple:
@@ -295,7 +295,7 @@ class StocksFearGreedIndex:
             'price_strength': 0.20,     # PRIMARY: Direct SPY performance
             'vix': 0.20,                # Market fear gauge (continuous)
             'momentum': 0.15,           # RSI-based momentum
-            'market_breadth': 0.15,     # Equal-weight vs cap-weight
+            'market_participation': 0.15,     # Equal-weight vs cap-weight
             'junk_bonds': 0.10,         # Credit risk appetite
             'safe_haven': 0.10,         # Flight-to-safety (TLT)
             'sector_rotation': 0.10     # Risk-on vs Risk-off sectors
@@ -313,8 +313,8 @@ class StocksFearGreedIndex:
         momentum_score, momentum_detail = self.calculate_momentum_score()
         print(f"Momentum (15%): {momentum_score} - {momentum_detail}")
 
-        breadth_score, breadth_detail = self.calculate_market_breadth_score()
-        print(f"Market Breadth (15%): {breadth_score} - {breadth_detail}")
+        breadth_score, breadth_detail = self.calculate_market_participation_score()
+        print(f"Market Participation (15%): {breadth_score} - {breadth_detail}")
 
         junk_score, junk_detail = self.calculate_junk_bond_score()
         print(f"Junk Bonds (10%): {junk_score} - {junk_detail}")
@@ -330,7 +330,7 @@ class StocksFearGreedIndex:
             'price_strength': {'score': strength_score, 'weight': weights['price_strength'], 'detail': strength_detail},
             'vix': {'score': vix_score, 'weight': weights['vix'], 'detail': vix_detail},
             'momentum': {'score': momentum_score, 'weight': weights['momentum'], 'detail': momentum_detail},
-            'market_breadth': {'score': breadth_score, 'weight': weights['market_breadth'], 'detail': breadth_detail},
+            'market_participation': {'score': breadth_score, 'weight': weights['market_participation'], 'detail': breadth_detail},
             'junk_bonds': {'score': junk_score, 'weight': weights['junk_bonds'], 'detail': junk_detail},
             'safe_haven': {'score': safe_haven_score, 'weight': weights['safe_haven'], 'detail': safe_haven_detail},
             'sector_rotation': {'score': rotation_score, 'weight': weights['sector_rotation'], 'detail': rotation_detail}
@@ -447,7 +447,7 @@ class StocksFearGreedIndex:
             else:
                 momentum_score = 50
 
-            # 4. Market Breadth (15% weight)
+            # 4. Market Participation (15% weight)
             if len(rsp_hist) >= 14 and len(spy_hist) >= 14:
                 spy_return = ((spy_hist['Close'].iloc[-1] - spy_hist['Close'].iloc[-14]) / spy_hist['Close'].iloc[-14]) * 100
                 rsp_return = ((rsp_hist['Close'].iloc[-1] - rsp_hist['Close'].iloc[-14]) / rsp_hist['Close'].iloc[-14]) * 100

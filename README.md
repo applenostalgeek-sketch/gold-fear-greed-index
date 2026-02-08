@@ -75,7 +75,7 @@ Each index measures **sentiment TOWARDS that market** (whether people are buying
 | Price Strength | 20% | Direct 14-day SPY performance (×5 multiplier) |
 | VIX | 20% | Continuous linear formula: 90 - (VIX-10) × 3.2 |
 | Momentum | 15% | SPY RSI(14) + MA50 position |
-| Market Breadth | 15% | RSP vs SPY (×12 multiplier, equal vs cap-weight) |
+| Market Participation | 15% | RSP vs SPY (×12 multiplier, equal vs cap-weight) |
 | Junk Bonds | 10% | HYG vs TLT (credit risk appetite) |
 | Safe Haven | 10% | TLT momentum inverted (flight-to-safety signal) |
 | Sector Rotation | 10% | QQQ vs XLP (tech vs defensive, ×3 multiplier) |

@@ -15,22 +15,22 @@
     <title>Stock Market Fear & Greed Index - Real-Time Sentiment | OnOff.Markets</title>
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Real-time Stock Market Fear & Greed Index based on VIX, momentum, market breadth, and safe haven flows. Track stock market sentiment daily.">
-    <meta name="keywords" content="stock fear greed, stock market sentiment, market fear index, VIX indicator, stock sentiment today, market breadth">
+    <meta name="description" content="Real-time Stock Market Fear & Greed Index based on VIX, momentum, market participation, and safe haven flows. Track stock market sentiment daily.">
+    <meta name="keywords" content="stock fear greed, stock market sentiment, market fear index, VIX indicator, stock sentiment today, market participation">
     <meta name="author" content="OnOff.Markets">
 
     <!-- Open Graph / Social Media -->
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://onoff.markets/stocks.html">
     <meta property="og:title" content="Stocks Fear & Greed Index | OnOff.Markets">
-    <meta property="og:description" content="Are stocks in Fear or Greed? Real-time index based on VIX, momentum, market breadth and safe haven flows. Updated daily.">
+    <meta property="og:description" content="Are stocks in Fear or Greed? Real-time index based on VIX, momentum, market participation and safe haven flows. Updated daily.">
     <meta property="og:image" content="https://onoff.markets/android-chrome-512x512.png">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://onoff.markets/stocks.html">
     <meta name="twitter:title" content="Stocks Fear & Greed Index">
-    <meta name="twitter:description" content="Are stocks in Fear or Greed? Real-time index based on VIX, momentum, market breadth and safe haven flows.">
+    <meta name="twitter:description" content="Are stocks in Fear or Greed? Real-time index based on VIX, momentum, market participation and safe haven flows.">
     <meta name="twitter:image" content="https://onoff.markets/android-chrome-512x512.png">
 
     <!-- Favicons -->
@@ -759,9 +759,14 @@
             // Update timestamp
             if (stocksData.timestamp) {
                 const date = new Date(stocksData.timestamp);
-                const options = { month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit' };
-                const formattedDate = date.toLocaleDateString('en-US', options);
-                document.getElementById('updated').textContent = `Updated: ${formattedDate}`;
+                const now = new Date();
+                const diffH = Math.floor((now - date) / 3600000);
+                const time = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+                let timeText;
+                if (diffH < 24) timeText = `Updated today, ${time}`;
+                else if (diffH < 48) timeText = `Updated yesterday, ${time}`;
+                else { timeText = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + `, ${time} — data may be stale`; }
+                document.getElementById('updated').textContent = timeText;
             }
 
             // Update insight box

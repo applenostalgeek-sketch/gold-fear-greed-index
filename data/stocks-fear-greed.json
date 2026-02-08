@@ -18,7 +18,7 @@
       "weight": 0.15,
       "detail": "RSI: 49, Price > MA50"
     },
-    "market_breadth": {
+    "market_participation": {
       "score": 64.7,
       "weight": 0.15,
       "detail": "RSP +3.2% vs SPY +1.9%"
