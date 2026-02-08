@@ -772,25 +772,7 @@
             const bc = parseInt(color.slice(5,7), 16);
             insightBox.style.backgroundColor = `rgba(${rc}, ${gc}, ${bc}, 0.07)`;
 
-            // Component names mapping for readable text
-            const componentNames = {
-                price_strength: 'S&P 500 price strength',
-                vix: 'market volatility (VIX)',
-                momentum: 'RSI & moving averages',
-                market_breadth: 'market breadth',
-                junk_bonds: 'junk bond demand',
-                safe_haven: 'safe haven demand',
-                sector_rotation: 'tech vs defensive rotation'
-            };
-
             if (stocksData.components) {
-                const entries = Object.entries(stocksData.components);
-                const sorted = entries.sort((a, b) => b[1].score - a[1].score);
-                const strongest = { key: sorted[0][0], score: sorted[0][1].score };
-                const weakest = { key: sorted[sorted.length-1][0], score: sorted[sorted.length-1][1].score };
-                const strongName = componentNames[strongest.key] || strongest.key;
-                const weakName = componentNames[weakest.key] || weakest.key;
-
                 let phrase1 = '';
                 if (score < 25) {
                     phrase1 = 'Stock markets are in panic mode — heavy selling across the board.';
@@ -804,32 +786,50 @@
                     phrase1 = 'Euphoric stock market. Aggressive buying everywhere — historically a warning sign.';
                 }
 
-                // Feature 2: 7-day trend
-                let trendPhrase = '';
+                // Pick the most interesting fact from history
+                let factPhrase = '';
                 const history = stocksData.history || [];
-                if (history.length >= 7) {
-                    const score7d = history[6].score;
-                    const diff = Math.round(score - score7d);
-                    if (diff > 3) trendPhrase = `Score up ${diff} pts this week.`;
-                    else if (diff < -3) trendPhrase = `Score down ${Math.abs(diff)} pts this week.`;
-                    else trendPhrase = 'Stable over the past week.';
+                if (history.length >= 2) {
+                    const getZone = s => s <= 25 ? 'EF' : s <= 45 ? 'F' : s <= 55 ? 'N' : s <= 75 ? 'G' : 'EG';
+                    const weeklyDiff = history.length >= 7 ? Math.round(score - history[6].score) : 0;
+
+                    // 30-day extremes
+                    let is30dHigh = false, is30dLow = false;
+                    if (history.length >= 30) {
+                        const scores30 = history.slice(0, 30).map(h => h.score);
+                        if (score >= Math.max(...scores30) - 1) is30dHigh = true;
+                        if (score <= Math.min(...scores30) + 1) is30dLow = true;
+                    }
+
+                    // Streak
+                    const dir = history[0].score > history[1].score ? 1 : -1;
+                    let streak = 1;
+                    for (let i = 1; i < history.length - 1; i++) {
+                        if (dir > 0 && history[i].score > history[i+1].score) streak++;
+                        else if (dir < 0 && history[i].score < history[i+1].score) streak++;
+                        else break;
+                    }
+                    streak *= dir;
+
+                    // Stability: days within ±5 of current
+                    let daysNear = 1;
+                    for (let i = 1; i < Math.min(history.length, 14); i++) {
+                        if (Math.abs(history[i].score - score) <= 5) daysNear++;
+                        else break;
+                    }
+
+                    // Priority selection
+                    if (is30dLow) factPhrase = 'Lowest score in 30 days.';
+                    else if (is30dHigh) factPhrase = 'Highest score in 30 days.';
+                    else if (Math.abs(weeklyDiff) > 10) factPhrase = `${weeklyDiff > 0 ? 'Up' : 'Down'} ${Math.abs(weeklyDiff)} pts this week.`;
+                    else if (Math.abs(streak) >= 5) factPhrase = `${streak > 0 ? 'Rising' : 'Falling'} ${Math.abs(streak)} days straight.`;
+                    else if (getZone(history[0].score) !== getZone(history[1].score)) factPhrase = `Just entered ${stocksData.label}.`;
+                    else if (Math.abs(weeklyDiff) > 5) factPhrase = `${weeklyDiff > 0 ? 'Up' : 'Down'} ${Math.abs(weeklyDiff)} pts this week.`;
+                    else if (daysNear >= 3) factPhrase = `Holding near ${Math.round(score)} for ${daysNear} days.`;
+                    else factPhrase = 'No major move recently.';
                 }
 
-                // Feature 1: Historical context
-                let contextPhrase = '';
-                if (history.length >= 30) {
-                    const last30 = history.slice(0, 30);
-                    const scores30 = last30.map(h => h.score);
-                    const high30 = Math.round(Math.max(...scores30));
-                    const low30 = Math.round(Math.min(...scores30));
-                    if (score >= high30 - 1) contextPhrase = 'Near its 30-day high.';
-                    else if (score <= low30 + 1) contextPhrase = 'Near its 30-day low.';
-                }
-
-                const phrase2 = `Mainly driven by ${strongName}, while ${weakName} is the weakest signal.`;
-                const extra = [trendPhrase, contextPhrase].filter(Boolean).join(' ');
-                const fullText = extra ? `${phrase1} ${extra} ${phrase2}` : `${phrase1} ${phrase2}`;
-                document.getElementById('insight').textContent = fullText;
+                document.getElementById('insight').textContent = `${phrase1} ${factPhrase}`;
             }
 
             // Update components
