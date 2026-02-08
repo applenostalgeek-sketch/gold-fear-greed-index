@@ -491,6 +491,7 @@
         .legend-gold { background: rgba(255, 215, 0, 0.2); color: #FFD700; }
         .legend-stocks { background: rgba(74, 144, 226, 0.2); color: #4A90E2; }
         .legend-crypto { background: rgba(247, 147, 26, 0.2); color: #F7931A; }
+        .legend-sentiment { background: rgba(255, 255, 255, 0.2); color: #ffffff; }
 
         .period-selector {
             display: flex;
@@ -746,6 +747,10 @@
                         <label class="chart-toggle">
                             <input type="checkbox" id="toggleCrypto" checked>
                             <span class="legend-label legend-crypto">₿ Crypto</span>
+                        </label>
+                        <label class="chart-toggle">
+                            <input type="checkbox" id="toggleSentiment" checked>
+                            <span class="legend-label legend-sentiment">⚖ Sentiment</span>
                         </label>
                     </div>
                     <div class="period-selector">
@@ -1017,19 +1022,41 @@
 
             const sortAndSlice = (h) => [...h].sort((a, b) => new Date(a.date) - new Date(b.date)).slice(-days);
 
+            // Build sentiment history from the 4 indices
+            const goldSorted = sortAndSlice(goldHistory);
+            const stocksSorted = sortAndSlice(stocksHistory);
+            const cryptoSorted = sortAndSlice(cryptoHistory);
+            const bondsSorted = sortAndSlice(bondsHistory);
+
+            const sentimentHistory = [];
+            const dateMap = {};
+            [goldSorted, stocksSorted, cryptoSorted, bondsSorted].forEach((arr, idx) => {
+                arr.forEach(p => {
+                    if (!dateMap[p.date]) dateMap[p.date] = {};
+                    dateMap[p.date][['gold','stocks','crypto','bonds'][idx]] = p.score;
+                });
+            });
+            Object.keys(dateMap).sort().forEach(date => {
+                const d = dateMap[date];
+                if (d.gold != null && d.stocks != null && d.crypto != null && d.bonds != null) {
+                    const riskOn = (d.stocks + d.crypto) / 2;
+                    const riskOff = (d.bonds + d.gold) / 2;
+                    const rotation = riskOn - riskOff;
+                    sentimentHistory.push({ date, score: ((rotation + 100) / 200) * 100 });
+                }
+            });
+
             drawChart(ctx, canvas,
-                sortAndSlice(goldHistory),
-                sortAndSlice(stocksHistory),
-                sortAndSlice(cryptoHistory),
-                sortAndSlice(bondsHistory),
+                goldSorted, stocksSorted, cryptoSorted, bondsSorted, sentimentHistory,
                 document.getElementById('toggleGold')?.checked !== false,
                 document.getElementById('toggleStocks')?.checked !== false,
                 document.getElementById('toggleCrypto')?.checked !== false,
-                document.getElementById('toggleBonds')?.checked !== false
+                document.getElementById('toggleBonds')?.checked !== false,
+                document.getElementById('toggleSentiment')?.checked !== false
             );
         }
 
-        function drawChart(ctx, canvas, goldData, stocksData, cryptoData, bondsData, showGold, showStocks, showCrypto, showBonds) {
+        function drawChart(ctx, canvas, goldData, stocksData, cryptoData, bondsData, sentimentData, showGold, showStocks, showCrypto, showBonds, showSentiment) {
             const width = canvas.width;
             const height = canvas.height;
             const paddingTop = 40;
@@ -1058,6 +1085,7 @@
             if (showStocks && stocksData.length > 0) drawLine(ctx, stocksData, paddingTop, paddingSide, chartHeight, chartWidth, '#4A90E2', 2);
             if (showGold && goldData.length > 0) drawLine(ctx, goldData, paddingTop, paddingSide, chartHeight, chartWidth, '#FFD700', 2);
             if (showBonds && bondsData.length > 0) drawLine(ctx, bondsData, paddingTop, paddingSide, chartHeight, chartWidth, '#10b981', 2);
+            if (showSentiment && sentimentData.length > 0) drawLine(ctx, sentimentData, paddingTop, paddingSide, chartHeight, chartWidth, '#ffffff', 3);
 
             const labelData = goldData.length > 0 ? goldData : (stocksData.length > 0 ? stocksData : (cryptoData.length > 0 ? cryptoData : bondsData));
             if (labelData.length > 0) {
@@ -1105,7 +1133,7 @@
             });
         });
 
-        ['toggleGold', 'toggleStocks', 'toggleCrypto', 'toggleBonds'].forEach(id => {
+        ['toggleGold', 'toggleStocks', 'toggleCrypto', 'toggleBonds', 'toggleSentiment'].forEach(id => {
             const toggle = document.getElementById(id);
             if (toggle) toggle.addEventListener('change', () => updateHistoryChart(currentPeriod));
         });
