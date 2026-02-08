@@ -759,13 +759,7 @@
             // Update timestamp
             if (stocksData.timestamp) {
                 const date = new Date(stocksData.timestamp);
-                const now = new Date();
-                const diffH = Math.floor((now - date) / 3600000);
-                const time = date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
-                let timeText;
-                if (diffH < 24) timeText = `Updated today, ${time}`;
-                else if (diffH < 48) timeText = `Updated yesterday, ${time}`;
-                else { timeText = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }) + `, ${time} — data may be stale`; }
+                const timeText = 'Updated: ' + date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) + ', ' + date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
                 document.getElementById('updated').textContent = timeText;
             }
 
