@@ -403,6 +403,7 @@
             border-radius: 12px;
             padding: 30px 20px;
             height: 400px;
+            overflow: hidden;
         }
 
         .chart-controls {
@@ -871,7 +872,7 @@
             const ctx = canvas.getContext('2d');
 
             const container = canvas.parentElement;
-            canvas.width = container.offsetWidth;
+            canvas.width = container.clientWidth;
             canvas.height = container.offsetHeight;
 
             const sortedHistory = [...cryptoData.history].sort((a, b) => new Date(a.date) - new Date(b.date));
