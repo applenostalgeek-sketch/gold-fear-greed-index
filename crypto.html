@@ -872,8 +872,9 @@
             const ctx = canvas.getContext('2d');
 
             const container = canvas.parentElement;
-            canvas.width = container.clientWidth;
-            canvas.height = container.offsetHeight;
+            const style = getComputedStyle(container);
+            canvas.width = container.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+            canvas.height = container.clientHeight - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
 
             const sortedHistory = [...cryptoData.history].sort((a, b) => new Date(a.date) - new Date(b.date));
             const limitedHistory = sortedHistory.slice(-days);

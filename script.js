@@ -327,8 +327,9 @@ function updateHistoryChart(days = 30) {
 
     // Set canvas size
     const container = canvas.parentElement;
-    canvas.width = container.clientWidth;
-    canvas.height = container.offsetHeight;
+    const style = getComputedStyle(container);
+    canvas.width = container.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+    canvas.height = container.clientHeight - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
 
     // Prepare Gold data
     const sortedGoldHistory = [...goldHistory].sort((a, b) =>
