@@ -1,7 +1,7 @@
 {
   "score": 53.3,
   "label": "Neutral",
-  "timestamp": "2026-02-08T04:33:58Z",
+  "timestamp": "2026-02-09T03:29:32Z",
   "components": {
     "price_strength": {
       "score": 59.6,
@@ -40,6 +40,10 @@
     }
   },
   "history": [
+    {
+      "date": "2026-02-09",
+      "score": 53.3
+    },
     {
       "date": "2026-02-08",
       "score": 53.3
@@ -1495,10 +1499,6 @@
     {
       "date": "2025-02-10",
       "score": 51.5
-    },
-    {
-      "date": "2025-02-09",
-      "score": 50.5
     }
   ]
 }
