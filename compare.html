@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Compare: Fear & Greed vs Price — OnOff.Markets</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #050505;
+            color: #ffffff;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 960px;
+            margin: 0 auto;
+            padding: 40px 20px 60px;
+        }
+
+        .back-link {
+            display: inline-block;
+            color: #555;
+            text-decoration: none;
+            font-size: 0.85rem;
+            margin-bottom: 32px;
+            transition: color 0.2s;
+        }
+        .back-link:hover { color: #fff; }
+
+        h1 {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 32px;
+            line-height: 1.5;
+        }
+
+        /* Asset selector */
+        .asset-selector {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .asset-btn {
+            padding: 8px 20px;
+            border-radius: 20px;
+            border: 1px solid #222;
+            background: transparent;
+            color: #777;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .asset-btn.active {
+            border-color: #fff;
+            color: #fff;
+            background: rgba(255,255,255,0.05);
+        }
+
+        .asset-btn:hover:not(.active) {
+            border-color: #444;
+            color: #aaa;
+        }
+
+        /* Chart */
+        .chart-wrapper {
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .chart-toolbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 14px 20px;
+            border-bottom: 1px solid #1a1a1a;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .chart-legend {
+            display: flex;
+            gap: 20px;
+            font-size: 0.8rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: #888;
+        }
+
+        .legend-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+        }
+
+        .period-selector {
+            display: flex;
+            gap: 4px;
+            background: #111;
+            padding: 3px;
+            border-radius: 8px;
+        }
+
+        .period-btn {
+            background: transparent;
+            border: none;
+            color: #555;
+            padding: 5px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.8rem;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+
+        .period-btn:hover { color: #999; }
+        .period-btn.active { background: #222; color: #fff; }
+
+        .chart-canvas-box {
+            position: relative;
+            height: 520px;
+        }
+
+        .chart-canvas-box canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Tooltip */
+        .chart-tooltip {
+            display: none;
+            position: absolute;
+            top: 12px;
+            background: rgba(0, 0, 0, 0.9);
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 12px 16px;
+            font-size: 0.78rem;
+            pointer-events: none;
+            z-index: 10;
+            min-width: 160px;
+        }
+
+        .tooltip-date {
+            color: #999;
+            margin-bottom: 8px;
+            font-weight: 600;
+        }
+
+        .tooltip-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 20px;
+            padding: 3px 0;
+        }
+
+        .tooltip-label { color: #888; }
+        .tooltip-val { font-weight: 700; }
+
+        /* Correlation box */
+        .correlation-box {
+            margin-top: 24px;
+            padding: 20px 24px;
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            border-radius: 12px;
+        }
+
+        .correlation-title {
+            font-size: 0.75rem;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-bottom: 8px;
+        }
+
+        .correlation-value {
+            font-size: 1.4rem;
+            font-weight: 700;
+        }
+
+        .correlation-desc {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 6px;
+            line-height: 1.5;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 60px;
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .container { padding: 24px 16px 40px; }
+            h1 { font-size: 1.4rem; }
+            .chart-canvas-box { height: 420px; }
+            .chart-toolbar {
+                flex-direction: column;
+                align-items: stretch;
+                padding: 12px 16px;
+            }
+            .chart-legend { justify-content: center; }
+            .period-selector { justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <a href="index.html" class="back-link">← Back to dashboard</a>
+
+        <h1>Fear & Greed vs Market Price</h1>
+        <p class="subtitle">Does sentiment predict price? Compare the Fear & Greed index with actual market prices to spot patterns.</p>
+
+        <div class="asset-selector">
+            <button class="asset-btn active" data-asset="crypto">₿ Crypto / BTC</button>
+            <button class="asset-btn" data-asset="gold">🪙 Gold / GLD</button>
+            <button class="asset-btn" data-asset="stocks">📈 Stocks / SPY</button>
+            <button class="asset-btn" data-asset="bonds">📊 Bonds / TLT</button>
+        </div>
+
+        <div class="chart-wrapper">
+            <div class="chart-toolbar">
+                <div class="chart-legend">
+                    <div class="legend-item">
+                        <span class="legend-dot" style="background: #ffffff;"></span>
+                        <span>Fear & Greed Index</span>
+                    </div>
+                    <div class="legend-item">
+                        <span class="legend-dot" id="priceDot" style="background: #F7931A;"></span>
+                        <span id="priceLabel">BTC Price</span>
+                    </div>
+                </div>
+                <div class="period-selector">
+                    <button class="period-btn active" data-period="30">30D</button>
+                    <button class="period-btn" data-period="90">90D</button>
+                    <button class="period-btn" data-period="180">180D</button>
+                    <button class="period-btn" data-period="365">1Y</button>
+                </div>
+            </div>
+            <div class="chart-canvas-box">
+                <canvas id="compareChart"></canvas>
+                <div class="chart-tooltip" id="tooltip">
+                    <div class="tooltip-date" id="tooltipDate"></div>
+                    <div id="tooltipRows"></div>
+                </div>
+                <div class="loading" id="loading">Loading data...</div>
+            </div>
+        </div>
+
+        <div class="correlation-box">
+            <div class="correlation-title">Correlation</div>
+            <div class="correlation-value" id="corrValue">--</div>
+            <div class="correlation-desc" id="corrDesc">Loading...</div>
+        </div>
+    </div>
+
+    <script>
+        // Config per asset — all data from local JSON files
+        const assetConfig = {
+            crypto: { json: 'data/crypto-fear-greed.json', priceJson: 'data/prices-btc.json', priceColor: '#F7931A', priceLabel: 'BTC Price' },
+            gold:   { json: 'data/gold-fear-greed.json',   priceJson: 'data/prices-gld.json', priceColor: '#FFD700', priceLabel: 'GLD Price' },
+            stocks: { json: 'data/stocks-fear-greed.json', priceJson: 'data/prices-spy.json', priceColor: '#4A90E2', priceLabel: 'SPY Price' },
+            bonds:  { json: 'data/bonds-fear-greed.json',  priceJson: 'data/prices-tlt.json', priceColor: '#10b981', priceLabel: 'TLT Price' }
+        };
+
+        // Cache: one fetch per asset, reuse for all periods
+        const cache = {};
+
+        let currentAsset = 'crypto';
+        let currentPeriod = 30;
+        let alignedData = [];
+
+        async function loadCompare(asset, days) {
+            const loading = document.getElementById('loading');
+            const canvas = document.getElementById('compareChart');
+            const cfg = assetConfig[asset];
+
+            // Update legend immediately
+            document.getElementById('priceLabel').textContent = cfg.priceLabel;
+            document.getElementById('priceDot').style.background = cfg.priceColor;
+
+            // Use cache if available for this asset
+            if (!cache[asset]) {
+                loading.style.display = 'block';
+                loading.textContent = 'Loading data...';
+                canvas.style.opacity = '0.3';
+
+                try {
+                    const [fgRes, priceData] = await Promise.all([
+                        fetch(cfg.json).then(r => r.json()),
+                        fetch(cfg.priceJson).then(r => r.json())
+                    ]);
+
+                    const fgHistory = [...(fgRes.history || [])].sort((a, b) => new Date(a.date) - new Date(b.date));
+
+                    // Align by date (once, full history)
+                    const priceMap = {};
+                    priceData.forEach(p => { priceMap[p.date] = p.price; });
+
+                    const allAligned = [];
+                    fgHistory.forEach(fg => {
+                        if (priceMap[fg.date] != null) {
+                            allAligned.push({ date: fg.date, score: fg.score, price: priceMap[fg.date] });
+                        }
+                    });
+
+                    cache[asset] = { allAligned };
+                } catch (e) {
+                    console.error('Error loading compare data:', e);
+                    loading.textContent = 'Error loading data. Refresh to retry.';
+                    return;
+                }
+
+                loading.style.display = 'none';
+                canvas.style.opacity = '1';
+            }
+
+            // Slice from cache
+            alignedData = cache[asset].allAligned.slice(-days);
+
+            if (alignedData.length < 2) {
+                loading.style.display = 'block';
+                loading.textContent = 'Not enough aligned data for this period.';
+                canvas.style.opacity = '0.3';
+                return;
+            }
+
+            loading.style.display = 'none';
+            canvas.style.opacity = '1';
+            drawCompareChart();
+            updateCorrelation();
+        }
+
+        const zones = [
+            { from: 0,  to: 25,  color: 'rgba(239, 68, 68, 0.07)' },
+            { from: 25, to: 45,  color: 'rgba(245, 158, 11, 0.05)' },
+            { from: 45, to: 55,  color: 'rgba(255, 255, 255, 0.02)' },
+            { from: 55, to: 75,  color: 'rgba(34, 197, 94, 0.05)' },
+            { from: 75, to: 100, color: 'rgba(6, 182, 212, 0.07)' }
+        ];
+
+        const zoneLabels = [
+            { score: 12.5, text: 'Extreme Fear', color: 'rgba(239, 68, 68, 0.3)' },
+            { score: 35,   text: 'Fear',         color: 'rgba(245, 158, 11, 0.25)' },
+            { score: 50,   text: 'Neutral',      color: 'rgba(255, 255, 255, 0.12)' },
+            { score: 65,   text: 'Greed',        color: 'rgba(34, 197, 94, 0.25)' },
+            { score: 87.5, text: 'Extreme Greed', color: 'rgba(6, 182, 212, 0.3)' }
+        ];
+
+        function drawCompareChart() {
+            if (alignedData.length < 2) return;
+
+            const canvas = document.getElementById('compareChart');
+            const box = canvas.parentElement;
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = box.clientWidth * dpr;
+            canvas.height = box.clientHeight * dpr;
+            canvas.style.width = box.clientWidth + 'px';
+            canvas.style.height = box.clientHeight + 'px';
+            const ctx = canvas.getContext('2d');
+            ctx.scale(dpr, dpr);
+
+            const w = box.clientWidth;
+            const h = box.clientHeight;
+            const pad = { top: 20, bottom: 36, left: 44, right: 56 };
+            const plotW = w - pad.left - pad.right;
+            const plotH = h - pad.top - pad.bottom;
+            const cfg = assetConfig[currentAsset];
+            const total = alignedData.length;
+
+            // Price range
+            const prices = alignedData.map(d => d.price);
+            const pMin = Math.min(...prices);
+            const pMax = Math.max(...prices);
+            const pRange = pMax - pMin || 1;
+            const pPad = pRange * 0.08;
+
+            function scoreToY(s) { return pad.top + plotH - (s / 100) * plotH; }
+            function priceToY(p) { return pad.top + plotH - ((p - pMin + pPad) / (pRange + pPad * 2)) * plotH; }
+            function iToX(i) { return pad.left + (i / (total - 1)) * plotW; }
+
+            ctx.clearRect(0, 0, w, h);
+
+            // 1. Zone bands
+            zones.forEach(zone => {
+                const yTop = scoreToY(zone.to);
+                const yBot = scoreToY(zone.from);
+                ctx.fillStyle = zone.color;
+                ctx.fillRect(pad.left, yTop, plotW, yBot - yTop);
+            });
+
+            // 2. Zone separators
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.05)';
+            ctx.lineWidth = 1;
+            [25, 45, 55, 75].forEach(s => {
+                const y = scoreToY(s);
+                ctx.beginPath();
+                ctx.moveTo(pad.left, y);
+                ctx.lineTo(pad.left + plotW, y);
+                ctx.stroke();
+            });
+
+            // 3. 50 line dashed
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
+            ctx.setLineDash([4, 4]);
+            const y50 = scoreToY(50);
+            ctx.beginPath();
+            ctx.moveTo(pad.left, y50);
+            ctx.lineTo(pad.left + plotW, y50);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // 4. Left Y axis (F&G score)
+            ctx.fillStyle = '#444';
+            ctx.font = '10px -apple-system, sans-serif';
+            ctx.textAlign = 'right';
+            [0, 25, 50, 75, 100].forEach(s => {
+                ctx.fillText(s, pad.left - 8, scoreToY(s) + 3);
+            });
+
+            // 5. Right Y axis (Price)
+            ctx.textAlign = 'left';
+            ctx.fillStyle = cfg.priceColor + '88';
+            const priceSteps = 5;
+            for (let i = 0; i <= priceSteps; i++) {
+                const p = pMin - pPad + (i / priceSteps) * (pRange + pPad * 2);
+                const y = pad.top + plotH - (i / priceSteps) * plotH;
+                const label = p >= 1000 ? Math.round(p).toLocaleString() : p.toFixed(p < 10 ? 2 : 0);
+                ctx.fillText('$' + label, pad.left + plotW + 8, y + 3);
+            }
+
+            // 6. Draw price line (behind)
+            ctx.strokeStyle = cfg.priceColor + 'AA';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            alignedData.forEach((d, i) => {
+                const x = iToX(i);
+                const y = priceToY(d.price);
+                if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+            });
+            ctx.stroke();
+
+            // Price end dot
+            const lastPrice = alignedData[total - 1];
+            ctx.beginPath();
+            ctx.arc(iToX(total - 1), priceToY(lastPrice.price), 3, 0, Math.PI * 2);
+            ctx.fillStyle = cfg.priceColor;
+            ctx.fill();
+
+            // 7. Draw F&G line (on top)
+            ctx.strokeStyle = '#ffffff';
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            alignedData.forEach((d, i) => {
+                const x = iToX(i);
+                const y = scoreToY(d.score);
+                if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+            });
+            ctx.stroke();
+
+            // F&G end dot
+            ctx.beginPath();
+            ctx.arc(iToX(total - 1), scoreToY(lastPrice.score), 4, 0, Math.PI * 2);
+            ctx.fillStyle = '#ffffff';
+            ctx.fill();
+
+            // 8. Zone labels
+            zoneLabels.forEach(zl => {
+                ctx.fillStyle = zl.color;
+                ctx.font = '9px -apple-system, sans-serif';
+                ctx.textAlign = 'left';
+                ctx.fillText(zl.text, pad.left + 6, scoreToY(zl.score) + 3);
+            });
+
+            // 9. Date labels
+            const numLabels = Math.min(total, w < 500 ? 4 : 6);
+            ctx.fillStyle = '#444';
+            ctx.font = '10px -apple-system, sans-serif';
+            for (let i = 0; i < numLabels; i++) {
+                const idx = i === numLabels - 1 ? total - 1 : Math.round(i * (total - 1) / (numLabels - 1));
+                const x = iToX(idx);
+                const date = new Date(alignedData[idx].date);
+                const label = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                if (i === 0) ctx.textAlign = 'left';
+                else if (i === numLabels - 1) ctx.textAlign = 'right';
+                else ctx.textAlign = 'center';
+                ctx.fillText(label, x, h - 8);
+            }
+        }
+
+        // Tooltip
+        function handleHover(e) {
+            if (alignedData.length < 2) return;
+            const canvas = document.getElementById('compareChart');
+            const tooltip = document.getElementById('tooltip');
+            const rect = canvas.getBoundingClientRect();
+            const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const x = clientX - rect.left;
+            const box = canvas.parentElement;
+            const pad = { left: 44, right: 56 };
+            const plotW = box.clientWidth - pad.left - pad.right;
+            const total = alignedData.length;
+
+            const ratio = Math.max(0, Math.min(1, (x - pad.left) / plotW));
+            const idx = Math.round(ratio * (total - 1));
+            const d = alignedData[idx];
+            if (!d) return;
+
+            const cfg = assetConfig[currentAsset];
+            const date = new Date(d.date);
+            document.getElementById('tooltipDate').textContent = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+
+            const priceStr = d.price >= 1000 ? '$' + Math.round(d.price).toLocaleString() : '$' + d.price.toFixed(2);
+            document.getElementById('tooltipRows').innerHTML = `
+                <div class="tooltip-row">
+                    <span class="tooltip-label">Fear & Greed</span>
+                    <span class="tooltip-val" style="color: #fff;">${Math.round(d.score)}</span>
+                </div>
+                <div class="tooltip-row">
+                    <span class="tooltip-label" style="color:${cfg.priceColor}">${cfg.priceLabel}</span>
+                    <span class="tooltip-val" style="color:${cfg.priceColor}">${priceStr}</span>
+                </div>
+            `;
+
+            // Position
+            tooltip.style.left = (x > rect.width * 0.6 ? 20 : rect.width - 200) + 'px';
+            tooltip.style.display = 'block';
+
+            // Crosshair
+            drawCompareChart();
+            const ctx = canvas.getContext('2d');
+            const dpr = window.devicePixelRatio || 1;
+            ctx.save();
+            ctx.scale(1/dpr, 1/dpr);
+            const lineX = (44 + ratio * plotW) * dpr;
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)';
+            ctx.lineWidth = 1;
+            ctx.setLineDash([3, 3]);
+            ctx.beginPath();
+            ctx.moveTo(lineX, 20 * dpr);
+            ctx.lineTo(lineX, (box.clientHeight - 36) * dpr);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            ctx.restore();
+        }
+
+        function hideTooltip() {
+            document.getElementById('tooltip').style.display = 'none';
+            drawCompareChart();
+        }
+
+        // Correlation
+        function updateCorrelation() {
+            if (alignedData.length < 5) {
+                document.getElementById('corrValue').textContent = '--';
+                document.getElementById('corrDesc').textContent = 'Not enough data.';
+                return;
+            }
+
+            const scores = alignedData.map(d => d.score);
+            const prices = alignedData.map(d => d.price);
+            const n = scores.length;
+            const meanS = scores.reduce((a, b) => a + b) / n;
+            const meanP = prices.reduce((a, b) => a + b) / n;
+            let num = 0, denS = 0, denP = 0;
+            for (let i = 0; i < n; i++) {
+                const ds = scores[i] - meanS;
+                const dp = prices[i] - meanP;
+                num += ds * dp;
+                denS += ds * ds;
+                denP += dp * dp;
+            }
+            const r = num / (Math.sqrt(denS) * Math.sqrt(denP));
+            const rRound = Math.round(r * 100) / 100;
+
+            const el = document.getElementById('corrValue');
+            el.textContent = (rRound > 0 ? '+' : '') + rRound.toFixed(2);
+            el.style.color = Math.abs(rRound) > 0.5 ? '#22c55e' : (Math.abs(rRound) > 0.3 ? '#f59e0b' : '#666');
+
+            let desc = '';
+            if (rRound > 0.7) desc = 'Strong positive correlation — sentiment and price move together closely.';
+            else if (rRound > 0.4) desc = 'Moderate positive correlation — sentiment tends to follow price direction.';
+            else if (rRound > 0.1) desc = 'Weak positive correlation — slight tendency to move together.';
+            else if (rRound > -0.1) desc = 'No meaningful correlation — sentiment and price move independently.';
+            else if (rRound > -0.4) desc = 'Weak negative correlation — slight inverse relationship.';
+            else if (rRound > -0.7) desc = 'Moderate negative correlation — sentiment tends to move opposite to price.';
+            else desc = 'Strong negative correlation — sentiment and price move in opposite directions.';
+
+            document.getElementById('corrDesc').textContent = desc;
+        }
+
+        // Events
+        const canvas = document.getElementById('compareChart');
+        canvas.addEventListener('mousemove', handleHover);
+        canvas.addEventListener('mouseleave', hideTooltip);
+        canvas.addEventListener('touchmove', (e) => { e.preventDefault(); handleHover(e); }, { passive: false });
+        canvas.addEventListener('touchend', hideTooltip);
+
+        document.querySelectorAll('.asset-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.asset-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentAsset = btn.dataset.asset;
+                loadCompare(currentAsset, currentPeriod);
+            });
+        });
+
+        document.querySelectorAll('.period-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                currentPeriod = parseInt(btn.dataset.period);
+                loadCompare(currentAsset, currentPeriod);
+            });
+        });
+
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => drawCompareChart(), 200);
+        });
+
+        // Init
+        loadCompare('crypto', 30);
+    </script>
+</body>
+</html>
