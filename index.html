@@ -407,6 +407,18 @@
             margin-top: 4px;
         }
 
+        .trend-arrow {
+            font-size: 0.9rem;
+            color: #555;
+            margin-left: 4px;
+        }
+
+        .hero-trend-arrow {
+            font-size: 1.5rem;
+            color: #555;
+            margin-left: 6px;
+        }
+
         /* How it works banner */
         .how-banner {
             text-align: center;
@@ -837,6 +849,17 @@
             return '';
         }
 
+        function getTrendArrow(history) {
+            if (!history || history.length < 2) return '';
+            const sorted = [...history].sort((a, b) => new Date(b.date) - new Date(a.date));
+            const today = sorted[0].score;
+            const yesterday = sorted[1].score;
+            const diff = today - yesterday;
+            if (diff > 2) return '↑';
+            if (diff < -2) return '↓';
+            return '→';
+        }
+
         function updateUI(gold, stocks, crypto, bonds) {
             // Risk-On vs Risk-Off calculation
             const riskOn = (stocks.score + crypto.score) / 2;
@@ -844,9 +867,35 @@
             const rotationScore = riskOn - riskOff;
             const position = ((rotationScore + 100) / 200) * 100;
 
-            // Update score
+            // Update score with trend arrow
             const scoreEl = document.getElementById('score');
-            scoreEl.textContent = Math.round(position);
+            // Calculate yesterday's sentiment for trend arrow
+            let sentimentArrow = '';
+            const allHistories = [gold.history, stocks.history, crypto.history, bonds.history];
+            if (allHistories.every(h => h && h.length >= 2)) {
+                const dateMap = {};
+                [gold, stocks, crypto, bonds].forEach((asset, idx) => {
+                    const sorted = [...asset.history].sort((a, b) => new Date(b.date) - new Date(a.date));
+                    const key = ['gold','stocks','crypto','bonds'][idx];
+                    sorted.slice(0, 2).forEach(p => {
+                        if (!dateMap[p.date]) dateMap[p.date] = {};
+                        dateMap[p.date][key] = p.score;
+                    });
+                });
+                const dates = Object.keys(dateMap).sort().reverse();
+                const todayData = dateMap[dates[0]];
+                const yesterdayData = dateMap[dates[1]];
+                if (todayData && yesterdayData && todayData.gold != null && todayData.stocks != null && todayData.crypto != null && todayData.bonds != null && yesterdayData.gold != null && yesterdayData.stocks != null && yesterdayData.crypto != null && yesterdayData.bonds != null) {
+                    const yesterdayRiskOn = (yesterdayData.stocks + yesterdayData.crypto) / 2;
+                    const yesterdayRiskOff = (yesterdayData.bonds + yesterdayData.gold) / 2;
+                    const yesterdayPosition = ((yesterdayRiskOn - yesterdayRiskOff + 100) / 200) * 100;
+                    const diff = position - yesterdayPosition;
+                    if (diff > 2) sentimentArrow = '↑';
+                    else if (diff < -2) sentimentArrow = '↓';
+                    else sentimentArrow = '→';
+                }
+            }
+            scoreEl.innerHTML = Math.round(position) + (sentimentArrow ? '<span class="hero-trend-arrow">' + sentimentArrow + '</span>' : '');
 
             // Update logo dots
             const logoDots = document.querySelector('.logo-dots');
@@ -951,23 +1000,23 @@
 
             document.getElementById('insight').textContent = insight;
 
-            // Update stats with micro-descriptions
-            document.getElementById('goldValue').textContent = Math.round(gold.score);
+            // Update stats with micro-descriptions and trend arrows
+            document.getElementById('goldValue').innerHTML = Math.round(gold.score) + '<span class="trend-arrow">' + getTrendArrow(gold.history) + '</span>';
             document.getElementById('goldLabel').textContent = gold.label;
             document.getElementById('goldValue').style.color = getColor(gold.score);
             document.getElementById('goldMicro').textContent = getMicro('gold', gold.score);
 
-            document.getElementById('stocksValue').textContent = Math.round(stocks.score);
+            document.getElementById('stocksValue').innerHTML = Math.round(stocks.score) + '<span class="trend-arrow">' + getTrendArrow(stocks.history) + '</span>';
             document.getElementById('stocksLabel').textContent = stocks.label;
             document.getElementById('stocksValue').style.color = getColor(stocks.score);
             document.getElementById('stocksMicro').textContent = getMicro('stocks', stocks.score);
 
-            document.getElementById('cryptoValue').textContent = Math.round(crypto.score);
+            document.getElementById('cryptoValue').innerHTML = Math.round(crypto.score) + '<span class="trend-arrow">' + getTrendArrow(crypto.history) + '</span>';
             document.getElementById('cryptoLabel').textContent = crypto.label;
             document.getElementById('cryptoValue').style.color = getColor(crypto.score);
             document.getElementById('cryptoMicro').textContent = getMicro('crypto', crypto.score);
 
-            document.getElementById('bondsValue').textContent = Math.round(bonds.score);
+            document.getElementById('bondsValue').innerHTML = Math.round(bonds.score) + '<span class="trend-arrow">' + getTrendArrow(bonds.history) + '</span>';
             document.getElementById('bondsLabel').textContent = bonds.label;
             document.getElementById('bondsValue').style.color = getColor(bonds.score);
             document.getElementById('bondsMicro').textContent = getMicro('bonds', bonds.score);
