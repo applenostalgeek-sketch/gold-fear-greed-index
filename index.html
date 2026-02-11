@@ -342,75 +342,73 @@
             font-weight: 400;
         }
 
-        /* Stats Grid */
-        .stats {
+        /* Asset Cards with Sparklines */
+        .assets {
             display: grid;
             grid-template-columns: repeat(4, 1fr);
-            gap: 1px;
-            background: #1a1a1a;
+            gap: 12px;
             margin: 24px 0 0 0;
         }
 
-        .stat-link {
+        .asset-card {
+            background: #0a0a0a;
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 12px;
+            padding: 20px;
             text-decoration: none;
             color: inherit;
-            display: block;
-            transition: transform 0.2s ease;
+            transition: all 0.25s ease;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
         }
 
-        .stat-link:hover {
+        .asset-card:hover {
+            background: #0f0f0f;
+            border-color: rgba(255,255,255,0.12);
             transform: translateY(-2px);
         }
 
-        .stat {
-            background: #0a0a0a;
-            padding: 24px 16px;
-            text-align: center;
-            transition: background 0.2s ease;
+        .asset-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
-        .stat-link:hover .stat {
-            background: #1a1a1a;
-        }
-
-        .stat-icon {
-            font-size: 1.5rem;
-            margin-bottom: 6px;
-        }
-
-        .stat-name {
-            font-size: 0.65rem;
-            color: #666;
+        .asset-name {
+            font-size: 0.75rem;
+            color: #888;
             text-transform: uppercase;
-            letter-spacing: 0.1em;
-            margin-bottom: 6px;
+            letter-spacing: 0.08em;
+            font-weight: 600;
         }
 
-        .stat-value {
-            font-size: 2rem;
+        .asset-arrow {
+            font-size: 0.9rem;
+            color: #555;
+        }
+
+        .asset-score {
+            font-size: 2.2rem;
             font-weight: 700;
             letter-spacing: -0.02em;
-            margin-bottom: 2px;
             line-height: 1;
         }
 
-        .stat-label {
+        .asset-label {
             font-size: 0.7rem;
             color: #666;
-            margin-bottom: 6px;
         }
 
-        .stat-micro {
+        .asset-sparkline {
+            height: 32px;
+            width: 100%;
+        }
+
+        .asset-micro {
             font-size: 0.65rem;
             color: #555;
             line-height: 1.3;
-            margin-top: 4px;
-        }
-
-        .trend-arrow {
-            font-size: 0.9rem;
-            color: #555;
-            margin-left: 4px;
         }
 
         .hero-trend-arrow {
@@ -648,13 +646,9 @@
             .score { font-size: 7rem; }
             .score-denominator { font-size: 2rem; }
             .label { font-size: 1.8rem; }
-            .stats { grid-template-columns: repeat(4, 1fr); gap: 1px; }
-            .stat { padding: 12px 4px; }
-            .stat-icon { font-size: 1rem; margin-bottom: 4px; }
-            .stat-name { font-size: 0.6rem; }
-            .stat-value { font-size: 1.1rem; }
-            .stat-label { font-size: 0.55rem; }
-            .stat-micro { font-size: 0.55rem; }
+            .assets { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+            .asset-card { padding: 16px; }
+            .asset-score { font-size: 1.8rem; }
             .insight-box { padding: 16px 20px; }
             .insight-text { font-size: 0.95rem; }
             .how-banner { padding: 12px; }
@@ -731,49 +725,6 @@
             </div>
         </div>
 
-        <!-- Stats -->
-        <div class="stats">
-            <a href="gold.html" class="stat-link">
-                <div class="stat">
-                    <div class="stat-icon">🪙</div>
-                    <div class="stat-name">Gold</div>
-                    <div class="stat-value" id="goldValue">--</div>
-                    <div class="stat-label" id="goldLabel">--</div>
-                    <div class="stat-micro" id="goldMicro"></div>
-                </div>
-            </a>
-
-            <a href="bonds.html" class="stat-link">
-                <div class="stat">
-                    <div class="stat-icon">📊</div>
-                    <div class="stat-name">Bonds</div>
-                    <div class="stat-value" id="bondsValue">--</div>
-                    <div class="stat-label" id="bondsLabel">--</div>
-                    <div class="stat-micro" id="bondsMicro"></div>
-                </div>
-            </a>
-
-            <a href="stocks.html" class="stat-link">
-                <div class="stat">
-                    <div class="stat-icon">📈</div>
-                    <div class="stat-name">Stocks</div>
-                    <div class="stat-value" id="stocksValue">--</div>
-                    <div class="stat-label" id="stocksLabel">--</div>
-                    <div class="stat-micro" id="stocksMicro"></div>
-                </div>
-            </a>
-
-            <a href="crypto.html" class="stat-link">
-                <div class="stat">
-                    <div class="stat-icon">₿</div>
-                    <div class="stat-name">Crypto</div>
-                    <div class="stat-value" id="cryptoValue">--</div>
-                    <div class="stat-label" id="cryptoLabel">--</div>
-                    <div class="stat-micro" id="cryptoMicro"></div>
-                </div>
-            </a>
-        </div>
-
         <!-- Insight Box -->
         <div class="insight-box">
             <div class="insight-header">
@@ -783,6 +734,53 @@
             <div class="insight-text" id="insight">
                 Loading market analysis...
             </div>
+        </div>
+
+        <!-- Asset Cards with Sparklines -->
+        <div class="assets">
+            <a href="gold.html" class="asset-card">
+                <div class="asset-header">
+                    <span class="asset-name">🪙 Gold</span>
+                    <span class="asset-arrow" id="goldArrow"></span>
+                </div>
+                <div class="asset-score" id="goldValue">--</div>
+                <div class="asset-label" id="goldLabel">--</div>
+                <canvas class="asset-sparkline" id="goldSparkline"></canvas>
+                <div class="asset-micro" id="goldMicro"></div>
+            </a>
+
+            <a href="bonds.html" class="asset-card">
+                <div class="asset-header">
+                    <span class="asset-name">📊 Bonds</span>
+                    <span class="asset-arrow" id="bondsArrow"></span>
+                </div>
+                <div class="asset-score" id="bondsValue">--</div>
+                <div class="asset-label" id="bondsLabel">--</div>
+                <canvas class="asset-sparkline" id="bondsSparkline"></canvas>
+                <div class="asset-micro" id="bondsMicro"></div>
+            </a>
+
+            <a href="stocks.html" class="asset-card">
+                <div class="asset-header">
+                    <span class="asset-name">📈 Stocks</span>
+                    <span class="asset-arrow" id="stocksArrow"></span>
+                </div>
+                <div class="asset-score" id="stocksValue">--</div>
+                <div class="asset-label" id="stocksLabel">--</div>
+                <canvas class="asset-sparkline" id="stocksSparkline"></canvas>
+                <div class="asset-micro" id="stocksMicro"></div>
+            </a>
+
+            <a href="crypto.html" class="asset-card">
+                <div class="asset-header">
+                    <span class="asset-name">₿ Crypto</span>
+                    <span class="asset-arrow" id="cryptoArrow"></span>
+                </div>
+                <div class="asset-score" id="cryptoValue">--</div>
+                <div class="asset-label" id="cryptoLabel">--</div>
+                <canvas class="asset-sparkline" id="cryptoSparkline"></canvas>
+                <div class="asset-micro" id="cryptoMicro"></div>
+            </a>
         </div>
 
         <!-- How it works banner -->
@@ -908,6 +906,60 @@
             if (diff > 2) return '↑';
             if (diff < -2) return '↓';
             return '→';
+        }
+
+        function drawSparkline(canvasId, history, color) {
+            const canvas = document.getElementById(canvasId);
+            if (!canvas || !history || history.length < 2) return;
+            const ctx = canvas.getContext('2d');
+            const sorted = [...history].sort((a, b) => new Date(a.date) - new Date(b.date)).slice(-14);
+            canvas.width = canvas.offsetWidth * 2;
+            canvas.height = canvas.offsetHeight * 2;
+            ctx.scale(2, 2);
+            const w = canvas.offsetWidth;
+            const h = canvas.offsetHeight;
+            const pad = 2;
+            const scores = sorted.map(s => s.score);
+            const min = Math.min(...scores) - 5;
+            const max = Math.max(...scores) + 5;
+            const range = max - min || 1;
+
+            // Gradient fill
+            const gradient = ctx.createLinearGradient(0, 0, 0, h);
+            gradient.addColorStop(0, color + '20');
+            gradient.addColorStop(1, color + '00');
+            ctx.beginPath();
+            scores.forEach((s, i) => {
+                const x = pad + (i / (scores.length - 1)) * (w - pad * 2);
+                const y = pad + (1 - (s - min) / range) * (h - pad * 2);
+                if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+            });
+            const lastX = pad + (w - pad * 2);
+            ctx.lineTo(lastX, h);
+            ctx.lineTo(pad, h);
+            ctx.closePath();
+            ctx.fillStyle = gradient;
+            ctx.fill();
+
+            // Stroke line
+            ctx.beginPath();
+            scores.forEach((s, i) => {
+                const x = pad + (i / (scores.length - 1)) * (w - pad * 2);
+                const y = pad + (1 - (s - min) / range) * (h - pad * 2);
+                if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+            });
+            ctx.strokeStyle = color;
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+
+            // End dot
+            const lastScore = scores[scores.length - 1];
+            const dotX = pad + (w - pad * 2);
+            const dotY = pad + (1 - (lastScore - min) / range) * (h - pad * 2);
+            ctx.beginPath();
+            ctx.arc(dotX, dotY, 2.5, 0, Math.PI * 2);
+            ctx.fillStyle = color;
+            ctx.fill();
         }
 
         function updateUI(gold, stocks, crypto, bonds) {
@@ -1050,26 +1102,21 @@
 
             document.getElementById('insight').textContent = insight;
 
-            // Update stats with micro-descriptions and trend arrows
-            document.getElementById('goldValue').innerHTML = Math.round(gold.score) + '<span class="trend-arrow">' + getTrendArrow(gold.history) + '</span>';
-            document.getElementById('goldLabel').textContent = gold.label;
-            document.getElementById('goldValue').style.color = getColor(gold.score);
-            document.getElementById('goldMicro').textContent = getMicro('gold', gold.score);
+            // Update asset cards with sparklines
+            function updateCard(prefix, assetData, assetKey) {
+                const c = getColor(assetData.score);
+                document.getElementById(prefix + 'Value').textContent = Math.round(assetData.score);
+                document.getElementById(prefix + 'Value').style.color = c;
+                document.getElementById(prefix + 'Label').textContent = assetData.label;
+                document.getElementById(prefix + 'Arrow').textContent = getTrendArrow(assetData.history);
+                document.getElementById(prefix + 'Micro').textContent = getMicro(assetKey, assetData.score);
+                drawSparkline(prefix + 'Sparkline', assetData.history, c);
+            }
 
-            document.getElementById('stocksValue').innerHTML = Math.round(stocks.score) + '<span class="trend-arrow">' + getTrendArrow(stocks.history) + '</span>';
-            document.getElementById('stocksLabel').textContent = stocks.label;
-            document.getElementById('stocksValue').style.color = getColor(stocks.score);
-            document.getElementById('stocksMicro').textContent = getMicro('stocks', stocks.score);
-
-            document.getElementById('cryptoValue').innerHTML = Math.round(crypto.score) + '<span class="trend-arrow">' + getTrendArrow(crypto.history) + '</span>';
-            document.getElementById('cryptoLabel').textContent = crypto.label;
-            document.getElementById('cryptoValue').style.color = getColor(crypto.score);
-            document.getElementById('cryptoMicro').textContent = getMicro('crypto', crypto.score);
-
-            document.getElementById('bondsValue').innerHTML = Math.round(bonds.score) + '<span class="trend-arrow">' + getTrendArrow(bonds.history) + '</span>';
-            document.getElementById('bondsLabel').textContent = bonds.label;
-            document.getElementById('bondsValue').style.color = getColor(bonds.score);
-            document.getElementById('bondsMicro').textContent = getMicro('bonds', bonds.score);
+            updateCard('gold', gold, 'gold');
+            updateCard('bonds', bonds, 'bonds');
+            updateCard('stocks', stocks, 'stocks');
+            updateCard('crypto', crypto, 'crypto');
         }
 
         function getColor(score) {

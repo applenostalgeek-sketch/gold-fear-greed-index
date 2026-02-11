@@ -1,38 +1,206 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LG19C5SPCF"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-LG19C5SPCF');
+    </script>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Compare: Fear & Greed vs Price — OnOff.Markets</title>
+    <title>Sentiment vs Price — Fear & Greed vs Market Prices | OnOff.Markets</title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Compare Fear & Greed sentiment scores against actual market prices for Gold, Bonds, Stocks and Crypto. 5 years of data with correlation analysis.">
+    <meta name="keywords" content="fear greed vs price, sentiment price comparison, gold price correlation, crypto sentiment, market timing sentiment">
+    <meta name="author" content="OnOff.Markets">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://onoff.markets/compare.html">
+    <meta property="og:title" content="Sentiment vs Price — Fear & Greed Comparison | OnOff.Markets">
+    <meta property="og:description" content="Does sentiment predict price? Compare Fear & Greed scores against market prices across 4 asset classes with 5 years of data.">
+    <meta property="og:image" content="https://onoff.markets/og-home.png">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://onoff.markets/compare.html">
+    <meta name="twitter:title" content="Sentiment vs Price Comparison | OnOff.Markets">
+    <meta name="twitter:description" content="Does sentiment predict price? 5-year comparison across Gold, Bonds, Stocks and Crypto.">
+    <meta name="twitter:image" content="https://onoff.markets/og-home.png">
+
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "WebApplication",
+        "name": "Sentiment vs Price Comparison",
+        "url": "https://onoff.markets/compare.html",
+        "description": "Compare Fear & Greed sentiment scores against market prices for Gold, Bonds, Stocks and Crypto.",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "Web",
+        "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
+        "publisher": { "@type": "Organization", "name": "OnOff.Markets", "url": "https://onoff.markets" }
+    }
+    </script>
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="theme-color" content="#0a0a0a">
+
+    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+
     <style>
         * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
             font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #050505;
+            background: #0a0a0a;
             color: #ffffff;
             min-height: 100vh;
+            padding: 0;
         }
 
         .container {
             max-width: 960px;
             margin: 0 auto;
-            padding: 40px 20px 60px;
+            padding: 120px 20px 60px;
         }
 
-        .back-link {
-            display: inline-block;
-            color: #555;
+        /* Navigation */
+        nav {
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid #1a1a1a;
+            padding: 20px 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 100;
+        }
+
+        .nav-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 32px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #ffffff;
             text-decoration: none;
-            font-size: 0.85rem;
-            margin-bottom: 32px;
-            transition: color 0.2s;
+            transition: all 0.2s ease;
+            letter-spacing: -0.02em;
+            font-family: 'Space Grotesk', sans-serif;
+            display: flex;
+            align-items: center;
+            gap: 6px;
         }
-        .back-link:hover { color: #fff; }
 
+        .logo-dots {
+            display: flex;
+            gap: 4px;
+            font-size: 0.8rem;
+            color: #666;
+            transition: color 0.6s ease;
+        }
+
+        .logo-suffix {
+            color: #666;
+            font-weight: 500;
+        }
+
+        .logo:hover { opacity: 0.9; }
+
+        .nav-links {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #999;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.2s ease;
+            font-size: 0.95rem;
+        }
+
+        .nav-links a:hover,
+        .nav-links a.active {
+            color: #ffffff;
+        }
+
+        /* Mobile Menu Toggle */
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            z-index: 101;
+        }
+
+        .mobile-menu-toggle span {
+            width: 24px;
+            height: 2px;
+            background: #ffffff;
+            transition: all 0.3s ease;
+            border-radius: 2px;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(1) {
+            transform: rotate(45deg) translate(7px, 7px);
+        }
+
+        .mobile-menu-toggle.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .mobile-menu-toggle.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(7px, -7px);
+        }
+
+        /* Mobile Menu Overlay */
+        .mobile-menu-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(8px);
+            z-index: 99;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            pointer-events: none;
+        }
+
+        .mobile-menu-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Page Header */
         h1 {
             font-family: 'Space Grotesk', sans-serif;
             font-size: 1.8rem;
@@ -194,18 +362,33 @@
             color: #555;
             text-transform: uppercase;
             letter-spacing: 0.1em;
-            margin-bottom: 8px;
+            margin-bottom: 12px;
         }
 
-        .correlation-value {
+        .corr-grid {
+            display: flex;
+            gap: 40px;
+            align-items: baseline;
+            flex-wrap: wrap;
+        }
+
+        .corr-item {}
+
+        .corr-value {
             font-size: 1.4rem;
             font-weight: 700;
         }
 
-        .correlation-desc {
+        .corr-label {
+            font-size: 0.78rem;
+            color: #666;
+            margin-top: 2px;
+        }
+
+        .corr-trend {
             font-size: 0.8rem;
             color: #666;
-            margin-top: 6px;
+            margin-top: 10px;
             line-height: 1.5;
         }
 
@@ -216,9 +399,60 @@
             font-size: 0.9rem;
         }
 
+        /* Footer */
+        footer {
+            margin-top: 80px;
+            padding-top: 40px;
+            border-top: 1px solid #1a1a1a;
+        }
+
+        .disclaimer {
+            font-size: 0.8rem;
+            color: #666;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .credits {
+            font-size: 0.75rem;
+            color: #555;
+            text-align: center;
+        }
+
         /* Mobile */
         @media (max-width: 768px) {
-            .container { padding: 24px 16px 40px; }
+            .nav-container { padding: 0 20px; }
+
+            .mobile-menu-toggle { display: flex; }
+
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 280px;
+                height: 100vh;
+                background: #0a0a0a;
+                flex-direction: column;
+                padding: 80px 32px 32px;
+                gap: 16px;
+                transition: right 0.3s ease;
+                z-index: 100;
+                box-shadow: -4px 0 20px rgba(0, 0, 0, 0.5);
+                border-left: 1px solid #1a1a1a;
+            }
+
+            .nav-links.active { right: 0; }
+
+            .nav-links a {
+                font-size: 1.1rem;
+                padding: 16px 0;
+                border-bottom: 1px solid #1a1a1a;
+                width: 100%;
+            }
+
+            .mobile-menu-overlay { display: block; }
+
+            .container { padding: 100px 16px 40px; }
             h1 { font-size: 1.4rem; }
             .chart-canvas-box { height: 420px; }
             .chart-toolbar {
@@ -228,20 +462,49 @@
             }
             .chart-legend { justify-content: center; }
             .period-selector { justify-content: center; }
+            .period-btn { padding: 5px 10px; font-size: 0.75rem; }
+            .corr-grid { gap: 24px; }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <a href="index.html" class="back-link">← Back to dashboard</a>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span>On</span>
+                <span class="logo-dots">●●</span>
+                <span>Off</span>
+                <span class="logo-suffix">.Markets</span>
+            </a>
 
+            <button class="mobile-menu-toggle" aria-label="Menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+
+            <div class="nav-links">
+                <a href="gold.html">Gold</a>
+                <a href="bonds.html">Bonds</a>
+                <a href="stocks.html">Stocks</a>
+                <a href="crypto.html">Crypto</a>
+                <a href="about.html">About</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay"></div>
+
+    <div class="container">
         <h1>Fear & Greed vs Market Price</h1>
-        <p class="subtitle">Does sentiment predict price? Compare the Fear & Greed index with actual market prices to spot patterns.</p>
+        <p class="subtitle">Does sentiment predict price? Compare the Fear & Greed index with actual market prices over 5 years of data.</p>
 
         <div class="asset-selector">
-            <button class="asset-btn active" data-asset="crypto">₿ Crypto / BTC</button>
-            <button class="asset-btn" data-asset="gold">🪙 Gold / GLD</button>
+            <button class="asset-btn active" data-asset="gold">🪙 Gold / GLD</button>
             <button class="asset-btn" data-asset="stocks">📈 Stocks / SPY</button>
+            <button class="asset-btn" data-asset="crypto">₿ Crypto / BTC</button>
             <button class="asset-btn" data-asset="bonds">📊 Bonds / TLT</button>
         </div>
 
@@ -253,15 +516,16 @@
                         <span>Fear & Greed Index</span>
                     </div>
                     <div class="legend-item">
-                        <span class="legend-dot" id="priceDot" style="background: #F7931A;"></span>
-                        <span id="priceLabel">BTC Price</span>
+                        <span class="legend-dot" id="priceDot" style="background: #FFD700;"></span>
+                        <span id="priceLabel">GLD Price</span>
                     </div>
                 </div>
                 <div class="period-selector">
-                    <button class="period-btn active" data-period="30">30D</button>
+                    <button class="period-btn" data-period="30">30D</button>
                     <button class="period-btn" data-period="90">90D</button>
                     <button class="period-btn" data-period="180">180D</button>
-                    <button class="period-btn" data-period="365">1Y</button>
+                    <button class="period-btn active" data-period="365">1Y</button>
+                    <button class="period-btn" data-period="1825">5Y</button>
                 </div>
             </div>
             <div class="chart-canvas-box">
@@ -274,27 +538,45 @@
             </div>
         </div>
 
+        <!-- Correlation Box (enhanced) -->
         <div class="correlation-box">
-            <div class="correlation-title">Correlation</div>
-            <div class="correlation-value" id="corrValue">--</div>
-            <div class="correlation-desc" id="corrDesc">Loading...</div>
+            <div class="correlation-title">Correlation (Score vs Price)</div>
+            <div class="corr-grid">
+                <div class="corr-item">
+                    <div class="corr-value" id="corrValue90d">--</div>
+                    <div class="corr-label" id="corrLabel90d">90-day</div>
+                </div>
+                <div class="corr-item">
+                    <div class="corr-value" id="corrValueFull">--</div>
+                    <div class="corr-label" id="corrLabelFull">5-year</div>
+                </div>
+            </div>
+            <div class="corr-trend" id="corrTrend">Loading...</div>
         </div>
+
+        <footer>
+            <p class="disclaimer">
+                <strong>Disclaimer:</strong> This index is provided for informational purposes only and does not constitute financial advice.
+                Investments carry risks. Consult a financial advisor before making any investment decisions.
+            </p>
+            <p class="credits">
+                Sources: Yahoo Finance, FRED | Updated Daily | <a href="mailto:contact@onoff.markets" style="color: #666; text-decoration: none; transition: color 0.2s ease;" onmouseover="this.style.color='#999'" onmouseout="this.style.color='#666'">Contact</a>
+            </p>
+        </footer>
     </div>
 
     <script>
-        // Config per asset — all data from local JSON files
+        // Config per asset — unified 5Y history + insights
         const assetConfig = {
-            crypto: { json: 'data/crypto-fear-greed.json', priceJson: 'data/prices-btc.json', priceColor: '#F7931A', priceLabel: 'BTC Price' },
-            gold:   { json: 'data/gold-fear-greed.json',   priceJson: 'data/prices-gld.json', priceColor: '#FFD700', priceLabel: 'GLD Price' },
-            stocks: { json: 'data/stocks-fear-greed.json', priceJson: 'data/prices-spy.json', priceColor: '#4A90E2', priceLabel: 'SPY Price' },
-            bonds:  { json: 'data/bonds-fear-greed.json',  priceJson: 'data/prices-tlt.json', priceColor: '#10b981', priceLabel: 'TLT Price' }
+            gold:   { history: 'data/history-5y-gold.json',   insights: 'data/insights-5y-gold.json',   priceColor: '#FFD700', priceLabel: 'GLD Price' },
+            stocks: { history: 'data/history-5y-stocks.json', insights: 'data/insights-5y-stocks.json', priceColor: '#4A90E2', priceLabel: 'SPY Price' },
+            crypto: { history: 'data/history-5y-crypto.json', insights: 'data/insights-5y-crypto.json', priceColor: '#F7931A', priceLabel: 'BTC Price' },
+            bonds:  { history: 'data/history-5y-bonds.json',  insights: 'data/insights-5y-bonds.json',  priceColor: '#10b981', priceLabel: 'TLT Price' }
         };
 
-        // Cache: one fetch per asset, reuse for all periods
         const cache = {};
-
-        let currentAsset = 'crypto';
-        let currentPeriod = 30;
+        let currentAsset = 'gold';
+        let currentPeriod = 365;
         let alignedData = [];
 
         async function loadCompare(asset, days) {
@@ -306,32 +588,27 @@
             document.getElementById('priceLabel').textContent = cfg.priceLabel;
             document.getElementById('priceDot').style.background = cfg.priceColor;
 
-            // Use cache if available for this asset
             if (!cache[asset]) {
                 loading.style.display = 'block';
                 loading.textContent = 'Loading data...';
                 canvas.style.opacity = '0.3';
 
                 try {
-                    const [fgRes, priceData] = await Promise.all([
-                        fetch(cfg.json).then(r => r.json()),
-                        fetch(cfg.priceJson).then(r => r.json())
-                    ]);
+                    const historyRes = await fetch(cfg.history).then(r => r.json());
 
-                    const fgHistory = [...(fgRes.history || [])].sort((a, b) => new Date(a.date) - new Date(b.date));
+                    // history-5y files: { asset, history: [{date, score, label, price}, ...] }
+                    // Already sorted and aligned — no manual join needed
+                    let insightsData = null;
+                    try {
+                        insightsData = await fetch(cfg.insights).then(r => r.json());
+                    } catch (e) {
+                        console.warn('Insights unavailable for', asset);
+                    }
 
-                    // Align by date (once, full history)
-                    const priceMap = {};
-                    priceData.forEach(p => { priceMap[p.date] = p.price; });
-
-                    const allAligned = [];
-                    fgHistory.forEach(fg => {
-                        if (priceMap[fg.date] != null) {
-                            allAligned.push({ date: fg.date, score: fg.score, price: priceMap[fg.date] });
-                        }
-                    });
-
-                    cache[asset] = { allAligned };
+                    cache[asset] = {
+                        allAligned: historyRes.history,
+                        insights: insightsData
+                    };
                 } catch (e) {
                     console.error('Error loading compare data:', e);
                     loading.textContent = 'Error loading data. Refresh to retry.';
@@ -347,7 +624,7 @@
 
             if (alignedData.length < 2) {
                 loading.style.display = 'block';
-                loading.textContent = 'Not enough aligned data for this period.';
+                loading.textContent = 'Not enough data for this period.';
                 canvas.style.opacity = '0.3';
                 return;
             }
@@ -468,9 +745,9 @@
             ctx.stroke();
 
             // Price end dot
-            const lastPrice = alignedData[total - 1];
+            const lastPoint = alignedData[total - 1];
             ctx.beginPath();
-            ctx.arc(iToX(total - 1), priceToY(lastPrice.price), 3, 0, Math.PI * 2);
+            ctx.arc(iToX(total - 1), priceToY(lastPoint.price), 3, 0, Math.PI * 2);
             ctx.fillStyle = cfg.priceColor;
             ctx.fill();
 
@@ -487,7 +764,7 @@
 
             // F&G end dot
             ctx.beginPath();
-            ctx.arc(iToX(total - 1), scoreToY(lastPrice.score), 4, 0, Math.PI * 2);
+            ctx.arc(iToX(total - 1), scoreToY(lastPoint.score), 4, 0, Math.PI * 2);
             ctx.fillStyle = '#ffffff';
             ctx.fill();
 
@@ -503,11 +780,14 @@
             const numLabels = Math.min(total, w < 500 ? 4 : 6);
             ctx.fillStyle = '#444';
             ctx.font = '10px -apple-system, sans-serif';
+            const dateOpts = currentPeriod > 365
+                ? { month: 'short', year: '2-digit' }
+                : { month: 'short', day: 'numeric' };
             for (let i = 0; i < numLabels; i++) {
                 const idx = i === numLabels - 1 ? total - 1 : Math.round(i * (total - 1) / (numLabels - 1));
                 const x = iToX(idx);
                 const date = new Date(alignedData[idx].date);
-                const label = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                const label = date.toLocaleDateString('en-US', dateOpts);
                 if (i === 0) ctx.textAlign = 'left';
                 else if (i === numLabels - 1) ctx.textAlign = 'right';
                 else ctx.textAlign = 'center';
@@ -576,11 +856,41 @@
             drawCompareChart();
         }
 
-        // Correlation
+        // Correlation — use pre-computed insights
         function updateCorrelation() {
+            const insights = cache[currentAsset]?.insights;
+            if (insights && insights.correlation) {
+                const corr = insights.correlation;
+
+                // 90-day
+                const r90 = corr.r_90d;
+                const el90 = document.getElementById('corrValue90d');
+                el90.textContent = (r90 > 0 ? '+' : '') + r90.toFixed(3);
+                el90.style.color = Math.abs(r90) > 0.5 ? '#22c55e' : (Math.abs(r90) > 0.3 ? '#f59e0b' : '#666');
+                document.getElementById('corrLabel90d').textContent = corr.label_90d + ' (90-day)';
+
+                // Full period
+                const rFull = corr.r_full;
+                const elFull = document.getElementById('corrValueFull');
+                elFull.textContent = (rFull > 0 ? '+' : '') + rFull.toFixed(3);
+                elFull.style.color = Math.abs(rFull) > 0.5 ? '#22c55e' : (Math.abs(rFull) > 0.3 ? '#f59e0b' : '#666');
+                document.getElementById('corrLabelFull').textContent = corr.label_full + ' (5-year)';
+
+                // Trend
+                document.getElementById('corrTrend').textContent = corr.trend_detail;
+            } else {
+                // Fallback: compute from visible data
+                computeCorrelationFallback();
+            }
+        }
+
+        function computeCorrelationFallback() {
             if (alignedData.length < 5) {
-                document.getElementById('corrValue').textContent = '--';
-                document.getElementById('corrDesc').textContent = 'Not enough data.';
+                document.getElementById('corrValue90d').textContent = '--';
+                document.getElementById('corrLabel90d').textContent = 'Visible period';
+                document.getElementById('corrValueFull').textContent = '--';
+                document.getElementById('corrLabelFull').textContent = '';
+                document.getElementById('corrTrend').textContent = 'Not enough data.';
                 return;
             }
 
@@ -600,20 +910,13 @@
             const r = num / (Math.sqrt(denS) * Math.sqrt(denP));
             const rRound = Math.round(r * 100) / 100;
 
-            const el = document.getElementById('corrValue');
+            const el = document.getElementById('corrValue90d');
             el.textContent = (rRound > 0 ? '+' : '') + rRound.toFixed(2);
             el.style.color = Math.abs(rRound) > 0.5 ? '#22c55e' : (Math.abs(rRound) > 0.3 ? '#f59e0b' : '#666');
-
-            let desc = '';
-            if (rRound > 0.7) desc = 'Strong positive correlation — sentiment and price move together closely.';
-            else if (rRound > 0.4) desc = 'Moderate positive correlation — sentiment tends to follow price direction.';
-            else if (rRound > 0.1) desc = 'Weak positive correlation — slight tendency to move together.';
-            else if (rRound > -0.1) desc = 'No meaningful correlation — sentiment and price move independently.';
-            else if (rRound > -0.4) desc = 'Weak negative correlation — slight inverse relationship.';
-            else if (rRound > -0.7) desc = 'Moderate negative correlation — sentiment tends to move opposite to price.';
-            else desc = 'Strong negative correlation — sentiment and price move in opposite directions.';
-
-            document.getElementById('corrDesc').textContent = desc;
+            document.getElementById('corrLabel90d').textContent = 'Visible period';
+            document.getElementById('corrValueFull').textContent = '--';
+            document.getElementById('corrLabelFull').textContent = '';
+            document.getElementById('corrTrend').textContent = '';
         }
 
         // Events
@@ -647,8 +950,62 @@
             resizeTimeout = setTimeout(() => drawCompareChart(), 200);
         });
 
+        // Mobile Menu Toggle
+        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
+
+        function toggleMobileMenu() {
+            mobileMenuToggle.classList.toggle('active');
+            navLinks.classList.toggle('active');
+            mobileMenuOverlay.classList.toggle('active');
+            document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
+        }
+
+        mobileMenuToggle.addEventListener('click', toggleMobileMenu);
+        mobileMenuOverlay.addEventListener('click', toggleMobileMenu);
+
+        navLinks.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 768) toggleMobileMenu();
+            });
+        });
+
+        // Update logo dots color
+        async function updateLogoDots() {
+            try {
+                const [bondsRes, goldRes, stocksRes, cryptoRes] = await Promise.all([
+                    fetch('data/bonds-fear-greed.json'),
+                    fetch('data/gold-fear-greed.json'),
+                    fetch('data/stocks-fear-greed.json'),
+                    fetch('data/crypto-fear-greed.json')
+                ]);
+                const bonds = await bondsRes.json();
+                const gold = await goldRes.json();
+                const stocks = await stocksRes.json();
+                const crypto = await cryptoRes.json();
+
+                const riskOn = (stocks.score + crypto.score) / 2;
+                const riskOff = (bonds.score + gold.score) / 2;
+                const position = ((riskOn - riskOff + 100) / 200) * 100;
+
+                const logoDots = document.querySelector('.logo-dots');
+                let dotsColor;
+                if (position < 25) dotsColor = "#ef4444";
+                else if (position < 45) dotsColor = "#f59e0b";
+                else if (position < 55) dotsColor = "#ffffff";
+                else if (position < 75) dotsColor = "#22c55e";
+                else dotsColor = "#06b6d4";
+                if (logoDots) logoDots.style.color = dotsColor;
+            } catch (error) {
+                console.error('Error updating logo dots:', error);
+            }
+        }
+
+        updateLogoDots();
+
         // Init
-        loadCompare('crypto', 30);
+        loadCompare('gold', 365);
     </script>
 </body>
 </html>
