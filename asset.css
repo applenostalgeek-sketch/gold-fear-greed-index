@@ -241,6 +241,62 @@
 .greed-bg { border-top: 3px solid #22c55e; }
 .extreme-greed-bg { border-top: 3px solid #06b6d4; }
 
+/* Methodology Section */
+.methodology-section {
+    margin: 60px 0;
+}
+
+.methodology-section h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 12px;
+    color: #fff;
+}
+
+.methodology-section > p {
+    font-size: 1rem;
+    color: #ccc;
+    line-height: 1.8;
+    margin-bottom: 16px;
+}
+
+.methodology-section .component-box {
+    background: #0d0d0d;
+    border: 1px solid #1a1a1a;
+    border-left: 4px solid var(--asset-color, #666);
+    border-radius: 8px;
+    padding: 24px;
+    margin: 20px 0;
+}
+
+.methodology-section .component-box h4 {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: #fff;
+}
+
+.methodology-section .component-box .weight {
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 12px;
+    font-style: italic;
+}
+
+.methodology-section .component-box p {
+    font-size: 0.95rem;
+    color: #ccc;
+    line-height: 1.6;
+    margin: 0;
+}
+
+.methodology-section .component-box ul {
+    margin: 12px 0 0 24px;
+    color: #ccc;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
 /* Back Link */
 .back-link {
     text-align: center;
@@ -263,11 +319,15 @@
     .score { font-size: 7rem; }
     .score-denominator { font-size: 2rem; }
     .label { font-size: 1.8rem; }
-    .explanation-grid { grid-template-columns: 1fr; gap: 0; }
+    .explanation-grid { grid-template-columns: repeat(5, 1fr); }
+    .explanation-item { padding: 12px 6px; }
+    .explanation-item strong { font-size: 0.7rem; }
+    .explanation-item p { display: none; }
     .components-grid { grid-template-columns: repeat(2, 1fr); gap: 1px; }
     .component-card { padding: 16px 12px; }
     .component-score { font-size: 1.8rem; }
     .component-detail { font-size: 0.75rem; }
     .insight-box { padding: 24px 28px; }
     .insight-text { font-size: 1.05rem; }
+    .methodology-section .component-box { padding: 20px; }
 }

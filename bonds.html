@@ -48,6 +48,40 @@
     }
     </script>
 
+    <!-- FAQ Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is the Bonds Fear & Greed Index?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The Bonds Fear & Greed Index measures sentiment in the fixed income market using 6 components: Yield Curve Shape (20%), Duration Risk/TLT (20%), Credit Quality (20%), Real Rates (15%), Bond Volatility (15%), and Equity vs Bonds Rotation (10%). It tracks whether investors are buying or selling bonds."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How does the yield curve affect bond sentiment?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The yield curve (10Y-2Y spread) is a classic recession indicator. A steep curve means high term premium, rewarding long bond holders (greed). An inverted curve means the Fed is hiking aggressively, crushing bond prices (fear). This component contributes 20% to the index."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why does the Bonds index have 6 components while others have 5 or 7?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Each asset class has unique dynamics requiring tailored indicators. Bonds need 6 components to capture yield curve shape, duration appetite, credit spreads, real yields, volatility, and equity rotation — all specific to fixed income markets with zero overlap with equity indicators."
+                }
+            }
+        ]
+    }
+    </script>
+
     <!-- Favicons -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -188,6 +222,70 @@
                     <p>Market euphoria. Potential correction ahead.</p>
                 </div>
             </div>
+        </section>
+
+        <!-- Methodology -->
+        <section class="methodology-section">
+            <h2>How This Index is Calculated</h2>
+            <p>
+                The Bonds Index measures sentiment in the fixed income market using <strong>6 bond-specific components</strong> with zero overlap with equity markets. Optimized to measure bond demand, duration appetite, and credit conditions. All scores from 0-100:
+            </p>
+
+            <div class="component-box">
+                <h4>1. Yield Curve Shape (20%)</h4>
+                <p class="weight">10-Year vs 2-Year Treasury spread (FRED API with Yahoo fallback)</p>
+                <p>
+                    Classic recession indicator measuring yield curve shape. <strong>Direct logic (term premium perspective):</strong> Steep curve (+2%+) = high term premium = rewarding long bond holders = high score (greed). Flat curve (~0%) = neutral. <strong>Inverted curve (&lt; 0%) = Fed hiking aggressively = bond prices crushed = low score (fear).</strong> Score = 40 + (spread x 20), capped 0-100.
+                </p>
+            </div>
+
+            <div class="component-box">
+                <h4>2. Duration Risk / TLT (20%)</h4>
+                <p class="weight">TLT 14-day price momentum</p>
+                <p>
+                    Measures demand for long-duration Treasuries via iShares 20+ Year Treasury ETF (TLT). <strong>Rising TLT = investors buying bonds = high score.</strong> Falling TLT = investors selling = low score. Uses x12.5 multiplier: TLT +4% = score 100, TLT -4% = score 0.
+                </p>
+            </div>
+
+            <div class="component-box">
+                <h4>3. Credit Quality Appetite (20%)</h4>
+                <p class="weight">Investment Grade (LQD) vs Treasuries (TLT)</p>
+                <p>
+                    Measures demand for investment-grade corporate bonds relative to safe Treasuries. <strong>LQD outperforming TLT = credit spreads tightening = high score</strong> (investors taking moderate credit risk). LQD underperforming = credit stress = low score. <strong>Note:</strong> Different from junk bonds (HYG) used in Stocks index.
+                </p>
+            </div>
+
+            <div class="component-box">
+                <h4>4. Real Rates Attractiveness (15%)</h4>
+                <p class="weight">10-Year TIPS yield (inflation-adjusted returns)</p>
+                <p>
+                    Real yield = nominal yield minus inflation expectations. <strong>Higher real rates = bond prices fall = fear (low score).</strong> Lower real rates = bond prices rise = greed (high score). Score = 50 - (real_rate x 10): +2.5% real = 25, 0% = 50, -2.5% = 75.
+                </p>
+            </div>
+
+            <div class="component-box">
+                <h4>5. Bond Volatility (15%)</h4>
+                <p class="weight">Short-term vs long-term TLT volatility (MOVE proxy)</p>
+                <p>
+                    Compares 5-day TLT annualized volatility to 30-day average as a proxy for the MOVE index.
+                    <strong>Rising short-term volatility = bond market stress = fear = lower score.</strong>
+                    Calm, stable bond markets = confidence = higher score. Uses x75 multiplier for sensitivity to sudden volatility spikes.
+                </p>
+            </div>
+
+            <div class="component-box">
+                <h4>6. Equity vs Bonds Rotation (10%)</h4>
+                <p class="weight">TLT vs SPY relative performance</p>
+                <p>
+                    Measures relative performance between stocks and bonds over 14 days.
+                    <strong>Bonds outperforming stocks = investors favoring bonds = high score (greed for bonds).</strong>
+                    Stocks outperforming = investors leaving bonds = low score (fear for bonds). Uses x8 multiplier.
+                </p>
+            </div>
+
+            <p style="margin-top: 24px; font-size: 0.9rem; color: #666;">
+                Full cross-asset methodology and data sources available on the <a href="about.html" style="color: #10b981;">About page</a>.
+            </p>
         </section>
 
         <footer>

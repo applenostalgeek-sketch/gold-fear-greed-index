@@ -48,6 +48,40 @@
     }
     </script>
 
+    <!-- FAQ Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What drives the Gold Fear & Greed Index?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The Gold Fear & Greed Index uses 5 components: GLD Price Momentum (30%), RSI & Moving Averages (25%), Dollar Index (20%), Real Rates (15%), and VIX (10%). It measures sentiment TOWARDS gold — whether investors are buying or selling the safe haven asset."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How does the US dollar affect gold sentiment?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Gold and the dollar typically move inversely. A weakening dollar makes gold cheaper for foreign buyers, increasing demand and pushing the index higher. The Dollar Index component tracks 14-day DXY changes with a x15 multiplier, contributing 20% to the overall score."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Is gold a good buy when the index shows Extreme Fear?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Extreme Fear readings (below 25) indicate heavy selling pressure and pessimistic sentiment towards gold. Historically, extreme sentiment readings tend to be contrarian signals — but past patterns do not guarantee future results. These indices are analytical tools, not financial advice."
+                }
+            }
+        ]
+    }
+    </script>
+
     <!-- Favicons -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -196,6 +230,70 @@
                     <p>Market euphoria. Potential correction ahead.</p>
                 </div>
             </div>
+        </section>
+
+        <!-- Methodology -->
+        <section class="methodology-section">
+            <h2>How This Index is Calculated</h2>
+            <p>
+                The Gold Index measures <strong>sentiment TOWARDS gold</strong> using <strong>5 components</strong>. Like Alternative.me measures crypto sentiment, we measure whether investors are buying or selling gold, regardless of the reason. All scores from 0-100:
+            </p>
+
+            <div class="component-box">
+                <h4>1. GLD Price Momentum (30%)</h4>
+                <p class="weight">Direct 14-day GLD performance (PRIMARY INDICATOR)</p>
+                <p>
+                    <strong>Highest weight component.</strong> Measures direct SPDR Gold Trust (GLD) price change over 14 days.
+                    <strong>GLD +7% = score 100 (extreme greed), GLD -7% = score 0 (extreme fear).</strong> This captures
+                    actual buying/selling sentiment regardless of macro reasons. Uses a x7 multiplier centered at 50.
+                </p>
+            </div>
+
+            <div class="component-box">
+                <h4>2. RSI & Moving Averages (25%)</h4>
+                <p class="weight">Mean-reversion and trend signal</p>
+                <p>
+                    Combines 14-day RSI with price position relative to 50-day and 200-day moving averages.
+                    <strong>Uses proportional distance-based scoring:</strong> contribution scales with how far price is above/below each MA,
+                    rather than binary on/off signals. RSI provides a +/-25 point contribution centered at 50.
+                    Price above MA50 by 10% = strong bullish signal, price below both MAs with RSI &lt; 30 = extreme fear.
+                </p>
+            </div>
+
+            <div class="component-box">
+                <h4>3. Dollar Index (20%)</h4>
+                <p class="weight">USD strength (inverted correlation)</p>
+                <p>
+                    Gold and the dollar typically move inversely. <strong>Weakening dollar = stronger gold demand = higher score.</strong>
+                    Tracks 14-day change in DXY (US Dollar Index vs basket of currencies) with a x15 multiplier.
+                    Dollar down 3.3% = score 100, dollar up 3.3% = score 0. Also factors in DXY position relative to its 30-day moving average.
+                </p>
+            </div>
+
+            <div class="component-box">
+                <h4>4. Real Rates (15%)</h4>
+                <p class="weight">10-Year TIPS yield (inflation-adjusted)</p>
+                <p>
+                    Gold is a non-yielding asset, so <strong>lower real rates = more attractive gold = higher score.</strong>
+                    Uses FRED API (DFII10 - 10-Year Treasury Inflation-Indexed Security) with Yahoo fallback (TIP ETF).
+                    Real rate at -1% = score ~94, at +3% = score ~19. Fundamental driver of gold valuation.
+                </p>
+            </div>
+
+            <div class="component-box">
+                <h4>5. VIX (10%)</h4>
+                <p class="weight">Safe haven demand (z-score normalized)</p>
+                <p>
+                    Uses a <strong>z-score approach</strong>: compares current VIX to its 3-month average and standard deviation.
+                    <strong>VIX significantly above average = market stress = increased safe haven gold demand = higher score.</strong>
+                    Score = 50 + (z-score x 25), capped 0-100. This contextualizes the VIX level rather than using fixed thresholds,
+                    making the signal adaptive to changing volatility regimes.
+                </p>
+            </div>
+
+            <p style="margin-top: 24px; font-size: 0.9rem; color: #666;">
+                Full cross-asset methodology and data sources available on the <a href="about.html" style="color: #FFD700;">About page</a>.
+            </p>
         </section>
 
         <!-- Footer -->

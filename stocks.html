@@ -48,6 +48,40 @@
     }
     </script>
 
+    <!-- FAQ Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What does the Stock Market Fear & Greed Index measure?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The Stocks Fear & Greed Index uses 7 components: Price Strength (20%), VIX (20%), Momentum (15%), Market Participation (15%), Junk Bond Demand (10%), Safe Haven Demand (10%), and Sector Rotation (10%). It combines technical, volatility, breadth, and cross-asset signals to capture stock market sentiment."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How is this different from CNN's Fear & Greed Index?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "CNN's index only covers US stocks with proprietary, undisclosed calculations. OnOff.Markets provides four separate indices (Stocks, Bonds, Gold, Crypto) with fully transparent methodology. Every formula, weight, and data source is published. The VIX component uses a continuous linear formula instead of step thresholds."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What does the VIX tell us about stock market sentiment?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The VIX measures expected S&P 500 volatility. Our index uses a continuous formula: score = 90 - (VIX - 10) x 3.2. VIX at 10 = score 90 (extreme complacency), VIX at 20 = score 58, VIX at 30 = score 26, VIX above 38 = score 0. Smooth transitions eliminate artificial cliff effects."
+                }
+            }
+        ]
+    }
+    </script>
+
     <!-- Favicons -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -188,6 +222,90 @@
                     <p>Market euphoria. Potential correction ahead.</p>
                 </div>
             </div>
+        </section>
+
+        <!-- Methodology -->
+        <section class="methodology-section">
+            <h2>How This Index is Calculated</h2>
+            <p>
+                The Stocks Index measures <strong>sentiment towards equities</strong> using <strong>7 components</strong>. Combines direct price performance with volatility, breadth, rotation, and cross-asset signals to capture when investors are buying or panicking. All scores from 0-100:
+            </p>
+
+            <div class="component-box">
+                <h4>1. Price Strength (20%)</h4>
+                <p class="weight">Direct SPY 14-day performance</p>
+                <p>
+                    Measures S&P 500 (SPY) price change over 14 days with a x8 multiplier.
+                    <strong>SPY +6% = score 100. SPY -6% = score 0.</strong>
+                    This directly captures buying/selling sentiment. When stocks crash -10%+, this component
+                    drives the score to Extreme Fear, signaling panic selling.
+                </p>
+            </div>
+
+            <div class="component-box">
+                <h4>2. VIX (20%)</h4>
+                <p class="weight">Market fear gauge (CBOE Volatility Index)</p>
+                <p>
+                    Measures expected stock market volatility using a <strong>continuous linear formula</strong>:
+                    score = 90 - (VIX - 10) x 3.2, capped 0-100.
+                    <strong>VIX 10 = score 90 (extreme complacency). VIX 20 = score 58. VIX 30 = score 26. VIX 38+ = score 0.</strong>
+                    Smooth transitions eliminate artificial cliff effects between VIX thresholds.
+                </p>
+            </div>
+
+            <div class="component-box">
+                <h4>3. Momentum (15%)</h4>
+                <p class="weight">RSI + 50-day moving average position</p>
+                <p>
+                    Combines 14-day RSI (70% weight) with price position relative to 50-day MA (30% weight).
+                    <strong>RSI &gt;70 + Price &gt; MA50 = overbought/bullish = high score.</strong> RSI &lt;30 + Price &lt; MA50 =
+                    oversold/bearish = low score. Captures technical momentum and trend strength.
+                </p>
+            </div>
+
+            <div class="component-box">
+                <h4>4. Market Participation (15%)</h4>
+                <p class="weight">Equal-weight vs cap-weight performance (RSP vs SPY)</p>
+                <p>
+                    Compares Invesco S&P 500 Equal Weight ETF (RSP) to SPY over 14 days with a x18 multiplier. <strong>RSP outperforming SPY =
+                    broad participation across all stocks = healthy greed.</strong> SPY outperforming RSP = narrow leadership
+                    (only mega-caps rising) = fragile market = lower score. Saturates at +/-2.8% divergence.
+                </p>
+            </div>
+
+            <div class="component-box">
+                <h4>5. Junk Bond Demand (10%)</h4>
+                <p class="weight">High-yield corporate bonds vs Treasuries (HYG vs TLT)</p>
+                <p>
+                    Compares iShares High Yield Corporate Bond ETF (HYG) to TLT over 14 days.
+                    <strong>HYG outperforming TLT = risk appetite for junk bonds = greed.</strong> TLT outperforming HYG =
+                    flight to safety from risky corporate debt = fear.
+                </p>
+            </div>
+
+            <div class="component-box">
+                <h4>6. Safe Haven Demand (10%)</h4>
+                <p class="weight">TLT 14-day momentum (inverted)</p>
+                <p>
+                    Measures flight-to-safety flows via iShares 20+ Year Treasury ETF (TLT).
+                    <strong>Rising TLT = investors buying safe Treasuries = fear for stocks = lower score.</strong>
+                    Falling TLT = investors leaving safe havens = confidence in stocks = higher score.
+                </p>
+            </div>
+
+            <div class="component-box">
+                <h4>7. Sector Rotation (10%)</h4>
+                <p class="weight">Tech vs Defensive rotation (QQQ vs XLP)</p>
+                <p>
+                    Measures sentiment shift between offensive and defensive sectors via 14-day relative performance with a x5 multiplier.
+                    <strong>QQQ (Nasdaq-100 tech) outperforming XLP (Consumer Staples) = risk-on = greed.</strong>
+                    XLP outperforming QQQ = defensive rotation = fear. Saturates at +/-10% divergence.
+                </p>
+            </div>
+
+            <p style="margin-top: 24px; font-size: 0.9rem; color: #666;">
+                Full cross-asset methodology and data sources available on the <a href="about.html" style="color: #4A90E2;">About page</a>.
+            </p>
         </section>
 
         <footer>

@@ -48,6 +48,40 @@
     }
     </script>
 
+    <!-- FAQ Schema -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "How is the Crypto Fear & Greed Index calculated?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "The Crypto Fear & Greed Index uses 5 components: Context/30-day BTC trend (30%), RSI & Moving Averages (20%), Bitcoin Dominance vs ETH (20%), Volume Trend (15%), and Volatility (15%). It measures sentiment towards crypto using behavioral indicators, volume dynamics, and volatility."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How does Bitcoin dominance affect the crypto fear index?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Bitcoin Dominance uses inverted logic: when BTC outperforms ETH, investors are rotating to safety (BTC as digital gold) = fear. When ETH outperforms BTC, it signals altcoin season and risk appetite = greed. This component contributes 20% with a x3.0 multiplier."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Is this the same as Alternative.me's Crypto Fear & Greed Index?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "No. While inspired by Alternative.me's philosophy, OnOff.Markets uses different components and fully transparent calculations. We focus on price-independent signals like direction-adjusted volume and use crypto-specific volatility thresholds (40-80% vs traditional 20-40%). All formulas are published."
+                }
+            }
+        ]
+    }
+    </script>
+
     <!-- Favicons -->
     <link rel="icon" type="image/x-icon" href="/favicon.ico">
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
@@ -188,6 +222,73 @@
                     <p>Market euphoria. Potential correction ahead.</p>
                 </div>
             </div>
+        </section>
+
+        <!-- Methodology -->
+        <section class="methodology-section">
+            <h2>How This Index is Calculated</h2>
+            <p>
+                The Crypto Index measures <strong>sentiment towards crypto</strong> using <strong>5 components</strong>.
+                Calibrated against Alternative.me's philosophy. Focuses on behavioral indicators, volume dynamics, and volatility rather than raw price alone. All scores from 0-100:
+            </p>
+
+            <div class="component-box">
+                <h4>1. Context (30%)</h4>
+                <p class="weight">30-day BTC price trend (PRIMARY INDICATOR)</p>
+                <p>
+                    <strong>Highest weight component.</strong> Captures the medium-term trend that drives overall sentiment.
+                    Score = 50 + (30-day change x 2.0), capped 0-100.
+                    <strong>Bitcoin +25% over 30 days = score 100 (extreme greed). Bitcoin -25% = score 0 (extreme fear).</strong>
+                    Centered at 50 (neutral) with full range 0-100.
+                </p>
+            </div>
+
+            <div class="component-box">
+                <h4>2. RSI & Moving Averages (20%)</h4>
+                <p class="weight">Bitcoin technical momentum</p>
+                <p>
+                    Combines RSI directly as a 0-100 score (60% weight) with MA position (40% weight).
+                    <strong>RSI below 30 = extreme fear, RSI above 70 = extreme greed.</strong>
+                    Moving average position provides trend context: price above both MA50 and MA200 signals bull market confidence,
+                    while price below both MAs indicates bear market fear.
+                </p>
+            </div>
+
+            <div class="component-box">
+                <h4>3. Bitcoin Dominance (20%)</h4>
+                <p class="weight">BTC vs ETH performance (inverted)</p>
+                <p>
+                    Tracks relative performance between Bitcoin (digital gold) and Ethereum (altcoin proxy) with a x3.0 multiplier centered at 50. <strong>INVERTED logic:</strong>
+                    When Bitcoin outperforms Ethereum, investors are rotating TO safety (BTC) FROM risk (alts) = fear = lower score.
+                    When Ethereum outperforms Bitcoin, "altcoin season" = risk appetite = greed = higher score.
+                </p>
+            </div>
+
+            <div class="component-box">
+                <h4>4. Volume Trend (15%)</h4>
+                <p class="weight">7-day vs 30-day average volume, direction-adjusted</p>
+                <p>
+                    <strong>Price-independent signal</strong> measuring trading activity dynamics.
+                    Compares 7-day average volume to 30-day average, then adjusts for price direction with a x50 multiplier.
+                    <strong>High volume + rising price = greed (buying pressure). High volume + falling price = fear (panic selling).</strong>
+                    Low volume = neutral.
+                </p>
+            </div>
+
+            <div class="component-box">
+                <h4>5. Volatility (15%)</h4>
+                <p class="weight">14-day annualized volatility (inverted)</p>
+                <p>
+                    Crypto's wild price swings reveal market psychology with thresholds calibrated for crypto:
+                    <strong>Volatility &ge; 80% annualized = score 0 (extreme fear). Volatility &le; 40% = score 100 (calm confidence).</strong>
+                    Between 40-80%: linear interpolation. These thresholds reflect crypto's naturally higher volatility
+                    compared to traditional assets.
+                </p>
+            </div>
+
+            <p style="margin-top: 24px; font-size: 0.9rem; color: #666;">
+                Full cross-asset methodology and data sources available on the <a href="about.html" style="color: #F7931A;">About page</a>.
+            </p>
         </section>
 
         <footer>

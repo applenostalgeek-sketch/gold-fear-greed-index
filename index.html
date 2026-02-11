@@ -290,33 +290,6 @@
             margin-left: 6px;
         }
 
-        /* How it works banner */
-        .how-banner {
-            text-align: center;
-            margin: 32px 0 0 0;
-            padding: 16px;
-            border: 1px solid #1a1a1a;
-            border-radius: 8px;
-            background: #0d0d0d;
-        }
-
-        .how-banner p {
-            font-size: 0.85rem;
-            color: #777;
-            line-height: 1.5;
-        }
-
-        .how-banner a {
-            color: #999;
-            text-decoration: underline;
-            text-underline-offset: 2px;
-            transition: color 0.2s;
-        }
-
-        .how-banner a:hover {
-            color: #fff;
-        }
-
         /* Historical Chart */
         .history-section {
             margin: 60px 0 60px 0;
@@ -368,6 +341,52 @@
             opacity: 1;
         }
 
+        /* Methodology Section */
+        .methodology-section {
+            margin: 0 0 60px 0;
+        }
+
+        .methodology-section h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #fff;
+        }
+
+        .methodology-section p {
+            font-size: 0.95rem;
+            color: #ccc;
+            line-height: 1.8;
+            margin-bottom: 14px;
+        }
+
+        .methodology-section h3 {
+            font-size: 1.15rem;
+            font-weight: 600;
+            margin: 24px 0 12px;
+            color: #fff;
+        }
+
+        .methodology-section ul {
+            margin: 12px 0 12px 28px;
+            color: #ccc;
+            line-height: 1.8;
+            font-size: 0.95rem;
+        }
+
+        .methodology-section li {
+            margin-bottom: 6px;
+        }
+
+        .formula-box {
+            background: #0d0d0d;
+            border: 1px solid #1a1a1a;
+            border-left: 4px solid #fff;
+            border-radius: 8px;
+            padding: 24px;
+            margin: 16px 0;
+        }
+
         /* Mobile */
         @media (max-width: 768px) {
             .tagline { font-size: 0.85rem; }
@@ -379,8 +398,6 @@
             .asset-score { font-size: 1.8rem; }
             .insight-box { padding: 16px 20px; }
             .insight-text { font-size: 0.95rem; }
-            .how-banner { padding: 12px; }
-            .how-banner p { font-size: 0.75rem; }
             .chart-toggles { justify-content: center; }
             .chart-toggle-btn { font-size: 0.75rem; padding: 5px 10px; }
         }
@@ -502,11 +519,6 @@
             </a>
         </div>
 
-        <!-- How it works banner -->
-        <div class="how-banner">
-            <p>Each score measures investor sentiment from 0 (extreme fear) to 100 (extreme greed). <a href="about.html">Learn how we calculate them</a></p>
-        </div>
-
         <!-- Historical Chart -->
         <section class="history-section">
             <h2>Historical Trend</h2>
@@ -545,6 +557,40 @@
                     </div>
                 </div>
             </div>
+        </section>
+
+        <!-- How the Sentiment Score is Calculated -->
+        <section class="methodology-section">
+            <h2>How the Sentiment Score is Calculated</h2>
+            <p>
+                The score above measures overall market mood by comparing how investors feel about <strong>risk assets</strong> (Stocks + Crypto) versus <strong>safe havens</strong> (Bonds + Gold). When money flows toward safety, the market is fearful. When money flows toward risk, the market is greedy.
+            </p>
+
+            <h3>Formula</h3>
+            <div class="formula-box">
+                <p style="font-family: 'Courier New', monospace; font-size: 0.95rem; color: #ccc; margin: 0; line-height: 2;">
+                    Greed Side = (Stocks Score + Crypto Score) / 2<br>
+                    Fear Side = (Bonds Score + Gold Score) / 2<br>
+                    Market Sentiment = Greed Side - Fear Side<br>
+                    Position = ((Market Sentiment + 100) / 200) &times; 100
+                </p>
+            </div>
+            <p>
+                This produces a 0-100 score. Below 50, fear dominates — investors prefer safe havens. Above 50, greed dominates — investors chase risk. Equal weighting (50/50) within each side avoids bias toward traditional or alternative markets.
+            </p>
+
+            <h3>Interpretation</h3>
+            <ul>
+                <li><strong>0-25 (Extreme Fear):</strong> Investors fleeing to safe havens (bonds + gold), markets in distress</li>
+                <li><strong>25-45 (Fear):</strong> Cautious sentiment, investors favoring safety over risk</li>
+                <li><strong>45-55 (Neutral):</strong> No clear direction, balanced between fear and greed</li>
+                <li><strong>55-75 (Greed):</strong> Growing risk appetite, investors favoring stocks and crypto</li>
+                <li><strong>75-100 (Extreme Greed):</strong> Euphoric risk-taking across assets, potential top warning</li>
+            </ul>
+
+            <p style="font-size: 0.85rem; color: #666; margin-top: 20px;">
+                Each individual index has its own methodology — see <a href="gold.html" style="color: #FFD700;">Gold</a>, <a href="bonds.html" style="color: #10b981;">Bonds</a>, <a href="stocks.html" style="color: #4A90E2;">Stocks</a>, <a href="crypto.html" style="color: #F7931A;">Crypto</a>. Full details on the <a href="about.html" style="color: #999;">About page</a>.
+            </p>
         </section>
 
         <!-- Footer -->
