@@ -1,7 +1,7 @@
 {
-  "score": 52.4,
+  "score": 52.7,
   "label": "Neutral",
-  "timestamp": "2026-02-11T08:27:14Z",
+  "timestamp": "2026-02-11T13:58:35Z",
   "components": {
     "price_strength": {
       "score": 53.6,
@@ -9,9 +9,9 @@
       "detail": "SPY +0.5% 14d"
     },
     "vix": {
-      "score": 65.1,
+      "score": 66.6,
       "weight": 0.2,
-      "detail": "VIX: 17.8 vs avg: 17.1"
+      "detail": "VIX: 17.3 vs avg: 17.1"
     },
     "momentum": {
       "score": 61.9,
@@ -41,1264 +41,1012 @@
   },
   "history": [
     {
-      "date": "2025-02-11",
-      "score": 49.1,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-02-12",
-      "score": 47.7,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-02-13",
-      "score": 48.7,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-02-14",
-      "score": 53.0,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-02-18",
-      "score": 57.1,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-02-19",
-      "score": 57.7,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-02-20",
-      "score": 54.3,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-02-21",
-      "score": 45.3,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-02-24",
-      "score": 46.2,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-02-25",
-      "score": 40.6,
-      "label": "Fear"
-    },
-    {
-      "date": "2025-02-26",
-      "score": 42.5,
-      "label": "Fear"
-    },
-    {
-      "date": "2025-02-27",
-      "score": 40.3,
-      "label": "Fear"
-    },
-    {
-      "date": "2025-02-28",
-      "score": 41.7,
-      "label": "Fear"
-    },
-    {
-      "date": "2025-03-03",
-      "score": 34.2,
-      "label": "Fear"
-    },
-    {
-      "date": "2025-03-04",
-      "score": 32.5,
-      "label": "Fear"
-    },
-    {
-      "date": "2025-03-05",
-      "score": 36.1,
-      "label": "Fear"
-    },
-    {
-      "date": "2025-03-06",
-      "score": 32.9,
-      "label": "Fear"
-    },
-    {
-      "date": "2025-03-07",
-      "score": 37.4,
-      "label": "Fear"
-    },
-    {
-      "date": "2025-03-10",
-      "score": 27.1,
-      "label": "Fear"
-    },
-    {
-      "date": "2025-03-11",
-      "score": 28.3,
-      "label": "Fear"
-    },
-    {
-      "date": "2025-03-12",
-      "score": 31.5,
-      "label": "Fear"
-    },
-    {
-      "date": "2025-03-13",
-      "score": 32.6,
-      "label": "Fear"
-    },
-    {
-      "date": "2025-03-14",
-      "score": 38.5,
-      "label": "Fear"
-    },
-    {
-      "date": "2025-03-17",
-      "score": 45.2,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-03-18",
-      "score": 43.9,
-      "label": "Fear"
-    },
-    {
-      "date": "2025-03-19",
-      "score": 47.6,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-03-20",
-      "score": 46.9,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-03-21",
-      "score": 51.2,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-03-24",
-      "score": 59.4,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-03-25",
-      "score": 55.5,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-03-26",
-      "score": 56.6,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-03-27",
-      "score": 52.2,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-03-28",
-      "score": 49.8,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-03-31",
-      "score": 49.7,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-04-01",
-      "score": 47.3,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-04-02",
-      "score": 55.5,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-04-03",
-      "score": 28.2,
-      "label": "Fear"
-    },
-    {
-      "date": "2025-04-04",
-      "score": 16.2,
-      "label": "Extreme Fear"
-    },
-    {
-      "date": "2025-04-07",
-      "score": 17.9,
-      "label": "Extreme Fear"
-    },
-    {
-      "date": "2025-04-08",
-      "score": 20.5,
-      "label": "Extreme Fear"
-    },
-    {
-      "date": "2025-04-09",
-      "score": 32.1,
-      "label": "Fear"
-    },
-    {
-      "date": "2025-04-10",
-      "score": 27.4,
-      "label": "Fear"
-    },
-    {
-      "date": "2025-04-11",
-      "score": 23.8,
-      "label": "Extreme Fear"
-    },
-    {
-      "date": "2025-04-14",
-      "score": 28.7,
-      "label": "Fear"
-    },
-    {
-      "date": "2025-04-15",
-      "score": 28.2,
-      "label": "Fear"
-    },
-    {
-      "date": "2025-04-16",
-      "score": 25.8,
-      "label": "Fear"
-    },
-    {
-      "date": "2025-04-17",
-      "score": 35.8,
-      "label": "Fear"
-    },
-    {
-      "date": "2025-04-21",
-      "score": 36.5,
-      "label": "Fear"
-    },
-    {
-      "date": "2025-04-22",
-      "score": 39.9,
-      "label": "Fear"
-    },
-    {
-      "date": "2025-04-23",
-      "score": 40.6,
-      "label": "Fear"
-    },
-    {
-      "date": "2025-04-24",
-      "score": 57.0,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-04-25",
-      "score": 65.0,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-04-28",
-      "score": 64.0,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-04-29",
-      "score": 61.9,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-04-30",
-      "score": 52.5,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-05-01",
-      "score": 59.7,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-05-02",
-      "score": 66.2,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-05-05",
-      "score": 64.6,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-05-06",
-      "score": 61.7,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-05-07",
-      "score": 66.9,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-05-08",
-      "score": 67.5,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-05-09",
-      "score": 65.0,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-05-12",
-      "score": 71.0,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-05-13",
-      "score": 73.8,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-05-14",
-      "score": 73.9,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-05-15",
-      "score": 77.7,
-      "label": "Extreme Greed"
-    },
-    {
-      "date": "2025-05-16",
-      "score": 78.2,
-      "label": "Extreme Greed"
-    },
-    {
-      "date": "2025-05-19",
-      "score": 78.2,
-      "label": "Extreme Greed"
-    },
-    {
-      "date": "2025-05-20",
-      "score": 77.8,
-      "label": "Extreme Greed"
-    },
-    {
-      "date": "2025-05-21",
-      "score": 72.2,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-05-22",
-      "score": 66.6,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-05-23",
-      "score": 64.2,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-05-27",
-      "score": 71.4,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-05-28",
-      "score": 68.6,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-05-29",
-      "score": 63.0,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-05-30",
-      "score": 62.6,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-06-02",
-      "score": 54.6,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-06-03",
-      "score": 55.2,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-06-04",
-      "score": 52.0,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-06-05",
-      "score": 51.0,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-06-06",
-      "score": 55.5,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-06-09",
-      "score": 54.9,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-06-10",
-      "score": 54.8,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-06-11",
-      "score": 56.0,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-06-12",
-      "score": 54.6,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-06-13",
-      "score": 53.5,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-06-16",
-      "score": 57.5,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-06-17",
-      "score": 51.7,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-06-18",
-      "score": 54.0,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-06-20",
-      "score": 55.3,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-06-23",
-      "score": 54.9,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-06-24",
-      "score": 54.8,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-06-25",
-      "score": 57.2,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-06-26",
-      "score": 59.6,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-06-27",
-      "score": 56.9,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-06-30",
-      "score": 56.1,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-07-01",
-      "score": 57.1,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-07-02",
-      "score": 60.9,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-07-03",
-      "score": 66.3,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-07-07",
-      "score": 66.0,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-07-08",
-      "score": 62.9,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-07-09",
-      "score": 68.3,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-07-10",
-      "score": 69.3,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-07-11",
-      "score": 69.0,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-07-14",
-      "score": 68.2,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-07-15",
-      "score": 64.4,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-07-16",
-      "score": 66.8,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-07-17",
-      "score": 67.8,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-07-18",
-      "score": 65.7,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-07-21",
-      "score": 63.6,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-07-22",
-      "score": 63.9,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-07-23",
-      "score": 65.7,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-07-24",
-      "score": 62.2,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-07-25",
-      "score": 63.7,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-07-28",
-      "score": 62.8,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-07-29",
-      "score": 58.6,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-07-30",
-      "score": 57.5,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-07-31",
-      "score": 53.3,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-08-01",
-      "score": 42.3,
-      "label": "Fear"
-    },
-    {
-      "date": "2025-08-04",
-      "score": 49.5,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-08-05",
-      "score": 46.7,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-08-06",
-      "score": 45.8,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-08-07",
-      "score": 46.0,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-08-08",
-      "score": 50.9,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-08-11",
-      "score": 47.9,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-08-12",
-      "score": 50.0,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-08-13",
-      "score": 52.7,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-08-14",
-      "score": 52.7,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-08-15",
-      "score": 52.8,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-08-18",
-      "score": 57.5,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-08-19",
-      "score": 56.4,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-08-20",
-      "score": 57.3,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-08-21",
-      "score": 63.9,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-08-22",
-      "score": 67.2,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-08-25",
-      "score": 67.5,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-08-26",
-      "score": 68.3,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-08-27",
-      "score": 69.5,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-08-28",
-      "score": 67.4,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-08-29",
-      "score": 68.1,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-09-02",
-      "score": 61.0,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-09-03",
-      "score": 57.1,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-09-04",
-      "score": 58.7,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-09-05",
-      "score": 55.0,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-09-08",
-      "score": 51.5,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-09-09",
-      "score": 52.9,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-09-10",
-      "score": 52.9,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-09-11",
-      "score": 55.4,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-09-12",
-      "score": 50.1,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-09-15",
-      "score": 50.6,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-09-16",
-      "score": 48.0,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-09-17",
-      "score": 47.6,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-09-18",
-      "score": 53.4,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-09-19",
-      "score": 53.8,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-09-22",
-      "score": 57.3,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-09-23",
-      "score": 55.9,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-09-24",
-      "score": 55.3,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-09-25",
-      "score": 55.5,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-09-26",
-      "score": 62.2,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-09-29",
-      "score": 60.8,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-09-30",
-      "score": 62.9,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-10-01",
-      "score": 61.0,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-10-02",
-      "score": 61.8,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-10-03",
-      "score": 62.6,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-10-06",
-      "score": 66.6,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-10-07",
-      "score": 62.4,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-10-08",
-      "score": 59.0,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-10-09",
-      "score": 55.9,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-10-10",
-      "score": 39.5,
-      "label": "Fear"
-    },
-    {
-      "date": "2025-10-13",
-      "score": 46.8,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-10-14",
-      "score": 46.4,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-10-15",
-      "score": 50.2,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-10-16",
-      "score": 40.0,
-      "label": "Fear"
-    },
-    {
-      "date": "2025-10-17",
-      "score": 45.0,
-      "label": "Fear"
-    },
-    {
-      "date": "2025-10-20",
-      "score": 47.8,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-10-21",
-      "score": 47.8,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-10-22",
-      "score": 44.9,
-      "label": "Fear"
-    },
-    {
-      "date": "2025-10-23",
-      "score": 48.3,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-10-24",
-      "score": 47.8,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-10-27",
-      "score": 52.2,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-10-28",
-      "score": 48.5,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-10-29",
-      "score": 51.5,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-10-30",
-      "score": 61.9,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-10-31",
-      "score": 59.1,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-11-03",
-      "score": 61.2,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-11-04",
-      "score": 53.2,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-11-05",
-      "score": 62.0,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-11-06",
-      "score": 55.5,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-11-07",
-      "score": 55.5,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-11-10",
-      "score": 58.7,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-11-11",
-      "score": 60.9,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-11-12",
-      "score": 57.3,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-11-13",
-      "score": 52.4,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-11-14",
-      "score": 51.8,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-11-17",
-      "score": 47.0,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-11-18",
-      "score": 45.5,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-11-19",
-      "score": 46.4,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-11-20",
-      "score": 38.6,
-      "label": "Fear"
-    },
-    {
-      "date": "2025-11-21",
-      "score": 44.9,
-      "label": "Fear"
-    },
-    {
-      "date": "2025-11-24",
-      "score": 50.7,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-11-25",
-      "score": 52.0,
-      "label": "Neutral"
-    },
-    {
-      "date": "2025-11-26",
-      "score": 57.2,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-11-28",
-      "score": 58.2,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-12-01",
-      "score": 56.1,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-12-02",
-      "score": 57.2,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-12-03",
-      "score": 59.0,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-12-04",
-      "score": 62.8,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-12-05",
-      "score": 64.4,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-12-08",
-      "score": 66.9,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-12-09",
-      "score": 66.1,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-12-10",
-      "score": 69.9,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-12-11",
-      "score": 78.2,
-      "label": "Extreme Greed"
-    },
-    {
-      "date": "2025-12-12",
-      "score": 71.8,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-12-15",
-      "score": 69.9,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-12-16",
-      "score": 64.1,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-12-17",
-      "score": 59.2,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-12-18",
-      "score": 59.5,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-12-19",
-      "score": 62.6,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-12-22",
-      "score": 65.4,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-12-23",
-      "score": 63.3,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-12-24",
-      "score": 61.7,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-12-26",
-      "score": 60.5,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-12-29",
-      "score": 59.5,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-12-30",
-      "score": 60.6,
-      "label": "Greed"
-    },
-    {
-      "date": "2025-12-31",
-      "score": 56.4,
-      "label": "Greed"
-    },
-    {
-      "date": "2026-01-02",
-      "score": 56.9,
-      "label": "Greed"
-    },
-    {
-      "date": "2026-01-05",
-      "score": 59.8,
-      "label": "Greed"
-    },
-    {
-      "date": "2026-01-06",
-      "score": 63.8,
-      "label": "Greed"
-    },
-    {
-      "date": "2026-01-07",
-      "score": 62.4,
-      "label": "Greed"
-    },
-    {
-      "date": "2026-01-08",
-      "score": 66.3,
-      "label": "Greed"
-    },
-    {
-      "date": "2026-01-09",
-      "score": 66.3,
-      "label": "Greed"
-    },
-    {
-      "date": "2026-01-12",
-      "score": 64.0,
-      "label": "Greed"
-    },
-    {
-      "date": "2026-01-13",
-      "score": 59.6,
-      "label": "Greed"
-    },
-    {
-      "date": "2026-01-14",
-      "score": 58.2,
-      "label": "Greed"
-    },
-    {
-      "date": "2026-01-15",
-      "score": 60.5,
-      "label": "Greed"
-    },
-    {
-      "date": "2026-01-16",
-      "score": 60.6,
-      "label": "Greed"
-    },
-    {
-      "date": "2026-01-20",
-      "score": 55.4,
-      "label": "Greed"
-    },
-    {
-      "date": "2026-01-21",
-      "score": 60.8,
-      "label": "Greed"
-    },
-    {
-      "date": "2026-01-22",
-      "score": 62.6,
-      "label": "Greed"
-    },
-    {
-      "date": "2026-01-23",
-      "score": 59.1,
-      "label": "Greed"
-    },
-    {
-      "date": "2026-01-26",
-      "score": 56.7,
-      "label": "Greed"
-    },
-    {
-      "date": "2026-01-27",
-      "score": 53.6,
-      "label": "Neutral"
-    },
-    {
-      "date": "2026-01-28",
-      "score": 57.4,
-      "label": "Greed"
-    },
-    {
-      "date": "2026-01-29",
-      "score": 55.2,
-      "label": "Greed"
-    },
-    {
-      "date": "2026-01-30",
-      "score": 54.2,
-      "label": "Neutral"
-    },
-    {
-      "date": "2026-02-02",
-      "score": 56.3,
-      "label": "Greed"
-    },
-    {
-      "date": "2026-02-03",
-      "score": 53.6,
-      "label": "Neutral"
-    },
-    {
-      "date": "2026-02-04",
-      "score": 55.6,
-      "label": "Greed"
-    },
-    {
-      "date": "2026-02-05",
-      "score": 45.9,
-      "label": "Neutral"
-    },
-    {
-      "date": "2026-02-06",
-      "score": 52.5,
-      "label": "Neutral"
-    },
-    {
-      "date": "2026-02-09",
-      "score": 57.0,
-      "label": "Greed"
+      "date": "2026-02-11",
+      "score": 52.7
     },
     {
       "date": "2026-02-10",
-      "score": 51.8,
-      "label": "Neutral"
+      "score": 51.8
     },
     {
-      "date": "2026-02-11",
-      "score": 52.4,
-      "label": "Neutral"
+      "date": "2026-02-09",
+      "score": 57.0
+    },
+    {
+      "date": "2026-02-06",
+      "score": 52.5
+    },
+    {
+      "date": "2026-02-05",
+      "score": 45.9
+    },
+    {
+      "date": "2026-02-04",
+      "score": 55.6
+    },
+    {
+      "date": "2026-02-03",
+      "score": 53.6
+    },
+    {
+      "date": "2026-02-02",
+      "score": 56.3
+    },
+    {
+      "date": "2026-01-30",
+      "score": 54.2
+    },
+    {
+      "date": "2026-01-29",
+      "score": 55.2
+    },
+    {
+      "date": "2026-01-28",
+      "score": 57.4
+    },
+    {
+      "date": "2026-01-27",
+      "score": 53.6
+    },
+    {
+      "date": "2026-01-26",
+      "score": 56.7
+    },
+    {
+      "date": "2026-01-23",
+      "score": 59.1
+    },
+    {
+      "date": "2026-01-22",
+      "score": 62.6
+    },
+    {
+      "date": "2026-01-21",
+      "score": 60.8
+    },
+    {
+      "date": "2026-01-20",
+      "score": 55.4
+    },
+    {
+      "date": "2026-01-16",
+      "score": 60.6
+    },
+    {
+      "date": "2026-01-15",
+      "score": 60.5
+    },
+    {
+      "date": "2026-01-14",
+      "score": 58.2
+    },
+    {
+      "date": "2026-01-13",
+      "score": 59.6
+    },
+    {
+      "date": "2026-01-12",
+      "score": 64.0
+    },
+    {
+      "date": "2026-01-09",
+      "score": 66.3
+    },
+    {
+      "date": "2026-01-08",
+      "score": 66.3
+    },
+    {
+      "date": "2026-01-07",
+      "score": 62.4
+    },
+    {
+      "date": "2026-01-06",
+      "score": 63.8
+    },
+    {
+      "date": "2026-01-05",
+      "score": 59.8
+    },
+    {
+      "date": "2026-01-02",
+      "score": 56.9
+    },
+    {
+      "date": "2025-12-31",
+      "score": 56.4
+    },
+    {
+      "date": "2025-12-30",
+      "score": 60.6
+    },
+    {
+      "date": "2025-12-29",
+      "score": 59.5
+    },
+    {
+      "date": "2025-12-26",
+      "score": 60.5
+    },
+    {
+      "date": "2025-12-24",
+      "score": 61.7
+    },
+    {
+      "date": "2025-12-23",
+      "score": 63.3
+    },
+    {
+      "date": "2025-12-22",
+      "score": 65.4
+    },
+    {
+      "date": "2025-12-19",
+      "score": 62.6
+    },
+    {
+      "date": "2025-12-18",
+      "score": 59.5
+    },
+    {
+      "date": "2025-12-17",
+      "score": 59.2
+    },
+    {
+      "date": "2025-12-16",
+      "score": 64.1
+    },
+    {
+      "date": "2025-12-15",
+      "score": 69.9
+    },
+    {
+      "date": "2025-12-12",
+      "score": 71.8
+    },
+    {
+      "date": "2025-12-11",
+      "score": 78.2
+    },
+    {
+      "date": "2025-12-10",
+      "score": 69.9
+    },
+    {
+      "date": "2025-12-09",
+      "score": 66.1
+    },
+    {
+      "date": "2025-12-08",
+      "score": 66.9
+    },
+    {
+      "date": "2025-12-05",
+      "score": 64.4
+    },
+    {
+      "date": "2025-12-04",
+      "score": 62.8
+    },
+    {
+      "date": "2025-12-03",
+      "score": 59.0
+    },
+    {
+      "date": "2025-12-02",
+      "score": 57.2
+    },
+    {
+      "date": "2025-12-01",
+      "score": 56.1
+    },
+    {
+      "date": "2025-11-28",
+      "score": 58.2
+    },
+    {
+      "date": "2025-11-26",
+      "score": 57.2
+    },
+    {
+      "date": "2025-11-25",
+      "score": 52.0
+    },
+    {
+      "date": "2025-11-24",
+      "score": 50.7
+    },
+    {
+      "date": "2025-11-21",
+      "score": 44.9
+    },
+    {
+      "date": "2025-11-20",
+      "score": 38.6
+    },
+    {
+      "date": "2025-11-19",
+      "score": 46.4
+    },
+    {
+      "date": "2025-11-18",
+      "score": 45.5
+    },
+    {
+      "date": "2025-11-17",
+      "score": 47.0
+    },
+    {
+      "date": "2025-11-14",
+      "score": 51.8
+    },
+    {
+      "date": "2025-11-13",
+      "score": 52.4
+    },
+    {
+      "date": "2025-11-12",
+      "score": 57.3
+    },
+    {
+      "date": "2025-11-11",
+      "score": 60.9
+    },
+    {
+      "date": "2025-11-10",
+      "score": 58.7
+    },
+    {
+      "date": "2025-11-07",
+      "score": 55.5
+    },
+    {
+      "date": "2025-11-06",
+      "score": 55.5
+    },
+    {
+      "date": "2025-11-05",
+      "score": 62.0
+    },
+    {
+      "date": "2025-11-04",
+      "score": 53.2
+    },
+    {
+      "date": "2025-11-03",
+      "score": 61.2
+    },
+    {
+      "date": "2025-10-31",
+      "score": 59.1
+    },
+    {
+      "date": "2025-10-30",
+      "score": 61.9
+    },
+    {
+      "date": "2025-10-29",
+      "score": 51.5
+    },
+    {
+      "date": "2025-10-28",
+      "score": 48.5
+    },
+    {
+      "date": "2025-10-27",
+      "score": 52.2
+    },
+    {
+      "date": "2025-10-24",
+      "score": 47.8
+    },
+    {
+      "date": "2025-10-23",
+      "score": 48.3
+    },
+    {
+      "date": "2025-10-22",
+      "score": 44.9
+    },
+    {
+      "date": "2025-10-21",
+      "score": 47.8
+    },
+    {
+      "date": "2025-10-20",
+      "score": 47.8
+    },
+    {
+      "date": "2025-10-17",
+      "score": 45.0
+    },
+    {
+      "date": "2025-10-16",
+      "score": 40.0
+    },
+    {
+      "date": "2025-10-15",
+      "score": 50.2
+    },
+    {
+      "date": "2025-10-14",
+      "score": 46.4
+    },
+    {
+      "date": "2025-10-13",
+      "score": 46.8
+    },
+    {
+      "date": "2025-10-10",
+      "score": 39.5
+    },
+    {
+      "date": "2025-10-09",
+      "score": 55.9
+    },
+    {
+      "date": "2025-10-08",
+      "score": 59.0
+    },
+    {
+      "date": "2025-10-07",
+      "score": 62.4
+    },
+    {
+      "date": "2025-10-06",
+      "score": 66.6
+    },
+    {
+      "date": "2025-10-03",
+      "score": 62.6
+    },
+    {
+      "date": "2025-10-02",
+      "score": 61.8
+    },
+    {
+      "date": "2025-10-01",
+      "score": 61.0
+    },
+    {
+      "date": "2025-09-30",
+      "score": 62.9
+    },
+    {
+      "date": "2025-09-29",
+      "score": 60.8
+    },
+    {
+      "date": "2025-09-26",
+      "score": 62.2
+    },
+    {
+      "date": "2025-09-25",
+      "score": 55.5
+    },
+    {
+      "date": "2025-09-24",
+      "score": 55.3
+    },
+    {
+      "date": "2025-09-23",
+      "score": 55.9
+    },
+    {
+      "date": "2025-09-22",
+      "score": 57.3
+    },
+    {
+      "date": "2025-09-19",
+      "score": 53.8
+    },
+    {
+      "date": "2025-09-18",
+      "score": 53.4
+    },
+    {
+      "date": "2025-09-17",
+      "score": 47.6
+    },
+    {
+      "date": "2025-09-16",
+      "score": 48.0
+    },
+    {
+      "date": "2025-09-15",
+      "score": 50.6
+    },
+    {
+      "date": "2025-09-12",
+      "score": 50.1
+    },
+    {
+      "date": "2025-09-11",
+      "score": 55.4
+    },
+    {
+      "date": "2025-09-10",
+      "score": 52.9
+    },
+    {
+      "date": "2025-09-09",
+      "score": 52.9
+    },
+    {
+      "date": "2025-09-08",
+      "score": 51.5
+    },
+    {
+      "date": "2025-09-05",
+      "score": 55.0
+    },
+    {
+      "date": "2025-09-04",
+      "score": 58.7
+    },
+    {
+      "date": "2025-09-03",
+      "score": 57.1
+    },
+    {
+      "date": "2025-09-02",
+      "score": 61.0
+    },
+    {
+      "date": "2025-08-29",
+      "score": 68.1
+    },
+    {
+      "date": "2025-08-28",
+      "score": 67.4
+    },
+    {
+      "date": "2025-08-27",
+      "score": 69.5
+    },
+    {
+      "date": "2025-08-26",
+      "score": 68.3
+    },
+    {
+      "date": "2025-08-25",
+      "score": 67.5
+    },
+    {
+      "date": "2025-08-22",
+      "score": 67.2
+    },
+    {
+      "date": "2025-08-21",
+      "score": 63.9
+    },
+    {
+      "date": "2025-08-20",
+      "score": 57.3
+    },
+    {
+      "date": "2025-08-19",
+      "score": 56.4
+    },
+    {
+      "date": "2025-08-18",
+      "score": 57.5
+    },
+    {
+      "date": "2025-08-15",
+      "score": 52.8
+    },
+    {
+      "date": "2025-08-14",
+      "score": 52.7
+    },
+    {
+      "date": "2025-08-13",
+      "score": 52.7
+    },
+    {
+      "date": "2025-08-12",
+      "score": 50.0
+    },
+    {
+      "date": "2025-08-11",
+      "score": 47.9
+    },
+    {
+      "date": "2025-08-08",
+      "score": 50.9
+    },
+    {
+      "date": "2025-08-07",
+      "score": 46.0
+    },
+    {
+      "date": "2025-08-06",
+      "score": 45.8
+    },
+    {
+      "date": "2025-08-05",
+      "score": 46.7
+    },
+    {
+      "date": "2025-08-04",
+      "score": 49.5
+    },
+    {
+      "date": "2025-08-01",
+      "score": 42.3
+    },
+    {
+      "date": "2025-07-31",
+      "score": 53.3
+    },
+    {
+      "date": "2025-07-30",
+      "score": 57.5
+    },
+    {
+      "date": "2025-07-29",
+      "score": 58.6
+    },
+    {
+      "date": "2025-07-28",
+      "score": 62.8
+    },
+    {
+      "date": "2025-07-25",
+      "score": 63.7
+    },
+    {
+      "date": "2025-07-24",
+      "score": 62.2
+    },
+    {
+      "date": "2025-07-23",
+      "score": 65.7
+    },
+    {
+      "date": "2025-07-22",
+      "score": 63.9
+    },
+    {
+      "date": "2025-07-21",
+      "score": 63.6
+    },
+    {
+      "date": "2025-07-18",
+      "score": 65.7
+    },
+    {
+      "date": "2025-07-17",
+      "score": 67.8
+    },
+    {
+      "date": "2025-07-16",
+      "score": 66.8
+    },
+    {
+      "date": "2025-07-15",
+      "score": 64.4
+    },
+    {
+      "date": "2025-07-14",
+      "score": 68.2
+    },
+    {
+      "date": "2025-07-11",
+      "score": 69.0
+    },
+    {
+      "date": "2025-07-10",
+      "score": 69.3
+    },
+    {
+      "date": "2025-07-09",
+      "score": 68.3
+    },
+    {
+      "date": "2025-07-08",
+      "score": 62.9
+    },
+    {
+      "date": "2025-07-07",
+      "score": 66.0
+    },
+    {
+      "date": "2025-07-03",
+      "score": 66.3
+    },
+    {
+      "date": "2025-07-02",
+      "score": 60.9
+    },
+    {
+      "date": "2025-07-01",
+      "score": 57.1
+    },
+    {
+      "date": "2025-06-30",
+      "score": 56.1
+    },
+    {
+      "date": "2025-06-27",
+      "score": 56.9
+    },
+    {
+      "date": "2025-06-26",
+      "score": 59.6
+    },
+    {
+      "date": "2025-06-25",
+      "score": 57.2
+    },
+    {
+      "date": "2025-06-24",
+      "score": 54.8
+    },
+    {
+      "date": "2025-06-23",
+      "score": 54.9
+    },
+    {
+      "date": "2025-06-20",
+      "score": 55.3
+    },
+    {
+      "date": "2025-06-18",
+      "score": 54.0
+    },
+    {
+      "date": "2025-06-17",
+      "score": 51.7
+    },
+    {
+      "date": "2025-06-16",
+      "score": 57.5
+    },
+    {
+      "date": "2025-06-13",
+      "score": 53.5
+    },
+    {
+      "date": "2025-06-12",
+      "score": 54.6
+    },
+    {
+      "date": "2025-06-11",
+      "score": 56.0
+    },
+    {
+      "date": "2025-06-10",
+      "score": 54.8
+    },
+    {
+      "date": "2025-06-09",
+      "score": 54.9
+    },
+    {
+      "date": "2025-06-06",
+      "score": 55.5
+    },
+    {
+      "date": "2025-06-05",
+      "score": 51.0
+    },
+    {
+      "date": "2025-06-04",
+      "score": 52.0
+    },
+    {
+      "date": "2025-06-03",
+      "score": 55.2
+    },
+    {
+      "date": "2025-06-02",
+      "score": 54.6
+    },
+    {
+      "date": "2025-05-30",
+      "score": 62.6
+    },
+    {
+      "date": "2025-05-29",
+      "score": 63.0
+    },
+    {
+      "date": "2025-05-28",
+      "score": 68.6
+    },
+    {
+      "date": "2025-05-27",
+      "score": 71.4
+    },
+    {
+      "date": "2025-05-23",
+      "score": 64.2
+    },
+    {
+      "date": "2025-05-22",
+      "score": 66.6
+    },
+    {
+      "date": "2025-05-21",
+      "score": 72.2
+    },
+    {
+      "date": "2025-05-20",
+      "score": 77.8
+    },
+    {
+      "date": "2025-05-19",
+      "score": 78.2
+    },
+    {
+      "date": "2025-05-16",
+      "score": 78.2
+    },
+    {
+      "date": "2025-05-15",
+      "score": 77.7
+    },
+    {
+      "date": "2025-05-14",
+      "score": 73.9
+    },
+    {
+      "date": "2025-05-13",
+      "score": 73.8
+    },
+    {
+      "date": "2025-05-12",
+      "score": 71.0
+    },
+    {
+      "date": "2025-05-09",
+      "score": 65.0
+    },
+    {
+      "date": "2025-05-08",
+      "score": 67.5
+    },
+    {
+      "date": "2025-05-07",
+      "score": 66.9
+    },
+    {
+      "date": "2025-05-06",
+      "score": 61.7
+    },
+    {
+      "date": "2025-05-05",
+      "score": 64.6
+    },
+    {
+      "date": "2025-05-02",
+      "score": 66.2
+    },
+    {
+      "date": "2025-05-01",
+      "score": 59.7
+    },
+    {
+      "date": "2025-04-30",
+      "score": 52.5
+    },
+    {
+      "date": "2025-04-29",
+      "score": 61.9
+    },
+    {
+      "date": "2025-04-28",
+      "score": 64.0
+    },
+    {
+      "date": "2025-04-25",
+      "score": 65.0
+    },
+    {
+      "date": "2025-04-24",
+      "score": 57.0
+    },
+    {
+      "date": "2025-04-23",
+      "score": 40.6
+    },
+    {
+      "date": "2025-04-22",
+      "score": 39.9
+    },
+    {
+      "date": "2025-04-21",
+      "score": 36.5
+    },
+    {
+      "date": "2025-04-17",
+      "score": 35.8
+    },
+    {
+      "date": "2025-04-16",
+      "score": 25.8
+    },
+    {
+      "date": "2025-04-15",
+      "score": 28.2
+    },
+    {
+      "date": "2025-04-14",
+      "score": 28.7
+    },
+    {
+      "date": "2025-04-11",
+      "score": 23.8
+    },
+    {
+      "date": "2025-04-10",
+      "score": 27.4
+    },
+    {
+      "date": "2025-04-09",
+      "score": 32.1
+    },
+    {
+      "date": "2025-04-08",
+      "score": 20.5
+    },
+    {
+      "date": "2025-04-07",
+      "score": 17.9
+    },
+    {
+      "date": "2025-04-04",
+      "score": 16.2
+    },
+    {
+      "date": "2025-04-03",
+      "score": 28.2
+    },
+    {
+      "date": "2025-04-02",
+      "score": 55.5
+    },
+    {
+      "date": "2025-04-01",
+      "score": 47.3
+    },
+    {
+      "date": "2025-03-31",
+      "score": 49.7
+    },
+    {
+      "date": "2025-03-28",
+      "score": 49.8
+    },
+    {
+      "date": "2025-03-27",
+      "score": 52.2
+    },
+    {
+      "date": "2025-03-26",
+      "score": 56.6
+    },
+    {
+      "date": "2025-03-25",
+      "score": 55.5
+    },
+    {
+      "date": "2025-03-24",
+      "score": 59.4
+    },
+    {
+      "date": "2025-03-21",
+      "score": 51.2
+    },
+    {
+      "date": "2025-03-20",
+      "score": 46.9
+    },
+    {
+      "date": "2025-03-19",
+      "score": 47.6
+    },
+    {
+      "date": "2025-03-18",
+      "score": 43.9
+    },
+    {
+      "date": "2025-03-17",
+      "score": 45.2
+    },
+    {
+      "date": "2025-03-14",
+      "score": 38.5
+    },
+    {
+      "date": "2025-03-13",
+      "score": 32.6
+    },
+    {
+      "date": "2025-03-12",
+      "score": 31.5
+    },
+    {
+      "date": "2025-03-11",
+      "score": 28.3
+    },
+    {
+      "date": "2025-03-10",
+      "score": 27.1
+    },
+    {
+      "date": "2025-03-07",
+      "score": 37.4
+    },
+    {
+      "date": "2025-03-06",
+      "score": 32.9
+    },
+    {
+      "date": "2025-03-05",
+      "score": 36.1
+    },
+    {
+      "date": "2025-03-04",
+      "score": 32.5
+    },
+    {
+      "date": "2025-03-03",
+      "score": 34.2
+    },
+    {
+      "date": "2025-02-28",
+      "score": 41.7
+    },
+    {
+      "date": "2025-02-27",
+      "score": 40.3
+    },
+    {
+      "date": "2025-02-26",
+      "score": 42.5
+    },
+    {
+      "date": "2025-02-25",
+      "score": 40.6
+    },
+    {
+      "date": "2025-02-24",
+      "score": 46.2
+    },
+    {
+      "date": "2025-02-21",
+      "score": 45.3
+    },
+    {
+      "date": "2025-02-20",
+      "score": 54.3
+    },
+    {
+      "date": "2025-02-19",
+      "score": 57.7
+    },
+    {
+      "date": "2025-02-18",
+      "score": 57.1
+    },
+    {
+      "date": "2025-02-14",
+      "score": 53.0
+    },
+    {
+      "date": "2025-02-13",
+      "score": 48.7
+    },
+    {
+      "date": "2025-02-12",
+      "score": 47.7
+    },
+    {
+      "date": "2025-02-11",
+      "score": 49.1
     }
   ]
 }

@@ -1,12 +1,12 @@
 {
-  "score": 48.5,
+  "score": 48.9,
   "label": "Neutral",
-  "timestamp": "2026-02-11T08:27:09Z",
+  "timestamp": "2026-02-11T13:58:39Z",
   "components": {
     "yield_curve": {
-      "score": 51.1,
+      "score": 54.8,
       "weight": 0.2,
-      "detail": "Courbe: +0.56% (10Y-3M, Yahoo)"
+      "detail": "Courbe: +0.74% (10Y-2Y)"
     },
     "duration_risk": {
       "score": 72.3,
@@ -19,9 +19,9 @@
       "detail": "LQD vs TLT: -1.2%"
     },
     "real_rates": {
-      "score": 33.5,
+      "score": 31.3,
       "weight": 0.15,
-      "detail": "10Y Yield: 4.15% (Yahoo fallback)"
+      "detail": "TIPS 10Y: +1.87%"
     },
     "bond_volatility": {
       "score": 36.6,
@@ -1292,7 +1292,7 @@
     },
     {
       "date": "2026-02-11",
-      "score": 48.5,
+      "score": 48.9,
       "label": "Neutral"
     }
   ]
