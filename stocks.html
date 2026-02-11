@@ -403,51 +403,99 @@
             color: #fff;
         }
 
-        .chart-container {
-            background: #0d0d0d;
+        .chart-wrapper {
+            position: relative;
+            background: #0a0a0a;
             border: 1px solid #1a1a1a;
             border-radius: 12px;
-            padding: 30px 20px;
-            height: 400px;
             overflow: hidden;
         }
 
-        .chart-controls {
+        .chart-canvas-box {
+            position: relative;
+            height: 500px;
+        }
+
+        .chart-canvas-box canvas {
+            display: block;
+            width: 100%;
+            height: 100%;
+        }
+
+        .chart-toolbar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 12px;
+            padding: 16px 20px;
+            border-bottom: 1px solid #1a1a1a;
         }
 
         .period-selector {
             display: flex;
-            gap: 8px;
-            background: #0d0d0d;
-            padding: 4px;
+            gap: 4px;
+            background: #111;
+            padding: 3px;
             border-radius: 8px;
-            border: 1px solid #1a1a1a;
         }
 
         .period-btn {
             background: transparent;
             border: none;
-            color: #666;
-            padding: 6px 14px;
+            color: #555;
+            padding: 5px 12px;
             border-radius: 6px;
             cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 500;
+            font-size: 0.8rem;
+            font-weight: 600;
             transition: all 0.2s ease;
         }
 
         .period-btn:hover {
             color: #999;
-            background: rgba(255, 255, 255, 0.05);
         }
 
         .period-btn.active {
-            background: #1a1a1a;
+            background: #222;
             color: #fff;
+        }
+
+        /* Tooltip */
+        .chart-tooltip {
+            display: none;
+            position: absolute;
+            top: 12px;
+            left: 20px;
+            background: rgba(0, 0, 0, 0.85);
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 10px 14px;
+            font-size: 0.75rem;
+            pointer-events: none;
+            z-index: 10;
+            min-width: 140px;
+        }
+
+        .chart-tooltip-date {
+            color: #999;
+            margin-bottom: 6px;
+            font-weight: 600;
+        }
+
+        .chart-tooltip-row {
+            display: flex;
+            justify-content: space-between;
+            gap: 16px;
+            padding: 2px 0;
+        }
+
+        .chart-tooltip-name {
+            color: #888;
+        }
+
+        .chart-tooltip-val {
+            font-weight: 700;
         }
 
         /* How to Read */
@@ -580,7 +628,15 @@
             .score-denominator { font-size: 2rem; }
             .label { font-size: 1.8rem; }
             .explanation-grid { grid-template-columns: 1fr; gap: 0; }
-            .chart-container { height: 300px; padding: 20px 15px; }
+            .chart-canvas-box { height: 400px; }
+            .chart-toolbar {
+                flex-direction: column;
+                align-items: stretch;
+                gap: 10px;
+                padding: 12px 16px;
+            }
+            .period-selector { justify-content: center; }
+            .period-btn { padding: 5px 10px; font-size: 0.75rem; }
             .components-grid { grid-template-columns: repeat(2, 1fr); gap: 1px; }
             .component-card { padding: 16px 12px; }
             .component-score { font-size: 1.8rem; }
@@ -672,18 +728,25 @@
 
         <!-- Historical Chart -->
         <section class="history-section">
-            <div class="chart-controls">
-                <h2 style="margin: 0;">Historical Trend</h2>
-                <div class="period-selector">
-                    <button class="period-btn" data-period="7">7D</button>
-                    <button class="period-btn active" data-period="30">30D</button>
-                    <button class="period-btn" data-period="90">90D</button>
-                    <button class="period-btn" data-period="180">180D</button>
-                    <button class="period-btn" data-period="365">1Y</button>
+            <h2>Historical Trend</h2>
+            <div class="chart-wrapper">
+                <div class="chart-toolbar">
+                    <div></div>
+                    <div class="period-selector">
+                        <button class="period-btn" data-period="7">7D</button>
+                        <button class="period-btn active" data-period="30">30D</button>
+                        <button class="period-btn" data-period="90">90D</button>
+                        <button class="period-btn" data-period="180">180D</button>
+                        <button class="period-btn" data-period="365">1Y</button>
+                    </div>
                 </div>
-            </div>
-            <div class="chart-container">
-                <canvas id="historyChart"></canvas>
+                <div class="chart-canvas-box">
+                    <canvas id="historyChart"></canvas>
+                    <div class="chart-tooltip" id="chartTooltip">
+                        <div class="chart-tooltip-date" id="tooltipDate"></div>
+                        <div id="tooltipRows"></div>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -879,94 +942,99 @@
             }
         }
 
-        function updateHistoryChart(days = 30) {
-            if (!stocksData || !stocksData.history) return;
+        // ========== CHART (single-series, redesigned) ==========
+        let chartHistory = [];
+        const SERIES_COLOR = '#4A90E2';
+        const SERIES_NAME = 'Stocks';
 
-            const canvas = document.getElementById('historyChart');
+        const zones = [
+            { from: 0,  to: 25,  color: 'rgba(239, 68, 68, 0.07)' },
+            { from: 25, to: 45,  color: 'rgba(245, 158, 11, 0.05)' },
+            { from: 45, to: 55,  color: 'rgba(255, 255, 255, 0.02)' },
+            { from: 55, to: 75,  color: 'rgba(34, 197, 94, 0.05)' },
+            { from: 75, to: 100, color: 'rgba(6, 182, 212, 0.07)' }
+        ];
+
+        const zoneLabels = [
+            { score: 12.5, text: 'Extreme Fear', color: 'rgba(239, 68, 68, 0.35)' },
+            { score: 35,   text: 'Fear',         color: 'rgba(245, 158, 11, 0.3)' },
+            { score: 50,   text: 'Neutral',      color: 'rgba(255, 255, 255, 0.15)' },
+            { score: 65,   text: 'Greed',        color: 'rgba(34, 197, 94, 0.3)' },
+            { score: 87.5, text: 'Extreme Greed', color: 'rgba(6, 182, 212, 0.35)' }
+        ];
+
+        function getChartLayout(canvas) {
+            const box = canvas.parentElement;
+            const dpr = window.devicePixelRatio || 1;
+            canvas.width = box.clientWidth * dpr;
+            canvas.height = box.clientHeight * dpr;
+            canvas.style.width = box.clientWidth + 'px';
+            canvas.style.height = box.clientHeight + 'px';
             const ctx = canvas.getContext('2d');
-
-            const container = canvas.parentElement;
-            const style = getComputedStyle(container);
-            canvas.width = container.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
-            canvas.height = container.clientHeight - parseFloat(style.paddingTop) - parseFloat(style.paddingBottom);
-
-            const sortedHistory = [...stocksData.history].sort((a, b) => new Date(a.date) - new Date(b.date));
-            const limitedHistory = sortedHistory.slice(-days);
-
-            drawChart(ctx, canvas, limitedHistory);
+            ctx.scale(dpr, dpr);
+            const w = box.clientWidth;
+            const h = box.clientHeight;
+            const pad = { top: 16, bottom: 32, left: 30, right: 30 };
+            return { ctx, w, h, pad, plotW: w - pad.left - pad.right, plotH: h - pad.top - pad.bottom };
         }
 
-        function drawChart(ctx, canvas, data) {
-            const width = canvas.width;
-            const height = canvas.height;
-            const paddingTop = 40;
-            const paddingBottom = 60;
-            const paddingSide = 40;
-            const chartWidth = width - paddingSide * 2;
-            const chartHeight = height - paddingTop - paddingBottom;
+        function scoreToY(score, pad, plotH) { return pad.top + plotH - (score / 100) * plotH; }
+        function indexToX(i, total, pad, plotW) { return pad.left + (total > 1 ? (i / (total - 1)) * plotW : plotW / 2); }
 
-            ctx.clearRect(0, 0, width, height);
-
-            // Draw grid
-            ctx.strokeStyle = 'rgba(255, 255, 255, 0.1)';
-            ctx.lineWidth = 1;
-            [0, 25, 50, 75, 100].forEach(score => {
-                const y = paddingTop + chartHeight - (score / 100) * chartHeight;
-                ctx.beginPath();
-                ctx.moveTo(paddingSide, y);
-                ctx.lineTo(paddingSide + chartWidth, y);
+        function drawChart() {
+            const canvas = document.getElementById('historyChart');
+            const { ctx, w, h, pad, plotW, plotH } = getChartLayout(canvas);
+            ctx.clearRect(0, 0, w, h);
+            zones.forEach(zone => { const yTop = scoreToY(zone.to, pad, plotH); const yBot = scoreToY(zone.from, pad, plotH); ctx.fillStyle = zone.color; ctx.fillRect(pad.left, yTop, plotW, yBot - yTop); });
+            zoneLabels.forEach(zl => { const y = scoreToY(zl.score, pad, plotH) + 4; ctx.fillStyle = zl.color; ctx.font = '10px -apple-system, sans-serif'; ctx.textAlign = 'right'; ctx.fillText(zl.text, pad.left + plotW - 6, y); });
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.06)'; ctx.lineWidth = 1;
+            [25, 45, 55, 75].forEach(score => { const y = scoreToY(score, pad, plotH); ctx.beginPath(); ctx.moveTo(pad.left, y); ctx.lineTo(pad.left + plotW, y); ctx.stroke(); });
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.12)'; ctx.setLineDash([4, 4]);
+            const y50 = scoreToY(50, pad, plotH); ctx.beginPath(); ctx.moveTo(pad.left, y50); ctx.lineTo(pad.left + plotW, y50); ctx.stroke(); ctx.setLineDash([]);
+            if (chartHistory.length >= 2) {
+                ctx.strokeStyle = SERIES_COLOR; ctx.lineWidth = 2; ctx.beginPath();
+                chartHistory.forEach((p, i) => { const x = indexToX(i, chartHistory.length, pad, plotW); const y = scoreToY(p.score, pad, plotH); if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y); });
                 ctx.stroke();
-
-                ctx.fillStyle = '#666';
-                ctx.font = '12px sans-serif';
-                ctx.textAlign = 'right';
-                ctx.fillText(score, paddingSide - 10, y + 4);
-            });
-
-            // Draw line
-            if (data.length > 1) {
-                ctx.strokeStyle = '#4A90E2';
-                ctx.lineWidth = 2;
-                ctx.beginPath();
-
-                data.forEach((point, index) => {
-                    const x = paddingSide + (index / (data.length - 1)) * chartWidth;
-                    const y = paddingTop + chartHeight - (point.score / 100) * chartHeight;
-
-                    if (index === 0) {
-                        ctx.moveTo(x, y);
-                    } else {
-                        ctx.lineTo(x, y);
-                    }
-                });
-
-                ctx.stroke();
+                const last = chartHistory[chartHistory.length - 1]; const lx = indexToX(chartHistory.length - 1, chartHistory.length, pad, plotW); const ly = scoreToY(last.score, pad, plotH);
+                ctx.beginPath(); ctx.arc(lx, ly, 4, 0, Math.PI * 2); ctx.fillStyle = SERIES_COLOR; ctx.fill();
             }
-
-            // Draw labels
-            if (data.length > 0) {
-                ctx.fillStyle = '#666';
-                ctx.font = '11px sans-serif';
-                const numLabels = data.length <= 7 ? data.length : (data.length > 180 ? 8 : 5);
-                const step = Math.floor(data.length / (numLabels - 1));
-
+            if (chartHistory.length > 0) {
+                const total = chartHistory.length; const numLabels = Math.min(total, w < 500 ? 4 : 6);
+                ctx.fillStyle = '#555'; ctx.font = '10px -apple-system, sans-serif';
                 for (let i = 0; i < numLabels; i++) {
-                    const index = i === numLabels - 1 ? data.length - 1 : i * step;
-                    if (index < data.length) {
-                        const point = data[index];
-                        const x = paddingSide + (index / (data.length - 1)) * chartWidth;
-                        const date = new Date(point.date);
-                        const label = `${date.getDate()}/${date.getMonth() + 1}`;
-
-                        ctx.save();
-                        ctx.translate(x, height - 20);
-                        ctx.rotate(-Math.PI / 6);
-                        ctx.textAlign = 'right';
-                        ctx.fillText(label, 0, 0);
-                        ctx.restore();
-                    }
+                    const idx = i === numLabels - 1 ? total - 1 : Math.round(i * (total - 1) / (numLabels - 1));
+                    const x = indexToX(idx, total, pad, plotW); const date = new Date(chartHistory[idx].date);
+                    const label = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                    if (i === 0) ctx.textAlign = 'left'; else if (i === numLabels - 1) ctx.textAlign = 'right'; else ctx.textAlign = 'center';
+                    ctx.fillText(label, x, h - 8);
                 }
             }
+        }
+
+        function handleChartHover(e) {
+            const canvas = document.getElementById('historyChart'); const tooltip = document.getElementById('chartTooltip');
+            const rect = canvas.getBoundingClientRect(); const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            const x = clientX - rect.left; const box = canvas.parentElement;
+            const pad = { left: 30, right: 30 }; const plotW = box.clientWidth - pad.left - pad.right;
+            if (!chartHistory || chartHistory.length < 2) return;
+            const ratio = Math.max(0, Math.min(1, (x - pad.left) / plotW));
+            const idx = Math.round(ratio * (chartHistory.length - 1)); const point = chartHistory[idx]; if (!point) return;
+            const date = new Date(point.date);
+            document.getElementById('tooltipDate').textContent = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+            document.getElementById('tooltipRows').innerHTML = `<div class="chart-tooltip-row"><span class="chart-tooltip-name" style="color:${SERIES_COLOR}">${SERIES_NAME}</span><span class="chart-tooltip-val" style="color:${SERIES_COLOR}">${Math.round(point.score)}</span></div>`;
+            const tooltipLeft = x > rect.width * 0.6 ? 20 : rect.width - 180; tooltip.style.left = tooltipLeft + 'px'; tooltip.style.display = 'block';
+            drawChart(); const ctx = canvas.getContext('2d'); const dpr = window.devicePixelRatio || 1;
+            ctx.save(); ctx.scale(1/dpr, 1/dpr); const lineX = (pad.left + ratio * plotW) * dpr;
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.2)'; ctx.lineWidth = 1; ctx.setLineDash([3, 3]);
+            ctx.beginPath(); ctx.moveTo(lineX, 16 * dpr); ctx.lineTo(lineX, (box.clientHeight - 28) * dpr); ctx.stroke(); ctx.setLineDash([]); ctx.restore();
+        }
+
+        function hideTooltip() { document.getElementById('chartTooltip').style.display = 'none'; }
+
+        function updateHistoryChart(days) {
+            if (!stocksData || !stocksData.history) return;
+            chartHistory = [...stocksData.history].sort((a, b) => new Date(a.date) - new Date(b.date)).slice(-days);
+            drawChart();
         }
 
         function getColor(score) {
@@ -980,18 +1048,25 @@
         // Period buttons
         document.querySelectorAll('.period-btn').forEach(button => {
             button.addEventListener('click', () => {
-                document.querySelectorAll('.period-btn').forEach(btn => btn.classList.remove('active'));
+                document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
                 button.classList.add('active');
                 currentPeriod = parseInt(button.dataset.period);
                 updateHistoryChart(currentPeriod);
             });
         });
 
-        // Resize handler
+        // Tooltip events
+        const chartCanvas = document.getElementById('historyChart');
+        chartCanvas.addEventListener('mousemove', handleChartHover);
+        chartCanvas.addEventListener('mouseleave', () => { hideTooltip(); drawChart(); });
+        chartCanvas.addEventListener('touchmove', (e) => { e.preventDefault(); handleChartHover(e); }, { passive: false });
+        chartCanvas.addEventListener('touchend', () => { hideTooltip(); drawChart(); });
+
+        // Resize
         let resizeTimeout;
         window.addEventListener('resize', () => {
             clearTimeout(resizeTimeout);
-            resizeTimeout = setTimeout(() => updateHistoryChart(currentPeriod), 250);
+            resizeTimeout = setTimeout(() => drawChart(), 200);
         });
 
         loadData();
