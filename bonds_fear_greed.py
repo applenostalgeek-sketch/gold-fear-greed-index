@@ -132,20 +132,11 @@ class BondsFearGreedIndex:
             # Yield curve spread (10Y - 2Y)
             spread = yield_10y - yield_2y
 
-            # INVERTED LOGIC (capital rotation perspective):
-            # Steep curve (+2%+) = strong economy = capital flows to STOCKS = low bonds score
-            # Flat curve (0% to +1%) = neutral = moderate bonds score
-            # Inverted curve (<0%) = recession fear = flight to bonds = high bonds score
-            if spread >= 2.0:
-                # Very steep = very low bonds demand
-                score = max(0, 30 - (spread - 2.0) * 20)  # Down to 0
-            elif spread >= 0:
-                # Normal to flat = decreasing bonds demand as curve steepens
-                score = 70 - (spread / 2.0) * 40  # 70 down to 30
-            else:  # Inverted
-                # Inverted = flight to safety = high bonds demand
-                score = 70 + min(30, abs(spread) * 60)  # Up to 100
-
+            # DIRECT LOGIC (term premium perspective):
+            # Steep curve (+2%+) = high term premium = rewarding long bond holders = GREED
+            # Flat curve (0%) = no term premium = NEUTRAL-FEAR
+            # Inverted curve (<0%) = Fed hiking aggressively = bond prices crushed = FEAR
+            score = 40 + (spread * 20)
             score = max(0, min(100, score))
 
             detail = f"Courbe: {spread:+.2f}% (10Y-2Y)"
@@ -173,18 +164,13 @@ class BondsFearGreedIndex:
                 # Calculate spread
                 spread = yield_10y - yield_short
 
-                # Same INVERTED logic as FRED (capital rotation)
-                if spread >= 2.0:
-                    score = max(0, 30 - (spread - 2.0) * 20)
-                elif spread >= 0:
-                    score = 70 - (spread / 2.0) * 40
-                else:
-                    score = 70 + min(30, abs(spread) * 60)
+                # Same DIRECT logic as FRED (term premium)
+                score = 40 + (spread * 20)
 
                 score = max(0, min(100, score))
                 detail = f"Courbe: {spread:+.2f}% (10Y-3M, Yahoo)"
 
-                print(f"✅ Yahoo fallback successful: {detail}")
+                print(f"Yahoo fallback successful: {detail}")
                 return score, detail
 
             except Exception as yahoo_error:
@@ -266,7 +252,7 @@ class BondsFearGreedIndex:
     def calculate_real_rates_score(self) -> Tuple[float, str]:
         """
         Calculate real rates component (15% weight)
-        TIPS yield from FRED — higher real rates = bonds more attractive = higher score
+        TIPS yield from FRED — higher real rates = bond prices fall = lower score (fear)
 
         Returns:
             Tuple of (score 0-100, detail string)
@@ -287,10 +273,10 @@ class BondsFearGreedIndex:
             data = response.json()
             real_rate = float(data['observations'][0]['value'])
 
-            # Scoring: higher real rates = bonds more attractive = greed
-            # Reduced multiplier (×6) to avoid permanent upward bias
-            # +4% real = score 74, 0% = score 50, -4% = score 26
-            score = 50 + (real_rate * 6)
+            # Scoring: higher real rates = bond prices fall = FEAR (low score)
+            # Lower real rates = bond prices rise = GREED (high score)
+            # +2.5% real = score 25, 0% = score 50, -2.5% = score 75
+            score = 50 - (real_rate * 10)
             score = max(0, min(100, score))
 
             detail = f"TIPS 10Y: {real_rate:+.2f}%"
@@ -311,8 +297,8 @@ class BondsFearGreedIndex:
                 nominal_yield = tnx_hist['Close'].iloc[-1]
 
                 # Fallback: use nominal yield centered on ~2.5% historical average
-                # Higher yield = more attractive for bond investors = higher score
-                score = 50 + ((nominal_yield - 2.5) * 6)
+                # Higher yield = bond prices fall = FEAR (low score)
+                score = 50 - ((nominal_yield - 2.5) * 10)
                 score = max(0, min(100, score))
 
                 detail = f"10Y Yield: {nominal_yield:.2f}% (Yahoo fallback)"
@@ -546,7 +532,7 @@ class BondsFearGreedIndex:
             else:
                 credit_spreads_score = 50.0
 
-            # 3. YIELD CURVE (25% weight) - INVERTED (capital rotation logic)
+            # 3. YIELD CURVE (25% weight) - DIRECT (term premium logic)
             try:
                 tnx = yf.Ticker("^TNX")
                 irx = yf.Ticker("^IRX")
@@ -558,12 +544,8 @@ class BondsFearGreedIndex:
                     yield_short = irx_hist['Close'].iloc[-1]
                     spread = yield_10y - yield_short
 
-                    if spread >= 2.0:
-                        yield_curve_score = max(0, 30 - (spread - 2.0) * 20)
-                    elif spread >= 0:
-                        yield_curve_score = 70 - (spread / 2.0) * 40
-                    else:
-                        yield_curve_score = 70 + min(30, abs(spread) * 60)
+                    # Steep = high term premium = greed, Inverted = fear
+                    yield_curve_score = 40 + (spread * 20)
                     yield_curve_score = max(0, min(100, yield_curve_score))
                 else:
                     yield_curve_score = 50.0
@@ -574,7 +556,8 @@ class BondsFearGreedIndex:
             try:
                 if len(tnx_hist) > 0:
                     nominal_yield = tnx_hist['Close'].iloc[-1]
-                    real_rates_score = 50 + ((nominal_yield - 2.5) * 6)
+                    # Higher yield = bond prices fall = FEAR (low score)
+                    real_rates_score = 50 - ((nominal_yield - 2.5) * 10)
                     real_rates_score = max(0, min(100, real_rates_score))
                 else:
                     real_rates_score = 50.0
