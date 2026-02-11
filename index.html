@@ -905,14 +905,17 @@
         }
 
         function prepareChartData(days) {
-            const sortAndSlice = (h) => [...(h || [])].sort((a, b) => new Date(a.date) - new Date(b.date)).slice(-days);
+            const cutoff = new Date();
+            cutoff.setDate(cutoff.getDate() - days);
+            const cutoffStr = cutoff.toISOString().slice(0, 10);
+            const filterByDate = (h) => [...(h || [])].sort((a, b) => new Date(a.date) - new Date(b.date)).filter(p => p.date >= cutoffStr);
 
-            const g = sortAndSlice(gold?.history);
-            const s = sortAndSlice(stocks?.history);
-            const c = sortAndSlice(crypto?.history);
-            const b = sortAndSlice(bonds?.history);
+            const g = filterByDate(gold?.history);
+            const s = filterByDate(stocks?.history);
+            const c = filterByDate(crypto?.history);
+            const b = filterByDate(bonds?.history);
 
-            // Build unified date list & sentiment
+            // Build unified date map (date -> { gold, stocks, crypto, bonds })
             const dateMap = {};
             [g, s, c, b].forEach((arr, idx) => {
                 const key = ['gold','stocks','crypto','bonds'][idx];
@@ -923,17 +926,18 @@
             });
 
             const dates = Object.keys(dateMap).sort();
-            const sentiment = [];
+
+            // Compute sentiment for dates where all 4 assets exist
             dates.forEach(date => {
                 const d = dateMap[date];
                 if (d.gold != null && d.stocks != null && d.crypto != null && d.bonds != null) {
                     const riskOn = (d.stocks + d.crypto) / 2;
                     const riskOff = (d.bonds + d.gold) / 2;
-                    sentiment.push({ date, score: ((riskOn - riskOff + 100) / 200) * 100 });
+                    d.sentiment = ((riskOn - riskOff + 100) / 200) * 100;
                 }
             });
 
-            chartData = { gold: g, stocks: s, crypto: c, bonds: b, sentiment, dates };
+            chartData = { dateMap, dates };
             return chartData;
         }
 
@@ -984,43 +988,46 @@
 
             // 5. Draw series (assets thin first, then sentiment thick on top)
             const drawOrder = ['gold', 'bonds', 'stocks', 'crypto', 'sentiment'];
+            const totalDates = data.dates.length;
             drawOrder.forEach(name => {
                 if (!isSeriesVisible(name)) return;
-                const series = data[name];
-                if (!series || series.length < 2) return;
                 const cfg = seriesConfig[name];
 
                 ctx.strokeStyle = name === 'sentiment' ? cfg.color : cfg.color + 'CC';
                 ctx.lineWidth = cfg.width;
                 ctx.beginPath();
-                series.forEach((p, i) => {
-                    const x = indexToX(i, series.length, pad, plotW);
-                    const y = scoreToY(p.score, pad, plotH);
-                    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+                let started = false;
+                let lastX, lastY;
+                data.dates.forEach((date, i) => {
+                    const score = data.dateMap[date]?.[name];
+                    if (score == null) return;
+                    const x = indexToX(i, totalDates, pad, plotW);
+                    const y = scoreToY(score, pad, plotH);
+                    if (!started) { ctx.moveTo(x, y); started = true; }
+                    else ctx.lineTo(x, y);
+                    lastX = x; lastY = y;
                 });
                 ctx.stroke();
 
                 // End dot
-                const last = series[series.length - 1];
-                const lx = indexToX(series.length - 1, series.length, pad, plotW);
-                const ly = scoreToY(last.score, pad, plotH);
-                ctx.beginPath();
-                ctx.arc(lx, ly, name === 'sentiment' ? 4 : 3, 0, Math.PI * 2);
-                ctx.fillStyle = cfg.color;
-                ctx.fill();
+                if (lastX != null) {
+                    ctx.beginPath();
+                    ctx.arc(lastX, lastY, name === 'sentiment' ? 4 : 3, 0, Math.PI * 2);
+                    ctx.fillStyle = cfg.color;
+                    ctx.fill();
+                }
             });
 
             // 6. Date labels (horizontal, clean)
-            const refSeries = data.gold?.length > 0 ? data.gold : (data.stocks?.length > 0 ? data.stocks : data.sentiment);
-            if (refSeries && refSeries.length > 0) {
-                const total = refSeries.length;
+            if (data.dates && data.dates.length > 0) {
+                const total = data.dates.length;
                 const numLabels = Math.min(total, w < 500 ? 4 : 6);
                 ctx.fillStyle = '#555';
                 ctx.font = '10px -apple-system, sans-serif';
                 for (let i = 0; i < numLabels; i++) {
                     const idx = i === numLabels - 1 ? total - 1 : Math.round(i * (total - 1) / (numLabels - 1));
                     const x = indexToX(idx, total, pad, plotW);
-                    const date = new Date(refSeries[idx].date);
+                    const date = new Date(data.dates[idx]);
                     const label = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
                     if (i === 0) ctx.textAlign = 'left';
                     else if (i === numLabels - 1) ctx.textAlign = 'right';
@@ -1041,12 +1048,11 @@
             const pad = { left: 30, right: 30 };
             const plotW = box.clientWidth - pad.left - pad.right;
 
-            const refSeries = chartData.gold?.length > 0 ? chartData.gold : (chartData.stocks?.length > 0 ? chartData.stocks : chartData.sentiment);
-            if (!refSeries || refSeries.length < 2) return;
+            if (!chartData.dates || chartData.dates.length < 2) return;
 
             const ratio = Math.max(0, Math.min(1, (x - pad.left) / plotW));
-            const idx = Math.round(ratio * (refSeries.length - 1));
-            const targetDate = refSeries[idx]?.date;
+            const idx = Math.round(ratio * (chartData.dates.length - 1));
+            const targetDate = chartData.dates[idx];
             if (!targetDate) return;
 
             // Show tooltip
@@ -1056,13 +1062,12 @@
             let rows = '';
             ['sentiment', 'gold', 'bonds', 'stocks', 'crypto'].forEach(name => {
                 if (!isSeriesVisible(name)) return;
-                const series = chartData[name];
-                const point = series?.find(p => p.date === targetDate);
-                if (!point) return;
+                const score = chartData.dateMap[targetDate]?.[name];
+                if (score == null) return;
                 const cfg = seriesConfig[name];
                 rows += `<div class="chart-tooltip-row">
                     <span class="chart-tooltip-name" style="color:${cfg.color}">${cfg.label}</span>
-                    <span class="chart-tooltip-val" style="color:${cfg.color}">${Math.round(point.score)}</span>
+                    <span class="chart-tooltip-val" style="color:${cfg.color}">${Math.round(score)}</span>
                 </div>`;
             });
             document.getElementById('tooltipRows').innerHTML = rows;
