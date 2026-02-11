@@ -1,0 +1,58 @@
+{
+  "updated": "2026-02-10T21:00:45Z",
+  "asset": "stocks",
+  "price_symbol": "SPY",
+  "price_label": "SPY",
+  "correlation": {
+    "r_90d": 0.632,
+    "r_full": 0.45,
+    "label_90d": "Moderate positive",
+    "label_full": "Moderate positive",
+    "trend": "strengthening",
+    "trend_detail": "Recently stronger (0.632 vs 0.45 overall)"
+  },
+  "score_stats": {
+    "min": 17.9,
+    "max": 73.7,
+    "avg": 54.7,
+    "current": 55.1,
+    "current_percentile": 46,
+    "percentile_label": null,
+    "distance_to_fear": -7.1,
+    "distance_to_greed": -1.3
+  },
+  "extreme_fear": {
+    "threshold": 25,
+    "episodes": 1,
+    "total_days": 3,
+    "avg_return_30d": 17.7,
+    "avg_return_60d": 23.2,
+    "avg_return_90d": 28.0,
+    "win_rate_30d": 100,
+    "episodes_with_30d_data": 1,
+    "episodes_with_60d_data": 1,
+    "episodes_with_90d_data": 1,
+    "last": {
+      "date": "2025-04-04",
+      "score": 17.9,
+      "price": 500.92,
+      "days_ago": 312
+    }
+  },
+  "extreme_greed": {
+    "threshold": 75,
+    "episodes": 0,
+    "total_days": 0,
+    "avg_return_30d": null,
+    "avg_return_60d": null,
+    "avg_return_90d": null,
+    "win_rate_30d": null,
+    "episodes_with_30d_data": 0,
+    "episodes_with_60d_data": 0,
+    "episodes_with_90d_data": 0,
+    "last": null
+  },
+  "signals": [
+    "The index is at 55 (Greed). The score never rose above 73.7 (Extreme Greed starts at 75)."
+  ]
+}

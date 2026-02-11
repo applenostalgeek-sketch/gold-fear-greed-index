@@ -104,151 +104,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
 
+    <!-- Shared Styles -->
+    <link rel="stylesheet" href="shared.css">
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #0a0a0a;
-            color: #ffffff;
-            min-height: 100vh;
-            padding: 0;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 120px 20px 60px;
-        }
-
-        /* Navigation */
-        nav {
-            background: rgba(10, 10, 10, 0.95);
-            backdrop-filter: blur(16px);
-            border-bottom: 1px solid #1a1a1a;
-            padding: 20px 0;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 100;
-        }
-
-        .nav-container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 32px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #ffffff;
-            text-decoration: none;
-            transition: all 0.2s ease;
-            letter-spacing: -0.02em;
-            font-family: 'Space Grotesk', sans-serif;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .logo-dots {
-            display: flex;
-            gap: 4px;
-            font-size: 0.8rem;
-            color: #666;
-            transition: color 0.6s ease;
-        }
-
-        .logo-suffix {
-            color: #666;
-            font-weight: 500;
-        }
-
-        .logo:hover {
-            opacity: 0.9;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 40px;
-            align-items: center;
-        }
-
-        .nav-links a {
-            color: #999;
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.2s ease;
-            font-size: 0.95rem;
-        }
-
-        .nav-links a:hover,
-        .nav-links a.active {
-            color: #ffffff;
-        }
-
-        /* Mobile Menu Toggle */
-        .mobile-menu-toggle {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 8px;
-            z-index: 101;
-        }
-
-        .mobile-menu-toggle span {
-            width: 24px;
-            height: 2px;
-            background: #ffffff;
-            transition: all 0.3s ease;
-            border-radius: 2px;
-        }
-
-        .mobile-menu-toggle.active span:nth-child(1) {
-            transform: rotate(45deg) translate(7px, 7px);
-        }
-
-        .mobile-menu-toggle.active span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .mobile-menu-toggle.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(7px, -7px);
-        }
-
-        /* Mobile Menu Overlay */
-        .mobile-menu-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(8px);
-            z-index: 99;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
-        }
-
-        .mobile-menu-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
         /* Page Header */
         .page-header {
             text-align: center;
@@ -433,71 +292,8 @@
             transform: translateY(-2px);
         }
 
-        /* Footer */
-        footer {
-            margin-top: 80px;
-            padding-top: 40px;
-            border-top: 1px solid #1a1a1a;
-        }
-
-        .disclaimer {
-            font-size: 0.8rem;
-            color: #666;
-            line-height: 1.6;
-            margin-bottom: 16px;
-        }
-
-        .credits {
-            font-size: 0.75rem;
-            color: #555;
-            text-align: center;
-        }
-
         /* Mobile */
         @media (max-width: 768px) {
-            .nav-container {
-                padding: 0 20px;
-            }
-
-            .mobile-menu-toggle {
-                display: flex;
-            }
-
-            .nav-links {
-                position: fixed;
-                top: 0;
-                right: -100%;
-                width: 280px;
-                height: 100vh;
-                background: #0a0a0a;
-                flex-direction: column;
-                padding: 80px 32px 32px;
-                gap: 16px;
-                transition: right 0.3s ease;
-                z-index: 100;
-                box-shadow: -4px 0 20px rgba(0, 0, 0, 0.5);
-                border-left: 1px solid #1a1a1a;
-            }
-
-            .nav-links.active {
-                right: 0;
-            }
-
-            .nav-links a {
-                font-size: 1.1rem;
-                padding: 16px 0;
-                border-bottom: 1px solid #1a1a1a;
-                width: 100%;
-            }
-
-            .mobile-menu-overlay {
-                display: block;
-            }
-
-            .container {
-                padding: 100px 20px 60px;
-            }
-
             .page-header h1 {
                 font-size: 2rem;
             }
@@ -726,7 +522,7 @@
                 <h4>1. Yield Curve Shape (20%)</h4>
                 <p class="weight">10-Year vs 2-Year Treasury spread (FRED API with Yahoo fallback)</p>
                 <p>
-                    Classic recession indicator measuring yield curve shape. <strong>Inverted logic (sentiment perspective):</strong> Steep curve (+2%+) = strong economy = investors favor STOCKS over bonds = low bonds score. Flat/Normal curve (0% to +1%) = moderate bonds score. <strong>Inverted curve (&lt; 0%) = recession fear = flight to bonds = high score (up to 100).</strong> Uses FRED API data (DGS2, DGS10) with Yahoo fallback (^TNX, ^IRX) when FRED unavailable.
+                    Classic recession indicator measuring yield curve shape. <strong>Direct logic (term premium perspective):</strong> Steep curve (+2%+) = high term premium = rewarding long bond holders = high score (greed). Flat curve (~0%) = neutral. <strong>Inverted curve (&lt; 0%) = Fed hiking aggressively = bond prices crushed = low score (fear).</strong> Score = 40 + (spread × 20), capped 0-100. Uses FRED API data (DGS2, DGS10) with Yahoo fallback (^TNX, ^IRX) when FRED unavailable.
                 </p>
             </div>
 
@@ -750,7 +546,7 @@
                 <h4>4. Real Rates Attractiveness (15%)</h4>
                 <p class="weight">10-Year TIPS yield (inflation-adjusted returns)</p>
                 <p>
-                    Real yield = nominal yield minus inflation expectations. <strong>Positive real yields = bonds paying above inflation = attractive investment = higher score.</strong> Negative real yields = inflation destroying returns = unattractive = low score. Uses FRED API (DFII10) with Yahoo fallback. Score = 50 + (real_rate × 6), providing moderate sensitivity: +2% real = 62, 0% = 50, -2% = 38.
+                    Real yield = nominal yield minus inflation expectations. <strong>Higher real rates = bond prices fall = fear (low score).</strong> Lower real rates = bond prices rise = greed (high score). Uses FRED API (DFII10) with Yahoo fallback. Score = 50 - (real_rate × 10), providing strong sensitivity: +2.5% real = 25, 0% = 50, -2.5% = 75.
                 </p>
             </div>
 
@@ -795,9 +591,9 @@
                 <h4>1. Price Strength (20%)</h4>
                 <p class="weight">Direct SPY 14-day performance</p>
                 <p>
-                    Measures S&P 500 (SPY) price change over 14 days with a ×5 multiplier.
-                    <strong>SPY +10% = people buying stocks = high score. SPY -10% = people selling = low score.</strong>
-                    This directly captures buying/selling sentiment. When stocks crash -15%, this component
+                    Measures S&P 500 (SPY) price change over 14 days with a ×8 multiplier.
+                    <strong>SPY +6% = score 100. SPY -6% = score 0.</strong>
+                    This directly captures buying/selling sentiment. When stocks crash -10%+, this component
                     drives the score to Extreme Fear, signaling panic selling.
                 </p>
             </div>
@@ -817,7 +613,7 @@
                 <h4>3. Momentum (15%)</h4>
                 <p class="weight">RSI + 50-day moving average position</p>
                 <p>
-                    Combines 14-day RSI (60% weight) with price position relative to 50-day MA (40% weight).
+                    Combines 14-day RSI (70% weight) with price position relative to 50-day MA (30% weight).
                     <strong>RSI &gt;70 + Price &gt; MA50 = overbought/bullish = high score.</strong> RSI &lt;30 + Price &lt; MA50 =
                     oversold/bearish = low score. Captures technical momentum and trend strength beyond raw price moves.
                 </p>
@@ -827,9 +623,9 @@
                 <h4>4. Market Participation (15%)</h4>
                 <p class="weight">Equal-weight vs cap-weight performance (RSP vs SPY)</p>
                 <p>
-                    Compares Invesco S&P 500 Equal Weight ETF (RSP) to SPY over 14 days with a ×12 multiplier. <strong>RSP outperforming SPY =
+                    Compares Invesco S&P 500 Equal Weight ETF (RSP) to SPY over 14 days with a ×18 multiplier. <strong>RSP outperforming SPY =
                     broad participation across all stocks = healthy greed.</strong> SPY outperforming RSP = narrow leadership
-                    (only mega-caps rising) = fragile market = lower score. Saturates at ±4.2% divergence.
+                    (only mega-caps rising) = fragile market = lower score. Saturates at ±2.8% divergence.
                 </p>
             </div>
 
@@ -859,9 +655,9 @@
                 <h4>7. Sector Rotation (10%)</h4>
                 <p class="weight">Tech vs Defensive rotation (QQQ vs XLP)</p>
                 <p>
-                    Measures sentiment shift between offensive and defensive sectors via 14-day relative performance with a ×3 multiplier.
+                    Measures sentiment shift between offensive and defensive sectors via 14-day relative performance with a ×5 multiplier.
                     <strong>QQQ (Nasdaq-100 tech) outperforming XLP (Consumer Staples) = risk-on = greed.</strong>
-                    XLP outperforming QQQ = defensive rotation = fear. Saturates at ±16.7% divergence.
+                    XLP outperforming QQQ = defensive rotation = fear. Saturates at ±10% divergence.
                 </p>
             </div>
         </div>
@@ -1086,79 +882,12 @@
                 <strong>Use At Your Own Risk:</strong> Trading and investing carry substantial risk of loss. Never invest money you cannot afford to lose. Always conduct your own research, use proper risk management, and consult qualified financial professionals before making investment decisions. We are not liable for any losses resulting from the use of these tools.
             </p>
             <p class="credits">
-                Sources: Yahoo Finance, FRED | Updated Daily | <a href="mailto:contact@onoff.markets" style="color: #666; text-decoration: none; transition: color 0.2s ease;" onmouseover="this.style.color='#999'" onmouseout="this.style.color='#666'">Contact</a>
+                Sources: Yahoo Finance, FRED | Updated Daily | <a href="mailto:contact@onoff.markets">Contact</a>
             </p>
         </footer>
     </div>
 
-    <script>
-        // Mobile menu toggle
-        const mobileMenuToggle = document.getElementById('mobileMenuToggle');
-        const navLinks = document.getElementById('navLinks');
-        const mobileMenuOverlay = document.getElementById('mobileMenuOverlay');
-
-        mobileMenuToggle.addEventListener('click', () => {
-            mobileMenuToggle.classList.toggle('active');
-            navLinks.classList.toggle('active');
-            mobileMenuOverlay.classList.toggle('active');
-        });
-
-        mobileMenuOverlay.addEventListener('click', () => {
-            mobileMenuToggle.classList.remove('active');
-            navLinks.classList.remove('active');
-            mobileMenuOverlay.classList.remove('active');
-        });
-
-        navLinks.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                mobileMenuToggle.classList.remove('active');
-                navLinks.classList.remove('active');
-                mobileMenuOverlay.classList.remove('active');
-            });
-        });
-
-        // Logo dots animation with rotation indicator
-        async function updateLogoDots() {
-            try {
-                const [bondsRes, goldRes, stocksRes, cryptoRes] = await Promise.all([
-                    fetch('data/bonds-fear-greed.json'),
-                    fetch('data/gold-fear-greed.json'),
-                    fetch('data/stocks-fear-greed.json'),
-                    fetch('data/crypto-fear-greed.json')
-                ]);
-                const bonds = await bondsRes.json();
-                const gold = await goldRes.json();
-                const stocks = await stocksRes.json();
-                const crypto = await cryptoRes.json();
-
-                // Risk-On vs Risk-Off calculation
-                const riskOn = (stocks.score + crypto.score) / 2;
-                const riskOff = (bonds.score + gold.score) / 2;
-                const rotationScore = riskOn - riskOff;
-                const position = ((rotationScore + 100) / 200) * 100;
-
-                const logoDots = document.querySelector('.logo-dots');
-                let dotsColor;
-                if (position < 25) {
-                    dotsColor = "#ef4444";
-                } else if (position < 45) {
-                    dotsColor = "#f59e0b";
-                } else if (position < 55) {
-                    dotsColor = "#ffffff";
-                } else if (position < 75) {
-                    dotsColor = "#22c55e";
-                } else {
-                    dotsColor = "#06b6d4";
-                }
-                if (logoDots) {
-                    logoDots.style.color = dotsColor;
-                }
-            } catch (error) {
-                console.error('Error updating logo dots:', error);
-            }
-        }
-
-        updateLogoDots();
-    </script>
+    <script src="shared.js"></script>
+    <script>updateLogoDots();</script>
 </body>
 </html>

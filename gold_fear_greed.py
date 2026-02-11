@@ -120,7 +120,7 @@ class GoldFearGreedIndex:
             total_score = 50 + ma50_contrib + ma200_contrib + rsi_contrib
             total_score = max(0, min(100, total_score))
 
-            ma_status = "Prix > MM50" if current_price > ma50 else "Prix < MM50"
+            ma_status = "Price > MA50" if current_price > ma50 else "Price < MA50"
             detail = f"RSI: {current_rsi:.0f}, {ma_status}"
 
             return total_score, detail

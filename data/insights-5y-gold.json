@@ -1,0 +1,63 @@
+{
+  "updated": "2026-02-11T09:11:18Z",
+  "asset": "gold",
+  "price_symbol": "GLD",
+  "price_label": "GLD",
+  "correlation": {
+    "r_90d": 0.523,
+    "r_full": 0.298,
+    "label_90d": "Moderate positive",
+    "label_full": "Weak positive",
+    "trend": "strengthening",
+    "trend_detail": "Recently stronger (0.523 vs 0.298 overall)"
+  },
+  "score_stats": {
+    "min": 18.8,
+    "max": 86.5,
+    "avg": 55.4,
+    "current": 71.8,
+    "current_percentile": 87,
+    "percentile_label": "Upper range",
+    "distance_to_fear": -6.2,
+    "distance_to_greed": 11.5
+  },
+  "extreme_fear": {
+    "threshold": 25,
+    "episodes": 4,
+    "total_days": 14,
+    "avg_return_30d": 2.4,
+    "avg_return_60d": 5.0,
+    "avg_return_90d": 9.0,
+    "win_rate_30d": 75,
+    "episodes_with_30d_data": 4,
+    "episodes_with_60d_data": 4,
+    "episodes_with_90d_data": 4,
+    "last": {
+      "date": "2024-11-13",
+      "score": 21.5,
+      "price": 237.63,
+      "days_ago": 455
+    }
+  },
+  "extreme_greed": {
+    "threshold": 75,
+    "episodes": 32,
+    "total_days": 90,
+    "avg_return_30d": 2.4,
+    "avg_return_60d": 2.7,
+    "avg_return_90d": 5.5,
+    "win_rate_30d": 72,
+    "episodes_with_30d_data": 29,
+    "episodes_with_60d_data": 29,
+    "episodes_with_90d_data": 28,
+    "last": {
+      "date": "2026-02-06",
+      "score": 79.5,
+      "price": 455.46,
+      "days_ago": 5
+    }
+  },
+  "signals": [
+    "The index exited Extreme Greed 5 days ago. After previous exits, the price gained 2.7% over 60 days on average."
+  ]
+}

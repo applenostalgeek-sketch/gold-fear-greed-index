@@ -1,0 +1,58 @@
+{
+  "updated": "2026-02-11T09:11:18Z",
+  "asset": "bonds",
+  "price_symbol": "TLT",
+  "price_label": "TLT",
+  "correlation": {
+    "r_90d": 0.421,
+    "r_full": 0.55,
+    "label_90d": "Moderate positive",
+    "label_full": "Moderate positive",
+    "trend": "stable",
+    "trend_detail": "Consistent (0.421 vs 0.55 overall)"
+  },
+  "score_stats": {
+    "min": 24.2,
+    "max": 66.2,
+    "avg": 46.8,
+    "current": 49.8,
+    "current_percentile": 64,
+    "percentile_label": null,
+    "distance_to_fear": -0.8,
+    "distance_to_greed": -8.8
+  },
+  "extreme_fear": {
+    "threshold": 25,
+    "episodes": 1,
+    "total_days": 1,
+    "avg_return_30d": 9.0,
+    "avg_return_60d": 14.3,
+    "avg_return_90d": 10.4,
+    "win_rate_30d": 100,
+    "episodes_with_30d_data": 1,
+    "episodes_with_60d_data": 1,
+    "episodes_with_90d_data": 1,
+    "last": {
+      "date": "2023-10-17",
+      "score": 24.2,
+      "price": 77.34,
+      "days_ago": 848
+    }
+  },
+  "extreme_greed": {
+    "threshold": 75,
+    "episodes": 0,
+    "total_days": 0,
+    "avg_return_30d": null,
+    "avg_return_60d": null,
+    "avg_return_90d": null,
+    "win_rate_30d": null,
+    "episodes_with_30d_data": 0,
+    "episodes_with_60d_data": 0,
+    "episodes_with_90d_data": 0,
+    "last": null
+  },
+  "signals": [
+    "The index is at 50 (Neutral). The score never rose above 66.2 (Extreme Greed starts at 75)."
+  ]
+}

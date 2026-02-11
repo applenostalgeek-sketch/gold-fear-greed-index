@@ -1,0 +1,63 @@
+{
+  "updated": "2026-02-11T09:11:18Z",
+  "asset": "stocks",
+  "price_symbol": "SPY",
+  "price_label": "SPY",
+  "correlation": {
+    "r_90d": 0.57,
+    "r_full": 0.175,
+    "label_90d": "Moderate positive",
+    "label_full": "Negligible",
+    "trend": "strengthening",
+    "trend_detail": "Recently stronger (0.57 vs 0.175 overall)"
+  },
+  "score_stats": {
+    "min": 16.2,
+    "max": 80.4,
+    "avg": 55.4,
+    "current": 51.8,
+    "current_percentile": 30,
+    "percentile_label": null,
+    "distance_to_fear": -8.8,
+    "distance_to_greed": 5.4
+  },
+  "extreme_fear": {
+    "threshold": 25,
+    "episodes": 7,
+    "total_days": 12,
+    "avg_return_30d": 10.4,
+    "avg_return_60d": 9.4,
+    "avg_return_90d": 11.3,
+    "win_rate_30d": 100,
+    "episodes_with_30d_data": 7,
+    "episodes_with_60d_data": 7,
+    "episodes_with_90d_data": 7,
+    "last": {
+      "date": "2025-04-11",
+      "score": 23.8,
+      "price": 529.33,
+      "days_ago": 306
+    }
+  },
+  "extreme_greed": {
+    "threshold": 75,
+    "episodes": 7,
+    "total_days": 11,
+    "avg_return_30d": 2.6,
+    "avg_return_60d": 4.4,
+    "avg_return_90d": 7.7,
+    "win_rate_30d": 86,
+    "episodes_with_30d_data": 7,
+    "episodes_with_60d_data": 6,
+    "episodes_with_90d_data": 6,
+    "last": {
+      "date": "2025-12-11",
+      "score": 78.2,
+      "price": 687.14,
+      "days_ago": 62
+    }
+  },
+  "signals": [
+    "The index is at 52 (Neutral). Over the past 12 months, it ranged from 16.2 to 80.4."
+  ]
+}

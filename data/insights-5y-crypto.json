@@ -1,0 +1,63 @@
+{
+  "updated": "2026-02-11T09:11:18Z",
+  "asset": "crypto",
+  "price_symbol": "BTC-USD",
+  "price_label": "BTC",
+  "correlation": {
+    "r_90d": 0.759,
+    "r_full": 0.22,
+    "label_90d": "Strong positive",
+    "label_full": "Weak positive",
+    "trend": "strengthening",
+    "trend_detail": "Recently stronger (0.759 vs 0.22 overall)"
+  },
+  "score_stats": {
+    "min": 11.1,
+    "max": 92.7,
+    "avg": 53.9,
+    "current": 13.7,
+    "current_percentile": 0,
+    "percentile_label": "Near 12-month low",
+    "distance_to_fear": -13.9,
+    "distance_to_greed": 17.7
+  },
+  "extreme_fear": {
+    "threshold": 25,
+    "episodes": 23,
+    "total_days": 88,
+    "avg_return_30d": -5.4,
+    "avg_return_60d": 7.6,
+    "avg_return_90d": 11.7,
+    "win_rate_30d": 36,
+    "episodes_with_30d_data": 22,
+    "episodes_with_60d_data": 22,
+    "episodes_with_90d_data": 22,
+    "last": {
+      "date": "2026-02-04",
+      "score": 24.3,
+      "price": 73019.7,
+      "days_ago": 7
+    }
+  },
+  "extreme_greed": {
+    "threshold": 75,
+    "episodes": 32,
+    "total_days": 131,
+    "avg_return_30d": -0.7,
+    "avg_return_60d": -2.8,
+    "avg_return_90d": 0.7,
+    "win_rate_30d": 38,
+    "episodes_with_30d_data": 32,
+    "episodes_with_60d_data": 32,
+    "episodes_with_90d_data": 32,
+    "last": {
+      "date": "2025-07-26",
+      "score": 77.3,
+      "price": 117947.37,
+      "days_ago": 200
+    }
+  },
+  "signals": [
+    "The index is in Extreme Fear (14). Historically, buying at these levels returned +-5.4% over 30 days (36% success rate)."
+  ]
+}

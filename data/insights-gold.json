@@ -1,0 +1,58 @@
+{
+  "updated": "2026-02-10T21:00:45Z",
+  "asset": "gold",
+  "price_symbol": "GLD",
+  "price_label": "GLD",
+  "correlation": {
+    "r_90d": 0.619,
+    "r_full": 0.121,
+    "label_90d": "Moderate positive",
+    "label_full": "Negligible",
+    "trend": "strengthening",
+    "trend_detail": "Recently stronger (0.619 vs 0.121 overall)"
+  },
+  "score_stats": {
+    "min": 27.8,
+    "max": 77.8,
+    "avg": 55.5,
+    "current": 72.8,
+    "current_percentile": 95,
+    "percentile_label": "Near 12-month high",
+    "distance_to_fear": 2.8,
+    "distance_to_greed": 2.8
+  },
+  "extreme_fear": {
+    "threshold": 25,
+    "episodes": 0,
+    "total_days": 0,
+    "avg_return_30d": null,
+    "avg_return_60d": null,
+    "avg_return_90d": null,
+    "win_rate_30d": null,
+    "episodes_with_30d_data": 0,
+    "episodes_with_60d_data": 0,
+    "episodes_with_90d_data": 0,
+    "last": null
+  },
+  "extreme_greed": {
+    "threshold": 75,
+    "episodes": 3,
+    "total_days": 10,
+    "avg_return_30d": 0.0,
+    "avg_return_60d": 1.7,
+    "avg_return_90d": 3.7,
+    "win_rate_30d": 33,
+    "episodes_with_30d_data": 3,
+    "episodes_with_60d_data": 3,
+    "episodes_with_90d_data": 3,
+    "last": {
+      "date": "2025-04-24",
+      "score": 75.9,
+      "price": 308.07,
+      "days_ago": 292
+    }
+  },
+  "signals": [
+    "The index is at 73 (Greed) \u2014 near 12-month high (P95). The score never dropped below 27.8 (Extreme Fear starts at 25)."
+  ]
+}

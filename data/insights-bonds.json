@@ -1,0 +1,53 @@
+{
+  "updated": "2026-02-10T21:00:45Z",
+  "asset": "bonds",
+  "price_symbol": "TLT",
+  "price_label": "TLT",
+  "correlation": {
+    "r_90d": 0.575,
+    "r_full": 0.262,
+    "label_90d": "Moderate positive",
+    "label_full": "Weak positive",
+    "trend": "strengthening",
+    "trend_detail": "Recently stronger (0.575 vs 0.262 overall)"
+  },
+  "score_stats": {
+    "min": 42.5,
+    "max": 70.1,
+    "avg": 55.5,
+    "current": 54.9,
+    "current_percentile": 49,
+    "percentile_label": null,
+    "distance_to_fear": 17.5,
+    "distance_to_greed": -4.9
+  },
+  "extreme_fear": {
+    "threshold": 25,
+    "episodes": 0,
+    "total_days": 0,
+    "avg_return_30d": null,
+    "avg_return_60d": null,
+    "avg_return_90d": null,
+    "win_rate_30d": null,
+    "episodes_with_30d_data": 0,
+    "episodes_with_60d_data": 0,
+    "episodes_with_90d_data": 0,
+    "last": null
+  },
+  "extreme_greed": {
+    "threshold": 75,
+    "episodes": 0,
+    "total_days": 0,
+    "avg_return_30d": null,
+    "avg_return_60d": null,
+    "avg_return_90d": null,
+    "win_rate_30d": null,
+    "episodes_with_30d_data": 0,
+    "episodes_with_60d_data": 0,
+    "episodes_with_90d_data": 0,
+    "last": null
+  },
+  "signals": [
+    "This index has never reached Extreme Fear or Extreme Greed. The score ranges between 42.5 and 70.1, suggesting sentiment has limited impact on this market."
+  ]
+}

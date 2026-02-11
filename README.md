@@ -63,7 +63,7 @@ Each index measures **sentiment TOWARDS that market** (whether people are buying
 | Yield Curve Shape | 20% | 10Y-2Y Treasury spread from FRED (structural signal) |
 | Duration Risk / TLT | 20% | Direct 14-day TLT ETF performance |
 | Credit Quality | 20% | LQD vs TLT performance (credit spreads) |
-| Real Rates | 15% | 10-Year TIPS yields (×6 multiplier) |
+| Real Rates | 15% | 10-Year TIPS yields (×10 multiplier) |
 | Bond Volatility | 15% | 5-day vs 30-day TLT vol (MOVE proxy, ×75) |
 | Equity vs Bonds | 10% | TLT vs SPY relative performance (×8) |
 
@@ -72,13 +72,13 @@ Each index measures **sentiment TOWARDS that market** (whether people are buying
 ### 📈 Stocks (7 Components)
 | Component | Weight | Description |
 |-----------|--------|-------------|
-| Price Strength | 20% | Direct 14-day SPY performance (×5 multiplier) |
+| Price Strength | 20% | Direct 14-day SPY performance (×8 multiplier) |
 | VIX | 20% | Continuous linear formula: 90 - (VIX-10) × 3.2 |
-| Momentum | 15% | SPY RSI(14) + MA50 position |
-| Market Participation | 15% | RSP vs SPY (×12 multiplier, equal vs cap-weight) |
+| Momentum | 15% | SPY RSI(14) 70% + MA50 position 30% |
+| Market Participation | 15% | RSP vs SPY (×18 multiplier, equal vs cap-weight) |
 | Junk Bonds | 10% | HYG vs TLT (credit risk appetite) |
 | Safe Haven | 10% | TLT momentum inverted (flight-to-safety signal) |
-| Sector Rotation | 10% | QQQ vs XLP (tech vs defensive, ×3 multiplier) |
+| Sector Rotation | 10% | QQQ vs XLP (tech vs defensive, ×5 multiplier) |
 
 **Recalibrated Feb 2026**: Added Safe Haven signal. VIX uses continuous formula (no step cliffs). Reduced Price Strength to 20% for better signal diversity.
 
@@ -120,15 +120,23 @@ gold-fear-greed-index/
 ├── bonds_fear_greed.py         # Bonds index calculator
 ├── stocks_fear_greed.py        # Stocks index calculator
 ├── crypto_fear_greed.py        # Crypto index calculator
+├── generate_insights.py        # 5-year insights generator
+├── generate_prices.py          # Price history generator
+├── rebuild_5y.py               # 5-year history rebuild
 ├── index.html                  # Homepage (market rotation)
 ├── gold.html / bonds.html      # Individual index pages
 ├── stocks.html / crypto.html
+├── compare.html                # F&G vs Price comparison (5Y data)
 ├── about.html                  # Complete methodology
+├── shared.css                  # Shared styles (nav, footer, mobile)
+├── chart.css                   # Chart styles (toolbar, tooltip)
+├── asset.css                   # Asset page styles (hero, bar, components)
+├── shared.js                   # Shared utilities (chart helpers, mobile menu)
+├── asset-chart.js              # Asset page chart logic (parameterized)
 ├── data/
-│   ├── gold-fear-greed.json    # Gold historical data (365 days)
-│   ├── bonds-fear-greed.json   # Bonds historical data (365 days)
-│   ├── stocks-fear-greed.json  # Stocks historical data (365 days)
-│   └── crypto-fear-greed.json  # Crypto historical data (365 days)
+│   ├── *-fear-greed.json       # Daily F&G data (365 days × 4 assets)
+│   ├── history-5y-*.json       # 5-year aligned score+price history
+│   └── insights-5y-*.json     # Pre-computed correlation & stats
 ├── .github/
 │   └── workflows/
 │       └── update-index.yml    # Daily automation (2:00 UTC)
@@ -243,9 +251,9 @@ elif score <= 45:
 
 ### Frontend Design
 
-- Colors: Edit CSS variables in each HTML file
-- Layout: Modify HTML structure
-- Charts: Canvas.js code in `<script>` sections
+- Shared styles: `shared.css` (nav, footer), `chart.css` (charts), `asset.css` (asset pages)
+- Shared JS: `shared.js` (utilities), `asset-chart.js` (parameterized via `window.ASSET_CONFIG`)
+- Page-specific logic: Inline `<style>` and `<script>` blocks in each HTML file
 
 ---
 

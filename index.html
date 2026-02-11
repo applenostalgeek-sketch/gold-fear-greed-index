@@ -63,138 +63,11 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
 
+    <!-- Shared Styles -->
+    <link rel="stylesheet" href="shared.css">
+    <link rel="stylesheet" href="chart.css">
+
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: #0a0a0a;
-            color: #ffffff;
-            min-height: 100vh;
-            padding: 0;
-        }
-
-        .container {
-            max-width: 900px;
-            margin: 0 auto;
-            padding: 120px 20px 60px;
-        }
-
-        /* Navigation */
-        nav {
-            background: rgba(10, 10, 10, 0.95);
-            backdrop-filter: blur(16px);
-            border-bottom: 1px solid #1a1a1a;
-            padding: 20px 0;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            z-index: 100;
-        }
-
-        .nav-container {
-            max-width: 1280px;
-            margin: 0 auto;
-            padding: 0 32px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: #ffffff;
-            text-decoration: none;
-            transition: all 0.2s ease;
-            letter-spacing: -0.02em;
-            font-family: 'Space Grotesk', sans-serif;
-            display: flex;
-            align-items: center;
-            gap: 6px;
-        }
-
-        .logo-dots {
-            display: flex;
-            gap: 4px;
-            font-size: 0.8rem;
-            color: #666;
-            transition: color 0.6s ease;
-        }
-
-        .logo-suffix {
-            color: #666;
-            font-weight: 500;
-        }
-
-        .logo:hover {
-            opacity: 0.9;
-        }
-
-        .nav-links {
-            display: flex;
-            gap: 40px;
-            align-items: center;
-        }
-
-        .nav-links a {
-            color: #999;
-            text-decoration: none;
-            font-weight: 600;
-            transition: color 0.2s ease;
-            font-size: 0.95rem;
-        }
-
-        .nav-links a:hover {
-            color: #ffffff;
-        }
-
-        /* Mobile Menu Toggle */
-        .mobile-menu-toggle {
-            display: none;
-            flex-direction: column;
-            gap: 5px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            padding: 8px;
-            z-index: 101;
-        }
-
-        .mobile-menu-toggle span {
-            width: 24px;
-            height: 2px;
-            background: #ffffff;
-            transition: all 0.3s ease;
-            border-radius: 2px;
-        }
-
-        /* Mobile Menu Overlay */
-        .mobile-menu-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(8px);
-            z-index: 99;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-            pointer-events: none;
-        }
-
-        .mobile-menu-overlay.active {
-            opacity: 1;
-            pointer-events: auto;
-        }
-
         /* Header */
         .header {
             text-align: center;
@@ -456,35 +329,6 @@
             color: #fff;
         }
 
-        .chart-wrapper {
-            position: relative;
-            background: #0a0a0a;
-            border: 1px solid #1a1a1a;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-
-        .chart-canvas-box {
-            position: relative;
-            height: 500px;
-        }
-
-        .chart-canvas-box canvas {
-            display: block;
-            width: 100%;
-            height: 100%;
-        }
-
-        .chart-toolbar {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 12px;
-            padding: 16px 20px;
-            border-bottom: 1px solid #1a1a1a;
-        }
-
         .chart-toggles {
             display: flex;
             gap: 6px;
@@ -524,124 +368,8 @@
             opacity: 1;
         }
 
-        .period-selector {
-            display: flex;
-            gap: 4px;
-            background: #111;
-            padding: 3px;
-            border-radius: 8px;
-        }
-
-        .period-btn {
-            background: transparent;
-            border: none;
-            color: #555;
-            padding: 5px 12px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 0.8rem;
-            font-weight: 600;
-            transition: all 0.2s ease;
-        }
-
-        .period-btn:hover {
-            color: #999;
-        }
-
-        .period-btn.active {
-            background: #222;
-            color: #fff;
-        }
-
-        /* Tooltip */
-        .chart-tooltip {
-            display: none;
-            position: absolute;
-            top: 12px;
-            left: 20px;
-            background: rgba(0, 0, 0, 0.85);
-            border: 1px solid #333;
-            border-radius: 8px;
-            padding: 10px 14px;
-            font-size: 0.75rem;
-            pointer-events: none;
-            z-index: 10;
-            min-width: 140px;
-        }
-
-        .chart-tooltip-date {
-            color: #999;
-            margin-bottom: 6px;
-            font-weight: 600;
-        }
-
-        .chart-tooltip-row {
-            display: flex;
-            justify-content: space-between;
-            gap: 16px;
-            padding: 2px 0;
-        }
-
-        .chart-tooltip-name {
-            color: #888;
-        }
-
-        .chart-tooltip-val {
-            font-weight: 700;
-        }
-
-        /* Footer */
-        footer {
-            margin-top: 80px;
-            padding-top: 40px;
-            border-top: 1px solid #1a1a1a;
-        }
-
-        .disclaimer {
-            font-size: 0.8rem;
-            color: #666;
-            line-height: 1.6;
-            margin-bottom: 16px;
-        }
-
-        .credits {
-            font-size: 0.75rem;
-            color: #555;
-            text-align: center;
-        }
-
         /* Mobile */
         @media (max-width: 768px) {
-            .nav-container { padding: 0 20px; }
-            .mobile-menu-toggle { display: flex; }
-
-            .nav-links {
-                position: fixed;
-                top: 0;
-                right: -100%;
-                width: 280px;
-                height: 100vh;
-                background: #0a0a0a;
-                flex-direction: column;
-                padding: 80px 32px 32px;
-                gap: 16px;
-                transition: right 0.3s ease;
-                z-index: 100;
-                box-shadow: -4px 0 20px rgba(0, 0, 0, 0.5);
-                border-left: 1px solid #1a1a1a;
-            }
-
-            .nav-links.active { right: 0; }
-
-            .nav-links a {
-                font-size: 1.1rem;
-                padding: 16px 0;
-                border-bottom: 1px solid #1a1a1a;
-                width: 100%;
-            }
-
-            .mobile-menu-overlay { display: block; }
-            .container { padding: 100px 20px 60px; }
             .tagline { font-size: 0.85rem; }
             .score { font-size: 7rem; }
             .score-denominator { font-size: 2rem; }
@@ -653,17 +381,8 @@
             .insight-text { font-size: 0.95rem; }
             .how-banner { padding: 12px; }
             .how-banner p { font-size: 0.75rem; }
-            .chart-canvas-box { height: 400px; }
-            .chart-toolbar {
-                flex-direction: column;
-                align-items: stretch;
-                gap: 10px;
-                padding: 12px 16px;
-            }
             .chart-toggles { justify-content: center; }
-            .period-selector { justify-content: center; }
             .chart-toggle-btn { font-size: 0.75rem; padding: 5px 10px; }
-            .period-btn { padding: 5px 10px; font-size: 0.75rem; }
         }
     </style>
 </head>
@@ -835,11 +554,12 @@
                 Investments carry risks. Consult a financial advisor before making any investment decisions.
             </p>
             <p class="credits">
-                Sources: Yahoo Finance, FRED | Updated Daily | <a href="mailto:contact@onoff.markets" style="color: #666; text-decoration: none;">Contact</a>
+                Sources: Yahoo Finance, FRED | Updated Daily | <a href="mailto:contact@onoff.markets">Contact</a>
             </p>
         </footer>
     </div>
 
+    <script src="shared.js"></script>
     <script>
         let gold, stocks, crypto, bonds;
 
@@ -1119,36 +839,7 @@
             updateCard('crypto', crypto, 'crypto');
         }
 
-        function getColor(score) {
-            if (score <= 25) return '#ef4444';
-            if (score <= 45) return '#f59e0b';
-            if (score <= 55) return '#ffffff';
-            if (score <= 75) return '#22c55e';
-            return '#06b6d4';
-        }
-
         loadData();
-
-        // Mobile Menu Toggle
-        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
-        const navLinks = document.querySelector('.nav-links');
-        const mobileMenuOverlay = document.querySelector('.mobile-menu-overlay');
-
-        function toggleMobileMenu() {
-            mobileMenuToggle.classList.toggle('active');
-            navLinks.classList.toggle('active');
-            mobileMenuOverlay.classList.toggle('active');
-            document.body.style.overflow = navLinks.classList.contains('active') ? 'hidden' : '';
-        }
-
-        mobileMenuToggle.addEventListener('click', toggleMobileMenu);
-        mobileMenuOverlay.addEventListener('click', toggleMobileMenu);
-
-        navLinks.querySelectorAll('a').forEach(link => {
-            link.addEventListener('click', () => {
-                if (window.innerWidth <= 768) toggleMobileMenu();
-            });
-        });
 
         // ========== CHART (rebuilt from scratch) ==========
         let currentPeriod = 30;
@@ -1161,22 +852,6 @@
             stocks:    { color: '#4A90E2', width: 1.5, label: 'Stocks' },
             crypto:    { color: '#F7931A', width: 1.5, label: 'Crypto' }
         };
-
-        const zones = [
-            { from: 0,  to: 25,  color: 'rgba(239, 68, 68, 0.07)' },
-            { from: 25, to: 45,  color: 'rgba(245, 158, 11, 0.05)' },
-            { from: 45, to: 55,  color: 'rgba(255, 255, 255, 0.02)' },
-            { from: 55, to: 75,  color: 'rgba(34, 197, 94, 0.05)' },
-            { from: 75, to: 100, color: 'rgba(6, 182, 212, 0.07)' }
-        ];
-
-        const zoneLabels = [
-            { score: 12.5, text: 'Extreme Fear', color: 'rgba(239, 68, 68, 0.35)' },
-            { score: 35,   text: 'Fear',         color: 'rgba(245, 158, 11, 0.3)' },
-            { score: 50,   text: 'Neutral',      color: 'rgba(255, 255, 255, 0.15)' },
-            { score: 65,   text: 'Greed',        color: 'rgba(34, 197, 94, 0.3)' },
-            { score: 87.5, text: 'Extreme Greed', color: 'rgba(6, 182, 212, 0.35)' }
-        ];
 
         function isSeriesVisible(name) {
             const btn = document.querySelector(`.chart-toggle-btn[data-series="${name}"]`);
@@ -1214,29 +889,6 @@
 
             chartData = { gold: g, stocks: s, crypto: c, bonds: b, sentiment, dates };
             return chartData;
-        }
-
-        function getChartLayout(canvas) {
-            const box = canvas.parentElement;
-            const dpr = window.devicePixelRatio || 1;
-            canvas.width = box.clientWidth * dpr;
-            canvas.height = box.clientHeight * dpr;
-            canvas.style.width = box.clientWidth + 'px';
-            canvas.style.height = box.clientHeight + 'px';
-            const ctx = canvas.getContext('2d');
-            ctx.scale(dpr, dpr);
-            const w = box.clientWidth;
-            const h = box.clientHeight;
-            const pad = { top: 16, bottom: 32, left: 30, right: 30 };
-            return { ctx, w, h, pad, plotW: w - pad.left - pad.right, plotH: h - pad.top - pad.bottom };
-        }
-
-        function scoreToY(score, pad, plotH) {
-            return pad.top + plotH - (score / 100) * plotH;
-        }
-
-        function indexToX(i, total, pad, plotW) {
-            return pad.left + (total > 1 ? (i / (total - 1)) * plotW : plotW / 2);
         }
 
         function drawChart() {
@@ -1390,10 +1042,6 @@
             ctx.stroke();
             ctx.setLineDash([]);
             ctx.restore();
-        }
-
-        function hideTooltip() {
-            document.getElementById('chartTooltip').style.display = 'none';
         }
 
         function updateHistoryChart(days) {
