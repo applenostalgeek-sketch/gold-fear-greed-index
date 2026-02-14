@@ -765,6 +765,9 @@
             }
             scoreEl.innerHTML = Math.round(position) + (sentimentArrow ? '<span class="hero-trend-arrow">' + sentimentArrow + '</span>' : '');
 
+            // Rounded score for all label/color decisions (matches displayed value)
+            const rounded = Math.round(position);
+
             // Update logo dots
             const logoDots = document.querySelector('.logo-dots');
             let dotsColor;
@@ -782,8 +785,7 @@
                 document.getElementById('updated').textContent = timeText;
             }
 
-            // Simpler labels — based on rounded score to match display
-            const rounded = Math.round(position);
+            // Labels
             let label, color;
             if (rounded <= 25) {
                 label = "EXTREME FEAR";
