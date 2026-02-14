@@ -1,7 +1,7 @@
 {
-  "score": 49.9,
+  "score": 49.4,
   "label": "Neutral",
-  "timestamp": "2026-02-14T04:12:03Z",
+  "timestamp": "2026-02-14T16:19:41Z",
   "components": {
     "gld_price": {
       "score": 30.2,
@@ -9,9 +9,9 @@
       "detail": "GLD 14d: -2.8%"
     },
     "momentum": {
-      "score": 74.6,
+      "score": 72.7,
       "weight": 0.25,
-      "detail": "RSI: 50, Price > MA50"
+      "detail": "RSI: 48, Price > MA50"
     },
     "dollar_index": {
       "score": 39.7,
@@ -32,7 +32,7 @@
   "history": [
     {
       "date": "2026-02-14",
-      "score": 49.9
+      "score": 49.4
     },
     {
       "date": "2026-02-13",
