@@ -30,24 +30,23 @@ exports.handler = async (event) => {
       return { statusCode: 500, headers, body: JSON.stringify({ error: 'Server configuration error' }) };
     }
 
-    // Add contact to Resend audience with preferences
+    const emailNorm = email.toLowerCase().trim();
+    const properties = {
+      gold: gold !== false ? 'true' : 'false',
+      stocks: stocks !== false ? 'true' : 'false',
+      bonds: bonds !== false ? 'true' : 'false',
+      crypto: crypto !== false ? 'true' : 'false',
+      sentiment: sentiment !== false ? 'true' : 'false',
+    };
+
+    // Create or update contact in Resend audience
     const response = await fetch(`https://api.resend.com/audiences/${AUDIENCE_ID}/contacts`, {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${RESEND_API_KEY}`,
         'Content-Type': 'application/json',
       },
-      body: JSON.stringify({
-        email: email.toLowerCase().trim(),
-        unsubscribed: false,
-        properties: {
-          gold: gold !== false ? 'true' : 'false',
-          stocks: stocks !== false ? 'true' : 'false',
-          bonds: bonds !== false ? 'true' : 'false',
-          crypto: crypto !== false ? 'true' : 'false',
-          sentiment: sentiment !== false ? 'true' : 'false',
-        },
-      }),
+      body: JSON.stringify({ email: emailNorm, unsubscribed: false, properties }),
     });
 
     const result = await response.json();
@@ -55,6 +54,16 @@ exports.handler = async (event) => {
     if (!response.ok) {
       return { statusCode: response.status, headers, body: JSON.stringify({ error: result.message || 'Subscription failed' }) };
     }
+
+    // Update properties on existing contact (POST may not update them)
+    await fetch(`https://api.resend.com/audiences/${AUDIENCE_ID}/contacts/${result.id}`, {
+      method: 'PATCH',
+      headers: {
+        'Authorization': `Bearer ${RESEND_API_KEY}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ unsubscribed: false, properties }),
+    });
 
     // Send welcome email (don't block on failure)
     const selected = [
@@ -74,14 +83,14 @@ exports.handler = async (event) => {
         },
         body: JSON.stringify({
           from: 'OnOff.Markets <newsletter@onoff.markets>',
-          to: email.toLowerCase().trim(),
+          to: emailNorm,
           subject: "You're subscribed to OnOff.Markets alerts",
-          html: `<div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:480px;margin:0 auto;color:#e0e0e0;background:#0a0a0a;padding:32px;border-radius:12px;">
-  <h2 style="color:#fff;font-size:1.2rem;margin-bottom:16px;">You're in.</h2>
-  <p style="line-height:1.6;font-size:0.95rem;color:#aaa;">You'll receive alerts when sentiment shifts significantly on: <strong style="color:#fff;">${selected.join(', ')}</strong>.</p>
-  <p style="line-height:1.6;font-size:0.95rem;color:#aaa;margin-top:12px;">Expect a few emails per month — only when something meaningful moves.</p>
-  <p style="margin-top:24px;font-size:0.85rem;color:#666;">— <a href="https://onoff.markets" style="color:#999;text-decoration:none;">OnOff.Markets</a></p>
-  <p style="margin-top:24px;font-size:0.75rem;color:#444;">To unsubscribe, click "Alerts" on the site and use the unsubscribe option.</p>
+          html: `<div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:480px;margin:0 auto;padding:32px;">
+  <h2 style="color:#111;font-size:1.2rem;margin-bottom:16px;">You're in.</h2>
+  <p style="line-height:1.6;font-size:0.95rem;color:#333;">You'll receive alerts when sentiment shifts significantly on: <strong>${selected.join(', ')}</strong>.</p>
+  <p style="line-height:1.6;font-size:0.95rem;color:#333;margin-top:12px;">Expect a few emails per month — only when something meaningful moves.</p>
+  <p style="margin-top:24px;font-size:0.85rem;color:#999;">— <a href="https://onoff.markets" style="color:#666;text-decoration:none;">OnOff.Markets</a></p>
+  <p style="margin-top:24px;font-size:0.75rem;color:#999;">To unsubscribe, click "Alerts" on the site and use the unsubscribe option.</p>
 </div>`,
         }),
       });
