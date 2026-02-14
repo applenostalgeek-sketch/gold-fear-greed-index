@@ -1,23 +1,24 @@
 """
-send_alerts.py - Send email alerts when an index changes zone.
+send_alerts.py - Send email alerts when an index changes zone significantly.
 
 Tracks 5 indices: Gold, Bonds, Stocks, Crypto + Market Sentiment.
-Compares current labels with previous labels stored in data/previous-labels.json.
-If any index changed zone (e.g. Greed -> Extreme Greed), sends an email via Resend
-with dynamic context from historical data.
+Compares current labels/scores with previous values.
+Alert triggers: zone change + score delta >= threshold (7pts assets, 5pts sentiment).
+Sends personalized emails to Resend audience subscribers based on their preferences.
 
 Run: python send_alerts.py
-Env: RESEND_API_KEY, ALERT_EMAIL (recipient)
+Env: RESEND_API_KEY, RESEND_AUDIENCE_ID
 """
 
 import json
 import os
+import time
 import requests
 from pathlib import Path
 from datetime import datetime
 
 RESEND_API_KEY = os.environ.get('RESEND_API_KEY')
-ALERT_EMAIL = os.environ.get('ALERT_EMAIL', 'contact@onoff.markets')
+RESEND_AUDIENCE_ID = os.environ.get('RESEND_AUDIENCE_ID')
 FROM_EMAIL = 'OnOff.Markets <newsletter@onoff.markets>'
 
 ASSETS = {
@@ -28,6 +29,11 @@ ASSETS = {
 }
 
 PREVIOUS_LABELS_FILE = 'data/previous-labels.json'
+PREVIOUS_SCORES_FILE = 'data/previous-scores.json'
+
+# Delta thresholds: minimum score change required (in addition to zone change)
+DELTA_THRESHOLD_ASSET = 7      # for gold, bonds, stocks, crypto
+DELTA_THRESHOLD_SENTIMENT = 5  # for market sentiment
 
 ZONE_COLORS = {
     'Extreme Fear': '#ef4444',
@@ -83,15 +89,26 @@ def load_previous_labels():
     return {}
 
 
-def save_current_labels(current):
+def load_previous_scores():
+    path = Path(PREVIOUS_SCORES_FILE)
+    if path.exists():
+        with open(path) as f:
+            return json.load(f)
+    return {}
+
+
+def save_current_state(current):
+    """Save both labels and scores for next run."""
     labels = {key: val['label'] for key, val in current.items()}
+    scores = {key: val['score'] for key, val in current.items()}
     with open(PREVIOUS_LABELS_FILE, 'w') as f:
         json.dump(labels, f, indent=2)
+    with open(PREVIOUS_SCORES_FILE, 'w') as f:
+        json.dump(scores, f, indent=2)
 
 
 def get_context(key, current, new_label):
     """Generate a dynamic context line based on historical data."""
-    # For sentiment, no history file
     if key == 'sentiment':
         return None
 
@@ -104,7 +121,7 @@ def get_context(key, current, new_label):
     # Find last time this asset was in the same zone
     last_time = None
     for entry in sorted_hist[1:]:  # skip today
-        if entry.get('label') == new_label:
+        if get_label(entry['score']) == new_label:
             last_time = entry['date']
             break
 
@@ -121,13 +138,11 @@ def get_context(key, current, new_label):
             date_obj = datetime.strptime(last_time, '%Y-%m-%d')
             return f"Last time in {new_label}: {date_obj.strftime('%B %d, %Y')}."
     else:
-        # Never been in this zone in available history
         return f"First time in {new_label} in over a year."
 
 
-def find_changes(current, previous):
-    """Find indices where the zone label changed."""
-    # Config for sentiment (not in ASSETS dict)
+def find_changes(current, previous_labels, previous_scores):
+    """Find indices where zone changed AND score delta exceeds threshold."""
     all_config = {
         **{k: v for k, v in ASSETS.items()},
         'sentiment': {
@@ -139,22 +154,76 @@ def find_changes(current, previous):
 
     changes = []
     for key, data in current.items():
-        prev_label = previous.get(key)
+        prev_label = previous_labels.get(key)
         curr_label = data['label']
-        if prev_label and curr_label and prev_label != curr_label:
-            config = all_config.get(key, {})
-            context = get_context(key, current, curr_label)
-            changes.append({
-                'key': key,
-                'name': config.get('name', key),
-                'icon': config.get('icon', ''),
-                'url': config.get('url', 'https://onoff.markets'),
-                'score': data['score'],
-                'old_label': prev_label,
-                'new_label': curr_label,
-                'context': context,
-            })
+        curr_score = data['score']
+        prev_score = previous_scores.get(key)
+
+        # Must have a zone change
+        if not prev_label or not curr_label or prev_label == curr_label:
+            continue
+
+        # Must exceed delta threshold
+        threshold = DELTA_THRESHOLD_SENTIMENT if key == 'sentiment' else DELTA_THRESHOLD_ASSET
+        if prev_score is not None:
+            delta = abs(curr_score - prev_score)
+            if delta < threshold:
+                print(f"  SKIP: {key} zone changed ({prev_label} -> {curr_label}) but delta {delta:.1f} < {threshold}")
+                continue
+
+        config = all_config.get(key, {})
+        context = get_context(key, current, curr_label)
+        changes.append({
+            'key': key,
+            'name': config.get('name', key),
+            'icon': config.get('icon', ''),
+            'url': config.get('url', 'https://onoff.markets'),
+            'score': curr_score,
+            'old_label': prev_label,
+            'new_label': curr_label,
+            'context': context,
+        })
     return changes
+
+
+def fetch_subscribers():
+    """Fetch all active subscribers from Resend audience."""
+    if not RESEND_AUDIENCE_ID:
+        print("  RESEND_AUDIENCE_ID not set")
+        return []
+
+    url = f'https://api.resend.com/audiences/{RESEND_AUDIENCE_ID}/contacts'
+    response = requests.get(url, headers={
+        'Authorization': f'Bearer {RESEND_API_KEY}',
+    })
+
+    if response.status_code != 200:
+        print(f"  ERROR fetching subscribers: {response.status_code} {response.text}")
+        return []
+
+    result = response.json()
+    contacts = result.get('data', [])
+
+    subscribers = []
+    for contact in contacts:
+        if contact.get('unsubscribed'):
+            continue
+        email = contact.get('email')
+        prefs_str = contact.get('first_name', '')
+        prefs = [p.strip() for p in prefs_str.split(',') if p.strip()] if prefs_str else []
+        subscribers.append({
+            'email': email,
+            'preferences': prefs,
+        })
+
+    return subscribers
+
+
+def filter_changes_for_subscriber(changes, preferences):
+    """Filter changes based on subscriber's asset preferences."""
+    if not preferences:
+        return changes
+    return [c for c in changes if c['key'] in preferences]
 
 
 def build_email_subject(changes):
@@ -211,6 +280,8 @@ def build_email_html(changes):
             <div style="border-top: 1px solid #222; margin-top: 32px; padding-top: 20px; font-size: 12px; color: #555; text-align: center;">
                 <a href="https://onoff.markets" style="color: #666; text-decoration: none;">onoff.markets</a>
                 &nbsp;|&nbsp; Real-time market sentiment
+                <br><br>
+                <span style="font-size: 11px;">To unsubscribe, visit <a href="https://onoff.markets" style="color: #666;">onoff.markets</a> and click Alerts.</span>
             </div>
         </div>
     </div>"""
@@ -248,28 +319,48 @@ def main():
         return
 
     current = load_current_scores()
-    previous = load_previous_labels()
+    previous_labels = load_previous_labels()
+    previous_scores = load_previous_scores()
 
-    if not previous:
-        print("  No previous labels found (first run). Saving current labels.")
-        save_current_labels(current)
+    if not previous_labels:
+        print("  No previous labels found (first run). Saving current state.")
+        save_current_state(current)
         return
 
-    changes = find_changes(current, previous)
+    changes = find_changes(current, previous_labels, previous_scores)
 
     if not changes:
-        print("  No zone changes detected.")
+        print("  No significant zone changes detected.")
     else:
         for c in changes:
             ctx = f" ({c['context']})" if c.get('context') else ''
             print(f"  CHANGE: {c['name']} {c['old_label']} -> {c['new_label']} (score: {c['score']}){ctx}")
 
-        subject = build_email_subject(changes)
-        html = build_email_html(changes)
-        send_email(subject, html, ALERT_EMAIL)
+        # Fetch subscribers from Resend audience
+        subscribers = fetch_subscribers()
 
-    # Always save current labels for next run
-    save_current_labels(current)
+        if not subscribers:
+            print("  No subscribers found.")
+        else:
+            print(f"  Sending to {len(subscribers)} subscriber(s)...")
+            sent = 0
+            for sub in subscribers:
+                sub_changes = filter_changes_for_subscriber(changes, sub['preferences'])
+                if not sub_changes:
+                    print(f"  SKIP {sub['email']} (no matching preferences)")
+                    continue
+
+                subject = build_email_subject(sub_changes)
+                html = build_email_html(sub_changes)
+                if send_email(subject, html, sub['email']):
+                    sent += 1
+                # Rate limit: Resend allows max 2 req/s
+                time.sleep(0.6)
+
+            print(f"  Done: {sent} email(s) sent.")
+
+    # Always save current state for next run
+    save_current_state(current)
 
 
 if __name__ == '__main__':
