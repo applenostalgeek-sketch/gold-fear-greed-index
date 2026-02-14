@@ -175,6 +175,184 @@ footer {
     color: #999;
 }
 
+/* Alert Signup Button (in nav) */
+.alert-btn {
+    background: none;
+    border: 1px solid #333;
+    color: #999;
+    padding: 6px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    white-space: nowrap;
+}
+
+.alert-btn:hover {
+    border-color: #555;
+    color: #fff;
+}
+
+/* Alert Popup Overlay */
+.alert-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(6px);
+    z-index: 200;
+    justify-content: center;
+    align-items: center;
+}
+
+.alert-overlay.active {
+    display: flex;
+}
+
+.alert-popup {
+    background: #141414;
+    border: 1px solid #2a2a2a;
+    border-radius: 16px;
+    padding: 32px;
+    max-width: 420px;
+    width: 90%;
+    position: relative;
+}
+
+.alert-popup h3 {
+    font-size: 1.2rem;
+    margin-bottom: 6px;
+    color: #fff;
+}
+
+.alert-popup .subtitle {
+    font-size: 0.85rem;
+    color: #777;
+    margin-bottom: 20px;
+}
+
+.alert-popup .close-btn {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: none;
+    border: none;
+    color: #666;
+    font-size: 1.4rem;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.alert-popup .close-btn:hover {
+    color: #fff;
+}
+
+.alert-popup input[type="email"] {
+    width: 100%;
+    padding: 12px 14px;
+    background: #0a0a0a;
+    border: 1px solid #2a2a2a;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 0.95rem;
+    margin-bottom: 16px;
+    outline: none;
+    transition: border-color 0.2s;
+}
+
+.alert-popup input[type="email"]:focus {
+    border-color: #444;
+}
+
+.alert-checkboxes {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.alert-checkboxes label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: #ccc;
+    cursor: pointer;
+    padding: 8px 10px;
+    border-radius: 6px;
+    border: 1px solid #1a1a1a;
+    transition: all 0.2s;
+}
+
+.alert-checkboxes label:hover {
+    border-color: #333;
+}
+
+.alert-checkboxes input[type="checkbox"] {
+    accent-color: #FFD700;
+    width: 16px;
+    height: 16px;
+}
+
+.alert-submit {
+    width: 100%;
+    padding: 12px;
+    background: #fff;
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: opacity 0.2s;
+}
+
+.alert-submit:hover {
+    opacity: 0.9;
+}
+
+.alert-submit:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.alert-message {
+    text-align: center;
+    font-size: 0.85rem;
+    margin-top: 12px;
+    min-height: 20px;
+}
+
+.alert-message.success {
+    color: #10b981;
+}
+
+.alert-message.error {
+    color: #ef4444;
+}
+
+.alert-unsubscribe {
+    text-align: center;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid #1a1a1a;
+}
+
+.alert-unsubscribe a {
+    color: #555;
+    font-size: 0.8rem;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.alert-unsubscribe a:hover {
+    color: #999;
+}
+
 /* Mobile */
 @media (max-width: 768px) {
     .nav-container {
@@ -218,5 +396,21 @@ footer {
 
     .container {
         padding: 100px 20px 60px;
+    }
+
+    .alert-btn {
+        width: 100%;
+        padding: 12px 0;
+        margin-top: 8px;
+        font-size: 1rem;
+    }
+
+    .alert-popup {
+        width: 95%;
+        padding: 24px;
+    }
+
+    .alert-checkboxes {
+        grid-template-columns: 1fr;
     }
 }
