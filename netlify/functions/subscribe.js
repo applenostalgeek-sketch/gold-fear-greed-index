@@ -56,6 +56,39 @@ exports.handler = async (event) => {
       return { statusCode: response.status, headers, body: JSON.stringify({ error: result.message || 'Subscription failed' }) };
     }
 
+    // Send welcome email (don't block on failure)
+    const selected = [
+      gold !== false && 'Gold',
+      stocks !== false && 'Stocks',
+      bonds !== false && 'Bonds',
+      crypto !== false && 'Crypto',
+      sentiment !== false && 'Market Sentiment',
+    ].filter(Boolean);
+
+    try {
+      await fetch('https://api.resend.com/emails', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${RESEND_API_KEY}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          from: 'OnOff.Markets <newsletter@onoff.markets>',
+          to: email.toLowerCase().trim(),
+          subject: "You're subscribed to OnOff.Markets alerts",
+          html: `<div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:480px;margin:0 auto;color:#e0e0e0;background:#0a0a0a;padding:32px;border-radius:12px;">
+  <h2 style="color:#fff;font-size:1.2rem;margin-bottom:16px;">You're in.</h2>
+  <p style="line-height:1.6;font-size:0.95rem;color:#aaa;">You'll receive alerts when sentiment shifts significantly on: <strong style="color:#fff;">${selected.join(', ')}</strong>.</p>
+  <p style="line-height:1.6;font-size:0.95rem;color:#aaa;margin-top:12px;">Expect a few emails per month — only when something meaningful moves.</p>
+  <p style="margin-top:24px;font-size:0.85rem;color:#666;">— <a href="https://onoff.markets" style="color:#999;text-decoration:none;">OnOff.Markets</a></p>
+  <p style="margin-top:24px;font-size:0.75rem;color:#444;">To unsubscribe, click "Alerts" on the site and use the unsubscribe option.</p>
+</div>`,
+        }),
+      });
+    } catch (_) {
+      // Welcome email is non-critical
+    }
+
     return { statusCode: 200, headers, body: JSON.stringify({ success: true, id: result.id }) };
 
   } catch (err) {
