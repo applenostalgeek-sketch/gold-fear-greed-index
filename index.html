@@ -768,10 +768,10 @@
             // Update logo dots
             const logoDots = document.querySelector('.logo-dots');
             let dotsColor;
-            if (position < 25) dotsColor = "#ef4444";
-            else if (position < 45) dotsColor = "#f59e0b";
-            else if (position < 55) dotsColor = "#ffffff";
-            else if (position < 75) dotsColor = "#22c55e";
+            if (rounded <= 25) dotsColor = "#ef4444";
+            else if (rounded <= 45) dotsColor = "#f59e0b";
+            else if (rounded <= 55) dotsColor = "#ffffff";
+            else if (rounded <= 75) dotsColor = "#22c55e";
             else dotsColor = "#06b6d4";
             if (logoDots) logoDots.style.color = dotsColor;
 
@@ -782,18 +782,19 @@
                 document.getElementById('updated').textContent = timeText;
             }
 
-            // Simpler labels — no jargon
+            // Simpler labels — based on rounded score to match display
+            const rounded = Math.round(position);
             let label, color;
-            if (position < 25) {
+            if (rounded <= 25) {
                 label = "EXTREME FEAR";
                 color = "#ef4444";
-            } else if (position < 45) {
+            } else if (rounded <= 45) {
                 label = "FEAR";
                 color = "#f59e0b";
-            } else if (position < 55) {
+            } else if (rounded <= 55) {
                 label = "NEUTRAL";
                 color = "#ffffff";
-            } else if (position < 75) {
+            } else if (rounded <= 75) {
                 label = "GREED";
                 color = "#22c55e";
             } else {
@@ -828,23 +829,23 @@
             const lowest = assets.reduce((a, b) => a.score < b.score ? a : b);
 
             let insight = '';
-            if (position < 25) {
+            if (rounded <= 25) {
                 insight = `Markets are in full panic mode. ${lowest.name} faces the heaviest selling pressure, while ${highest.name} is the most sought-after asset right now.`;
-            } else if (position < 45) {
+            } else if (rounded <= 45) {
                 const strongRiskOff = bonds.score > 60 || gold.score > 60;
                 if (strongRiskOff) {
                     insight = `Investors are playing it safe. ${highest.name} is attracting the most interest, while ${lowest.name} faces the heaviest selling pressure.`;
                 } else {
                     insight = `Caution is the dominant mood. ${lowest.name} is under the most pressure, though no market is showing extreme behavior yet.`;
                 }
-            } else if (position < 55) {
+            } else if (rounded <= 55) {
                 const allNeutral = Math.abs(bonds.score - 50) < 15 && Math.abs(gold.score - 50) < 15 && Math.abs(stocks.score - 50) < 15 && Math.abs(crypto.score - 50) < 15;
                 if (allNeutral) {
                     insight = `No strong conviction in any direction. All four markets are near neutral — investors are waiting for a clearer signal.`;
                 } else {
                     insight = `Mixed signals. ${highest.name} is seeing the most buying interest while ${lowest.name} faces the most pressure — no clear trend yet.`;
                 }
-            } else if (position < 75) {
+            } else if (rounded <= 75) {
                 const strongRiskOn = stocks.score > 60 || crypto.score > 60;
                 if (strongRiskOn) {
                     insight = `Risk appetite is growing. ${highest.name} is attracting the most confidence, while ${lowest.name} is losing interest.`;

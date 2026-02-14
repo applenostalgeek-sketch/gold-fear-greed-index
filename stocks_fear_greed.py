@@ -342,14 +342,15 @@ class StocksFearGreedIndex:
 
         self.score = round(total_score, 1)
 
-        # Determine label
-        if self.score <= 25:
+        # Determine label from rounded integer (matches displayed value)
+        rounded = round(self.score)
+        if rounded <= 25:
             self.label = "Extreme Fear"
-        elif self.score <= 45:
+        elif rounded <= 45:
             self.label = "Fear"
-        elif self.score <= 55:
+        elif rounded <= 55:
             self.label = "Neutral"
-        elif self.score <= 75:
+        elif rounded <= 75:
             self.label = "Greed"
         else:
             self.label = "Extreme Greed"

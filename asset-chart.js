@@ -52,12 +52,13 @@
         }
         scoreEl.innerHTML = Math.round(score) + (arrow ? '<span class="hero-trend-arrow">' + arrow + '</span>' : '');
 
-        // Label and color
+        // Label and color (based on rounded score to match display)
+        const rounded = Math.round(score);
         let label, color;
-        if (position < 25) { label = "EXTREME FEAR"; color = "#ef4444"; }
-        else if (position < 45) { label = "FEAR"; color = "#f59e0b"; }
-        else if (position < 55) { label = "NEUTRAL"; color = "#ffffff"; }
-        else if (position < 75) { label = "GREED"; color = "#22c55e"; }
+        if (rounded <= 25) { label = "EXTREME FEAR"; color = "#ef4444"; }
+        else if (rounded <= 45) { label = "FEAR"; color = "#f59e0b"; }
+        else if (rounded <= 55) { label = "NEUTRAL"; color = "#ffffff"; }
+        else if (rounded <= 75) { label = "GREED"; color = "#22c55e"; }
         else { label = "EXTREME GREED"; color = "#06b6d4"; }
 
         // Bar
@@ -86,10 +87,10 @@
         // Insight text
         if (assetData.components) {
             let phrase1 = '';
-            if (score < 25) phrase1 = CFG.phrases.extremeFear;
-            else if (score < 45) phrase1 = CFG.phrases.fear;
-            else if (score < 55) phrase1 = CFG.phrases.neutral;
-            else if (score < 75) phrase1 = CFG.phrases.greed;
+            if (rounded <= 25) phrase1 = CFG.phrases.extremeFear;
+            else if (rounded <= 45) phrase1 = CFG.phrases.fear;
+            else if (rounded <= 55) phrase1 = CFG.phrases.neutral;
+            else if (rounded <= 75) phrase1 = CFG.phrases.greed;
             else phrase1 = CFG.phrases.extremeGreed;
 
             const factPhrase = buildFactPhrase(assetData, score);

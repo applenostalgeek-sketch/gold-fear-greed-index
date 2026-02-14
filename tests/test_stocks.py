@@ -62,13 +62,14 @@ class TestStocksIndex:
         result = calc.calculate_index()
         score, label = result['score'], result['label']
 
-        if score <= 25:
+        rounded = round(score)
+        if rounded <= 25:
             assert label == 'Extreme Fear'
-        elif score <= 45:
+        elif rounded <= 45:
             assert label == 'Fear'
-        elif score <= 55:
+        elif rounded <= 55:
             assert label == 'Neutral'
-        elif score <= 75:
+        elif rounded <= 75:
             assert label == 'Greed'
         else:
             assert label == 'Extreme Greed'

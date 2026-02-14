@@ -461,14 +461,15 @@ class BondsFearGreedIndex:
 
         self.score = round(total_score, 1)
 
-        # Determine label
-        if self.score < 25:
+        # Determine label from rounded integer (matches displayed value)
+        rounded = round(self.score)
+        if rounded <= 25:
             self.label = "Extreme Fear"
-        elif self.score < 45:
+        elif rounded <= 45:
             self.label = "Fear"
-        elif self.score < 55:
+        elif rounded <= 55:
             self.label = "Neutral"
-        elif self.score < 75:
+        elif rounded <= 75:
             self.label = "Greed"
         else:
             self.label = "Extreme Greed"
@@ -632,13 +633,14 @@ class BondsFearGreedIndex:
                 else:
                     # Calculate simplified historical score
                     score = self.calculate_simple_historical_score(historical_date)
-                    if score < 25:
+                    rounded = round(score)
+                    if rounded <= 25:
                         label = "Extreme Fear"
-                    elif score < 45:
+                    elif rounded <= 45:
                         label = "Fear"
-                    elif score < 55:
+                    elif rounded <= 55:
                         label = "Neutral"
-                    elif score < 75:
+                    elif rounded <= 75:
                         label = "Greed"
                     else:
                         label = "Extreme Greed"

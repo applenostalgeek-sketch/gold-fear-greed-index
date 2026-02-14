@@ -411,18 +411,6 @@ class GoldFearGreedIndex:
             vix_score * weights['vix']
         )
 
-        # Determine label
-        if total_score <= 25:
-            label = "Extreme Fear"
-        elif total_score <= 45:
-            label = "Fear"
-        elif total_score <= 55:
-            label = "Neutral"
-        elif total_score <= 75:
-            label = "Greed"
-        else:
-            label = "Extreme Greed"
-
         # Build components dictionary
         components = {
             'gld_price': {
@@ -453,7 +441,19 @@ class GoldFearGreedIndex:
         }
 
         self.score = round(total_score, 1)
-        self.label = label
+
+        # Determine label from rounded integer (matches displayed value)
+        rounded = round(self.score)
+        if rounded <= 25:
+            self.label = "Extreme Fear"
+        elif rounded <= 45:
+            self.label = "Fear"
+        elif rounded <= 55:
+            self.label = "Neutral"
+        elif rounded <= 75:
+            self.label = "Greed"
+        else:
+            self.label = "Extreme Greed"
         self.components = components
 
         print(f"\n{'='*50}")

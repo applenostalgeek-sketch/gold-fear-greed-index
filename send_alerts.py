@@ -39,10 +39,11 @@ ZONE_COLORS = {
 
 
 def get_label(score):
-    if score <= 25: return 'Extreme Fear'
-    if score <= 45: return 'Fear'
-    if score <= 55: return 'Neutral'
-    if score <= 75: return 'Greed'
+    rounded = round(score)
+    if rounded <= 25: return 'Extreme Fear'
+    if rounded <= 45: return 'Fear'
+    if rounded <= 55: return 'Neutral'
+    if rounded <= 75: return 'Greed'
     return 'Extreme Greed'
 
 

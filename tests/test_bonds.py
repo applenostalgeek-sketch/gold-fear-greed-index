@@ -77,14 +77,15 @@ class TestBondsIndex:
         result = calc.calculate_index()
         score, label = result['score'], result['label']
 
-        # Bonds uses < (not <=) for thresholds
-        if score < 25:
+        # Label is based on rounded integer score
+        rounded = round(score)
+        if rounded <= 25:
             assert label == 'Extreme Fear'
-        elif score < 45:
+        elif rounded <= 45:
             assert label == 'Fear'
-        elif score < 55:
+        elif rounded <= 55:
             assert label == 'Neutral'
-        elif score < 75:
+        elif rounded <= 75:
             assert label == 'Greed'
         else:
             assert label == 'Extreme Greed'
