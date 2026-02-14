@@ -40,7 +40,7 @@ exports.handler = async (event) => {
       body: JSON.stringify({
         email: email.toLowerCase().trim(),
         unsubscribed: false,
-        data: {
+        properties: {
           gold: gold !== false ? 'true' : 'false',
           stocks: stocks !== false ? 'true' : 'false',
           bonds: bonds !== false ? 'true' : 'false',
