@@ -1,5 +1,7 @@
 // Netlify Function: subscribe a contact to the alert list
 // Preferences stored in first_name as comma-separated list (Resend properties API doesn't work)
+const delay = (ms) => new Promise((r) => setTimeout(r, ms));
+
 exports.handler = async (event) => {
   const headers = {
     'Access-Control-Allow-Origin': 'https://onoff.markets',
@@ -64,36 +66,34 @@ exports.handler = async (event) => {
       return { statusCode: response.status, headers, body: JSON.stringify({ error: result.message || 'Subscription failed' }) };
     }
 
-    // Step 2: PATCH preferences + send welcome email in parallel
-    const welcomeHtml = `<div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:480px;margin:0 auto;padding:32px;">
-  <h2 style="color:#111;font-size:1.2rem;margin-bottom:16px;">You're in.</h2>
-  <p style="line-height:1.6;font-size:0.95rem;color:#333;">You'll receive alerts when sentiment shifts significantly on: <strong>${selectedLabels.join(', ')}</strong>.</p>
-  <p style="line-height:1.6;font-size:0.95rem;color:#333;margin-top:12px;">Expect a few emails per month — only when something meaningful moves.</p>
-  <p style="margin-top:24px;font-size:0.85rem;color:#999;">&mdash; <a href="https://onoff.markets" style="color:#666;text-decoration:none;">OnOff.Markets</a></p>
-  <p style="margin-top:24px;font-size:0.75rem;color:#999;">To unsubscribe, click Alerts on the site and use the unsubscribe option.</p>
-</div>`;
-
-    // Update preferences
+    // Step 2: Update preferences (wait for rate limit: max 2 req/s)
+    await delay(600);
     await fetch(`https://api.resend.com/audiences/${AUDIENCE_ID}/contacts/${result.id}`, {
       method: 'PATCH',
       headers: authHeader,
       body: JSON.stringify({ first_name: selected.join(','), unsubscribed: false }),
     });
 
-    // Send welcome email
-    const emailRes = await fetch('https://api.resend.com/emails', {
+    // Step 3: Send welcome email
+    await delay(600);
+    await fetch('https://api.resend.com/emails', {
       method: 'POST',
       headers: authHeader,
       body: JSON.stringify({
         from: 'OnOff.Markets <newsletter@onoff.markets>',
         to: emailNorm,
         subject: "You're subscribed to OnOff.Markets alerts",
-        html: welcomeHtml,
+        html: `<div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:480px;margin:0 auto;padding:32px;">
+  <h2 style="color:#111;font-size:1.2rem;margin-bottom:16px;">You're in.</h2>
+  <p style="line-height:1.6;font-size:0.95rem;color:#333;">You'll receive alerts when sentiment shifts significantly on: <strong>${selectedLabels.join(', ')}</strong>.</p>
+  <p style="line-height:1.6;font-size:0.95rem;color:#333;margin-top:12px;">Expect a few emails per month — only when something meaningful moves.</p>
+  <p style="margin-top:24px;font-size:0.85rem;color:#999;">&mdash; <a href="https://onoff.markets" style="color:#666;text-decoration:none;">OnOff.Markets</a></p>
+  <p style="margin-top:24px;font-size:0.75rem;color:#999;">To unsubscribe, click Alerts on the site and use the unsubscribe option.</p>
+</div>`,
       }),
     });
-    const emailResult = await emailRes.json();
 
-    return { statusCode: 200, headers, body: JSON.stringify({ success: true, id: result.id, email_status: emailRes.status, email_debug: emailResult }) };
+    return { statusCode: 200, headers, body: JSON.stringify({ success: true, id: result.id }) };
 
   } catch (err) {
     return { statusCode: 500, headers, body: JSON.stringify({ error: 'Server error' }) };
