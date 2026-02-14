@@ -73,27 +73,27 @@ exports.handler = async (event) => {
   <p style="margin-top:24px;font-size:0.75rem;color:#999;">To unsubscribe, click Alerts on the site and use the unsubscribe option.</p>
 </div>`;
 
-    await Promise.all([
-      // Update preferences on existing contact
-      fetch(`https://api.resend.com/audiences/${AUDIENCE_ID}/contacts/${result.id}`, {
-        method: 'PATCH',
-        headers: authHeader,
-        body: JSON.stringify({ first_name: selected.join(','), unsubscribed: false }),
-      }),
-      // Send welcome email
-      fetch('https://api.resend.com/emails', {
-        method: 'POST',
-        headers: authHeader,
-        body: JSON.stringify({
-          from: 'OnOff.Markets <newsletter@onoff.markets>',
-          to: emailNorm,
-          subject: "You're subscribed to OnOff.Markets alerts",
-          html: welcomeHtml,
-        }),
-      }),
-    ]);
+    // Update preferences
+    await fetch(`https://api.resend.com/audiences/${AUDIENCE_ID}/contacts/${result.id}`, {
+      method: 'PATCH',
+      headers: authHeader,
+      body: JSON.stringify({ first_name: selected.join(','), unsubscribed: false }),
+    });
 
-    return { statusCode: 200, headers, body: JSON.stringify({ success: true, id: result.id }) };
+    // Send welcome email
+    const emailRes = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: authHeader,
+      body: JSON.stringify({
+        from: 'OnOff.Markets <newsletter@onoff.markets>',
+        to: emailNorm,
+        subject: "You're subscribed to OnOff.Markets alerts",
+        html: welcomeHtml,
+      }),
+    });
+    const emailResult = await emailRes.json();
+
+    return { statusCode: 200, headers, body: JSON.stringify({ success: true, id: result.id, email_status: emailRes.status, email_debug: emailResult }) };
 
   } catch (err) {
     return { statusCode: 500, headers, body: JSON.stringify({ error: 'Server error' }) };
