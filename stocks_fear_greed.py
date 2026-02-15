@@ -132,7 +132,7 @@ class StocksFearGreedIndex:
             relative_perf = rsp_return - spy_return
 
             # Score: RSP outperforms = greed, SPY outperforms = fear (large caps defensive)
-            score = 50 + (relative_perf * 18)
+            score = 50 + (relative_perf * 10)
             score = max(0, min(100, score))
 
             detail = f"RSP {rsp_return:+.1f}% vs SPY {spy_return:+.1f}%"
@@ -166,7 +166,7 @@ class StocksFearGreedIndex:
             # If HYG outperforms TLT = risk-on = greed
             spread = hyg_return - tlt_return
 
-            score = 50 + (spread * 14)
+            score = 50 + (spread * 10)
             score = max(0, min(100, score))
 
             detail = f"HYG {hyg_return:+.1f}% vs TLT {tlt_return:+.1f}%"
@@ -271,7 +271,7 @@ class StocksFearGreedIndex:
             # +5% outperformance = 75 (strong risk-on)
             # 0% = 50 (neutral)
             # -5% underperformance = 25 (strong risk-off)
-            score = 50 + (outperformance * 5)
+            score = 50 + (outperformance * 3)
             score = max(0, min(100, score))
 
             detail = f"QQQ {qqq_return:+.1f}% vs XLP {xlp_return:+.1f}%"
@@ -451,7 +451,7 @@ class StocksFearGreedIndex:
                 spy_return = ((spy_hist['Close'].iloc[-1] - spy_hist['Close'].iloc[-14]) / spy_hist['Close'].iloc[-14]) * 100
                 rsp_return = ((rsp_hist['Close'].iloc[-1] - rsp_hist['Close'].iloc[-14]) / rsp_hist['Close'].iloc[-14]) * 100
                 relative_perf = rsp_return - spy_return
-                breadth_score = 50 + (relative_perf * 18)
+                breadth_score = 50 + (relative_perf * 10)
                 breadth_score = max(0, min(100, breadth_score))
             else:
                 breadth_score = 50
@@ -461,7 +461,7 @@ class StocksFearGreedIndex:
                 hyg_return = ((hyg_hist['Close'].iloc[-1] - hyg_hist['Close'].iloc[-14]) / hyg_hist['Close'].iloc[-14]) * 100
                 tlt_return = ((tlt_hist['Close'].iloc[-1] - tlt_hist['Close'].iloc[-14]) / tlt_hist['Close'].iloc[-14]) * 100
                 spread = hyg_return - tlt_return
-                junk_score = 50 + (spread * 14)
+                junk_score = 50 + (spread * 10)
                 junk_score = max(0, min(100, junk_score))
             else:
                 junk_score = 50
@@ -481,7 +481,7 @@ class StocksFearGreedIndex:
                 qqq_return = ((qqq_hist['Close'].iloc[-1] - qqq_hist['Close'].iloc[-14]) / qqq_hist['Close'].iloc[-14]) * 100
                 xlp_return = ((xlp_hist['Close'].iloc[-1] - xlp_hist['Close'].iloc[-14]) / xlp_hist['Close'].iloc[-14]) * 100
                 outperformance = qqq_return - xlp_return
-                rotation_score = 50 + (outperformance * 5)
+                rotation_score = 50 + (outperformance * 3)
                 rotation_score = max(0, min(100, rotation_score))
             else:
                 rotation_score = 50
