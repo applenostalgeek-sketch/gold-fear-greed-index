@@ -1,7 +1,7 @@
 {
   "score": 44.3,
   "label": "Fear",
-  "timestamp": "2026-02-15T14:30:04Z",
+  "timestamp": "2026-02-16T04:27:32Z",
   "components": {
     "price_strength": {
       "score": 34.2,
@@ -40,6 +40,10 @@
     }
   },
   "history": [
+    {
+      "date": "2026-02-16",
+      "score": 44.3
+    },
     {
       "date": "2026-02-15",
       "score": 44.3
@@ -1494,10 +1498,6 @@
     },
     {
       "date": "2025-02-17",
-      "score": 55.1
-    },
-    {
-      "date": "2025-02-16",
       "score": 55.1
     }
   ]
