@@ -1,35 +1,39 @@
 {
-  "score": 38.9,
+  "score": 36.1,
   "label": "Fear",
-  "timestamp": "2026-02-18T04:23:43Z",
+  "timestamp": "2026-02-19T04:22:35Z",
   "components": {
     "gld_price": {
       "score": 0,
       "weight": 0.3,
-      "detail": "GLD 14d: -9.4%"
+      "detail": "GLD 14d: -7.6%"
     },
     "momentum": {
-      "score": 68.8,
+      "score": 67.9,
       "weight": 0.25,
-      "detail": "RSI: 47, Price > MA50"
+      "detail": "RSI: 42, Price > MA50"
     },
     "dollar_index": {
-      "score": 37.6,
+      "score": 27.0,
       "weight": 0.2,
-      "detail": "DXY: 97.25 (+0.8% 14d, MA30: 97.85)"
+      "detail": "DXY: 97.76 (+1.5% 14d, MA30: 97.83)"
     },
     "real_rates": {
-      "score": 41.8,
+      "score": 41.4,
       "weight": 0.15,
-      "detail": "TIPS 10Y: 1.77% (avg: 1.89%)"
+      "detail": "TIPS 10Y: 1.79% (avg: 1.89%)"
     },
     "vix": {
-      "score": 79.0,
+      "score": 75.1,
       "weight": 0.1,
-      "detail": "VIX: 20.3 (avg: 17.1, z: +1.2)"
+      "detail": "VIX: 19.6 (avg: 17.0, z: +1.0)"
     }
   },
   "history": [
+    {
+      "date": "2026-02-19",
+      "score": 36.1
+    },
     {
       "date": "2026-02-18",
       "score": 38.9
@@ -1485,10 +1489,6 @@
     {
       "date": "2025-02-20",
       "score": 62.8
-    },
-    {
-      "date": "2025-02-19",
-      "score": 58.9
     }
   ]
 }
