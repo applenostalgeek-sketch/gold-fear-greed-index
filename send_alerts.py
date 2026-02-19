@@ -345,7 +345,7 @@ def main():
             print(f"  Sending to {len(subscribers)} subscriber(s)...")
             sent = 0
             # Wait after fetch_subscribers API call before sending
-            time.sleep(1)
+            time.sleep(2)
             for sub in subscribers:
                 sub_changes = filter_changes_for_subscriber(changes, sub['preferences'])
                 if not sub_changes:
@@ -357,7 +357,7 @@ def main():
                 if send_email(subject, html, sub['email']):
                     sent += 1
                 # Rate limit: Resend allows max 2 req/s
-                time.sleep(1)
+                time.sleep(2)
 
             print(f"  Done: {sent} email(s) sent.")
 
