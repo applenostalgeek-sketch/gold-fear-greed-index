@@ -186,9 +186,9 @@ class GoldFearGreedIndex:
             # Calculate 14-day price change
             recent_price_change = (hist['Close'].iloc[-1] / hist['Close'].iloc[-14] - 1) * 100
 
-            # Scoring: GLD +7% = score 100, GLD -7% = score 0
-            # Multiplier 7 avoids saturation (old multiplier 10 saturated at ±5%)
-            score = 50 + (recent_price_change * 7)
+            # Scoring: GLD +10% = score 100, GLD -10% = score 0
+            # Multiplier 5 avoids saturation (old multiplier 7 saturated at ±7.1%)
+            score = 50 + (recent_price_change * 5)
             score = max(0, min(100, score))
 
             detail = f"GLD 14d: {recent_price_change:+.1f}%"
@@ -514,7 +514,7 @@ class GoldFearGreedIndex:
             # 1. GLD PRICE MOMENTUM (25% weight) - PRIMARY INDICATOR
             if len(gld_hist) >= 14:
                 recent_price_change = (gld_hist['Close'].iloc[-1] / gld_hist['Close'].iloc[-14] - 1) * 100
-                gld_price_score = 50 + (recent_price_change * 7)
+                gld_price_score = 50 + (recent_price_change * 5)
                 gld_price_score = max(0, min(100, gld_price_score))
             else:
                 gld_price_score = 50.0
