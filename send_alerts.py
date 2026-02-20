@@ -3,7 +3,7 @@ send_alerts.py - Send email alerts when an index changes zone significantly.
 
 Tracks 5 indices: Gold, Bonds, Stocks, Crypto + Market Sentiment.
 Compares current labels/scores with previous values.
-Alert triggers: zone change + score delta >= threshold (7pts assets, 5pts sentiment).
+Alert triggers: zone change + score delta >= threshold (10pts assets, 7pts sentiment).
 Sends personalized emails to Resend audience subscribers based on their preferences.
 
 Run: python send_alerts.py
@@ -32,15 +32,15 @@ PREVIOUS_LABELS_FILE = 'data/previous-labels.json'
 PREVIOUS_SCORES_FILE = 'data/previous-scores.json'
 
 # Delta thresholds: minimum score change required (in addition to zone change)
-DELTA_THRESHOLD_ASSET = 7      # for gold, bonds, stocks, crypto
-DELTA_THRESHOLD_SENTIMENT = 5  # for market sentiment
+DELTA_THRESHOLD_ASSET = 10     # for gold, bonds, stocks, crypto
+DELTA_THRESHOLD_SENTIMENT = 7  # for market sentiment
 
-ZONE_COLORS = {
-    'Extreme Fear': '#ef4444',
-    'Fear': '#f59e0b',
-    'Neutral': '#888888',
-    'Greed': '#22c55e',
-    'Extreme Greed': '#06b6d4',
+ZONE_STYLES = {
+    'Extreme Fear': {'color': '#dc2626', 'bg': '#fef2f2'},
+    'Fear':         {'color': '#d97706', 'bg': '#fffbeb'},
+    'Neutral':      {'color': '#666666', 'bg': '#f5f5f5'},
+    'Greed':        {'color': '#16a34a', 'bg': '#f0fdf4'},
+    'Extreme Greed':{'color': '#0891b2', 'bg': '#ecfeff'},
 }
 
 
@@ -237,54 +237,61 @@ def build_email_subject(changes):
 def build_email_html(changes):
     blocks = []
     for c in changes:
-        color = ZONE_COLORS.get(c['new_label'], '#ffffff')
-        old_color = ZONE_COLORS.get(c['old_label'], '#888888')
+        style = ZONE_STYLES.get(c['new_label'], {'color': '#666', 'bg': '#f5f5f5'})
+        color = style['color']
+        bg = style['bg']
         score = round(c['score'])
 
         context_html = ''
         if c.get('context'):
             context_html = f"""
-            <div style="font-size: 13px; color: #777; margin-bottom: 16px; font-style: italic;">
-                {c['context']}
-            </div>"""
+          <div style="font-size: 12px; color: #999; font-style: italic;">{c['context']}</div>"""
 
         blocks.append(f"""
-        <div style="margin-bottom: 32px;">
-            <div style="font-size: 14px; color: #999; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 8px;">
-                {c['icon']} {c['name']}
+    <div style="border: 1px solid #e5e5e5; border-radius: 12px; padding: 24px; margin-bottom: 16px;">
+      <table style="width: 100%; border-collapse: collapse;">
+        <tr>
+          <td style="vertical-align: top;">
+            <div style="font-size: 12px; color: #999; text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 10px;">{c['name']}</div>
+            <div style="margin-bottom: 10px;">
+              <span style="display: inline-block; background: {bg}; color: {color}; font-size: 13px; font-weight: 600; padding: 4px 10px; border-radius: 20px;">{c['new_label']}</span>
             </div>
-            <div style="font-size: 42px; font-weight: 800; color: {color}; margin-bottom: 4px;">
-                {score}<span style="font-size: 18px; color: #666; font-weight: 400;">/100</span>
-            </div>
-            <div style="font-size: 16px; margin-bottom: 12px;">
-                <span style="color: {old_color};">{c['old_label']}</span>
-                <span style="color: #555;"> &rarr; </span>
-                <span style="color: {color}; font-weight: 600;">{c['new_label']}</span>
+            <div style="font-size: 13px; color: #888; margin-bottom: 8px;">
+              was <span style="color: #666; font-weight: 500;">{c['old_label']}</span>
             </div>{context_html}
-            <a href="{c['url']}" style="color: {color}; text-decoration: none; font-size: 14px;">
-                View full breakdown &rarr;
-            </a>
-        </div>""")
+          </td>
+          <td style="vertical-align: top; text-align: right; width: 80px;">
+            <div style="font-size: 40px; font-weight: 800; color: {color}; line-height: 1;">{score}</div>
+            <div style="font-size: 12px; color: #bbb;">/100</div>
+          </td>
+        </tr>
+      </table>
+      <div style="margin-top: 16px; padding-top: 12px; border-top: 1px solid #f0f0f0;">
+        <a href="{c['url']}" style="color: {color}; text-decoration: none; font-size: 13px; font-weight: 500;">View full breakdown &rarr;</a>
+      </div>
+    </div>""")
 
     body = '\n'.join(blocks)
 
     return f"""
-    <div style="background: #0a0a0a; color: #ffffff; padding: 40px 24px; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;">
-        <div style="max-width: 480px; margin: 0 auto;">
-            <div style="text-align: center; margin-bottom: 32px;">
-                <span style="font-size: 18px; font-weight: 700; color: #fff;">On<span style="color: #888;">\u25cf\u25cf</span>Off<span style="color: #666; font-weight: 400;">.Markets</span></span>
-            </div>
+<div style="font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; max-width: 480px; margin: 0 auto; padding: 32px 20px;">
+  <div style="text-align: center; margin-bottom: 8px;">
+    <span style="font-size: 17px; font-weight: 700; color: #111;">On<span style="color: #999;">\u25cf\u25cf</span>Off<span style="color: #666; font-weight: 400;">.Markets</span></span>
+  </div>
+  <div style="text-align: center; margin-bottom: 32px;">
+    <span style="font-size: 12px; color: #999; text-transform: uppercase; letter-spacing: 0.15em;">Sentiment Alert</span>
+  </div>
 
-            {body}
+  {body}
 
-            <div style="border-top: 1px solid #222; margin-top: 32px; padding-top: 20px; font-size: 12px; color: #555; text-align: center;">
-                <a href="https://onoff.markets" style="color: #666; text-decoration: none;">onoff.markets</a>
-                &nbsp;|&nbsp; Real-time market sentiment
-                <br><br>
-                <span style="font-size: 11px;">To unsubscribe, visit <a href="https://onoff.markets" style="color: #666;">onoff.markets</a> and click Alerts.</span>
-            </div>
-        </div>
-    </div>"""
+  <div style="margin-top: 28px; padding-top: 20px; border-top: 1px solid #eee; text-align: center;">
+    <a href="https://onoff.markets" style="color: #888; text-decoration: none; font-size: 12px;">onoff.markets</a>
+    <span style="color: #ccc; font-size: 12px;"> &nbsp;|&nbsp; </span>
+    <span style="font-size: 12px; color: #aaa;">Real-time market sentiment</span>
+    <br><br>
+    <span style="font-size: 11px; color: #bbb;">To unsubscribe, visit <a href="https://onoff.markets" style="color: #999;">onoff.markets</a> and click Alerts.</span>
+  </div>
+</div>"""
 
 
 def send_email(subject, html, to_email):
