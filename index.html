@@ -251,6 +251,106 @@
             text-align: center;
         }
 
+        /* === INLINE CTA === */
+        .cta-section {
+            margin: 40px 0 0 0;
+        }
+
+        .cta-box {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+        }
+
+        .cta-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #eee;
+            margin-bottom: 6px;
+        }
+
+        .cta-sub {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 20px;
+        }
+
+        .cta-form {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+            max-width: 420px;
+            margin: 0 auto;
+        }
+
+        .cta-form input[type="email"] {
+            flex: 1;
+            padding: 10px 14px;
+            border-radius: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.04);
+            color: #fff;
+            font-size: 0.85rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .cta-form input[type="email"]:focus {
+            border-color: rgba(255, 255, 255, 0.25);
+        }
+
+        .cta-form input[type="email"]::placeholder {
+            color: #555;
+        }
+
+        .cta-form button {
+            padding: 10px 20px;
+            border-radius: 8px;
+            border: none;
+            background: #fff;
+            color: #0a0a0a;
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+            white-space: nowrap;
+        }
+
+        .cta-form button:hover { opacity: 0.85; }
+        .cta-form button:disabled { opacity: 0.5; cursor: default; }
+
+        .cta-msg {
+            font-size: 0.8rem;
+            margin-top: 12px;
+            min-height: 1.2em;
+        }
+
+        .cta-msg.success { color: #22c55e; }
+        .cta-msg.error { color: #ef4444; }
+
+        .cta-customize-btn {
+            display: inline-block;
+            margin-top: 10px;
+            background: none;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            color: #555;
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 0.75rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+        }
+
+        .cta-customize-btn:hover {
+            color: #999;
+            border-color: rgba(255, 255, 255, 0.15);
+        }
+
+
+
         /* === CHART === */
         .history-section {
             margin: 56px 0;
@@ -354,6 +454,12 @@
             .insight-text { font-size: 0.9rem; }
             .chart-toggles { justify-content: center; }
             .chart-toggle-btn { font-size: 0.7rem; padding: 5px 10px; }
+            .cta-box { padding: 24px 18px; }
+            .cta-form { flex-direction: column; }
+            .cta-form button { width: 100%; }
+            .cta-customize-btn { margin-top: 8px; font-size: 0.7rem; }
+            .cta-title { font-size: 0.95rem; }
+            .cta-sub { font-size: 0.7rem; }
         }
     </style>
 </head>
@@ -542,6 +648,22 @@
                 <div class="asset-micro" id="cryptoMicro"></div>
             </a>
         </div>
+
+        <!-- Inline Alert CTA -->
+        <section class="cta-section" id="ctaSection">
+            <div class="cta-box">
+                <div class="cta-text">
+                    <div class="cta-title">Get notified when markets shift</div>
+                    <div class="cta-sub">Only when sentiment zones change. A few emails per month, never spam.</div>
+                </div>
+                <form class="cta-form" id="ctaForm">
+                    <input type="email" id="ctaEmail" placeholder="your@email.com" autocomplete="email" required>
+                    <button type="submit" id="ctaSubmit">Subscribe</button>
+                </form>
+                <div class="cta-msg" id="ctaMsg"></div>
+                <button class="cta-customize-btn" id="ctaCustomize">Customize your alerts</button>
+            </div>
+        </section>
 
         <!-- Historical Chart -->
         <section class="history-section">
@@ -1242,6 +1364,49 @@
         chartCanvas.addEventListener('mouseleave', () => { hideTooltip(); drawChart(); });
         chartCanvas.addEventListener('touchmove', (e) => { e.preventDefault(); handleChartHover(e); }, { passive: false });
         chartCanvas.addEventListener('touchend', () => { hideTooltip(); drawChart(); });
+
+        // Customize → open alert popup
+        document.getElementById('ctaCustomize').addEventListener('click', function() {
+            document.getElementById('alertOverlay').classList.add('active');
+        });
+
+        // Inline CTA subscribe
+        document.getElementById('ctaForm').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const email = document.getElementById('ctaEmail').value.trim();
+            const btn = document.getElementById('ctaSubmit');
+            const msg = document.getElementById('ctaMsg');
+            if (!email || !email.includes('@')) {
+                msg.textContent = 'Please enter a valid email.';
+                msg.className = 'cta-msg error';
+                return;
+            }
+            btn.disabled = true;
+            btn.textContent = 'Subscribing...';
+            msg.textContent = '';
+            msg.className = 'cta-msg';
+            try {
+                const res = await fetch('/.netlify/functions/subscribe', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, sentiment: true, gold: true, stocks: true, bonds: true, crypto: true })
+                });
+                if (res.ok) {
+                    msg.textContent = "You're in! You'll receive alerts when sentiment zones change.";
+                    msg.className = 'cta-msg success';
+                    document.getElementById('ctaEmail').value = '';
+                } else {
+                    const data = await res.json();
+                    msg.textContent = data.error || 'Something went wrong. Please try again.';
+                    msg.className = 'cta-msg error';
+                }
+            } catch (err) {
+                msg.textContent = 'Network error. Please try again.';
+                msg.className = 'cta-msg error';
+            }
+            btn.disabled = false;
+            btn.textContent = 'Subscribe';
+        });
 
         // Resize
         let resizeTimeout;
