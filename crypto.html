@@ -98,7 +98,7 @@
     <!-- Shared Styles -->
     <link rel="stylesheet" href="shared.css">
     <link rel="stylesheet" href="chart.css">
-    <link rel="stylesheet" href="asset.css?v=2">
+    <link rel="stylesheet" href="asset.css?v=3">
     <link rel="stylesheet" href="gauge.css?v=1">
     <style>
         .asset-title { --asset-color: #F7931A; color: var(--asset-color); }
@@ -189,7 +189,14 @@
             <h2>Historical Trend</h2>
             <div class="chart-wrapper">
                 <div class="chart-toolbar">
-                    <div></div>
+                    <div class="chart-toggles">
+                        <button class="chart-toggle-btn active" data-series="index" style="--toggle-color: #ffffff;">
+                            <span class="chart-toggle-dot"></span> Index
+                        </button>
+                        <button class="chart-toggle-btn active" data-series="price" style="--toggle-color: #F7931A;">
+                            <span class="chart-toggle-dot"></span> BTC
+                        </button>
+                    </div>
                     <div class="period-selector">
                         <button class="period-btn" data-period="7">7D</button>
                         <button class="period-btn active" data-period="30">30D</button>
@@ -317,6 +324,8 @@
             color: '#F7931A',
             name: 'Crypto',
             dataUrl: 'data/crypto-fear-greed.json',
+            priceLabel: 'BTC',
+            priceColor: '#F7931A',
             phrases: {
                 extremeFear: 'Crypto markets are in full panic. Heavy sell-off with widespread fear.',
                 fear: 'Low confidence in crypto. Investors are cautious and pulling back.',
@@ -327,7 +336,7 @@
         };
     </script>
     <script src="shared.js"></script>
-    <script src="asset-chart.js?v=2"></script>
+    <script src="asset-chart.js?v=3"></script>
     <script src="alert-signup.js"></script>
 </body>
 </html>

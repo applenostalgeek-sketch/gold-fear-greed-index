@@ -248,6 +248,44 @@
     color: #fff;
 }
 
+/* Chart Toggles */
+.chart-toggles {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.chart-toggle-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    border: 1px solid #1a1a1a;
+    background: transparent;
+    color: #555;
+    font-size: 0.75rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.chart-toggle-btn.active {
+    border-color: var(--toggle-color);
+    color: var(--toggle-color);
+    background: color-mix(in srgb, var(--toggle-color) 8%, transparent);
+}
+
+.chart-toggle-dot {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--toggle-color);
+    opacity: 0.4;
+}
+
+.chart-toggle-btn.active .chart-toggle-dot { opacity: 1; }
+
 /* Mobile */
 @media (max-width: 768px) {
     .explanation-grid { grid-template-columns: repeat(5, 1fr); }
@@ -261,4 +299,6 @@
     .insight-box { padding: 24px 28px; }
     .insight-text { font-size: 1.05rem; }
     .methodology-section .component-box { padding: 20px; }
+    .chart-toggles { justify-content: center; }
+    .chart-toggle-btn { font-size: 0.7rem; padding: 5px 10px; }
 }

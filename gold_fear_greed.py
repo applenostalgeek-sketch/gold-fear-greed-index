@@ -476,7 +476,7 @@ class GoldFearGreedIndex:
             'components': self.components
         }
 
-    def calculate_simple_historical_score(self, target_date: datetime) -> float:
+    def calculate_simple_historical_score(self, target_date: datetime) -> tuple:
         """
         Calculate COMPLETE historical score for a past date
         Uses 5 RECALIBRATED components: GLD Price, RSI/MA, DXY, Real Rates, VIX
@@ -485,7 +485,7 @@ class GoldFearGreedIndex:
             target_date: The date to calculate the score for
 
         Returns:
-            Historical score (0-100)
+            Tuple of (score 0-100, price of GLD)
         """
         try:
             print(f"  Calculating for {target_date.strftime('%Y-%m-%d')}...", end=" ")
@@ -509,7 +509,7 @@ class GoldFearGreedIndex:
 
             if len(gold_hist) < 20:
                 print("insufficient data")
-                return 50.0
+                return 50.0, None
 
             # 1. GLD PRICE MOMENTUM (25% weight) - PRIMARY INDICATOR
             if len(gld_hist) >= 14:
@@ -621,12 +621,15 @@ class GoldFearGreedIndex:
                 vix_score * 0.10
             )
 
+            # Get GLD price for this date
+            gld_price = round(float(gld_hist['Close'].iloc[-1]), 2) if len(gld_hist) > 0 else None
+
             print(f"Score: {total_score:.1f}")
-            return round(total_score, 1)
+            return round(total_score, 1), gld_price
 
         except Exception as e:
             print(f"error: {e}")
-            return 50.0
+            return 50.0, None
 
     def save_to_file(self, filepath: str = 'data/gold-fear-greed.json', force_rebuild: bool = False):
         """
@@ -652,7 +655,7 @@ class GoldFearGreedIndex:
                     print(f"⚠️  Could not load existing history: {e}")
 
             # Check if today's score already exists
-            history_dict = {item['date']: item['score'] for item in existing_history}
+            history_dict = {item['date']: {'score': item['score'], 'price': item.get('price')} for item in existing_history}
 
             if force_rebuild:
                 print("\n🔄 Force rebuilding 365-day history (this may take 2-3 minutes)...")
@@ -665,15 +668,22 @@ class GoldFearGreedIndex:
                         if not self.score:
                             self.calculate_index()
                         score = self.score
+                        # Fetch today's GLD price
+                        try:
+                            gld = yf.Ticker("GLD")
+                            ph = gld.history(period="5d")
+                            price = round(float(ph['Close'].iloc[-1]), 2)
+                        except Exception:
+                            price = None
                     else:
-                        score = self.calculate_simple_historical_score(
+                        score, price = self.calculate_simple_historical_score(
                             datetime.combine(historical_date, datetime.min.time())
                         )
 
-                    history.append({
-                        'date': historical_date_str,
-                        'score': score
-                    })
+                    entry = {'date': historical_date_str, 'score': score}
+                    if price is not None:
+                        entry['price'] = price
+                    history.append(entry)
 
                     if (i + 1) % 50 == 0:
                         print(f"  Calculated {365 - i}/365 days...")
@@ -681,11 +691,24 @@ class GoldFearGreedIndex:
                 # Incremental update: only add today's score
                 print(f"📊 Updating index for {today_str}...")
 
+                # Fetch today's GLD price
+                try:
+                    gld = yf.Ticker("GLD")
+                    ph = gld.history(period="5d")
+                    today_price = round(float(ph['Close'].iloc[-1]), 2)
+                except Exception:
+                    today_price = None
+
                 # Update or add today's score
-                history_dict[today_str] = self.score
+                history_dict[today_str] = {'score': self.score, 'price': today_price}
 
                 # Convert back to list and sort
-                history = [{'date': date, 'score': score} for date, score in history_dict.items()]
+                history = []
+                for date, data in history_dict.items():
+                    entry = {'date': date, 'score': data['score']}
+                    if data.get('price') is not None:
+                        entry['price'] = data['price']
+                    history.append(entry)
                 history = sorted(history, key=lambda x: x['date'], reverse=True)
 
                 # Keep only last 365 days

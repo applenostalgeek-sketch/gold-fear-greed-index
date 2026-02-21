@@ -1,5 +1,5 @@
 /*
- * asset-chart.js — Single-series chart + UI for asset detail pages
+ * asset-chart.js — Dual-axis chart + UI for asset detail pages
  *
  * Requires: shared.js loaded first
  * Requires: window.ASSET_CONFIG set before this script:
@@ -7,6 +7,8 @@
  *     color: '#FFD700',
  *     name: 'Gold',
  *     dataUrl: 'data/gold-fear-greed.json',
+ *     priceLabel: 'GLD',
+ *     priceColor: '#FFD700',
  *     phrases: { extremeFear, fear, neutral, greed, extremeGreed }
  *   }
  */
@@ -49,6 +51,18 @@
         requestAnimationFrame(animateCircle);
     }
     animateCircle();
+
+    // ==================== Toggle Helpers ====================
+
+    function isIndexVisible() {
+        const btn = document.querySelector('.chart-toggle-btn[data-series="index"]');
+        return !btn || btn.classList.contains('active');
+    }
+
+    function isPriceVisible() {
+        const btn = document.querySelector('.chart-toggle-btn[data-series="price"]');
+        return !btn || btn.classList.contains('active');
+    }
 
     // ==================== Data Load ====================
 
@@ -212,9 +226,38 @@
 
     function drawChart() {
         const canvas = document.getElementById('historyChart');
-        const { ctx, w, h, pad, plotW, plotH } = getChartLayout(canvas);
+        const box = canvas.parentElement;
+        const dpr = window.devicePixelRatio || 1;
+        canvas.width = box.clientWidth * dpr;
+        canvas.height = box.clientHeight * dpr;
+        canvas.style.width = box.clientWidth + 'px';
+        canvas.style.height = box.clientHeight + 'px';
+        const ctx = canvas.getContext('2d');
+        ctx.scale(dpr, dpr);
+        const w = box.clientWidth;
+        const h = box.clientHeight;
+
+        // Dynamic right padding based on whether price axis is shown
+        const showPrice = isPriceVisible() && chartHistory.some(p => p.price != null);
+        const pad = { top: 16, bottom: 32, left: 30, right: showPrice ? 56 : 30 };
+        const plotW = w - pad.left - pad.right;
+        const plotH = h - pad.top - pad.bottom;
 
         ctx.clearRect(0, 0, w, h);
+
+        // Price data setup
+        let pMin, pMax, pRange, pPad;
+        if (showPrice) {
+            const prices = chartHistory.filter(p => p.price != null).map(p => p.price);
+            pMin = Math.min(...prices);
+            pMax = Math.max(...prices);
+            pRange = pMax - pMin || 1;
+            pPad = pRange * 0.08;
+        }
+
+        function priceToY(p) {
+            return pad.top + plotH - ((p - pMin + pPad) / (pRange + pPad * 2)) * plotH;
+        }
 
         // Zone bands
         zones.forEach(zone => {
@@ -248,9 +291,25 @@
         ctx.beginPath(); ctx.moveTo(pad.left, y50); ctx.lineTo(pad.left + plotW, y50); ctx.stroke();
         ctx.setLineDash([]);
 
-        // Data line
-        if (chartHistory.length >= 2) {
-            ctx.strokeStyle = CFG.color;
+        // Price line (behind score line)
+        if (showPrice && chartHistory.length >= 2) {
+            ctx.strokeStyle = (CFG.priceColor || CFG.color) + '88';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            let started = false;
+            chartHistory.forEach((p, i) => {
+                if (p.price == null) return;
+                const x = indexToX(i, chartHistory.length, pad, plotW);
+                const y = priceToY(p.price);
+                if (!started) { ctx.moveTo(x, y); started = true; }
+                else ctx.lineTo(x, y);
+            });
+            ctx.stroke();
+        }
+
+        // Score line (on top)
+        if (isIndexVisible() && chartHistory.length >= 2) {
+            ctx.strokeStyle = '#ffffff';
             ctx.lineWidth = 2;
             ctx.beginPath();
             chartHistory.forEach((p, i) => {
@@ -266,8 +325,39 @@
             const ly = scoreToY(last.score, pad, plotH);
             ctx.beginPath();
             ctx.arc(lx, ly, 4, 0, Math.PI * 2);
-            ctx.fillStyle = CFG.color;
+            ctx.fillStyle = '#ffffff';
             ctx.fill();
+        }
+
+        // Price end dot
+        if (showPrice && chartHistory.length >= 2) {
+            const lastWithPrice = [...chartHistory].reverse().find(p => p.price != null);
+            if (lastWithPrice) {
+                const idx = chartHistory.indexOf(lastWithPrice);
+                const px = indexToX(idx, chartHistory.length, pad, plotW);
+                const py = priceToY(lastWithPrice.price);
+                ctx.beginPath();
+                ctx.arc(px, py, 3, 0, Math.PI * 2);
+                ctx.fillStyle = CFG.priceColor || CFG.color;
+                ctx.fill();
+            }
+        }
+
+        // Right axis — price labels
+        if (showPrice) {
+            ctx.textAlign = 'left';
+            ctx.font = '10px -apple-system, sans-serif';
+            ctx.fillStyle = (CFG.priceColor || CFG.color) + '88';
+            const priceSteps = 5;
+            for (let i = 0; i <= priceSteps; i++) {
+                const p = pMin - pPad + (i / priceSteps) * (pRange + pPad * 2);
+                const y = pad.top + plotH - (i / priceSteps) * plotH;
+                let label;
+                if (p >= 1000) label = '$' + Math.round(p).toLocaleString();
+                else if (p < 10) label = '$' + p.toFixed(2);
+                else label = '$' + p.toFixed(0);
+                ctx.fillText(label, pad.left + plotW + 6, y + 3);
+            }
         }
 
         // Date labels
@@ -298,7 +388,8 @@
         const clientX = e.touches ? e.touches[0].clientX : e.clientX;
         const x = clientX - rect.left;
         const box = canvas.parentElement;
-        const pad = { left: 30, right: 30 };
+        const showPrice = isPriceVisible() && chartHistory.some(p => p.price != null);
+        const pad = { left: 30, right: showPrice ? 56 : 30 };
         const plotW = box.clientWidth - pad.left - pad.right;
 
         if (!chartHistory || chartHistory.length < 2) return;
@@ -310,9 +401,23 @@
 
         const date = new Date(point.date);
         document.getElementById('tooltipDate').textContent = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-        document.getElementById('tooltipRows').innerHTML = '<div class="chart-tooltip-row">'
-            + '<span class="chart-tooltip-name" style="color:' + CFG.color + '">' + CFG.name + '</span>'
-            + '<span class="chart-tooltip-val" style="color:' + CFG.color + '">' + Math.round(point.score) + '</span></div>';
+
+        let rows = '';
+        if (isIndexVisible()) {
+            rows += '<div class="chart-tooltip-row">'
+                + '<span class="chart-tooltip-name" style="color:#fff">' + CFG.name + ' Index</span>'
+                + '<span class="chart-tooltip-val" style="color:#fff">' + Math.round(point.score) + '</span></div>';
+        }
+        if (isPriceVisible() && point.price != null) {
+            const pc = CFG.priceColor || CFG.color;
+            let priceStr;
+            if (point.price >= 1000) priceStr = '$' + Math.round(point.price).toLocaleString();
+            else priceStr = '$' + point.price.toFixed(2);
+            rows += '<div class="chart-tooltip-row">'
+                + '<span class="chart-tooltip-name" style="color:' + pc + '">' + (CFG.priceLabel || 'Price') + '</span>'
+                + '<span class="chart-tooltip-val" style="color:' + pc + '">' + priceStr + '</span></div>';
+        }
+        document.getElementById('tooltipRows').innerHTML = rows;
 
         const tooltipLeft = x > rect.width * 0.6 ? 20 : rect.width - 180;
         tooltip.style.left = tooltipLeft + 'px';
@@ -353,6 +458,14 @@
             button.classList.add('active');
             currentPeriod = parseInt(button.dataset.period);
             updateHistoryChart(currentPeriod);
+        });
+    });
+
+    // Toggle buttons
+    document.querySelectorAll('.chart-toggle-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            btn.classList.toggle('active');
+            drawChart();
         });
     });
 
