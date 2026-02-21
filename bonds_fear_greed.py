@@ -50,9 +50,8 @@ class BondsFearGreedIndex:
             pct_change_14d = ((close_prices.iloc[-1] / close_prices.iloc[-15]) - 1) * 100
 
             # DIRECT: TLT rising = capital flowing INTO bonds = high score
-            # Recalibrated: +4% TLT = score 100, -4% TLT = score 0
-            # This reflects TLT's actual volatility (90% of moves within ±3.7%)
-            score = 50 + (pct_change_14d * 12.5)
+            # Calibrated: ~±3.3% TLT = score 0/100 (covers most 14-day moves)
+            score = 50 + (pct_change_14d * 15)
             score = max(0, min(100, score))
 
             detail = f"TLT 14j: {pct_change_14d:+.1f}%"
@@ -88,8 +87,8 @@ class BondsFearGreedIndex:
             # Spread: LQD outperforming = credit spreads tightening = greed
             spread = lqd_change - tlt_change
 
-            # +5% spread = extreme greed, -5% spread = extreme fear
-            score = 50 + (spread * 10)
+            # +2.5% spread = extreme greed, -2.5% spread = extreme fear
+            score = 50 + (spread * 20)
             score = max(0, min(100, score))
 
             detail = f"LQD vs TLT: {spread:+.1f}%"
@@ -133,10 +132,10 @@ class BondsFearGreedIndex:
             spread = yield_10y - yield_2y
 
             # DIRECT LOGIC (term premium perspective):
-            # Steep curve (+2%+) = high term premium = rewarding long bond holders = GREED
-            # Flat curve (0%) = no term premium = NEUTRAL-FEAR
+            # Steep curve (+1.7%+) = high term premium = rewarding long bond holders = GREED
+            # Flat curve (0%) = no term premium = NEUTRAL
             # Inverted curve (<0%) = Fed hiking aggressively = bond prices crushed = FEAR
-            score = 40 + (spread * 20)
+            score = 50 + (spread * 30)
             score = max(0, min(100, score))
 
             detail = f"Courbe: {spread:+.2f}% (10Y-2Y)"
@@ -165,7 +164,7 @@ class BondsFearGreedIndex:
                 spread = yield_10y - yield_short
 
                 # Same DIRECT logic as FRED (term premium)
-                score = 40 + (spread * 20)
+                score = 50 + (spread * 30)
 
                 score = max(0, min(100, score))
                 detail = f"Courbe: {spread:+.2f}% (10Y-3M, Yahoo)"
@@ -275,8 +274,8 @@ class BondsFearGreedIndex:
 
             # Scoring: higher real rates = bond prices fall = FEAR (low score)
             # Lower real rates = bond prices rise = GREED (high score)
-            # +2.5% real = score 25, 0% = score 50, -2.5% = score 75
-            score = 50 - (real_rate * 10)
+            # Centered on 1.5% (current regime avg): 1.5% = 50, 4% = 0, -1% = 100
+            score = 50 - (real_rate - 1.5) * 20
             score = max(0, min(100, score))
 
             detail = f"TIPS 10Y: {real_rate:+.2f}%"
@@ -296,9 +295,9 @@ class BondsFearGreedIndex:
 
                 nominal_yield = tnx_hist['Close'].iloc[-1]
 
-                # Fallback: use nominal yield centered on ~2.5% historical average
+                # Fallback: use nominal yield centered on ~4.0% (current regime avg)
                 # Higher yield = bond prices fall = FEAR (low score)
-                score = 50 - ((nominal_yield - 2.5) * 10)
+                score = 50 - (nominal_yield - 4.0) * 20
                 score = max(0, min(100, score))
 
                 detail = f"10Y Yield: {nominal_yield:.2f}% (Yahoo fallback)"
@@ -397,14 +396,14 @@ class BondsFearGreedIndex:
         """
         print("Calculating Bonds Fear & Greed Index v2...")
 
-        # Component weights (6 diversified components)
+        # Component weights (6 components, Duration Risk primary)
         weights = {
+            'duration_risk': 0.30,       # 30% - TLT momentum (PRIMARY)
             'yield_curve': 0.20,         # 20% - Structural signal
-            'duration_risk': 0.20,       # 20% - TLT momentum (price action)
             'credit_quality': 0.20,      # 20% - LQD vs TLT (credit appetite)
             'real_rates': 0.15,          # 15% - Attractiveness vs inflation
-            'bond_volatility': 0.15,     # 15% - MOVE index proxy (crisis detection)
-            'equity_vs_bonds': 0.10      # 10% - Stock/bond rotation
+            'bond_volatility': 0.10,     # 10% - MOVE index proxy (crisis detection)
+            'equity_vs_bonds': 0.05      # 5% - Stock/bond rotation
         }
 
         # Calculate each component
@@ -484,7 +483,7 @@ class BondsFearGreedIndex:
             'last_update': datetime.now().strftime('%Y-%m-%d %H:%M UTC')
         }
 
-    def calculate_simple_historical_score(self, target_date: datetime) -> float:
+    def calculate_simple_historical_score(self, target_date: datetime) -> tuple:
         """
         Calculate COMPLETE historical score for a past date
         Uses 6 components: Yield Curve, TLT Momentum, Credit, Real Rates, Bond Vol, Equity vs Bonds
@@ -493,7 +492,7 @@ class BondsFearGreedIndex:
             target_date: The date to calculate the score for
 
         Returns:
-            Historical score (0-100)
+            Tuple of (score 0-100, price of TLT)
         """
         try:
             print(f"  Calculating for {target_date.strftime('%Y-%m-%d')}...", end=" ")
@@ -513,12 +512,12 @@ class BondsFearGreedIndex:
 
             if tlt_hist.empty or len(tlt_hist) < 20:
                 print("insufficient data")
-                return 50.0
+                return 50.0, None
 
-            # 1. TLT PRICE MOMENTUM (20% weight)
+            # 1. TLT PRICE MOMENTUM (30% weight - PRIMARY)
             if len(tlt_hist) >= 15:
                 pct_change_14d = ((tlt_hist['Close'].iloc[-1] / tlt_hist['Close'].iloc[-15]) - 1) * 100
-                price_momentum_score = 50 + (pct_change_14d * 12.5)
+                price_momentum_score = 50 + (pct_change_14d * 15)
                 price_momentum_score = max(0, min(100, price_momentum_score))
             else:
                 price_momentum_score = 50.0
@@ -528,7 +527,7 @@ class BondsFearGreedIndex:
                 lqd_change = ((lqd_hist['Close'].iloc[-1] / lqd_hist['Close'].iloc[-15]) - 1) * 100
                 tlt_change_credit = ((tlt_hist['Close'].iloc[-1] / tlt_hist['Close'].iloc[-15]) - 1) * 100
                 spread = lqd_change - tlt_change_credit
-                credit_spreads_score = 50 + (spread * 10)
+                credit_spreads_score = 50 + (spread * 20)
                 credit_spreads_score = max(0, min(100, credit_spreads_score))
             else:
                 credit_spreads_score = 50.0
@@ -546,7 +545,7 @@ class BondsFearGreedIndex:
                     spread = yield_10y - yield_short
 
                     # Steep = high term premium = greed, Inverted = fear
-                    yield_curve_score = 40 + (spread * 20)
+                    yield_curve_score = 50 + (spread * 30)
                     yield_curve_score = max(0, min(100, yield_curve_score))
                 else:
                     yield_curve_score = 50.0
@@ -558,7 +557,8 @@ class BondsFearGreedIndex:
                 if len(tnx_hist) > 0:
                     nominal_yield = tnx_hist['Close'].iloc[-1]
                     # Higher yield = bond prices fall = FEAR (low score)
-                    real_rates_score = 50 - ((nominal_yield - 2.5) * 10)
+                    # Centered on 4.0% (current regime avg for nominal)
+                    real_rates_score = 50 - (nominal_yield - 4.0) * 20
                     real_rates_score = max(0, min(100, real_rates_score))
                 else:
                     real_rates_score = 50.0
@@ -586,22 +586,25 @@ class BondsFearGreedIndex:
             else:
                 equity_bonds_score = 50.0
 
-            # Weighted average (6 components)
+            # Weighted average (6 components, Duration Risk primary)
             total_score = (
+                price_momentum_score * 0.30 +
                 yield_curve_score * 0.20 +
-                price_momentum_score * 0.20 +
                 credit_spreads_score * 0.20 +
                 real_rates_score * 0.15 +
-                bond_vol_score * 0.15 +
-                equity_bonds_score * 0.10
+                bond_vol_score * 0.10 +
+                equity_bonds_score * 0.05
             )
 
+            # Get TLT price for this date
+            tlt_price = round(float(tlt_hist['Close'].iloc[-1]), 2) if len(tlt_hist) > 0 else None
+
             print(f"Score: {total_score:.1f}")
-            return round(total_score, 1)
+            return round(total_score, 1), tlt_price
 
         except Exception as e:
             print(f"error: {e}")
-            return 50.0
+            return 50.0, None
 
     def save_to_file(self, filepath: str = 'data/bonds-fear-greed.json', force_rebuild: bool = False):
         """
@@ -630,9 +633,16 @@ class BondsFearGreedIndex:
                         self.calculate_index()
                     score = self.score
                     label = self.label
+                    # Fetch today's TLT price
+                    try:
+                        tlt = yf.Ticker("TLT")
+                        ph = tlt.history(period="5d")
+                        price = round(float(ph['Close'].iloc[-1]), 2)
+                    except Exception:
+                        price = None
                 else:
                     # Calculate simplified historical score
-                    score = self.calculate_simple_historical_score(historical_date)
+                    score, price = self.calculate_simple_historical_score(historical_date)
                     rounded = round(score)
                     if rounded <= 25:
                         label = "Extreme Fear"
@@ -645,11 +655,14 @@ class BondsFearGreedIndex:
                     else:
                         label = "Extreme Greed"
 
-                history.append({
+                entry = {
                     'date': date_str,
                     'score': round(score, 1),
                     'label': label
-                })
+                }
+                if price is not None:
+                    entry['price'] = price
+                history.append(entry)
 
                 if (365 - i) % 50 == 0:
                     print(f"  Progress: {365 - i}/365 days calculated...")
@@ -670,12 +683,23 @@ class BondsFearGreedIndex:
             # Remove today's entry if it exists (update)
             history = [entry for entry in history if entry['date'] != today]
 
+            # Fetch today's TLT price
+            try:
+                tlt = yf.Ticker("TLT")
+                ph = tlt.history(period="5d")
+                today_price = round(float(ph['Close'].iloc[-1]), 2)
+            except Exception:
+                today_price = None
+
             # Add new entry
-            history.append({
+            entry = {
                 'date': today,
                 'score': self.score,
                 'label': self.label
-            })
+            }
+            if today_price is not None:
+                entry['price'] = today_price
+            history.append(entry)
 
             # Keep only last 365 days
             history = sorted(history, key=lambda x: x['date'])[-365:]

@@ -59,7 +59,7 @@
                 "name": "What is the Bonds Fear & Greed Index?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "The Bonds Fear & Greed Index measures sentiment in the fixed income market using 6 components: Yield Curve Shape (20%), Duration Risk/TLT (20%), Credit Quality (20%), Real Rates (15%), Bond Volatility (15%), and Equity vs Bonds Rotation (10%). It tracks whether investors are buying or selling bonds."
+                    "text": "The Bonds Fear & Greed Index measures sentiment in the fixed income market using 6 components: Duration Risk/TLT (30%), Yield Curve Shape (20%), Credit Quality (20%), Real Rates (15%), Bond Volatility (10%), and Equity vs Bonds Rotation (5%). TLT momentum is the primary indicator. It tracks whether investors are buying or selling bonds."
                 }
             },
             {
@@ -98,7 +98,7 @@
     <!-- Shared Styles -->
     <link rel="stylesheet" href="shared.css">
     <link rel="stylesheet" href="chart.css">
-    <link rel="stylesheet" href="asset.css?v=2">
+    <link rel="stylesheet" href="asset.css?v=3">
     <link rel="stylesheet" href="gauge.css?v=1">
     <style>
         .asset-title { --asset-color: #10b981; color: var(--asset-color); }
@@ -189,7 +189,14 @@
             <h2>Historical Trend</h2>
             <div class="chart-wrapper">
                 <div class="chart-toolbar">
-                    <div></div>
+                    <div class="chart-toggles">
+                        <button class="chart-toggle-btn active" data-series="index" style="--toggle-color: #ffffff;">
+                            <span class="chart-toggle-dot"></span> Index
+                        </button>
+                        <button class="chart-toggle-btn active" data-series="price" style="--toggle-color: #10b981;">
+                            <span class="chart-toggle-dot"></span> TLT
+                        </button>
+                    </div>
                     <div class="period-selector">
                         <button class="period-btn" data-period="7">7D</button>
                         <button class="period-btn active" data-period="30">30D</button>
@@ -238,22 +245,22 @@
         <section class="methodology-section">
             <h2>How This Index is Calculated</h2>
             <p>
-                The Bonds Index measures sentiment in the fixed income market using <strong>6 bond-specific components</strong> with zero overlap with equity markets. Optimized to measure bond demand, duration appetite, and credit conditions. All scores from 0-100:
+                The Bonds Index measures sentiment in the fixed income market using <strong>6 bond-specific components</strong> with zero overlap with equity markets. Duration Risk (TLT momentum) is the primary indicator at 30% weight. Optimized to measure bond demand, duration appetite, and credit conditions. All scores from 0-100:
             </p>
 
             <div class="component-box">
-                <h4>1. Yield Curve Shape (20%)</h4>
-                <p class="weight">10-Year vs 2-Year Treasury spread (FRED API with Yahoo fallback)</p>
+                <h4>1. Duration Risk / TLT (30%)</h4>
+                <p class="weight">TLT 14-day price momentum (PRIMARY INDICATOR)</p>
                 <p>
-                    Classic recession indicator measuring yield curve shape. <strong>Direct logic (term premium perspective):</strong> Steep curve (+2%+) = high term premium = rewarding long bond holders = high score (greed). Flat curve (~0%) = neutral. <strong>Inverted curve (&lt; 0%) = Fed hiking aggressively = bond prices crushed = low score (fear).</strong> Score = 40 + (spread x 20), capped 0-100.
+                    <strong>Highest weight component.</strong> Measures demand for long-duration Treasuries via iShares 20+ Year Treasury ETF (TLT). <strong>Rising TLT = investors buying bonds = high score.</strong> Falling TLT = investors selling = low score. Uses x15 multiplier: <strong>TLT +3.3% = score 100, TLT -3.3% = score 0.</strong>
                 </p>
             </div>
 
             <div class="component-box">
-                <h4>2. Duration Risk / TLT (20%)</h4>
-                <p class="weight">TLT 14-day price momentum</p>
+                <h4>2. Yield Curve Shape (20%)</h4>
+                <p class="weight">10-Year vs 2-Year Treasury spread (FRED API with Yahoo fallback)</p>
                 <p>
-                    Measures demand for long-duration Treasuries via iShares 20+ Year Treasury ETF (TLT). <strong>Rising TLT = investors buying bonds = high score.</strong> Falling TLT = investors selling = low score. Uses x12.5 multiplier: TLT +4% = score 100, TLT -4% = score 0.
+                    Classic recession indicator measuring yield curve shape. <strong>Direct logic (term premium perspective):</strong> Steep curve (+1.7%+) = high term premium = rewarding long bond holders = high score (greed). Flat curve (0%) = neutral (score 50). <strong>Inverted curve (&lt; 0%) = Fed hiking aggressively = bond prices crushed = low score (fear).</strong> Score = 50 + (spread x 30), capped 0-100.
                 </p>
             </div>
 
@@ -261,7 +268,7 @@
                 <h4>3. Credit Quality Appetite (20%)</h4>
                 <p class="weight">Investment Grade (LQD) vs Treasuries (TLT)</p>
                 <p>
-                    Measures demand for investment-grade corporate bonds relative to safe Treasuries. <strong>LQD outperforming TLT = credit spreads tightening = high score</strong> (investors taking moderate credit risk). LQD underperforming = credit stress = low score. <strong>Note:</strong> Different from junk bonds (HYG) used in Stocks index.
+                    Measures demand for investment-grade corporate bonds relative to safe Treasuries. <strong>LQD outperforming TLT = credit spreads tightening = high score</strong> (investors taking moderate credit risk). LQD underperforming = credit stress = low score. Uses x20 multiplier: <strong>&plusmn;2.5% spread = extreme score.</strong> <strong>Note:</strong> Different from junk bonds (HYG) used in Stocks index.
                 </p>
             </div>
 
@@ -269,12 +276,12 @@
                 <h4>4. Real Rates Attractiveness (15%)</h4>
                 <p class="weight">10-Year TIPS yield (inflation-adjusted returns)</p>
                 <p>
-                    Real yield = nominal yield minus inflation expectations. <strong>Higher real rates = bond prices fall = fear (low score).</strong> Lower real rates = bond prices rise = greed (high score). Score = 50 - (real_rate x 10): +2.5% real = 25, 0% = 50, -2.5% = 75.
+                    Real yield = nominal yield minus inflation expectations. <strong>Higher real rates = bond prices fall = fear (low score).</strong> Lower real rates = bond prices rise = greed (high score). Centered on 1.5% (current regime average): <strong>1.5% real = score 50, 4% = score 0, -1% = score 100.</strong>
                 </p>
             </div>
 
             <div class="component-box">
-                <h4>5. Bond Volatility (15%)</h4>
+                <h4>5. Bond Volatility (10%)</h4>
                 <p class="weight">Short-term vs long-term TLT volatility (MOVE proxy)</p>
                 <p>
                     Compares 5-day TLT annualized volatility to 30-day average as a proxy for the MOVE index.
@@ -284,7 +291,7 @@
             </div>
 
             <div class="component-box">
-                <h4>6. Equity vs Bonds Rotation (10%)</h4>
+                <h4>6. Equity vs Bonds Rotation (5%)</h4>
                 <p class="weight">TLT vs SPY relative performance</p>
                 <p>
                     Measures relative performance between stocks and bonds over 14 days.
@@ -314,6 +321,8 @@
             color: '#10b981',
             name: 'Bonds',
             dataUrl: 'data/bonds-fear-greed.json',
+            priceLabel: 'TLT',
+            priceColor: '#10b981',
             phrases: {
                 extremeFear: 'Bond markets are under severe stress — investors are dumping bonds aggressively.',
                 fear: 'Low appetite for bonds. Investors see better opportunities elsewhere.',
@@ -324,7 +333,7 @@
         };
     </script>
     <script src="shared.js"></script>
-    <script src="asset-chart.js?v=2"></script>
+    <script src="asset-chart.js?v=3"></script>
     <script src="alert-signup.js"></script>
 </body>
 </html>
