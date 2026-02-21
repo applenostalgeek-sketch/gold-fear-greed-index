@@ -3,106 +3,40 @@
 /* Header */
 .header {
     text-align: center;
-    margin-bottom: 16px;
+    margin-bottom: 8px;
 }
 
 .header h1 {
-    font-size: 0.9rem;
-    font-weight: 500;
-    color: #666;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #fff;
     text-transform: uppercase;
-    letter-spacing: 0.3em;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
 }
 
 .asset-title {
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: var(--asset-color, #fff);
-    margin-top: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--asset-color, #888);
+    margin-top: 6px;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 8px;
 }
 
-/* Hero Score */
-.hero {
-    text-align: center;
-    margin-bottom: 40px;
-}
-
-.score-wrapper {
-    display: inline-block;
-    margin-bottom: 20px;
-}
-
-.score {
-    font-size: 12rem;
-    font-weight: 800;
-    line-height: 1;
-    letter-spacing: -0.05em;
-    transition: color 1s ease;
-}
-
-.score-denominator {
-    font-size: 3rem;
-    font-weight: 500;
-    color: #666;
-    vertical-align: top;
-    margin-left: 8px;
-}
-
-.label {
-    font-size: 2rem;
-    font-weight: 600;
-    margin-bottom: 8px;
-    letter-spacing: 0.05em;
-    text-transform: uppercase;
-    color: #999;
-}
-
 .updated {
-    font-size: 0.85rem;
-    color: #555;
-    margin-top: 16px;
+    font-size: 0.7rem;
+    color: #444;
+    margin-top: 6px;
     font-weight: 400;
 }
 
-.hero-trend-arrow {
-    font-size: 1.5rem;
-    color: #555;
-    margin-left: 6px;
-}
-
-/* Progress Bar */
-.bar-wrapper {
-    margin: 30px 0;
-}
-
-.bar {
-    height: 6px;
-    background: #1a1a1a;
-    position: relative;
-    border-radius: 3px;
-    overflow: hidden;
-}
-
-.bar-fill {
-    height: 100%;
-    background: #ef4444;
-    width: 0%;
-    transition: width 1s cubic-bezier(0.4, 0, 0.2, 1), background-color 1s ease;
-    border-radius: 3px;
-}
-
-.bar-labels {
-    display: flex;
-    justify-content: space-between;
-    margin-top: 12px;
-    font-size: 0.75rem;
-    color: #666;
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
+/* Hero */
+.hero {
+    text-align: center;
+    margin-bottom: 40px;
 }
 
 /* Insight Box */
@@ -316,9 +250,6 @@
 
 /* Mobile */
 @media (max-width: 768px) {
-    .score { font-size: 7rem; }
-    .score-denominator { font-size: 2rem; }
-    .label { font-size: 1.8rem; }
     .explanation-grid { grid-template-columns: repeat(5, 1fr); }
     .explanation-item { padding: 12px 6px; }
     .explanation-item strong { font-size: 0.7rem; }

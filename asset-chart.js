@@ -19,6 +19,37 @@
     let chartHistory = [];
     let currentPeriod = 30;
 
+    // ==================== Circle Wave Animation ====================
+
+    let circleWaveOffset = 0;
+    let circleTargetFillY = 200;
+    let circleCurrentFillY = 200;
+
+    function buildWave(baseY, amp, freq, offset) {
+        let d = `M 0 ${baseY}`;
+        for (let x = 0; x <= 200; x += 5) {
+            d += ` L ${x} ${baseY + Math.sin((x / freq) + offset) * amp}`;
+        }
+        return d + ' L 200 200 L 0 200 Z';
+    }
+
+    function animateCircle() {
+        circleWaveOffset += 0.03;
+        circleCurrentFillY += (circleTargetFillY - circleCurrentFillY) * 0.04;
+        const y = circleCurrentFillY;
+        const t = circleWaveOffset;
+
+        const wave = document.getElementById('wave');
+        if (wave) wave.setAttribute('d', buildWave(y, 3, 30, t));
+        const mid = document.getElementById('wave-mid');
+        if (mid) mid.setAttribute('d', buildWave(y + 6, 4, 45, t * 0.7 + 2));
+        const deep = document.getElementById('wave-deep');
+        if (deep) deep.setAttribute('d', buildWave(y + 14, 5, 60, t * 0.4 + 4.5));
+
+        requestAnimationFrame(animateCircle);
+    }
+    animateCircle();
+
     // ==================== Data Load ====================
 
     async function loadData() {
@@ -40,7 +71,7 @@
         const score = assetData.score;
         const position = score;
 
-        // Score with trend arrow
+        // Trend arrow
         const scoreEl = document.getElementById('score');
         let arrow = '';
         if (assetData.history && assetData.history.length >= 2) {
@@ -50,24 +81,38 @@
             else if (diff < -2) arrow = '↓';
             else arrow = '→';
         }
-        scoreEl.innerHTML = Math.round(score) + (arrow ? '<span class="hero-trend-arrow">' + arrow + '</span>' : '');
+
+        // Score (SVG text)
+        scoreEl.textContent = Math.round(score);
+
+        // Trend arrow (SVG, position dynamique)
+        const arrowEl = document.getElementById('trendArrow');
+        if (arrowEl && arrow) {
+            arrowEl.textContent = arrow;
+            const scoreWidth = scoreEl.getComputedTextLength ? scoreEl.getComputedTextLength() : 60;
+            arrowEl.setAttribute('x', 100 + scoreWidth / 2 + 6);
+        }
 
         // Label and color (based on rounded score to match display)
         const rounded = Math.round(score);
-        let label, color;
-        if (rounded <= 25) { label = "EXTREME FEAR"; color = "#ef4444"; }
-        else if (rounded <= 45) { label = "FEAR"; color = "#f59e0b"; }
-        else if (rounded <= 55) { label = "NEUTRAL"; color = "#ffffff"; }
-        else if (rounded <= 75) { label = "GREED"; color = "#22c55e"; }
-        else { label = "EXTREME GREED"; color = "#06b6d4"; }
+        let label, color, glow;
+        if (rounded <= 25) { label = "EXTREME FEAR"; color = "#ef4444"; glow = "glow-red"; }
+        else if (rounded <= 45) { label = "FEAR"; color = "#f59e0b"; glow = "glow-orange"; }
+        else if (rounded <= 55) { label = "NEUTRAL"; color = "#ffffff"; glow = "glow-white"; }
+        else if (rounded <= 75) { label = "GREED"; color = "#22c55e"; glow = "glow-green"; }
+        else { label = "EXTREME GREED"; color = "#06b6d4"; glow = "glow-cyan"; }
 
-        // Bar
-        const barFill = document.getElementById('barFill');
-        barFill.style.width = position + '%';
-        barFill.style.backgroundColor = color;
+        // Circle fill
+        const CIRCLE_BOTTOM = 190, CIRCLE_RANGE = 180;
+        circleTargetFillY = CIRCLE_BOTTOM - (position / 100) * CIRCLE_RANGE;
+        document.getElementById('grad-stop-1').setAttribute('stop-color', color);
+        document.getElementById('grad-stop-2').setAttribute('stop-color', color);
+        document.querySelector('.circle-outline').style.stroke = color;
+        document.querySelector('.circle-outline').style.strokeOpacity = 0.25;
+        document.getElementById('circle-container').className = 'circle-container ' + glow;
+        scoreEl.style.fill = '#fff';
 
         document.getElementById('label').textContent = label;
-        scoreEl.style.color = color;
 
         // Timestamp
         if (assetData.timestamp) {

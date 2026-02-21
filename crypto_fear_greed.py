@@ -72,7 +72,7 @@ class CryptoFearGreedIndex:
     def calculate_volatility_score(self) -> tuple:
         """
         Calculate volatility score (15% weight)
-        Thresholds adapted to crypto's higher natural volatility (40-80%)
+        Thresholds adapted to crypto's higher natural volatility (25-80%)
         Returns: (score, detail_string)
         """
         try:
@@ -90,14 +90,14 @@ class CryptoFearGreedIndex:
 
             # Crypto-adapted thresholds:
             # vol >= 80% = extreme fear (score 0)
-            # vol <= 40% = extreme greed (score 100)
+            # vol <= 25% = extreme greed (score 100)
             # Linear interpolation between
             if vol_14d >= 80:
                 score = 0
-            elif vol_14d <= 40:
+            elif vol_14d <= 25:
                 score = 100
             else:
-                score = 100 - ((vol_14d - 40) / 40) * 100
+                score = 100 - ((vol_14d - 25) / 55) * 100
 
             score = max(0, min(100, score))
 
@@ -400,10 +400,10 @@ class CryptoFearGreedIndex:
 
                 if vol_14d >= 80:
                     volatility_score = 0
-                elif vol_14d <= 40:
+                elif vol_14d <= 25:
                     volatility_score = 100
                 else:
-                    volatility_score = 100 - ((vol_14d - 40) / 40) * 100
+                    volatility_score = 100 - ((vol_14d - 25) / 55) * 100
 
                 volatility_score = max(0, min(100, volatility_score))
             else:

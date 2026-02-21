@@ -1,0 +1,72 @@
+/* gauge.css — Circle gauge with water fill animation (shared by all pages with gauges) */
+
+.circle-container {
+    width: 340px;
+    height: 340px;
+    margin: 0 auto 24px;
+    transition: filter 0.8s ease;
+    filter: none !important; /* no glow — remove this line to restore glow */
+}
+
+.circle-svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+}
+
+.circle-outline {
+    fill: none;
+    stroke: #1a1a2e;
+    stroke-width: 1.5;
+    transition: stroke 0.8s ease;
+}
+
+.circle-score-text {
+    font-family: 'Space Grotesk', -apple-system, sans-serif;
+    font-size: 56px;
+    font-weight: 700;
+    fill: #fff;
+    transition: fill 0.8s ease;
+}
+
+.circle-suffix {
+    font-family: -apple-system, sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    fill: #7a7a90;
+    opacity: 0.7;
+}
+
+#water-fill {
+    transition: y 1.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Circle glow states */
+.glow-red    { filter: drop-shadow(0 0 35px rgba(239, 68, 68, 0.35)); }
+.glow-orange { filter: drop-shadow(0 0 30px rgba(245, 158, 11, 0.3)); }
+.glow-white  { filter: drop-shadow(0 0 25px rgba(255, 255, 255, 0.15)); }
+.glow-green  { filter: drop-shadow(0 0 30px rgba(34, 197, 94, 0.3)); }
+.glow-cyan   { filter: drop-shadow(0 0 35px rgba(6, 182, 212, 0.35)); }
+
+.circle-label {
+    font-family: -apple-system, sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    fill: #fff;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+}
+
+.circle-arrow {
+    font-family: -apple-system, sans-serif;
+    font-size: 18px;
+    fill: #555;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .circle-container { width: 280px; height: 280px; }
+    .circle-score-text { font-size: 48px; }
+    .circle-suffix { font-size: 16px; }
+    .circle-label { font-size: 20px; }
+}

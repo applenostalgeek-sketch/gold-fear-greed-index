@@ -98,7 +98,8 @@
     <!-- Shared Styles -->
     <link rel="stylesheet" href="shared.css">
     <link rel="stylesheet" href="chart.css">
-    <link rel="stylesheet" href="asset.css">
+    <link rel="stylesheet" href="asset.css?v=2">
+    <link rel="stylesheet" href="gauge.css?v=1">
     <style>
         .asset-title { --asset-color: #10b981; color: var(--asset-color); }
     </style>
@@ -138,24 +139,32 @@
         <div class="header">
             <h1>Fear & Greed Index</h1>
             <div class="asset-title">📊 Bonds</div>
-        </div>
-
-        <div class="hero">
-            <div class="score-wrapper">
-                <span class="score" id="score">50</span><span class="score-denominator">/100</span>
-            </div>
-            <div class="label" id="label">NEUTRAL</div>
             <div class="updated" id="updated">Updated: Loading...</div>
         </div>
 
-        <div class="bar-wrapper">
-            <div class="bar">
-                <div class="bar-fill" id="barFill"></div>
-            </div>
-            <div class="bar-labels">
-                <span>Extreme Fear</span>
-                <span>Neutral</span>
-                <span>Extreme Greed</span>
+        <div class="hero">
+            <div class="circle-container" id="circle-container">
+                <svg class="circle-svg" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                    <defs>
+                        <clipPath id="circle-clip"><circle cx="100" cy="100" r="90"/></clipPath>
+                        <linearGradient id="fill-gradient" x1="0" y1="1" x2="0" y2="0">
+                            <stop offset="0%" id="grad-stop-1" stop-color="#fff"/>
+                            <stop offset="100%" id="grad-stop-2" stop-color="#fff" stop-opacity="0.67"/>
+                        </linearGradient>
+                    </defs>
+                    <circle class="circle-outline" cx="100" cy="100" r="90"/>
+                    <g clip-path="url(#circle-clip)">
+                        <rect x="0" y="0" width="200" height="200" fill="#0a0a14"/>
+                        <path id="wave-deep" d="" fill="url(#fill-gradient)" opacity="0.15"/>
+                        <path id="wave-mid" d="" fill="url(#fill-gradient)" opacity="0.3"/>
+                        <rect id="water-fill" x="0" y="200" width="200" height="200" fill="url(#fill-gradient)"/>
+                        <path id="wave" d="" fill="url(#fill-gradient)" opacity="0.6"/>
+                    </g>
+                    <text x="100" y="82" class="circle-score-text" id="score" text-anchor="middle" dominant-baseline="central">50</text>
+                    <text id="trendArrow" class="circle-arrow" x="138" y="82" text-anchor="start" dominant-baseline="central"></text>
+                    <text x="100" y="107" class="circle-suffix" text-anchor="middle" dominant-baseline="central">/100</text>
+                    <text x="100" y="155" class="circle-label" id="label" text-anchor="middle" dominant-baseline="central">NEUTRAL</text>
+                </svg>
             </div>
         </div>
 
@@ -315,7 +324,7 @@
         };
     </script>
     <script src="shared.js"></script>
-    <script src="asset-chart.js"></script>
+    <script src="asset-chart.js?v=2"></script>
     <script src="alert-signup.js"></script>
 </body>
 </html>
