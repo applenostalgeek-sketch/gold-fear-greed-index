@@ -51,17 +51,19 @@ exports.handler = async (event) => {
       return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
     }
 
-    // Remove contact from audience
-    const deleteResponse = await fetch(`https://api.resend.com/audiences/${AUDIENCE_ID}/contacts/${contact.id}`, {
-      method: 'DELETE',
+    // Mark contact as unsubscribed (PATCH is safer than DELETE — aligns with send_alerts.py filter)
+    const patchResponse = await fetch(`https://api.resend.com/audiences/${AUDIENCE_ID}/contacts/${contact.id}`, {
+      method: 'PATCH',
       headers: {
         'Authorization': `Bearer ${RESEND_API_KEY}`,
+        'Content-Type': 'application/json',
       },
+      body: JSON.stringify({ unsubscribed: true }),
     });
 
-    if (!deleteResponse.ok) {
-      const err = await deleteResponse.json();
-      return { statusCode: deleteResponse.status, headers, body: JSON.stringify({ error: err.message || 'Unsubscribe failed' }) };
+    if (!patchResponse.ok) {
+      const err = await patchResponse.json();
+      return { statusCode: patchResponse.status, headers, body: JSON.stringify({ error: err.message || 'Unsubscribe failed' }) };
     }
 
     return { statusCode: 200, headers, body: JSON.stringify({ success: true }) };
