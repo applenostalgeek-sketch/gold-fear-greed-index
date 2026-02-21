@@ -1,35 +1,39 @@
 {
-  "score": 30.3,
+  "score": 39.1,
   "label": "Fear",
-  "timestamp": "2026-02-20T04:16:59Z",
+  "timestamp": "2026-02-21T04:08:32Z",
   "components": {
     "context": {
-      "score": 0.5,
+      "score": 1.2,
       "weight": 0.3,
-      "detail": "30-day change: -24.7%"
+      "detail": "30-day change: -24.4%"
     },
     "momentum": {
-      "score": 44.2,
+      "score": 31.9,
       "weight": 0.2,
-      "detail": "RSI: 60, Price vs MA200: -32.5%"
+      "detail": "RSI: 40, Price vs MA200: -32.0%"
     },
     "dominance": {
-      "score": 47.0,
+      "score": 38.2,
       "weight": 0.2,
-      "detail": "BTC -4.7% vs ETH -5.7% (14d)"
+      "detail": "BTC -2.4% vs ETH -6.3% (14d)"
     },
     "volume": {
-      "score": 65.5,
+      "score": 64.5,
       "weight": 0.15,
-      "detail": "Vol 7d/30d: 0.69x, price down"
+      "detail": "Vol 7d/30d: 0.71x, price down"
     },
     "volatility": {
-      "score": 14.1,
+      "score": 100,
       "weight": 0.15,
-      "detail": "Vol 14d: 74.4% annualized"
+      "detail": "Vol 14d: 34.9% annualized"
     }
   },
   "history": [
+    {
+      "date": "2026-02-21",
+      "score": 39.1
+    },
     {
       "date": "2026-02-20",
       "score": 30.3
@@ -1485,10 +1489,6 @@
     {
       "date": "2025-02-22",
       "score": 54.5
-    },
-    {
-      "date": "2025-02-21",
-      "score": 57.0
     }
   ]
 }
