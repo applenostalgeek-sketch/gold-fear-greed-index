@@ -1,0 +1,17 @@
+{
+  "etfs": {
+    "gold": "GLD",
+    "bonds": "TLT",
+    "stocks": "SPY",
+    "crypto": "GBTC"
+  },
+  "history": [
+    {
+      "date": "2026-02-21",
+      "gold": 260300000,
+      "bonds": 109700000,
+      "stocks": 917782016,
+      "crypto": 692369984
+    }
+  ]
+}

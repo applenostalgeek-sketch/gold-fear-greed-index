@@ -54,6 +54,10 @@ jobs:
         run: |
           python bonds_fear_greed.py
 
+      - name: Collect ETF shares outstanding
+        run: |
+          python collect_shares.py
+
       - name: Check for zone changes and send alerts
         env:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
@@ -64,14 +68,14 @@ jobs:
       - name: Check for changes
         id: git-check
         run: |
-          git diff --exit-code data/gold-fear-greed.json data/stocks-fear-greed.json data/crypto-fear-greed.json data/bonds-fear-greed.json data/previous-labels.json data/previous-scores.json || echo "changed=true" >> $GITHUB_OUTPUT
+          git diff --exit-code data/gold-fear-greed.json data/stocks-fear-greed.json data/crypto-fear-greed.json data/bonds-fear-greed.json data/previous-labels.json data/previous-scores.json data/etf-shares.json || echo "changed=true" >> $GITHUB_OUTPUT
 
       - name: Commit and push changes
         if: steps.git-check.outputs.changed == 'true'
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add data/gold-fear-greed.json data/stocks-fear-greed.json data/crypto-fear-greed.json data/bonds-fear-greed.json data/previous-labels.json data/previous-scores.json
+          git add data/gold-fear-greed.json data/stocks-fear-greed.json data/crypto-fear-greed.json data/bonds-fear-greed.json data/previous-labels.json data/previous-scores.json data/etf-shares.json
           git commit -m "Update Gold, Stocks, Crypto & Bonds Fear & Greed Indices - $(date -u '%Y-%m-%d %H:%M UTC')"
           git push
 
