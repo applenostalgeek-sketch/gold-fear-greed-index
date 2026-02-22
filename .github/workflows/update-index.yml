@@ -76,7 +76,7 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           git add data/gold-fear-greed.json data/stocks-fear-greed.json data/crypto-fear-greed.json data/bonds-fear-greed.json data/previous-labels.json data/previous-scores.json data/etf-shares.json
-          git commit -m "Update Gold, Stocks, Crypto & Bonds Fear & Greed Indices - $(date -u '%Y-%m-%d %H:%M UTC')"
+          git commit -m "Update Gold, Stocks, Crypto & Bonds Fear & Greed Indices - $(date -u '+%Y-%m-%d %H:%M UTC')"
           git push
 
       - name: Summary
