@@ -1,7 +1,7 @@
 {
   "score": 38.6,
   "label": "Fear",
-  "timestamp": "2026-02-22T05:28:41Z",
+  "timestamp": "2026-02-22T05:29:29Z",
   "components": {
     "context": {
       "score": 1.8,
@@ -9,14 +9,14 @@
       "detail": "30-day change: -24.1%"
     },
     "momentum": {
-      "score": 35.0,
+      "score": 35.1,
       "weight": 0.2,
       "detail": "RSI: 45, Price vs MA200: -31.5%"
     },
     "dominance": {
-      "score": 43.2,
+      "score": 43.3,
       "weight": 0.2,
-      "detail": "BTC -3.3% vs ETH -5.6% (14d)"
+      "detail": "BTC -3.3% vs ETH -5.5% (14d)"
     },
     "volume": {
       "score": 66.6,
@@ -33,7 +33,7 @@
     {
       "date": "2026-02-22",
       "score": 38.6,
-      "price": 67928.19
+      "price": 67952.57
     },
     {
       "date": "2026-02-21",
