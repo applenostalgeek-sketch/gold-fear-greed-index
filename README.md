@@ -137,14 +137,12 @@ gold-fear-greed-index/
 ├── stocks_fear_greed.py        # Stocks index calculator
 ├── crypto_fear_greed.py        # Crypto index calculator
 ├── generate_insights.py        # 5-year insights generator
-├── generate_prices.py          # Price history generator
 ├── rebuild_5y.py               # 5-year history rebuild
 ├── index.html                  # Homepage (market sentiment + cross-asset chart)
 ├── gold.html                   # Gold index page (score + methodology + FAQ schema)
 ├── bonds.html                  # Bonds index page
 ├── stocks.html                 # Stocks index page
 ├── crypto.html                 # Crypto index page
-├── compare.html                # F&G vs Price comparison (5Y data)
 ├── about.html                  # Story, data sources, FAQ
 ├── shared.css                  # Shared styles (nav, footer, mobile menu)
 ├── chart.css                   # Chart styles (toolbar, tooltip, canvas)
