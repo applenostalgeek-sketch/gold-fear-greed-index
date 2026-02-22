@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta name="robots" content="noindex, nofollow">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capital Flows — Design Showcase</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            background: #07070a;
+            color: #fff;
+            font-family: 'Space Grotesk', sans-serif;
+            padding: 40px 20px 80px;
+        }
+        .page-title {
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #444;
+            margin-bottom: 50px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+        .concept {
+            max-width: 500px;
+            margin: 0 auto 80px;
+        }
+        .concept-header {
+            display: flex;
+            align-items: baseline;
+            gap: 10px;
+            margin-bottom: 6px;
+        }
+        .concept-num {
+            font-size: 0.65rem;
+            font-weight: 600;
+            color: #333;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+        .concept-name {
+            font-size: 1.1rem;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+        .concept-desc {
+            font-size: 0.75rem;
+            color: #555;
+            margin-bottom: 24px;
+            line-height: 1.5;
+        }
+        .concept-canvas-wrap {
+            position: relative;
+            width: 100%;
+        }
+        canvas { display: block; }
+    </style>
+</head>
+<body>
+    <div class="page-title">Capital Flows — Design Concepts</div>
+
+    <!-- Concept 1 -->
+    <div class="concept">
+        <div class="concept-header">
+            <span class="concept-num">Concept 1</span>
+            <span class="concept-name">Tug of War</span>
+        </div>
+        <p class="concept-desc">Safe havens vs risk assets. One horizontal bar. The rope pulls left (risk-off) or right (risk-on). Immediately tells you which side is winning.</p>
+        <div class="concept-canvas-wrap"><canvas id="c1"></canvas></div>
+    </div>
+
+    <!-- Concept 2 -->
+    <div class="concept">
+        <div class="concept-header">
+            <span class="concept-num">Concept 2</span>
+            <span class="concept-name">Breathing Circles</span>
+        </div>
+        <p class="concept-desc">Four circles in a row. Inflows → circle expands with a glow. Outflows → circle contracts and dims. Size = score. Simple, organic, alive.</p>
+        <div class="concept-canvas-wrap"><canvas id="c2"></canvas></div>
+    </div>
+
+    <!-- Concept 3 -->
+    <div class="concept">
+        <div class="concept-header">
+            <span class="concept-num">Concept 3</span>
+            <span class="concept-name">Flow Rivers</span>
+        </div>
+        <p class="concept-desc">Four horizontal streams. Particles flow right for inflows, left for outflows. Width = score magnitude. Like watching capital physically move.</p>
+        <div class="concept-canvas-wrap"><canvas id="c3"></canvas></div>
+    </div>
+
+    <!-- Concept 4 -->
+    <div class="concept">
+        <div class="concept-header">
+            <span class="concept-num">Concept 4</span>
+            <span class="concept-name">Gravity Well</span>
+        </div>
+        <p class="concept-desc">Assets orbit a center. Gaining capital → pulled closer. Losing capital → drifts away. Distance = inverse sentiment. Shows attraction and repulsion.</p>
+        <div class="concept-canvas-wrap"><canvas id="c4"></canvas></div>
+    </div>
+
+    <!-- Concept 5 -->
+    <div class="concept">
+        <div class="concept-header">
+            <span class="concept-num">Concept 5</span>
+            <span class="concept-name">Signal Pulse</span>
+        </div>
+        <p class="concept-desc">Minimal vertical bars like a heartbeat monitor. Height = score. Bars pulse up for inflows, pulse down for outflows. Clean, data-first.</p>
+        <div class="concept-canvas-wrap"><canvas id="c5"></canvas></div>
+    </div>
+
+    <!-- Concept 6 -->
+    <div class="concept">
+        <div class="concept-header">
+            <span class="concept-num">Concept 6</span>
+            <span class="concept-name">Liquid Gauge</span>
+        </div>
+        <p class="concept-desc">Single circle like the homepage gauge, but filled with 4 stacked colored liquids. Each layer = one market. Waves animate at each boundary. Capital distribution at a glance.</p>
+        <div class="concept-canvas-wrap"><canvas id="c6"></canvas></div>
+    </div>
+
+<script>
+// ============ SHARED DATA ============
+const ASSETS = [
+    { key: 'gold',   name: 'Gold',   color: '#FFD700', rgb: [255,215,0] },
+    { key: 'bonds',  name: 'Bonds',  color: '#10b981', rgb: [16,185,129] },
+    { key: 'stocks', name: 'Stocks', color: '#3b82f6', rgb: [59,130,246] },
+    { key: 'crypto', name: 'Crypto', color: '#f59e0b', rgb: [245,158,11] },
+];
+
+// Use simulation data so flows are clearly visible
+const DATA = {
+    gold:   { score: 80, delta: +8 },
+    bonds:  { score: 69, delta: +5 },
+    stocks: { score: 42, delta: -7 },
+    crypto: { score: 27, delta: -11 },
+};
+
+function setupCanvas(id, w, h) {
+    const c = document.getElementById(id);
+    const dpr = window.devicePixelRatio || 1;
+    c.width = w * dpr; c.height = h * dpr;
+    c.style.width = w + 'px'; c.style.height = h + 'px';
+    const ctx = c.getContext('2d');
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    return ctx;
+}
+
+const startTime = performance.now();
+function T() { return (performance.now() - startTime) / 1000; }
+
+// ============ CONCEPT 1: TUG OF WAR ============
+(function() {
+    const W = 500, H = 160;
+    const ctx = setupCanvas('c1', W, H);
+
+    // Risk-off (Gold+Bonds) vs Risk-on (Stocks+Crypto)
+    const offScore = (DATA.gold.score + DATA.bonds.score) / 2;  // 74.5
+    const onScore = (DATA.stocks.score + DATA.crypto.score) / 2; // 34.5
+    // Position: 0 = full risk-off, 1 = full risk-on
+    const position = onScore / (offScore + onScore); // ~0.32
+
+    function draw() {
+        const t = T();
+        ctx.clearRect(0, 0, W, H);
+
+        const barY = 80, barH = 6;
+        const barL = 60, barR = W - 60;
+        const barW = barR - barL;
+
+        // Track/bar background
+        ctx.fillStyle = '#151518';
+        ctx.beginPath();
+        ctx.roundRect(barL, barY - barH/2, barW, barH, 3);
+        ctx.fill();
+
+        // Left label: Risk-Off
+        ctx.textAlign = 'left'; ctx.textBaseline = 'middle';
+        ctx.font = '600 9px "Space Grotesk"';
+        ctx.fillStyle = '#555';
+        ctx.fillText('RISK-OFF', barL, barY - 22);
+
+        // Safe haven names
+        ctx.font = '500 11px "Space Grotesk"';
+        ctx.fillStyle = '#FFD700';
+        ctx.fillText('Gold', barL, barY + 24);
+        ctx.fillStyle = '#444';
+        ctx.fillText(DATA.gold.score, barL + ctx.measureText('Gold').width + 5, barY + 24);
+
+        ctx.fillStyle = '#10b981';
+        ctx.fillText('Bonds', barL + 70, barY + 24);
+        ctx.fillStyle = '#444';
+        ctx.fillText(DATA.bonds.score, barL + 70 + ctx.measureText('Bonds').width + 5, barY + 24);
+
+        // Right label: Risk-On
+        ctx.textAlign = 'right';
+        ctx.font = '600 9px "Space Grotesk"';
+        ctx.fillStyle = '#555';
+        ctx.fillText('RISK-ON', barR, barY - 22);
+
+        ctx.font = '500 11px "Space Grotesk"';
+        ctx.textAlign = 'right';
+        ctx.fillStyle = '#3b82f6';
+        ctx.fillText('Stocks', barR - 70, barY + 24);
+        ctx.fillStyle = '#444';
+        ctx.textAlign = 'right';
+        ctx.fillText(DATA.stocks.score, barR - 70 - 5, barY + 24);
+
+        ctx.fillStyle = '#f59e0b';
+        ctx.textAlign = 'right';
+        ctx.fillText('Crypto', barR, barY + 24);
+        ctx.fillStyle = '#444';
+        ctx.fillText(DATA.crypto.score, barR - ctx.measureText('Crypto').width - 5, barY + 24);
+
+        // Colored halves with gradient
+        const midX = barL + barW * 0.5;
+        // Left (risk-off) — filled proportional to off strength
+        const offFill = barL + barW * (1 - position);
+        const grdOff = ctx.createLinearGradient(barL, 0, offFill, 0);
+        grdOff.addColorStop(0, 'rgba(255,215,0,0.05)');
+        grdOff.addColorStop(1, 'rgba(255,215,0,0.2)');
+        ctx.fillStyle = grdOff;
+        ctx.beginPath();
+        ctx.roundRect(barL, barY - barH/2, offFill - barL, barH, 3);
+        ctx.fill();
+
+        // Right (risk-on)
+        const grdOn = ctx.createLinearGradient(offFill, 0, barR, 0);
+        grdOn.addColorStop(0, 'rgba(59,130,246,0.2)');
+        grdOn.addColorStop(1, 'rgba(59,130,246,0.05)');
+        ctx.fillStyle = grdOn;
+        ctx.beginPath();
+        ctx.roundRect(offFill, barY - barH/2, barR - offFill, barH, 3);
+        ctx.fill();
+
+        // Indicator dot
+        const dotX = barL + barW * (1 - position);
+        const wobble = Math.sin(t * 2) * 1.5;
+        const dx = dotX + wobble;
+
+        // Glow
+        const glow = ctx.createRadialGradient(dx, barY, 0, dx, barY, 20);
+        glow.addColorStop(0, 'rgba(255,255,255,0.15)');
+        glow.addColorStop(1, 'rgba(255,255,255,0)');
+        ctx.beginPath();
+        ctx.arc(dx, barY, 20, 0, Math.PI * 2);
+        ctx.fillStyle = glow;
+        ctx.fill();
+
+        // Dot
+        ctx.beginPath();
+        ctx.arc(dx, barY, 5, 0, Math.PI * 2);
+        ctx.fillStyle = '#fff';
+        ctx.fill();
+
+        // Center tick
+        ctx.beginPath();
+        ctx.moveTo(midX, barY - 12);
+        ctx.lineTo(midX, barY + 12);
+        ctx.strokeStyle = '#222';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        // Arrow showing today's direction
+        const arrowY = barY - 38;
+        const offDelta = DATA.gold.delta + DATA.bonds.delta;
+        const onDelta = DATA.stocks.delta + DATA.crypto.delta;
+        const dir = offDelta > onDelta ? -1 : 1; // -1 = pulling left (risk-off winning)
+        const arrowLen = 25;
+
+        ctx.beginPath();
+        ctx.moveTo(midX - dir * arrowLen, arrowY);
+        ctx.lineTo(midX + dir * arrowLen, arrowY);
+        ctx.strokeStyle = dir < 0 ? '#FFD700' : '#3b82f6';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        // Arrowhead
+        ctx.beginPath();
+        ctx.moveTo(midX + dir * arrowLen, arrowY);
+        ctx.lineTo(midX + dir * (arrowLen - 6), arrowY - 4);
+        ctx.lineTo(midX + dir * (arrowLen - 6), arrowY + 4);
+        ctx.closePath();
+        ctx.fillStyle = dir < 0 ? '#FFD700' : '#3b82f6';
+        ctx.fill();
+
+        ctx.textAlign = 'center';
+        ctx.font = '600 8px "Space Grotesk"';
+        ctx.fillStyle = dir < 0 ? '#FFD700' : '#3b82f6';
+        ctx.fillText(dir < 0 ? 'RISK-OFF' : 'RISK-ON', midX, arrowY - 8);
+
+        requestAnimationFrame(draw);
+    }
+    draw();
+})();
+
+
+// ============ CONCEPT 2: BREATHING CIRCLES ============
+(function() {
+    const W = 500, H = 200;
+    const ctx = setupCanvas('c2', W, H);
+    const CY = 90;
+
+    function draw() {
+        const t = T();
+        ctx.clearRect(0, 0, W, H);
+
+        ASSETS.forEach((a, i) => {
+            const d = DATA[a.key];
+            const cx = 80 + i * 110;
+            const baseR = 18 + (d.score / 100) * 22; // 18-40
+
+            // Breathing: expanding for inflows, contracting for outflows
+            const breathAmp = Math.abs(d.delta) * 0.15;
+            const breathSpeed = d.delta > 0 ? 1.5 : 1.0;
+            const breathDir = d.delta > 0 ? 1 : -1;
+            const breath = Math.sin(t * breathSpeed) * breathAmp * breathDir;
+            const r = baseR + breath;
+
+            const [cr, cg, cb] = a.rgb;
+
+            // Outer glow for inflows
+            if (d.delta > 0) {
+                const glow = ctx.createRadialGradient(cx, CY, r, cx, CY, r + 20);
+                glow.addColorStop(0, `rgba(${cr},${cg},${cb},${0.1 + Math.sin(t * 1.5) * 0.05})`);
+                glow.addColorStop(1, `rgba(${cr},${cg},${cb},0)`);
+                ctx.beginPath();
+                ctx.arc(cx, CY, r + 20, 0, Math.PI * 2);
+                ctx.fillStyle = glow;
+                ctx.fill();
+            }
+
+            // Circle fill
+            const grd = ctx.createRadialGradient(cx - r * 0.3, CY - r * 0.3, 0, cx, CY, r);
+            grd.addColorStop(0, `rgba(${cr},${cg},${cb},0.35)`);
+            grd.addColorStop(1, `rgba(${cr},${cg},${cb},${d.delta > 0 ? 0.18 : 0.08})`);
+            ctx.beginPath();
+            ctx.arc(cx, CY, r, 0, Math.PI * 2);
+            ctx.fillStyle = grd;
+            ctx.fill();
+
+            // Border
+            ctx.beginPath();
+            ctx.arc(cx, CY, r, 0, Math.PI * 2);
+            ctx.strokeStyle = `rgba(${cr},${cg},${cb},${d.delta > 0 ? 0.5 : 0.15})`;
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+
+            // Score
+            ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+            ctx.font = '700 16px "Space Grotesk"';
+            ctx.fillStyle = `rgba(255,255,255,${d.delta > 0 ? 0.95 : 0.5})`;
+            ctx.fillText(d.score, cx, CY);
+
+            // Name below
+            ctx.font = '500 10px "Space Grotesk"';
+            ctx.fillStyle = `rgba(${cr},${cg},${cb},0.7)`;
+            ctx.fillText(a.name, cx, CY + r + 16);
+
+            // Delta
+            if (d.delta !== 0) {
+                const ds = d.delta > 0 ? `+${d.delta}` : `${d.delta}`;
+                ctx.font = '600 9px "Space Grotesk"';
+                ctx.fillStyle = d.delta > 0 ? '#22c55e' : '#ef4444';
+                ctx.fillText(ds, cx, CY + r + 30);
+            }
+        });
+
+        requestAnimationFrame(draw);
+    }
+    draw();
+})();
+
+
+// ============ CONCEPT 3: FLOW RIVERS ============
+(function() {
+    const W = 500, H = 260;
+    const ctx = setupCanvas('c3', W, H);
+
+    // Particles for each river
+    const rivers = ASSETS.map((a, i) => {
+        const d = DATA[a.key];
+        const particles = [];
+        const count = 20 + Math.abs(d.delta) * 2;
+        for (let j = 0; j < count; j++) {
+            particles.push({
+                x: Math.random() * W,
+                speed: (0.3 + Math.random() * 0.7) * (d.delta > 0 ? 1 : -1) * (0.5 + Math.abs(d.delta) * 0.08),
+                alpha: 0.2 + Math.random() * 0.5,
+                size: 1 + Math.random() * 2,
+            });
+        }
+        return { ...a, ...d, particles, y: 40 + i * 58 };
+    });
+
+    function draw() {
+        ctx.clearRect(0, 0, W, H);
+
+        for (const river of rivers) {
+            const [cr, cg, cb] = river.rgb;
+            const barH = 20 + (river.score / 100) * 16;
+            const y = river.y;
+
+            // River bed (background)
+            ctx.fillStyle = `rgba(${cr},${cg},${cb},0.04)`;
+            ctx.beginPath();
+            ctx.roundRect(60, y - barH / 2, W - 120, barH, barH / 2);
+            ctx.fill();
+
+            // Border
+            ctx.strokeStyle = `rgba(${cr},${cg},${cb},0.12)`;
+            ctx.lineWidth = 0.5;
+            ctx.beginPath();
+            ctx.roundRect(60, y - barH / 2, W - 120, barH, barH / 2);
+            ctx.stroke();
+
+            // Particles
+            ctx.save();
+            ctx.beginPath();
+            ctx.roundRect(60, y - barH / 2, W - 120, barH, barH / 2);
+            ctx.clip();
+
+            for (const p of river.particles) {
+                p.x += p.speed;
+                if (p.x > W - 60) p.x = 60;
+                if (p.x < 60) p.x = W - 60;
+
+                ctx.beginPath();
+                ctx.arc(p.x, y + (Math.sin(p.x * 0.05 + T()) * barH * 0.2), p.size, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(${cr},${cg},${cb},${p.alpha})`;
+                ctx.fill();
+            }
+            ctx.restore();
+
+            // Name (left)
+            ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+            ctx.font = '600 11px "Space Grotesk"';
+            ctx.fillStyle = river.color;
+            ctx.fillText(river.name, 52, y);
+
+            // Score + delta (right)
+            ctx.textAlign = 'left';
+            ctx.font = '700 13px "Space Grotesk"';
+            ctx.fillStyle = 'rgba(255,255,255,0.8)';
+            ctx.fillText(river.score, W - 52, y - 7);
+
+            const ds = river.delta > 0 ? `+${river.delta}` : `${river.delta}`;
+            ctx.font = '600 9px "Space Grotesk"';
+            ctx.fillStyle = river.delta > 0 ? '#22c55e' : '#ef4444';
+            ctx.fillText(ds, W - 52, y + 8);
+
+            // Direction arrow in the bar
+            const arrowX = river.delta > 0 ? W - 90 : 78;
+            const arrowDir = river.delta > 0 ? 1 : -1;
+            ctx.beginPath();
+            ctx.moveTo(arrowX, y);
+            ctx.lineTo(arrowX - arrowDir * 8, y - 4);
+            ctx.lineTo(arrowX - arrowDir * 8, y + 4);
+            ctx.closePath();
+            ctx.fillStyle = `rgba(${cr},${cg},${cb},0.35)`;
+            ctx.fill();
+        }
+
+        requestAnimationFrame(draw);
+    }
+    draw();
+})();
+
+
+// ============ CONCEPT 4: GRAVITY WELL ============
+(function() {
+    const W = 500, H = 340;
+    const ctx = setupCanvas('c4', W, H);
+    const CX = W / 2, CY = H / 2;
+
+    // Each asset orbits at a distance inversely proportional to score
+    // High score = close, low score = far
+    const orbs = ASSETS.map((a, i) => {
+        const d = DATA[a.key];
+        const baseAngle = (i / 4) * Math.PI * 2 - Math.PI / 2;
+        const dist = 40 + (100 - d.score) * 1.1; // high score = close
+        const orbitSpeed = 0.15 + (d.score / 100) * 0.2;
+        const trail = [];
+        return { ...a, ...d, baseAngle, dist, orbitSpeed, trail };
+    });
+
+    function draw() {
+        const t = T();
+        ctx.clearRect(0, 0, W, H);
+
+        // Center gravity gradient
+        const cGrd = ctx.createRadialGradient(CX, CY, 0, CX, CY, 150);
+        cGrd.addColorStop(0, 'rgba(255,255,255,0.03)');
+        cGrd.addColorStop(0.5, 'rgba(255,255,255,0.01)');
+        cGrd.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.beginPath();
+        ctx.arc(CX, CY, 150, 0, Math.PI * 2);
+        ctx.fillStyle = cGrd;
+        ctx.fill();
+
+        // Concentric rings (subtle)
+        for (let r = 40; r <= 140; r += 30) {
+            ctx.beginPath();
+            ctx.arc(CX, CY, r, 0, Math.PI * 2);
+            ctx.strokeStyle = 'rgba(255,255,255,0.03)';
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+        }
+
+        // Center dot
+        ctx.beginPath();
+        ctx.arc(CX, CY, 3, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255,255,255,0.15)';
+        ctx.fill();
+
+        // Orbiting assets
+        for (const orb of orbs) {
+            const angle = orb.baseAngle + t * orb.orbitSpeed;
+            const wobble = Math.sin(t * 0.5 + orb.baseAngle) * 5;
+            const dist = orb.dist + wobble;
+
+            const x = CX + Math.cos(angle) * dist;
+            const y = CY + Math.sin(angle) * dist;
+
+            // Trail
+            orb.trail.push({ x, y });
+            if (orb.trail.length > 30) orb.trail.shift();
+
+            const [cr, cg, cb] = orb.rgb;
+
+            // Draw trail
+            for (let i = 0; i < orb.trail.length - 1; i++) {
+                const alpha = (i / orb.trail.length) * 0.2;
+                ctx.beginPath();
+                ctx.arc(orb.trail[i].x, orb.trail[i].y, 1, 0, Math.PI * 2);
+                ctx.fillStyle = `rgba(${cr},${cg},${cb},${alpha})`;
+                ctx.fill();
+            }
+
+            // Connection line to center
+            ctx.beginPath();
+            ctx.moveTo(CX, CY);
+            ctx.lineTo(x, y);
+            ctx.strokeStyle = `rgba(${cr},${cg},${cb},0.08)`;
+            ctx.lineWidth = 1;
+            ctx.stroke();
+
+            // Glow
+            const glow = ctx.createRadialGradient(x, y, 0, x, y, 25);
+            glow.addColorStop(0, `rgba(${cr},${cg},${cb},0.2)`);
+            glow.addColorStop(1, `rgba(${cr},${cg},${cb},0)`);
+            ctx.beginPath();
+            ctx.arc(x, y, 25, 0, Math.PI * 2);
+            ctx.fillStyle = glow;
+            ctx.fill();
+
+            // Dot
+            const dotR = 6 + (orb.score / 100) * 6;
+            ctx.beginPath();
+            ctx.arc(x, y, dotR, 0, Math.PI * 2);
+            ctx.fillStyle = `rgba(${cr},${cg},${cb},0.6)`;
+            ctx.fill();
+            ctx.strokeStyle = `rgba(${cr},${cg},${cb},0.8)`;
+            ctx.lineWidth = 1.5;
+            ctx.stroke();
+
+            // Score inside
+            ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+            ctx.font = '700 10px "Space Grotesk"';
+            ctx.fillStyle = '#fff';
+            ctx.fillText(orb.score, x, y);
+
+            // Name outside orbit
+            const labelDist = dist + dotR + 14;
+            const lx = CX + Math.cos(angle) * labelDist;
+            const ly = CY + Math.sin(angle) * labelDist;
+            ctx.font = '500 10px "Space Grotesk"';
+            ctx.fillStyle = `rgba(${cr},${cg},${cb},0.7)`;
+            ctx.fillText(orb.name, lx, ly);
+        }
+
+        requestAnimationFrame(draw);
+    }
+    draw();
+})();
+
+
+// ============ CONCEPT 5: SIGNAL PULSE ============
+(function() {
+    const W = 500, H = 220;
+    const ctx = setupCanvas('c5', W, H);
+
+    function draw() {
+        const t = T();
+        ctx.clearRect(0, 0, W, H);
+
+        const baseY = H - 45;
+        const maxBarH = 120;
+        const barW = 50;
+        const gap = 35;
+        const totalW = ASSETS.length * barW + (ASSETS.length - 1) * gap;
+        const startX = (W - totalW) / 2;
+
+        // Grid lines
+        for (let pct = 25; pct <= 100; pct += 25) {
+            const gy = baseY - (pct / 100) * maxBarH;
+            ctx.beginPath();
+            ctx.moveTo(startX - 10, gy);
+            ctx.lineTo(startX + totalW + 10, gy);
+            ctx.strokeStyle = 'rgba(255,255,255,0.03)';
+            ctx.lineWidth = 0.5;
+            ctx.stroke();
+
+            ctx.textAlign = 'right'; ctx.textBaseline = 'middle';
+            ctx.font = '400 8px "Space Grotesk"';
+            ctx.fillStyle = '#222';
+            ctx.fillText(pct, startX - 15, gy);
+        }
+
+        ASSETS.forEach((a, i) => {
+            const d = DATA[a.key];
+            const [cr, cg, cb] = a.rgb;
+            const x = startX + i * (barW + gap);
+            const barH = (d.score / 100) * maxBarH;
+
+            // Pulse: bars subtly oscillate
+            const pulseAmp = Math.abs(d.delta) * 0.4;
+            const pulseDir = d.delta > 0 ? 1 : -1;
+            const pulse = Math.sin(t * 2 + i) * pulseAmp * pulseDir;
+            const h = barH + pulse;
+
+            // Bar gradient
+            const grd = ctx.createLinearGradient(0, baseY, 0, baseY - h);
+            grd.addColorStop(0, `rgba(${cr},${cg},${cb},0.15)`);
+            grd.addColorStop(1, `rgba(${cr},${cg},${cb},0.4)`);
+            ctx.fillStyle = grd;
+            ctx.beginPath();
+            ctx.roundRect(x, baseY - h, barW, h, [4, 4, 0, 0]);
+            ctx.fill();
+
+            // Top edge glow
+            ctx.beginPath();
+            ctx.moveTo(x, baseY - h);
+            ctx.lineTo(x + barW, baseY - h);
+            ctx.strokeStyle = `rgba(${cr},${cg},${cb},0.7)`;
+            ctx.lineWidth = 2;
+            ctx.stroke();
+
+            // Top glow
+            const topGlow = ctx.createRadialGradient(x + barW / 2, baseY - h, 0, x + barW / 2, baseY - h, 20);
+            topGlow.addColorStop(0, `rgba(${cr},${cg},${cb},0.15)`);
+            topGlow.addColorStop(1, `rgba(${cr},${cg},${cb},0)`);
+            ctx.beginPath();
+            ctx.arc(x + barW / 2, baseY - h, 20, 0, Math.PI * 2);
+            ctx.fillStyle = topGlow;
+            ctx.fill();
+
+            // Score at top
+            ctx.textAlign = 'center'; ctx.textBaseline = 'bottom';
+            ctx.font = '700 15px "Space Grotesk"';
+            ctx.fillStyle = `rgba(${cr},${cg},${cb},0.9)`;
+            ctx.fillText(d.score, x + barW / 2, baseY - h - 8);
+
+            // Delta
+            const ds = d.delta > 0 ? `+${d.delta}` : `${d.delta}`;
+            ctx.font = '600 9px "Space Grotesk"';
+            ctx.fillStyle = d.delta > 0 ? '#22c55e' : '#ef4444';
+            ctx.fillText(ds, x + barW / 2, baseY - h - 24);
+
+            // Name below
+            ctx.textBaseline = 'top';
+            ctx.font = '500 10px "Space Grotesk"';
+            ctx.fillStyle = '#555';
+            ctx.fillText(a.name, x + barW / 2, baseY + 8);
+        });
+
+        // Baseline
+        ctx.beginPath();
+        ctx.moveTo(startX - 10, baseY);
+        ctx.lineTo(startX + totalW + 10, baseY);
+        ctx.strokeStyle = 'rgba(255,255,255,0.08)';
+        ctx.lineWidth = 1;
+        ctx.stroke();
+
+        requestAnimationFrame(draw);
+    }
+    draw();
+})();
+
+
+// ============ CONCEPT 6: LIQUID GAUGE ============
+(function() {
+    const W = 340, H = 340;
+    const wrap = document.getElementById('c6').parentElement;
+    const ctx = setupCanvas('c6', W, H);
+    const CX = W / 2, CY = H / 2, R = W * 0.44;
+
+    // Order bottom to top: lowest score at bottom
+    const sorted = [...ASSETS].map(a => ({ ...a, ...DATA[a.key] }))
+        .sort((a, b) => a.score - b.score);
+
+    const totalScore = sorted.reduce((s, i) => s + i.score, 0);
+    sorted.forEach(s => s.share = s.score / totalScore);
+
+    // Compute layer Y boundaries using circle area
+    const totalArea = Math.PI * R * R;
+    function circleAreaBelow(yc) {
+        const y = Math.max(-R, Math.min(R, yc));
+        const ratio = y / R;
+        return R * R * (Math.asin(ratio) + ratio * Math.sqrt(1 - ratio * ratio)) + totalArea / 2;
+    }
+    function yForArea(target) {
+        let lo = -R, hi = R;
+        for (let i = 0; i < 50; i++) {
+            const mid = (lo + hi) / 2;
+            if (circleAreaBelow(mid) < target) lo = mid; else hi = mid;
+        }
+        return (lo + hi) / 2;
+    }
+
+    const layers = [];
+    let cum = 0;
+    for (const s of sorted) {
+        const yBot = yForArea(cum);
+        cum += s.share * totalArea;
+        const yTop = yForArea(cum);
+        layers.push({ ...s, canvasTop: CY - yTop, canvasBot: CY - yBot });
+    }
+
+    function waveY(x, baseY, t, amp, freq, phase) {
+        return baseY + Math.sin(x / freq + t + phase) * amp;
+    }
+
+    function draw() {
+        const t = T();
+        ctx.clearRect(0, 0, W, H);
+
+        // Subtle outer glow
+        const og = ctx.createRadialGradient(CX, CY, R * 0.8, CX, CY, R * 1.2);
+        og.addColorStop(0, 'rgba(255,255,255,0.015)');
+        og.addColorStop(1, 'rgba(0,0,0,0)');
+        ctx.beginPath(); ctx.arc(CX, CY, R * 1.2, 0, Math.PI * 2);
+        ctx.fillStyle = og; ctx.fill();
+
+        // Clip to circle
+        ctx.save();
+        ctx.beginPath(); ctx.arc(CX, CY, R, 0, Math.PI * 2); ctx.clip();
+        ctx.fillStyle = '#0a0a14'; ctx.fillRect(0, 0, W, H);
+
+        // Draw layers bottom to top
+        for (let i = 0; i < layers.length; i++) {
+            const L = layers[i];
+            const [cr, cg, cb] = L.rgb;
+            const xL = CX - R - 5, xR = CX + R + 5;
+
+            // Main fill: from wave at top to bottom of canvas
+            const grd = ctx.createLinearGradient(0, L.canvasBot, 0, L.canvasTop);
+            grd.addColorStop(0, `rgba(${cr},${cg},${cb},0.3)`);
+            grd.addColorStop(1, `rgba(${cr},${cg},${cb},0.45)`);
+
+            // Wave at top of this layer
+            ctx.beginPath();
+            for (let x = xL; x <= xR; x += 2) {
+                const wy = waveY(x, L.canvasTop, t * (0.8 + i * 0.1), 2.5 + i * 0.3, 25 + i * 5, i * 2);
+                if (x === xL) ctx.moveTo(x, wy); else ctx.lineTo(x, wy);
+            }
+            ctx.lineTo(xR, CY + R + 5); ctx.lineTo(xL, CY + R + 5); ctx.closePath();
+            ctx.fillStyle = grd; ctx.fill();
+
+            // Second wave for depth
+            ctx.beginPath();
+            for (let x = xL; x <= xR; x += 2) {
+                const wy = waveY(x, L.canvasTop + 3, t * 0.6, 1.8, 35, i * 2 + 3);
+                if (x === xL) ctx.moveTo(x, wy); else ctx.lineTo(x, wy);
+            }
+            ctx.lineTo(xR, CY + R + 5); ctx.lineTo(xL, CY + R + 5); ctx.closePath();
+            ctx.fillStyle = `rgba(${cr},${cg},${cb},0.1)`; ctx.fill();
+
+            // Label
+            const midY = (L.canvasTop + L.canvasBot) / 2;
+            const layerH = L.canvasBot - L.canvasTop;
+            if (layerH > 28) {
+                ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
+                const fs = layerH > 55 ? 16 : 13;
+                ctx.font = `700 ${fs}px "Space Grotesk"`;
+                ctx.fillStyle = 'rgba(255,255,255,0.9)';
+                ctx.fillText(L.score, CX, midY - (layerH > 45 ? 5 : 0));
+                if (layerH > 45) {
+                    ctx.font = '600 8px "Space Grotesk"';
+                    ctx.fillStyle = `rgba(${cr},${cg},${cb},0.8)`;
+                    ctx.fillText(L.name.toUpperCase(), CX, midY + fs * 0.5 + 2);
+                }
+            }
+        }
+
+        ctx.restore();
+
+        // Circle outline
+        ctx.beginPath(); ctx.arc(CX, CY, R, 0, Math.PI * 2);
+        ctx.strokeStyle = 'rgba(255,255,255,0.1)'; ctx.lineWidth = 1.5; ctx.stroke();
+
+        // Glass highlight
+        ctx.save();
+        ctx.beginPath(); ctx.arc(CX, CY, R, 0, Math.PI * 2); ctx.clip();
+        const spec = ctx.createRadialGradient(CX - R * 0.35, CY - R * 0.35, 0, CX - R * 0.35, CY - R * 0.35, R * 0.5);
+        spec.addColorStop(0, 'rgba(255,255,255,0.06)');
+        spec.addColorStop(1, 'rgba(255,255,255,0)');
+        ctx.beginPath(); ctx.arc(CX, CY, R, 0, Math.PI * 2);
+        ctx.fillStyle = spec; ctx.fill();
+        ctx.restore();
+
+        requestAnimationFrame(draw);
+    }
+    draw();
+})();
+
+</script>
+</body>
+</html>
