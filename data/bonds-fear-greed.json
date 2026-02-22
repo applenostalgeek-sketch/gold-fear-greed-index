@@ -1,7 +1,7 @@
 {
   "score": 63.7,
   "label": "Greed",
-  "timestamp": "2026-02-21T16:13:25Z",
+  "timestamp": "2026-02-22T04:20:11Z",
   "components": {
     "yield_curve": {
       "score": 68.3,
@@ -35,12 +35,6 @@
     }
   },
   "history": [
-    {
-      "date": "2025-02-22",
-      "score": 56.2,
-      "label": "Greed",
-      "price": 85.77
-    },
     {
       "date": "2025-02-23",
       "score": 56.2,
@@ -2221,6 +2215,12 @@
     },
     {
       "date": "2026-02-21",
+      "score": 63.7,
+      "label": "Greed",
+      "price": 89.41
+    },
+    {
+      "date": "2026-02-22",
       "score": 63.7,
       "label": "Greed",
       "price": 89.41
