@@ -251,35 +251,63 @@ class BondsFearGreedIndex:
     def calculate_real_rates_score(self) -> Tuple[float, str]:
         """
         Calculate real rates component (15% weight)
-        Based on 14-day CHANGE in 10Y yield (rate of change, not level)
-        Rising yields = bond prices fall = FEAR, falling yields = GREED
+        TIPS yield from FRED — higher real rates = bond prices fall = lower score (fear)
 
         Returns:
             Tuple of (score 0-100, detail string)
         """
         try:
-            tnx = yf.Ticker("^TNX")  # 10-Year Treasury Yield
-            tnx_hist = tnx.history(period="1mo")
+            if not self.fred_api_key:
+                print("No FRED API key - using fallback")
+                raise ValueError("No FRED API key")
 
-            if len(tnx_hist) < 15:
-                raise ValueError("Insufficient yield data")
+            # Fetch 10-Year TIPS yield
+            url = f"https://api.stlouisfed.org/fred/series/observations?series_id=DFII10&api_key={self.fred_api_key}&file_type=json&sort_order=desc&limit=1"
 
-            yield_now = tnx_hist['Close'].iloc[-1]
-            yield_14d = tnx_hist['Close'].iloc[-15]
-            yield_change = yield_now - yield_14d  # positive = yields rising = bad for bonds
+            response = requests.get(url, timeout=10)
 
-            # Rising yields = fear, falling yields = greed
-            # ±0.5% change in 14d saturates the score (covers most moves)
-            score = 50 - yield_change * 100
+            if response.status_code != 200:
+                raise ValueError("FRED API request failed")
+
+            data = response.json()
+            real_rate = float(data['observations'][0]['value'])
+
+            # Scoring: higher real rates = bond prices fall = FEAR (low score)
+            # Lower real rates = bond prices rise = GREED (high score)
+            # Centered on 1.5% (current regime avg): 1.5% = 50, 4% = 0, -1% = 100
+            score = 50 - (real_rate - 1.5) * 20
             score = max(0, min(100, score))
 
-            detail = f"10Y: {yield_now:.2f}% ({yield_change:+.2f}% 14d)"
+            detail = f"TIPS 10Y: {real_rate:+.2f}%"
 
             return score, detail
 
         except Exception as e:
-            print(f"Real rates error: {e}")
-            return 50.0, "Data unavailable"
+            print(f"FRED real rates failed: {e} - trying Yahoo fallback")
+
+            # FALLBACK: Use nominal 10Y yield centered on historical average
+            try:
+                tnx = yf.Ticker("^TNX")  # 10-Year Treasury Yield
+                tnx_hist = tnx.history(period="5d")
+
+                if tnx_hist.empty:
+                    raise ValueError("Yahoo yield data unavailable")
+
+                nominal_yield = tnx_hist['Close'].iloc[-1]
+
+                # Fallback: use nominal yield centered on ~4.0% (current regime avg)
+                # Higher yield = bond prices fall = FEAR (low score)
+                score = 50 - (nominal_yield - 4.0) * 20
+                score = max(0, min(100, score))
+
+                detail = f"10Y Yield: {nominal_yield:.2f}% (Yahoo fallback)"
+
+                print(f"Yahoo fallback successful: {detail}")
+                return score, detail
+
+            except Exception as yahoo_error:
+                print(f"Yahoo fallback also failed: {yahoo_error}")
+                return 50.0, "Data unavailable"
 
     def calculate_term_premium_score(self) -> Tuple[float, str]:
         """
@@ -370,12 +398,12 @@ class BondsFearGreedIndex:
 
         # Component weights (6 components, Duration Risk primary)
         weights = {
-            'duration_risk': 0.40,       # 40% - TLT momentum (PRIMARY signal)
-            'yield_curve': 0.15,         # 15% - Structural signal
-            'credit_quality': 0.10,      # 10% - LQD vs TLT (credit appetite)
-            'real_rates': 0.15,          # 15% - Rate of change (14d yield move)
+            'duration_risk': 0.30,       # 30% - TLT momentum (PRIMARY)
+            'yield_curve': 0.20,         # 20% - Structural signal
+            'credit_quality': 0.20,      # 20% - LQD vs TLT (credit appetite)
+            'real_rates': 0.15,          # 15% - Attractiveness vs inflation
             'bond_volatility': 0.10,     # 10% - MOVE index proxy (crisis detection)
-            'equity_vs_bonds': 0.10      # 10% - Stock/bond rotation
+            'equity_vs_bonds': 0.05      # 5% - Stock/bond rotation
         }
 
         # Calculate each component
@@ -524,14 +552,13 @@ class BondsFearGreedIndex:
             except Exception:
                 yield_curve_score = 50.0
 
-            # 4. REAL RATES (15% weight) - 14-day yield change (rate of change)
+            # 4. REAL RATES (15% weight) - Nominal yield fallback for historical
             try:
-                if len(tnx_hist) >= 15:
-                    yield_now = tnx_hist['Close'].iloc[-1]
-                    yield_14d = tnx_hist['Close'].iloc[-15]
-                    yield_change = yield_now - yield_14d
-                    # Rising yields = fear, falling yields = greed
-                    real_rates_score = 50 - yield_change * 100
+                if len(tnx_hist) > 0:
+                    nominal_yield = tnx_hist['Close'].iloc[-1]
+                    # Higher yield = bond prices fall = FEAR (low score)
+                    # Centered on 4.0% (current regime avg for nominal)
+                    real_rates_score = 50 - (nominal_yield - 4.0) * 20
                     real_rates_score = max(0, min(100, real_rates_score))
                 else:
                     real_rates_score = 50.0
@@ -561,12 +588,12 @@ class BondsFearGreedIndex:
 
             # Weighted average (6 components, Duration Risk primary)
             total_score = (
-                price_momentum_score * 0.40 +
-                yield_curve_score * 0.15 +
-                credit_spreads_score * 0.10 +
+                price_momentum_score * 0.30 +
+                yield_curve_score * 0.20 +
+                credit_spreads_score * 0.20 +
                 real_rates_score * 0.15 +
                 bond_vol_score * 0.10 +
-                equity_bonds_score * 0.10
+                equity_bonds_score * 0.05
             )
 
             # Get TLT price for this date
