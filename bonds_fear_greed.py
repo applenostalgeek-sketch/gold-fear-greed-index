@@ -28,6 +28,54 @@ class BondsFearGreedIndex:
         self.components = {}
         self.score = 0
         self.label = ""
+        # Pre-fetched FRED series for historical calculations (loaded lazily)
+        self._fred_cache = {}
+
+    def _ensure_fred_history(self, days: int = 400):
+        """
+        Pre-fetch FRED series (DGS10, DGS2, DFII10) in bulk for historical lookups.
+        Cached on instance so it's fetched once per session.
+        """
+        if self._fred_cache:
+            return
+        if not self.fred_api_key:
+            print("No FRED API key — historical FRED data unavailable")
+            return
+
+        end = datetime.now().strftime('%Y-%m-%d')
+        start = (datetime.now() - timedelta(days=days)).strftime('%Y-%m-%d')
+
+        for series_id in ['DGS10', 'DGS2', 'DFII10']:
+            try:
+                url = (
+                    f"https://api.stlouisfed.org/fred/series/observations"
+                    f"?series_id={series_id}&api_key={self.fred_api_key}&file_type=json"
+                    f"&observation_start={start}&observation_end={end}"
+                )
+                resp = requests.get(url, timeout=30)
+                resp.raise_for_status()
+                obs = resp.json()['observations']
+                data = {}
+                for o in obs:
+                    if o['value'] != '.':
+                        data[o['date']] = float(o['value'])
+                self._fred_cache[series_id] = data
+                print(f"  FRED {series_id}: {len(data)} observations loaded")
+            except Exception as e:
+                print(f"  FRED {series_id} fetch failed: {e}")
+                self._fred_cache[series_id] = {}
+
+    def _fred_lookup(self, series_id: str, target_date: datetime) -> Optional[float]:
+        """Lookup a FRED value by date, falling back to most recent available."""
+        cache = self._fred_cache.get(series_id, {})
+        if not cache:
+            return None
+        # Try exact date, then go back up to 5 days
+        for offset in range(6):
+            d = (target_date - timedelta(days=offset)).strftime('%Y-%m-%d')
+            if d in cache:
+                return cache[d]
+        return None
 
     def calculate_price_momentum_score(self) -> Tuple[float, str]:
         """
@@ -532,37 +580,22 @@ class BondsFearGreedIndex:
             else:
                 credit_spreads_score = 50.0
 
-            # 3. YIELD CURVE (25% weight) - DIRECT (term premium logic)
-            try:
-                tnx = yf.Ticker("^TNX")
-                irx = yf.Ticker("^IRX")
-                tnx_hist = tnx.history(start=start_date, end=end_date)
-                irx_hist = irx.history(start=start_date, end=end_date)
-
-                if len(tnx_hist) > 0 and len(irx_hist) > 0:
-                    yield_10y = tnx_hist['Close'].iloc[-1]
-                    yield_short = irx_hist['Close'].iloc[-1]
-                    spread = yield_10y - yield_short
-
-                    # Steep = high term premium = greed, Inverted = fear
-                    yield_curve_score = 50 + (spread * 30)
-                    yield_curve_score = max(0, min(100, yield_curve_score))
-                else:
-                    yield_curve_score = 50.0
-            except Exception:
+            # 3. YIELD CURVE (20% weight) - FRED 10Y-2Y spread
+            yield_10y = self._fred_lookup('DGS10', target_date)
+            yield_2y = self._fred_lookup('DGS2', target_date)
+            if yield_10y is not None and yield_2y is not None:
+                spread = yield_10y - yield_2y
+                yield_curve_score = 50 + (spread * 30)
+                yield_curve_score = max(0, min(100, yield_curve_score))
+            else:
                 yield_curve_score = 50.0
 
-            # 4. REAL RATES (15% weight) - Nominal yield fallback for historical
-            try:
-                if len(tnx_hist) > 0:
-                    nominal_yield = tnx_hist['Close'].iloc[-1]
-                    # Higher yield = bond prices fall = FEAR (low score)
-                    # Centered on 4.0% (current regime avg for nominal)
-                    real_rates_score = 50 - (nominal_yield - 4.0) * 20
-                    real_rates_score = max(0, min(100, real_rates_score))
-                else:
-                    real_rates_score = 50.0
-            except Exception:
+            # 4. REAL RATES (15% weight) - FRED DFII10 (TIPS)
+            real_rate = self._fred_lookup('DFII10', target_date)
+            if real_rate is not None:
+                real_rates_score = 50 - (real_rate - 1.5) * 20
+                real_rates_score = max(0, min(100, real_rates_score))
+            else:
                 real_rates_score = 50.0
 
             # 5. BOND VOLATILITY (15% weight) - TLT vol proxy for MOVE
@@ -621,6 +654,7 @@ class BondsFearGreedIndex:
 
         if force_rebuild:
             print("\n🔄 Force rebuilding 365-day history (this may take 2-3 minutes)...")
+            self._ensure_fred_history(days=400)  # covers 1y rebuild + margin
             history = []
 
             for i in range(364, -1, -1):
