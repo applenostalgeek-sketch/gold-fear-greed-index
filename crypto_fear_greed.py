@@ -128,9 +128,10 @@ class CryptoFearGreedIndex:
             # 30-day price change
             change_30d = ((current_price - price_30d_ago) / price_30d_ago) * 100
 
-            # Baseline 50, multiplier 1.5, cap ±50 → full 0-100 range
-            # +33% in 30d = score 100, -33% = score 0
-            score = 50 + max(-50, min(50, change_30d * 2.0))
+            # Baseline 50, multiplier 1.7, cap ±50 → full 0-100 range
+            # +29.4% in 30d = score 100, -29.4% = score 0
+            # Calibrated for crypto volatility (2.0 saturates too early)
+            score = 50 + max(-50, min(50, change_30d * 1.7))
             score = max(0, min(100, score))
 
             detail = f"30-day change: {change_30d:+.1f}%"
@@ -205,10 +206,14 @@ class CryptoFearGreedIndex:
             price_7d_ago = hist['Close'].iloc[-7]
             price_direction = 1 if price_now > price_7d_ago else -1
 
-            # High volume + rising price = greed (people rushing to buy)
-            # High volume + falling price = fear (panic selling)
-            # Low volume = neutral
-            score = 50 + (ratio - 1) * 50 * price_direction
+            # High volume: confirms trend direction
+            #   rising price = greed (people rushing to buy)
+            #   falling price = fear (panic selling)
+            # Low volume: lack of conviction/participation, slightly bearish
+            if ratio >= 1:
+                score = 50 + (ratio - 1) * 50 * price_direction
+            else:
+                score = 50 - (1 - ratio) * 30
             score = max(0, min(100, score))
 
             direction_label = "up" if price_direction > 0 else "down"
@@ -333,7 +338,7 @@ class CryptoFearGreedIndex:
                 price_30d_ago = btc_hist['Close'].iloc[-30]
                 change_30d = ((current_price - price_30d_ago) / price_30d_ago) * 100
 
-                context_score = 50 + max(-50, min(50, change_30d * 2.0))
+                context_score = 50 + max(-50, min(50, change_30d * 1.7))
                 context_score = max(0, min(100, context_score))
             else:
                 context_score = 50.0
@@ -386,7 +391,10 @@ class CryptoFearGreedIndex:
                     price_7d_ago = btc_hist['Close'].iloc[-7]
                     price_direction = 1 if price_now > price_7d_ago else -1
 
-                    volume_score = 50 + (ratio - 1) * 50 * price_direction
+                    if ratio >= 1:
+                        volume_score = 50 + (ratio - 1) * 50 * price_direction
+                    else:
+                        volume_score = 50 - (1 - ratio) * 30
                     volume_score = max(0, min(100, volume_score))
                 else:
                     volume_score = 50.0
