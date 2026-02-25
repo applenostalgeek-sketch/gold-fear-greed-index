@@ -1,35 +1,40 @@
 {
-  "score": 70.2,
+  "score": 66.2,
   "label": "Greed",
-  "timestamp": "2026-02-24T04:21:10Z",
+  "timestamp": "2026-02-25T04:22:53Z",
   "components": {
     "gld_price": {
-      "score": 79.7,
+      "score": 72.7,
       "weight": 0.3,
-      "detail": "GLD 14d: +5.9%"
+      "detail": "GLD 14d: +4.5%"
     },
     "momentum": {
-      "score": 85.3,
+      "score": 81.6,
       "weight": 0.25,
-      "detail": "RSI: 71, Price > MA50"
+      "detail": "RSI: 63, Price > MA50"
     },
     "dollar_index": {
-      "score": 43.6,
+      "score": 47.5,
       "weight": 0.2,
-      "detail": "DXY: 97.85 (+0.4% 14d, MA30: 97.74)"
+      "detail": "DXY: 97.79 (+0.2% 14d, MA30: 97.69)"
     },
     "real_rates": {
-      "score": 41.2,
+      "score": 41.8,
       "weight": 0.15,
-      "detail": "TIPS 10Y: 1.80% (avg: 1.88%)"
+      "detail": "TIPS 10Y: 1.77% (avg: 1.87%)"
     },
     "vix": {
-      "score": 100,
+      "score": 82.5,
       "weight": 0.1,
-      "detail": "VIX: 21.0 (avg: 16.8, z: +2.0)"
+      "detail": "VIX: 19.5 (avg: 16.9, z: +1.3)"
     }
   },
   "history": [
+    {
+      "date": "2026-02-25",
+      "score": 66.2,
+      "price": 474.61
+    },
     {
       "date": "2026-02-24",
       "score": 70.2,
@@ -1849,11 +1854,6 @@
       "date": "2025-02-26",
       "score": 56.7,
       "price": 269.03
-    },
-    {
-      "date": "2025-02-25",
-      "score": 56.2,
-      "price": 268.62
     }
   ]
 }
