@@ -6,6 +6,9 @@ Allow: /
 # Sitemaps
 Sitemap: https://onoff.markets/sitemap.xml
 
+# LLM discovery
+Allow: /llms.txt
+
 # Disallow development/test files
 Disallow: /concept-*.html
 Disallow: /*-old*.html
