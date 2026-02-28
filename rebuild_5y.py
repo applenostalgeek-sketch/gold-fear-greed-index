@@ -12,14 +12,18 @@ import yfinance as yf
 import pandas as pd
 import numpy as np
 import json
+import requests
 from datetime import datetime, timedelta
 
 YEARS = 6  # Fetch 6 years to have 200-day MA buffer for 5 years of scores
 
+FRED_API_KEY = '6f92656f50613f5438ddc820ff3ee3d8'
+FRED_SERIES = ['DGS10', 'DGS2', 'DFII10']
+
 SYMBOLS = [
     'BTC-USD', 'ETH-USD',
     'GC=F', 'GLD', 'SPY', '^VIX', 'DX-Y.NYB', '^TNX',
-    'RSP', 'HYG', 'TLT', 'QQQ', 'XLP', 'LQD', 'SHY', '^IRX'
+    'RSP', 'HYG', 'TLT', 'QQQ', 'XLP', 'LQD', 'SHY'
 ]
 
 
@@ -38,12 +42,41 @@ def compute_rsi(close, period=14):
     return rsi
 
 
+def fetch_fred_series(series_id, api_key, start, end):
+    """Fetch a FRED series and return as pd.Series indexed by date."""
+    url = "https://api.stlouisfed.org/fred/series/observations"
+    params = {
+        'series_id': series_id,
+        'api_key': api_key,
+        'file_type': 'json',
+        'observation_start': start.strftime('%Y-%m-%d'),
+        'observation_end': end.strftime('%Y-%m-%d'),
+    }
+    try:
+        resp = requests.get(url, params=params, timeout=30)
+        resp.raise_for_status()
+        obs = resp.json().get('observations', [])
+        records = {}
+        for o in obs:
+            if o['value'] != '.':
+                records[pd.Timestamp(o['date'])] = float(o['value'])
+        series = pd.Series(records).sort_index()
+        print(f"  FRED {series_id}: {len(series)} observations loaded")
+        return series
+    except Exception as e:
+        print(f"  FRED {series_id} ERROR: {e}")
+        return pd.Series(dtype=float)
+
+
 def fetch_all():
-    """Fetch all symbols for 6 years. Returns dict of symbol -> DataFrame.
+    """Fetch all Yahoo symbols + FRED series for 6 years.
+    Returns dict of symbol -> DataFrame/Series.
     Normalizes all indices to date-only (no timezone) for proper alignment."""
     end = datetime.now()
     start = end - timedelta(days=YEARS * 365)
     data = {}
+
+    # Yahoo Finance
     for sym in SYMBOLS:
         print(f"  Fetching {sym}...")
         try:
@@ -60,6 +93,14 @@ def fetch_all():
                 print(f"    -> WARNING: no data")
         except Exception as e:
             print(f"    -> ERROR: {e}")
+
+    # FRED series
+    print("\nFetching FRED data...")
+    for series_id in FRED_SERIES:
+        fred_data = fetch_fred_series(series_id, FRED_API_KEY, start, end)
+        if len(fred_data) > 0:
+            data[f'FRED_{series_id}'] = fred_data
+
     return data
 
 
@@ -86,10 +127,11 @@ def calc_gold(data):
     vix = data['^VIX']['Close']
     dxy = data['DX-Y.NYB']['Close']
     tnx = data['^TNX']['Close']
+    dfii10 = data.get('FRED_DFII10', pd.Series(dtype=float))
 
     # 1. GLD Price Momentum (30%)
     gld_mom_14d = (gld / gld.shift(14) - 1) * 100
-    gld_price_score = clamp(50 + gld_mom_14d * 7)
+    gld_price_score = clamp(50 + gld_mom_14d * 5)
 
     # 2. Momentum RSI/MA (25%)
     rsi = compute_rsi(gld, 14)
@@ -109,9 +151,15 @@ def calc_gold(data):
     dxy_change_14d = (dxy / dxy.shift(14) - 1) * 100
     dollar_score = clamp(50 - dxy_change_14d * 15)
 
-    # 4. Real Rates — Yahoo fallback (15%)
-    # score = 100 - ((yield - 2) * 25)
-    real_rates_score = clamp(100 - (tnx - 2) * 25)
+    # 4. Real Rates (15%) — FRED DFII10 (TIPS), fallback Yahoo ^TNX
+    if len(dfii10) > 0:
+        # Align FRED DFII10 to GLD trading days (forward-fill for weekends/holidays)
+        dfii10_aligned = dfii10.reindex(gld.index, method='ffill')
+        real_rates_score = clamp(75 - (dfii10_aligned * 18.75))
+        print("  Gold Real Rates: using FRED DFII10")
+    else:
+        real_rates_score = clamp(100 - (tnx - 2) * 25)
+        print("  Gold Real Rates: FRED unavailable, using Yahoo ^TNX fallback")
 
     # 5. VIX (10%)
     vix_avg = vix.rolling(63).mean()  # ~3 months
@@ -227,7 +275,7 @@ def calc_crypto(data):
 
     # 1. Context (30%)
     btc_30d = (btc / btc.shift(30) - 1) * 100
-    context_score = clamp(50 + (btc_30d * 2.0).clip(-50, 50))
+    context_score = clamp(50 + (btc_30d * 1.7).clip(-50, 50))
 
     # 2. Momentum RSI/MA (20%)
     rsi = compute_rsi(btc, 14)
@@ -259,8 +307,8 @@ def calc_crypto(data):
     # 5. Volatility (15%)
     btc_returns = btc.pct_change()
     vol_14d = btc_returns.rolling(14).std() * np.sqrt(365) * 100
-    # vol >= 80 → 0, vol <= 40 → 100, linear between
-    volatility_score = clamp(100 - ((vol_14d - 40) / 40) * 100)
+    # vol >= 80 → 0, vol <= 25 → 100, linear between (matches live: 25-80% range)
+    volatility_score = clamp(100 - ((vol_14d - 25) / 55) * 100)
 
     df = pd.DataFrame({
         'context': context_score,
@@ -290,43 +338,56 @@ def calc_bonds(data):
     lqd = data['LQD']['Close']
     spy = data['SPY']['Close']
     tnx = data['^TNX']['Close']
-    irx = data['^IRX']['Close']
-    tlt_vol_data = data['TLT']['Close']
+    dgs10 = data.get('FRED_DGS10', pd.Series(dtype=float))
+    dgs2 = data.get('FRED_DGS2', pd.Series(dtype=float))
+    dfii10 = data.get('FRED_DFII10', pd.Series(dtype=float))
 
-    # 1. Duration Risk / TLT Momentum (20%)
+    # 1. Duration Risk / TLT Momentum (30% — PRIMARY)
     tlt_mom = (tlt / tlt.shift(15) - 1) * 100
-    duration_score = clamp(50 + tlt_mom * 12.5)
+    duration_score = clamp(50 + tlt_mom * 15)
 
     # 2. Credit Quality (20%)
     lqd_change = (lqd / lqd.shift(15) - 1) * 100
     tlt_change = (tlt / tlt.shift(15) - 1) * 100
-    credit_score = clamp(50 + (lqd_change - tlt_change) * 10)
+    credit_score = clamp(50 + (lqd_change - tlt_change) * 20)
 
-    # 3. Yield Curve — Yahoo fallback (20%)
-    # Using ^TNX (10Y) and ^IRX (13-week)
-    # DIRECT: steep curve = term premium = greed, inverted = fear
-    spread = tnx - irx
-    yield_curve_score = clamp(40 + spread * 20)
+    # 3. Yield Curve (20%) — FRED DGS10 - DGS2, fallback Yahoo
+    if len(dgs10) > 0 and len(dgs2) > 0:
+        # Align FRED to TLT trading days
+        dgs10_aligned = dgs10.reindex(tlt.index, method='ffill')
+        dgs2_aligned = dgs2.reindex(tlt.index, method='ffill')
+        spread = dgs10_aligned - dgs2_aligned
+        yield_curve_score = clamp(50 + spread * 30)
+        print("  Bonds Yield Curve: using FRED DGS10-DGS2")
+    else:
+        # Fallback: Yahoo ^TNX only (no ^IRX needed)
+        yield_curve_score = clamp(50 + (tnx - 4.0) * 30)
+        print("  Bonds Yield Curve: FRED unavailable, using Yahoo fallback")
 
-    # 4. Real Rates — Yahoo fallback (15%)
-    # Higher yield = bond prices fall = FEAR (low score)
-    real_rates_score = clamp(50 - (tnx - 2.5) * 10)
+    # 4. Real Rates (15%) — FRED DFII10 (TIPS), fallback Yahoo ^TNX
+    if len(dfii10) > 0:
+        dfii10_aligned = dfii10.reindex(tlt.index, method='ffill')
+        real_rates_score = clamp(50 - (dfii10_aligned - 1.5) * 20)
+        print("  Bonds Real Rates: using FRED DFII10")
+    else:
+        real_rates_score = clamp(50 - (tnx - 4.0) * 20)
+        print("  Bonds Real Rates: FRED unavailable, using Yahoo ^TNX fallback")
 
-    # 5. Bond Volatility (15%)
+    # 5. Bond Volatility (10%)
     tlt_returns = tlt.pct_change()
     vol_5d = tlt_returns.rolling(5).std() * np.sqrt(252) * 100
     vol_30d = tlt_returns.rolling(30).std() * np.sqrt(252) * 100
     vol_ratio = vol_5d / vol_30d
     bond_vol_score = clamp(50 + (1 - vol_ratio) * 75)
 
-    # 6. Equity vs Bonds (10%)
+    # 6. Equity vs Bonds (5%)
     tlt_14d = (tlt / tlt.shift(15) - 1) * 100
     spy_14d = (spy / spy.shift(15) - 1) * 100
     equity_vs_bonds_score = clamp(50 + (tlt_14d - spy_14d) * 8)
 
     df = pd.DataFrame({
-        'yield_curve': yield_curve_score,
         'duration': duration_score,
+        'yield_curve': yield_curve_score,
         'credit': credit_score,
         'real_rates': real_rates_score,
         'bond_vol': bond_vol_score,
@@ -334,12 +395,12 @@ def calc_bonds(data):
     }).dropna()
 
     df['score'] = (
+        df['duration'] * 0.30 +
         df['yield_curve'] * 0.20 +
-        df['duration'] * 0.20 +
         df['credit'] * 0.20 +
         df['real_rates'] * 0.15 +
-        df['bond_vol'] * 0.15 +
-        df['eq_vs_bonds'] * 0.10
+        df['bond_vol'] * 0.10 +
+        df['eq_vs_bonds'] * 0.05
     ).round(1)
 
     return df['score']
