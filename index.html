@@ -1145,6 +1145,96 @@
             return btn && btn.classList.contains('active');
         }
 
+        function detectEvents(dateMap, dates) {
+            const events = [];
+            const typeInfo = {
+                market_crisis:  { emoji: '\uD83D\uDD34', label: 'Market Crisis', priority: 0 },
+                market_euphoria:{ emoji: '\uD83D\uDFE2', label: 'Market Euphoria', priority: 1 },
+                fear_spike:     { emoji: '\u26A1',       label: 'Fear Spike', priority: 2 },
+                recovery:       { emoji: '\uD83D\uDCC8', label: 'Recovery Rally', priority: 3 }
+            };
+
+            for (let i = 0; i < dates.length; i++) {
+                const date = dates[i];
+                const d = dateMap[date];
+                if (d.sentiment == null) continue;
+
+                // Check crisis / euphoria (all 4 assets needed)
+                if (d.gold != null && d.bonds != null && d.stocks != null && d.crypto != null) {
+                    if (d.gold <= 40 && d.bonds <= 40 && d.stocks <= 40 && d.crypto <= 40) {
+                        events.push({ date, type: 'market_crisis', ...typeInfo.market_crisis, delta: null });
+                    }
+                    if (d.gold >= 61 && d.bonds >= 61 && d.stocks >= 61 && d.crypto >= 61) {
+                        events.push({ date, type: 'market_euphoria', ...typeInfo.market_euphoria, delta: null });
+                    }
+                }
+
+                // Check sentiment spike (lookback 1-3 days)
+                let bestDelta = 0;
+                for (let lb = 1; lb <= 3 && i - lb >= 0; lb++) {
+                    const prev = dateMap[dates[i - lb]]?.sentiment;
+                    if (prev == null) continue;
+                    const delta = d.sentiment - prev;
+                    if (Math.abs(delta) > Math.abs(bestDelta)) bestDelta = delta;
+                }
+                if (bestDelta <= -9) {
+                    events.push({ date, type: 'fear_spike', ...typeInfo.fear_spike, delta: Math.round(bestDelta) });
+                } else if (bestDelta >= 9) {
+                    events.push({ date, type: 'recovery', ...typeInfo.recovery, delta: Math.round(bestDelta) });
+                }
+            }
+            return events;
+        }
+
+        function deduplicateEvents(events) {
+            const priority = { market_crisis: 0, market_euphoria: 1, fear_spike: 2, recovery: 3 };
+
+            // Group by type
+            const byType = {};
+            events.forEach(e => {
+                if (!byType[e.type]) byType[e.type] = [];
+                byType[e.type].push(e);
+            });
+
+            // For each type, cluster events within 3 days and keep the peak
+            const kept = [];
+            Object.values(byType).forEach(group => {
+                group.sort((a, b) => a.date.localeCompare(b.date));
+                let cluster = [group[0]];
+                for (let i = 1; i < group.length; i++) {
+                    const prevDate = new Date(cluster[cluster.length - 1].date);
+                    const currDate = new Date(group[i].date);
+                    const gap = (currDate - prevDate) / (1000 * 60 * 60 * 24);
+                    if (gap <= 3) {
+                        cluster.push(group[i]);
+                    } else {
+                        kept.push(pickPeak(cluster));
+                        cluster = [group[i]];
+                    }
+                }
+                kept.push(pickPeak(cluster));
+            });
+
+            function pickPeak(cluster) {
+                if (cluster.length === 1) return cluster[0];
+                return cluster.reduce((best, e) => {
+                    const aDelta = Math.abs(e.delta || 0);
+                    const bDelta = Math.abs(best.delta || 0);
+                    return aDelta > bDelta ? e : best;
+                });
+            }
+
+            // If multiple events on the same date, keep highest priority
+            const byDate = {};
+            kept.forEach(e => {
+                if (!byDate[e.date] || priority[e.type] < priority[byDate[e.date].type]) {
+                    byDate[e.date] = e;
+                }
+            });
+
+            return Object.values(byDate).sort((a, b) => a.date.localeCompare(b.date));
+        }
+
         function prepareChartData(days) {
             const cutoff = new Date();
             cutoff.setDate(cutoff.getDate() - days);
@@ -1178,7 +1268,8 @@
                 }
             });
 
-            chartData = { dateMap, dates };
+            const events = deduplicateEvents(detectEvents(dateMap, dates));
+            chartData = { dateMap, dates, events };
             return chartData;
         }
 
@@ -1259,7 +1350,22 @@
                 }
             });
 
-            // 6. Date labels (horizontal, clean)
+            // 6. Event markers (between plot area and date labels)
+            if (chartData.events && chartData.events.length > 0 && isSeriesVisible('sentiment')) {
+                ctx.font = '12px sans-serif';
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                const markerY = h - 20;
+                const total = data.dates.length;
+                chartData.events.forEach(event => {
+                    const idx = data.dates.indexOf(event.date);
+                    if (idx === -1) return;
+                    const x = indexToX(idx, total, pad, plotW);
+                    ctx.fillText(event.emoji, x, markerY);
+                });
+            }
+
+            // 7. Date labels (horizontal, clean)
             if (data.dates && data.dates.length > 0) {
                 const total = data.dates.length;
                 const numLabels = Math.min(total, w < 500 ? 4 : 6);
@@ -1311,6 +1417,22 @@
                     <span class="chart-tooltip-val" style="color:${cfg.color}">${Math.round(score)}</span>
                 </div>`;
             });
+            const eventOnDate = chartData.events?.find(e => e.date === targetDate);
+            if (eventOnDate && isSeriesVisible('sentiment')) {
+                rows += `<div class="chart-tooltip-row chart-tooltip-event">
+                    <span>${eventOnDate.emoji}</span>
+                    <span style="color:#fff;font-weight:600">${eventOnDate.label}</span>
+                </div>`;
+                if (eventOnDate.delta) {
+                    rows += `<div class="chart-tooltip-row">
+                        <span class="chart-tooltip-name" style="color:#888">Change</span>
+                        <span class="chart-tooltip-val" style="color:${eventOnDate.type === 'fear_spike' ? '#ef4444' : '#22c55e'}">
+                            ${eventOnDate.type === 'fear_spike' ? '' : '+'}${eventOnDate.delta} pts
+                        </span>
+                    </div>`;
+                }
+            }
+
             document.getElementById('tooltipRows').innerHTML = rows;
 
             // Position tooltip (flip side if near right edge)
