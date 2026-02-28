@@ -1351,7 +1351,7 @@
             });
 
             // 6. Event markers (between plot area and date labels)
-            if (chartData.events && chartData.events.length > 0 && isSeriesVisible('sentiment')) {
+            if (chartData.events && chartData.events.length > 0) {
                 ctx.font = '12px sans-serif';
                 ctx.textAlign = 'center';
                 ctx.textBaseline = 'middle';
@@ -1418,7 +1418,7 @@
                 </div>`;
             });
             const eventOnDate = chartData.events?.find(e => e.date === targetDate);
-            if (eventOnDate && isSeriesVisible('sentiment')) {
+            if (eventOnDate) {
                 rows += `<div class="chart-tooltip-row chart-tooltip-event">
                     <span>${eventOnDate.emoji}</span>
                     <span style="color:#fff;font-weight:600">${eventOnDate.label}</span>
