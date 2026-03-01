@@ -3,6 +3,12 @@
 Post daily Fear & Greed Index tweet to Twitter/X.
 Reads the 4 JSON data files and picks the most interesting "story" of the day.
 
+Every tweet follows the same structure:
+  [Headline — the story of the day]
+  [Dashboard — all 4 scores, always]
+  [Optional context line]
+  [URL]
+
 10 story detectors, priority-ranked:
   1. Extreme readings (score <= 20 or >= 80)
   2. Big daily mover (|change| > 6 pts)
@@ -28,6 +34,34 @@ from datetime import datetime, timezone
 ICONS = {'gold': '🪙', 'bonds': '📊', 'stocks': '📈', 'crypto': '🟠'}
 NAMES = {'gold': 'Gold', 'bonds': 'Bonds', 'stocks': 'Stocks', 'crypto': 'Crypto'}
 ASSETS = ['gold', 'bonds', 'stocks', 'crypto']
+PLURAL = {'stocks', 'bonds'}
+URL = "onoff.markets"
+
+
+def conj(name, s_form, p_form):
+    """Conjugate: s_form for Gold/Crypto (singular), p_form for Stocks/Bonds (plural)."""
+    return p_form if name in PLURAL else s_form
+
+
+def dashboard(data):
+    """Build the 4-score dashboard block."""
+    scores = get_scores(data)
+    return (f"🪙 Gold {scores['gold']} · 📊 Bonds {scores['bonds']}\n"
+            f"📈 Stocks {scores['stocks']} · 🟠 Crypto {scores['crypto']}")
+
+
+def build_tweet(headline, data, context=None):
+    """Assemble tweet: headline + dashboard + optional context + URL."""
+    parts = [headline.strip(), dashboard(data)]
+    if context:
+        parts.append(context.strip())
+    parts.append(URL)
+    tweet = "\n\n".join(parts)
+    # Drop context if too long
+    if len(tweet) > 280 and context:
+        parts = [headline.strip(), dashboard(data), URL]
+        tweet = "\n\n".join(parts)
+    return tweet
 
 
 def load_data():
@@ -114,22 +148,6 @@ def get_highest_lowest(data):
     return highest, scores[highest], lowest, scores[lowest]
 
 
-def add_contrast(data, main_asset):
-    """Add a contrast line about another asset to enrich the story."""
-    highest, h_score, lowest, l_score = get_highest_lowest(data)
-
-    if main_asset == lowest and h_score - l_score >= 30:
-        return f"Meanwhile {NAMES[highest]} sits at {h_score} ({get_label(h_score)})."
-    elif main_asset == highest and h_score - l_score >= 30:
-        return f"Meanwhile {NAMES[lowest]} sits at {l_score} ({get_label(l_score)})."
-    elif main_asset != highest:
-        return f"{NAMES[highest]} leads at {h_score} ({get_label(h_score)})."
-    elif main_asset != lowest:
-        return f"{NAMES[lowest]} trails at {l_score} ({get_label(l_score)})."
-
-    return None
-
-
 def get_component_detail(data, name):
     """Extract a readable detail line from components."""
     components = data[name].get('components', {})
@@ -185,54 +203,36 @@ def detect_extreme(data):
 
     # Multiple extremes — very rare
     if len(extremes) >= 2:
-        lines = []
-        for name, s in extremes:
-            lines.append(f"{ICONS[name]} {NAMES[name]}: {s} — {get_label(s)}")
-        tweet = "Multiple extreme readings today.\n\n" + "\n".join(lines)
-        highest, h_score, lowest, l_score = get_highest_lowest(data)
+        lines = [f"{ICONS[n]} {NAMES[n]}: {s} — {get_label(s)}" for n, s in extremes]
+        headline = "Multiple extreme readings today.\n" + "\n".join(lines)
+        highest, h_score, _, l_score = get_highest_lowest(data)
         gap = h_score - l_score
-        if gap >= 30:
-            tweet += f"\n\n{gap} points separate {NAMES[highest]} from {NAMES[lowest]}."
-        return tweet, 100
+        context = f"{gap} pts gap across markets." if gap >= 30 else None
+        return build_tweet(headline, data, context), 100
 
     # Single extreme
     name, s = extremes[0]
     label = get_label(s)
     change = get_daily_change(data, name)
 
-    # Direction-aware phrasing
     if s <= 20:
         if change < -3:
-            verb = "drops to"
+            verb = conj(name, "drops to", "drop to")
         elif change > 2:
-            verb = "recovers slightly to"
+            verb = conj(name, "recovers to", "recover to")
         else:
             verb = "still deep at"
     else:
         if change > 3:
-            verb = "climbs to"
+            verb = conj(name, "climbs to", "climb to")
         elif change < -2:
-            verb = "pulls back to"
+            verb = conj(name, "pulls back to", "pull back to")
         else:
-            verb = "holds strong at"
+            verb = "holding strong at"
 
-    tweet = f"{NAMES[name]} Fear & Greed {verb} {s} — {label}."
-
-    # Add component detail
+    headline = f"{ICONS[name]} {NAMES[name]} {verb} {s} — {label}."
     detail = get_component_detail(data, name)
-    if detail:
-        tweet += f"\n\n{detail}"
-
-    # Add contrast with another market
-    contrast = add_contrast(data, name)
-    if contrast:
-        highest, h_score, lowest, l_score = get_highest_lowest(data)
-        gap = h_score - l_score
-        tweet += f"\n\n{contrast}"
-        if gap >= 40:
-            tweet += f"\n{gap} points separate the two."
-
-    return tweet, 95
+    return build_tweet(headline, data, detail), 95
 
 
 def detect_big_mover(data):
@@ -245,17 +245,15 @@ def detect_big_mover(data):
         return None, 0
 
     s = round(data[biggest]['score'])
-    direction = "jumps" if change > 0 else "drops"
-    sign = "+" if change > 0 else ""
+    if change > 0:
+        direction = conj(biggest, "jumps", "jump")
+    else:
+        direction = conj(biggest, "drops", "drop")
 
-    tweet = f"{NAMES[biggest]} {direction} {sign}{round(change)} pts today."
-    tweet += f"\n\n{ICONS[biggest]} Now at {s} ({get_label(s)})."
+    headline = (f"{ICONS[biggest]} {NAMES[biggest]} {direction} "
+                f"{abs(round(change))} pts today — now at {s} ({get_label(s)}).")
 
-    contrast = add_contrast(data, biggest)
-    if contrast:
-        tweet += f"\n\n{contrast}"
-
-    return tweet, 85
+    return build_tweet(headline, data), 85
 
 
 def detect_divergence(data):
@@ -267,20 +265,14 @@ def detect_divergence(data):
     if spread < 25:
         return None, 0
 
-    scores = get_scores(data)
-
     if risk_off_avg > risk_on_avg:
-        tweet = "Safe havens leading while risk assets lag.\n\n"
-        tweet += f"🪙 Gold {scores['gold']} · 📊 Bonds {scores['bonds']}\n"
-        tweet += f"📈 Stocks {scores['stocks']} · 🟠 Crypto {scores['crypto']}\n\n"
-        tweet += f"Defensive avg: {round(risk_off_avg)} vs Risk avg: {round(risk_on_avg)}."
+        headline = "Safe havens leading, risk assets lagging."
+        context = f"Defensive avg: {round(risk_off_avg)} vs Risk avg: {round(risk_on_avg)}."
     else:
-        tweet = "Risk assets surging, safe havens quiet.\n\n"
-        tweet += f"📈 Stocks {scores['stocks']} · 🟠 Crypto {scores['crypto']}\n"
-        tweet += f"🪙 Gold {scores['gold']} · 📊 Bonds {scores['bonds']}\n\n"
-        tweet += f"Risk avg: {round(risk_on_avg)} vs Defensive avg: {round(risk_off_avg)}."
+        headline = "Risk assets surging, safe havens quiet."
+        context = f"Risk avg: {round(risk_on_avg)} vs Defensive avg: {round(risk_off_avg)}."
 
-    return tweet, 75
+    return build_tweet(headline, data, context), 75
 
 
 def detect_zone_crossing(data):
@@ -299,23 +291,19 @@ def detect_zone_crossing(data):
 
     if len(crossings) >= 2:
         lines = [f"{ICONS[n]} {NAMES[n]}: {old} → {new} ({s})" for n, old, new, s in crossings]
-        tweet = "Sentiment shifts across markets.\n\n" + "\n".join(lines)
-        return tweet, 70
+        headline = "Sentiment shifts across markets.\n" + "\n".join(lines)
+        return build_tweet(headline, data), 70
 
     name, old_l, new_l, s = crossings[0]
-    tweet = f"{NAMES[name]} shifts from {old_l} to {new_l}."
-    tweet += f"\n\n{ICONS[name]} Now at {s}/100."
+    headline = f"{ICONS[name]} {NAMES[name]} {conj(name, 'shifts', 'shift')} from {old_l} to {new_l} ({s})."
 
     streak = get_streak(data, name)
+    context = None
     if abs(streak) >= 3:
         direction = "rising" if streak > 0 else "falling"
-        tweet += f" {direction.capitalize()} {abs(streak)} days straight."
+        context = f"{direction.capitalize()} {abs(streak)} days straight."
 
-    contrast = add_contrast(data, name)
-    if contrast:
-        tweet += f"\n\n{contrast}"
-
-    return tweet, 70
+    return build_tweet(headline, data, context), 70
 
 
 def detect_streak(data):
@@ -334,14 +322,10 @@ def detect_streak(data):
     s = round(data[best_name]['score'])
     direction = "rising" if best_streak > 0 else "falling"
 
-    tweet = f"{NAMES[best_name]} {direction} {abs(best_streak)} days straight."
-    tweet += f"\n\n{ICONS[best_name]} Now at {s} ({get_label(s)})."
+    headline = (f"{ICONS[best_name]} {NAMES[best_name]} {direction} "
+                f"{abs(best_streak)} days straight — now at {s} ({get_label(s)}).")
 
-    contrast = add_contrast(data, best_name)
-    if contrast:
-        tweet += f"\n\n{contrast}"
-
-    return tweet, 65
+    return build_tweet(headline, data), 65
 
 
 def detect_all_aligned(data):
@@ -354,17 +338,12 @@ def detect_all_aligned(data):
     if not all_up and not all_down:
         return None, 0
 
-    scores = get_scores(data)
-
     if all_up:
-        tweet = "All 4 markets trending toward Greed today.\n\n"
+        headline = "All 4 markets trending toward Greed today."
     else:
-        tweet = "All 4 markets trending toward Fear today.\n\n"
+        headline = "All 4 markets trending toward Fear today."
 
-    tweet += f"🪙 Gold {scores['gold']} · 📊 Bonds {scores['bonds']}\n"
-    tweet += f"📈 Stocks {scores['stocks']} · 🟠 Crypto {scores['crypto']}"
-
-    return tweet, 60
+    return build_tweet(headline, data), 60
 
 
 def detect_biggest_gap(data):
@@ -375,16 +354,13 @@ def detect_biggest_gap(data):
     if gap < 40:
         return None, 0
 
-    tweet = f"{gap} points separate {NAMES[highest]} from {NAMES[lowest]}.\n\n"
-    tweet += f"{ICONS[highest]} {NAMES[highest]}: {h_score} ({get_label(h_score)})\n"
-    tweet += f"{ICONS[lowest]} {NAMES[lowest]}: {l_score} ({get_label(l_score)})"
+    headline = f"{gap} pts separate {NAMES[highest]} ({h_score}) from {NAMES[lowest]} ({l_score})."
 
+    context = None
     if h_score >= 70 and l_score <= 30:
-        tweet += "\n\nOne in Greed, the other in Fear."
-    else:
-        tweet += "\n\nVery different stories across markets."
+        context = "One in Greed, the other in Fear."
 
-    return tweet, 55
+    return build_tweet(headline, data, context), 55
 
 
 def detect_weekly_move(data):
@@ -397,16 +373,15 @@ def detect_weekly_move(data):
         return None, 0
 
     s = round(data[biggest]['score'])
-    direction = "gained" if change > 0 else "lost"
+    if change > 0:
+        direction = conj(biggest, "gains", "gain")
+    else:
+        direction = conj(biggest, "loses", "lose")
 
-    tweet = f"{NAMES[biggest]} {direction} {abs(round(change))} pts this week."
-    tweet += f"\n\n{ICONS[biggest]} Now at {s} ({get_label(s)})."
+    headline = (f"{ICONS[biggest]} {NAMES[biggest]} {direction} "
+                f"{abs(round(change))} pts this week — now at {s} ({get_label(s)}).")
 
-    contrast = add_contrast(data, biggest)
-    if contrast:
-        tweet += f"\n\n{contrast}"
-
-    return tweet, 50
+    return build_tweet(headline, data), 50
 
 
 def detect_component_extreme(data):
@@ -452,36 +427,30 @@ def detect_component_extreme(data):
             if score <= 5 or score >= 95:
                 comp_name = component_labels.get(name, {}).get(comp_key, comp_key)
                 s = round(data[name]['score'])
-                detail = comp_data.get('detail', '')
-
                 side = "fear" if score <= 5 else "greed"
-                tweet = f"{NAMES[name]} at {s} ({get_label(s)})."
-                tweet += f"\n\nUnder the hood: {comp_name} is maxed out on the {side} side."
 
-                if detail:
-                    tweet += f"\n{detail}."
+                headline = (f"{ICONS[name]} {NAMES[name]} at {s} ({get_label(s)}) "
+                            f"— {comp_name} maxed on {side} side.")
 
-                return tweet, 45
+                return build_tweet(headline, data), 45
 
     return None, 0
 
 
 def detect_calm(data):
     """Detector 10: Calm day fallback — still tells a mini-story."""
-    scores = get_scores(data)
     highest, h_score, lowest, l_score = get_highest_lowest(data)
     gap = h_score - l_score
 
-    tweet = "Markets today.\n\n"
-    tweet += f"🪙 Gold {scores['gold']} · 📊 Bonds {scores['bonds']}\n"
-    tweet += f"📈 Stocks {scores['stocks']} · 🟠 Crypto {scores['crypto']}\n\n"
+    headline = "Market sentiment today."
 
     if gap >= 20:
-        tweet += f"{NAMES[highest]} leads, {NAMES[lowest]} trails. Watching for the next move."
+        context = (f"{NAMES[highest]} {conj(highest, 'leads', 'lead')}, "
+                   f"{NAMES[lowest]} {conj(lowest, 'trails', 'trail')}.")
     else:
-        tweet += "Everything close together. Calm before something moves."
+        context = "All markets close together. Watching for the next move."
 
-    return tweet, 10
+    return build_tweet(headline, data, context), 10
 
 
 # ─── Main logic ───
@@ -539,10 +508,18 @@ def post_tweet(tweet_text):
         access_token_secret=access_secret,
     )
 
-    response = client.create_tweet(text=tweet_text)
-    tweet_id = response.data['id']
-    print(f"Tweet posted successfully! ID: {tweet_id}")
-    return tweet_id
+    try:
+        response = client.create_tweet(text=tweet_text)
+        tweet_id = response.data['id']
+        print(f"Tweet posted successfully! ID: {tweet_id}")
+        return tweet_id
+    except tweepy.Forbidden as e:
+        print(f"Error 403 Forbidden: {e}")
+        print("This usually means a duplicate tweet. Scores may not have changed enough.")
+        sys.exit(1)
+    except tweepy.TweepyException as e:
+        print(f"Twitter API error: {e}")
+        sys.exit(1)
 
 
 def main():
