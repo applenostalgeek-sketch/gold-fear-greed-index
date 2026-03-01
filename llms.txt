@@ -33,8 +33,8 @@ No subscriptions, no paywalls, no proprietary black boxes.
 ### Bonds Fear & Greed Index
 - URL: https://onoff.markets/bonds.html
 - Measures: investor sentiment towards fixed income / Treasury bonds
-- 6 components: Duration Risk / TLT (30%), Yield Curve 10Y-2Y (20%), Credit Quality LQD vs TLT (20%), Real Rates via FRED TIPS (15%), Bond Volatility (10%), Equity vs Bonds Rotation (5%)
-- Data: Yahoo Finance (TLT, LQD, SPY) + FRED API (DGS10, DGS2, DFII10)
+- 6 components: Duration Risk / TLT (30%), Yield Curve 10Y-2Y (20%), Credit Quality HYG vs LQD (20%), Real Rates via FRED TIPS (15%), Bond Volatility (10%), Equity vs Bonds Rotation (5%)
+- Data: Yahoo Finance (TLT, HYG, LQD, SPY) + FRED API (DGS10, DGS2, DFII10)
 
 ### Crypto Fear & Greed Index
 - URL: https://onoff.markets/crypto.html

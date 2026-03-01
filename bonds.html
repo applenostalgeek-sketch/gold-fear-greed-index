@@ -60,7 +60,7 @@
                 "name": "What is the Bonds Fear & Greed Index?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "The Bonds Fear & Greed Index measures sentiment in the fixed income market using 6 components: Duration Risk/TLT (30%), Yield Curve Shape (20%), Credit Quality (20%), Real Rates (15%), Bond Volatility (10%), and Equity vs Bonds Rotation (5%). TLT momentum is the primary indicator. It tracks whether investors are buying or selling bonds."
+                    "text": "The Bonds Fear & Greed Index measures sentiment in the fixed income market using 6 components: Duration Risk/TLT (30%), Yield Curve Shape (20%), Credit Quality/HYG vs LQD (20%), Real Rates (15%), Bond Volatility (10%), and Equity vs Bonds Rotation (5%). TLT momentum is the primary indicator. Credit quality measures high-yield vs investment-grade appetite independently of rate moves."
                 }
             },
             {
@@ -253,7 +253,7 @@
                 <h4>1. Duration Risk / TLT (30%)</h4>
                 <p class="weight">TLT 14-day price momentum (PRIMARY INDICATOR)</p>
                 <p>
-                    <strong>Highest weight component.</strong> Measures demand for long-duration Treasuries via iShares 20+ Year Treasury ETF (TLT). <strong>Rising TLT = investors buying bonds = high score.</strong> Falling TLT = investors selling = low score. Uses x15 multiplier: <strong>TLT +3.3% = score 100, TLT -3.3% = score 0.</strong>
+                    <strong>Highest weight component.</strong> Measures demand for long-duration Treasuries via iShares 20+ Year Treasury ETF (TLT). <strong>Rising TLT = investors buying bonds = high score.</strong> Falling TLT = investors selling = low score. Uses x12 multiplier: <strong>TLT +4.2% = score 100, TLT -4.2% = score 0.</strong>
                 </p>
             </div>
 
@@ -267,9 +267,9 @@
 
             <div class="component-box">
                 <h4>3. Credit Quality Appetite (20%)</h4>
-                <p class="weight">Investment Grade (LQD) vs Treasuries (TLT)</p>
+                <p class="weight">High Yield (HYG) vs Investment Grade (LQD)</p>
                 <p>
-                    Measures demand for investment-grade corporate bonds relative to safe Treasuries. <strong>LQD outperforming TLT = credit spreads tightening = high score</strong> (investors taking moderate credit risk). LQD underperforming = credit stress = low score. Uses x20 multiplier: <strong>&plusmn;2.5% spread = extreme score.</strong> <strong>Note:</strong> Different from junk bonds (HYG) used in Stocks index.
+                    Measures appetite for credit risk by comparing junk bonds (HYG) to investment-grade bonds (LQD). <strong>HYG outperforming LQD = investors reaching for yield = high score</strong> (greed for credit risk). HYG underperforming = flight to quality = low score (fear). Uses x20 multiplier: <strong>&plusmn;2.5% spread = extreme score.</strong> Independent of interest rate moves, unlike the previous LQD/TLT measure.
                 </p>
             </div>
 
@@ -287,7 +287,7 @@
                 <p>
                     Compares 5-day TLT annualized volatility to 30-day average as a proxy for the MOVE index.
                     <strong>Rising short-term volatility = bond market stress = fear = lower score.</strong>
-                    Calm, stable bond markets = confidence = higher score. Uses x75 multiplier for sensitivity to sudden volatility spikes.
+                    Calm, stable bond markets = confidence = higher score. Uses x60 multiplier for sensitivity to sudden volatility spikes.
                 </p>
             </div>
 
