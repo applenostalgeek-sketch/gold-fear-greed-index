@@ -1,7 +1,7 @@
 {
-  "score": 63.4,
+  "score": 63.2,
   "label": "Greed",
-  "timestamp": "2026-02-28T03:56:59Z",
+  "timestamp": "2026-03-01T04:24:24Z",
   "components": {
     "gld_price": {
       "score": 67.9,
@@ -9,14 +9,14 @@
       "detail": "GLD 14d: +3.6%"
     },
     "momentum": {
-      "score": 82.2,
+      "score": 80.9,
       "weight": 0.25,
-      "detail": "RSI: 64, Price > MA50"
+      "detail": "RSI: 62, Price > MA50"
     },
     "dollar_index": {
-      "score": 37.2,
+      "score": 37.8,
       "weight": 0.2,
-      "detail": "DXY: 97.65 (+0.9% 14d, MA30: 97.56)"
+      "detail": "DXY: 97.61 (+0.8% 14d, MA30: 97.56)"
     },
     "real_rates": {
       "score": 42.4,
@@ -30,6 +30,11 @@
     }
   },
   "history": [
+    {
+      "date": "2026-03-01",
+      "score": 63.2,
+      "price": 483.75
+    },
     {
       "date": "2026-02-28",
       "score": 63.4,
@@ -1847,11 +1852,6 @@
     },
     {
       "date": "2025-03-02",
-      "score": 50.1,
-      "price": 263.27
-    },
-    {
-      "date": "2025-03-01",
       "score": 50.1,
       "price": 263.27
     }
