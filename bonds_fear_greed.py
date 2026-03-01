@@ -98,8 +98,8 @@ class BondsFearGreedIndex:
             pct_change_14d = ((close_prices.iloc[-1] / close_prices.iloc[-15]) - 1) * 100
 
             # DIRECT: TLT rising = capital flowing INTO bonds = high score
-            # Calibrated: ~±3.3% TLT = score 0/100 (covers most 14-day moves)
-            score = 50 + (pct_change_14d * 15)
+            # V3: ±4.2% TLT = score 0/100 (was ×15/34% sat, ×9 too flat)
+            score = 50 + (pct_change_14d * 12)
             score = max(0, min(100, score))
 
             detail = f"TLT 14j: {pct_change_14d:+.1f}%"
@@ -112,34 +112,35 @@ class BondsFearGreedIndex:
 
     def calculate_credit_spreads_score(self) -> Tuple[float, str]:
         """
-        Calculate credit quality component (15% weight)
-        LQD (investment grade) vs TLT (safe Treasuries)
+        Calculate credit quality component (20% weight)
+        V3: HYG (high yield) vs LQD (investment grade) — measures credit risk appetite
+        independently of duration/TLT moves.
 
         Returns:
             Tuple of (score 0-100, detail string)
         """
         try:
+            hyg = yf.Ticker("HYG")  # High Yield Corporate Bonds
             lqd = yf.Ticker("LQD")  # Investment Grade Corporate Bonds
-            tlt = yf.Ticker("TLT")  # Long-term Treasuries
 
+            hyg_hist = hyg.history(period="2mo")
             lqd_hist = lqd.history(period="2mo")
-            tlt_hist = tlt.history(period="2mo")
 
-            if lqd_hist.empty or tlt_hist.empty:
-                raise ValueError("No LQD or TLT data available")
+            if hyg_hist.empty or lqd_hist.empty:
+                raise ValueError("No HYG or LQD data available")
 
             # 14-day performance
+            hyg_change = ((hyg_hist['Close'].iloc[-1] / hyg_hist['Close'].iloc[-15]) - 1) * 100
             lqd_change = ((lqd_hist['Close'].iloc[-1] / lqd_hist['Close'].iloc[-15]) - 1) * 100
-            tlt_change = ((tlt_hist['Close'].iloc[-1] / tlt_hist['Close'].iloc[-15]) - 1) * 100
 
-            # Spread: LQD outperforming = credit spreads tightening = greed
-            spread = lqd_change - tlt_change
+            # Spread: HYG outperforming LQD = reaching for yield = greed
+            # LQD outperforming HYG = de-risking = fear
+            spread = hyg_change - lqd_change
 
-            # +2.5% spread = extreme greed, -2.5% spread = extreme fear
             score = 50 + (spread * 20)
             score = max(0, min(100, score))
 
-            detail = f"LQD vs TLT: {spread:+.1f}%"
+            detail = f"HYG vs LQD: {spread:+.1f}%"
 
             return score, detail
 
@@ -250,9 +251,9 @@ class BondsFearGreedIndex:
             # High volatility = fear, low volatility = greed
             ratio = vol_5d / vol_30d_avg if vol_30d_avg > 0 else 1.0
 
-            # Aggressive multiplier: ratio 1.5 = score 12, ratio 2.0 = score 0
-            # ratio 0.5 = score 87, ratio 0.3 = score 100
-            score = 50 + (1 - ratio) * 75
+            # V3: reduced multiplier (was ×75, saturated too often)
+            # ratio 1.5 = score 20, ratio 2.0 = score 0, ratio 0.5 = score 80
+            score = 50 + (1 - ratio) * 60
             score = max(0, min(100, score))
 
             detail = f"Vol TLT 5j: {vol_5d:.1f}% vs 30j: {vol_30d_avg:.1f}%"
@@ -442,13 +443,13 @@ class BondsFearGreedIndex:
         Returns:
             Dictionary with score, label, components, and timestamp
         """
-        print("Calculating Bonds Fear & Greed Index v2...")
+        print("Calculating Bonds Fear & Greed Index v3...")
 
         # Component weights (6 components, Duration Risk primary)
         weights = {
             'duration_risk': 0.30,       # 30% - TLT momentum (PRIMARY)
             'yield_curve': 0.20,         # 20% - Structural signal
-            'credit_quality': 0.20,      # 20% - LQD vs TLT (credit appetite)
+            'credit_quality': 0.20,      # 20% - HYG vs LQD (credit risk appetite)
             'real_rates': 0.15,          # 15% - Attractiveness vs inflation
             'bond_volatility': 0.10,     # 10% - MOVE index proxy (crisis detection)
             'equity_vs_bonds': 0.05      # 5% - Stock/bond rotation
@@ -551,10 +552,12 @@ class BondsFearGreedIndex:
 
             # Get historical data for ALL components
             tlt = yf.Ticker("TLT")
+            hyg = yf.Ticker("HYG")
             lqd = yf.Ticker("LQD")
             spy = yf.Ticker("SPY")
 
             tlt_hist = tlt.history(start=start_date, end=end_date)
+            hyg_hist = hyg.history(start=start_date, end=end_date)
             lqd_hist = lqd.history(start=start_date, end=end_date)
             spy_hist = spy.history(start=start_date, end=end_date)
 
@@ -562,19 +565,19 @@ class BondsFearGreedIndex:
                 print("insufficient data")
                 return 50.0, None
 
-            # 1. TLT PRICE MOMENTUM (30% weight - PRIMARY)
+            # 1. TLT PRICE MOMENTUM (30% weight - PRIMARY) — V3: ×12
             if len(tlt_hist) >= 15:
                 pct_change_14d = ((tlt_hist['Close'].iloc[-1] / tlt_hist['Close'].iloc[-15]) - 1) * 100
-                price_momentum_score = 50 + (pct_change_14d * 15)
+                price_momentum_score = 50 + (pct_change_14d * 12)
                 price_momentum_score = max(0, min(100, price_momentum_score))
             else:
                 price_momentum_score = 50.0
 
-            # 2. CREDIT QUALITY (20% weight) - LQD vs TLT
-            if len(lqd_hist) >= 15 and len(tlt_hist) >= 15:
+            # 2. CREDIT QUALITY (20% weight) - V3: HYG vs LQD
+            if len(hyg_hist) >= 15 and len(lqd_hist) >= 15:
+                hyg_change = ((hyg_hist['Close'].iloc[-1] / hyg_hist['Close'].iloc[-15]) - 1) * 100
                 lqd_change = ((lqd_hist['Close'].iloc[-1] / lqd_hist['Close'].iloc[-15]) - 1) * 100
-                tlt_change_credit = ((tlt_hist['Close'].iloc[-1] / tlt_hist['Close'].iloc[-15]) - 1) * 100
-                spread = lqd_change - tlt_change_credit
+                spread = hyg_change - lqd_change
                 credit_spreads_score = 50 + (spread * 20)
                 credit_spreads_score = max(0, min(100, credit_spreads_score))
             else:
@@ -598,13 +601,13 @@ class BondsFearGreedIndex:
             else:
                 real_rates_score = 50.0
 
-            # 5. BOND VOLATILITY (15% weight) - TLT vol proxy for MOVE
+            # 5. BOND VOLATILITY (10% weight) - V3: ×60 (was ×75)
             returns = tlt_hist['Close'].pct_change().dropna()
             if len(returns) >= 30:
                 vol_5d = returns.tail(5).std() * np.sqrt(252) * 100
                 vol_30d = returns.tail(30).std() * np.sqrt(252) * 100
                 ratio = vol_5d / vol_30d if vol_30d > 0 else 1.0
-                bond_vol_score = 50 + (1 - ratio) * 75
+                bond_vol_score = 50 + (1 - ratio) * 60
                 bond_vol_score = max(0, min(100, bond_vol_score))
             else:
                 bond_vol_score = 50.0

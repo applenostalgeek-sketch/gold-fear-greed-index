@@ -335,6 +335,7 @@ def calc_crypto(data):
 def calc_bonds(data):
     print("\nCalculating BONDS scores...")
     tlt = data['TLT']['Close']
+    hyg = data['HYG']['Close']
     lqd = data['LQD']['Close']
     spy = data['SPY']['Close']
     tnx = data['^TNX']['Close']
@@ -344,12 +345,12 @@ def calc_bonds(data):
 
     # 1. Duration Risk / TLT Momentum (30% — PRIMARY)
     tlt_mom = (tlt / tlt.shift(15) - 1) * 100
-    duration_score = clamp(50 + tlt_mom * 15)
+    duration_score = clamp(50 + tlt_mom * 12)
 
-    # 2. Credit Quality (20%)
+    # 2. Credit Quality (20%) — V3: HYG vs LQD (credit risk appetite)
+    hyg_change = (hyg / hyg.shift(15) - 1) * 100
     lqd_change = (lqd / lqd.shift(15) - 1) * 100
-    tlt_change = (tlt / tlt.shift(15) - 1) * 100
-    credit_score = clamp(50 + (lqd_change - tlt_change) * 20)
+    credit_score = clamp(50 + (hyg_change - lqd_change) * 20)
 
     # 3. Yield Curve (20%) — FRED DGS10 - DGS2, fallback Yahoo
     if len(dgs10) > 0 and len(dgs2) > 0:
@@ -378,7 +379,7 @@ def calc_bonds(data):
     vol_5d = tlt_returns.rolling(5).std() * np.sqrt(252) * 100
     vol_30d = tlt_returns.rolling(30).std() * np.sqrt(252) * 100
     vol_ratio = vol_5d / vol_30d
-    bond_vol_score = clamp(50 + (1 - vol_ratio) * 75)
+    bond_vol_score = clamp(50 + (1 - vol_ratio) * 60)
 
     # 6. Equity vs Bonds (5%)
     tlt_14d = (tlt / tlt.shift(15) - 1) * 100

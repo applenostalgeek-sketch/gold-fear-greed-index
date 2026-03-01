@@ -181,10 +181,10 @@ def calc_yield_curve(dgs10, dgs2, idx, mult=30):
     return max(0, min(100, 50 + spread * mult))
 
 
-def calc_credit_quality(lqd_close, tlt_close, idx, mult=20):
+def calc_credit_quality(lqd_close, tlt_close, lqd_idx, tlt_idx, mult=20):
     """Score = 50 + ((LQD 14d change - TLT 14d change) * mult), clamped 0-100."""
-    lqd_pct = _pct_change(lqd_close, idx, 14)
-    tlt_pct = _pct_change(tlt_close, idx, 14)
+    lqd_pct = _pct_change(lqd_close, lqd_idx, 14)
+    tlt_pct = _pct_change(tlt_close, tlt_idx, 14)
     spread = lqd_pct - tlt_pct
     return max(0, min(100, 50 + spread * mult))
 
@@ -228,10 +228,10 @@ def calc_bond_volatility(tlt_close, idx, mult=75):
     return max(0, min(100, 50 + (1 - ratio) * mult))
 
 
-def calc_equity_vs_bonds(tlt_close, spy_close, idx, mult=8):
+def calc_equity_vs_bonds(tlt_close, spy_close, tlt_idx, spy_idx, mult=8):
     """Score = 50 + (TLT 14d - SPY 14d) * mult, clamped 0-100."""
-    tlt_pct = _pct_change(tlt_close, idx, 14)
-    spy_pct = _pct_change(spy_close, idx, 14)
+    tlt_pct = _pct_change(tlt_close, tlt_idx, 14)
+    spy_pct = _pct_change(spy_close, spy_idx, 14)
     relative = tlt_pct - spy_pct
     return max(0, min(100, 50 + relative * mult))
 
@@ -269,25 +269,30 @@ def run_backtest(data, trading_days, weights, config) -> list[dict]:
     eb_mult = config.get("equity_bonds_mult", 8)
 
     results = []
-    # Build positional index map for fast lookup
-    all_dates = tlt_close.index
-    date_to_idx = {d: i for i, d in enumerate(all_dates)}
+    # Build positional index maps for each series
+    tlt_idx_map = {d: i for i, d in enumerate(tlt_close.index)}
+    lqd_idx_map = {d: i for i, d in enumerate(lqd_close.index)}
+    spy_idx_map = {d: i for i, d in enumerate(spy_close.index)}
 
     for day in trading_days:
-        if day not in date_to_idx:
-            continue
-        idx = date_to_idx[day]
-        if idx < 30:  # Need at least 30 days of history
+        tlt_idx = tlt_idx_map.get(day)
+        if tlt_idx is None or tlt_idx < 30:
             continue
 
-        # Also need idx in FRED-aligned series
+        lqd_idx = lqd_idx_map.get(day)
+        spy_idx = spy_idx_map.get(day)
+        if lqd_idx is None or spy_idx is None:
+            continue
+        if lqd_idx < 14 or spy_idx < 14:
+            continue
+
         comps = []
-        comps.append(calc_duration_risk(tlt_close, idx, dur_mult))
-        comps.append(calc_yield_curve(dgs10, dgs2, idx, yc_mult))
-        comps.append(calc_credit_quality(lqd_close, tlt_close, idx, cq_mult))
-        comps.append(calc_real_rates(rr_series, idx, rr_mode, rr_center, rr_mult))
-        comps.append(calc_bond_volatility(tlt_close, idx, bv_mult))
-        comps.append(calc_equity_vs_bonds(tlt_close, spy_close, idx, eb_mult))
+        comps.append(calc_duration_risk(tlt_close, tlt_idx, dur_mult))
+        comps.append(calc_yield_curve(dgs10, dgs2, tlt_idx, yc_mult))
+        comps.append(calc_credit_quality(lqd_close, tlt_close, lqd_idx, tlt_idx, cq_mult))
+        comps.append(calc_real_rates(rr_series, tlt_idx, rr_mode, rr_center, rr_mult))
+        comps.append(calc_bond_volatility(tlt_close, tlt_idx, bv_mult))
+        comps.append(calc_equity_vs_bonds(tlt_close, spy_close, tlt_idx, spy_idx, eb_mult))
 
         score = sum(c * w for c, w in zip(comps, weights))
         score = max(0, min(100, score))
@@ -295,7 +300,7 @@ def run_backtest(data, trading_days, weights, config) -> list[dict]:
         results.append({
             "date": day,
             "score": round(score, 1),
-            "tlt_price": round(float(tlt_close.iloc[idx]), 2),
+            "tlt_price": round(float(tlt_close.iloc[tlt_idx]), 2),
             "components": [round(c, 1) for c in comps],
         })
 
@@ -400,6 +405,36 @@ def print_stats(results, config, weights):
         col = comp_arrays[:, i]
         corr = np.corrcoef(col, prices)[0, 1]
         print(f"  {name:18s} {corr:+.3f}  (weight {weights[i]:.0%})")
+
+    # Forward returns analysis (predictive power)
+    print(f"\nPredictive power (score vs forward TLT returns):")
+    for horizon in [5, 10, 20, 60]:
+        if len(scores) <= horizon:
+            continue
+        fwd_returns = (prices[horizon:] / prices[:-horizon] - 1) * 100
+        s = scores[:-horizon]
+        corr = np.corrcoef(s, fwd_returns)[0, 1]
+        print(f"  Score vs {horizon:2d}d fwd return:  corr={corr:+.3f}  "
+              f"({'good contrarian signal' if corr < -0.1 else 'weak signal' if abs(corr) < 0.1 else 'momentum signal'})")
+
+    # Zone analysis: returns by score bucket
+    print(f"\nAverage forward returns by score zone (20d):")
+    if len(scores) > 20:
+        fwd_20d = (prices[20:] / prices[:-20] - 1) * 100
+        s = scores[:-20]
+        zones = [
+            ("Extreme Fear (0-25)", 0, 25),
+            ("Fear (25-45)", 25, 45),
+            ("Neutral (45-55)", 45, 55),
+            ("Greed (55-75)", 55, 75),
+            ("Extreme Greed (75-100)", 75, 100),
+        ]
+        for label, lo, hi in zones:
+            mask = (s >= lo) & (s < hi) if hi < 100 else (s >= lo) & (s <= hi)
+            if mask.sum() > 0:
+                avg_ret = fwd_20d[mask].mean()
+                pct_positive = (fwd_20d[mask] > 0).sum() / mask.sum() * 100
+                print(f"  {label:30s} n={mask.sum():4d}  avg={avg_ret:+.2f}%  positive={pct_positive:.0f}%")
 
     print()
 
