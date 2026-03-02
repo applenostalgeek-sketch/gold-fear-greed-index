@@ -546,9 +546,8 @@ class BondsFearGreedIndex:
         try:
             print(f"  Calculating for {target_date.strftime('%Y-%m-%d')}...", end=" ")
 
-            # Fetch historical data up to (but not including) target date
-            # This matches the daily workflow convention: the workflow runs at
-            # 04:24 UTC before market open, so "today's" entry uses yesterday's close
+            # Fetch historical data including target_date's close
+            # Same convention as gold/stocks/crypto: end = target_date + 1 day
             start_date = target_date - timedelta(days=90)
             end_date = target_date
 
@@ -558,10 +557,10 @@ class BondsFearGreedIndex:
             lqd = yf.Ticker("LQD")
             spy = yf.Ticker("SPY")
 
-            tlt_hist = tlt.history(start=start_date, end=end_date)
-            hyg_hist = hyg.history(start=start_date, end=end_date)
-            lqd_hist = lqd.history(start=start_date, end=end_date)
-            spy_hist = spy.history(start=start_date, end=end_date)
+            tlt_hist = tlt.history(start=start_date, end=end_date + timedelta(days=1))
+            hyg_hist = hyg.history(start=start_date, end=end_date + timedelta(days=1))
+            lqd_hist = lqd.history(start=start_date, end=end_date + timedelta(days=1))
+            spy_hist = spy.history(start=start_date, end=end_date + timedelta(days=1))
 
             if tlt_hist.empty or len(tlt_hist) < 20:
                 print("insufficient data")
