@@ -546,9 +546,11 @@ class BondsFearGreedIndex:
         try:
             print(f"  Calculating for {target_date.strftime('%Y-%m-%d')}...", end=" ")
 
-            # Fetch historical data up to target date
+            # Fetch historical data up to (but not including) target date
+            # This matches the daily workflow convention: the workflow runs at
+            # 04:24 UTC before market open, so "today's" entry uses yesterday's close
             start_date = target_date - timedelta(days=90)
-            end_date = target_date + timedelta(days=1)
+            end_date = target_date
 
             # Get historical data for ALL components
             tlt = yf.Ticker("TLT")
@@ -704,6 +706,8 @@ class BondsFearGreedIndex:
                 if (365 - i) % 50 == 0:
                     print(f"  Progress: {365 - i}/365 days calculated...")
 
+            # Sort descending to match daily workflow convention
+            history = sorted(history, key=lambda x: x['date'], reverse=True)
             print("✅ Historical rebuild complete!")
 
         else:
@@ -739,7 +743,7 @@ class BondsFearGreedIndex:
             history.append(entry)
 
             # Keep only last 365 days
-            history = sorted(history, key=lambda x: x['date'])[-365:]
+            history = sorted(history, key=lambda x: x['date'], reverse=True)[:365]
 
         # Prepare final data
         final_data = {
