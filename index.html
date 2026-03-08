@@ -1130,9 +1130,20 @@
                 })
                 .catch(() => {}); // Silent fail — context is optional
 
-            // Vote buttons (GA events)
+            // Vote buttons (GA events) — one vote per day
+            const todayKey = 'context_vote_' + new Date().toISOString().slice(0,10);
+            const existingVote = localStorage.getItem(todayKey);
+            if (existingVote) {
+                document.querySelectorAll('.vote-btn').forEach(b => {
+                    if (b.dataset.vote === existingVote) b.classList.add('voted');
+                    b.disabled = true;
+                    b.style.opacity = '0.5';
+                    b.style.cursor = 'default';
+                });
+            }
             document.querySelectorAll('.vote-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
+                    if (localStorage.getItem(todayKey)) return;
                     const vote = this.dataset.vote;
                     if (typeof gtag === 'function') {
                         gtag('event', 'context_vote', {
@@ -1141,9 +1152,15 @@
                             value: vote === 'useful' ? 1 : 0
                         });
                     }
-                    document.querySelectorAll('.vote-btn').forEach(b => b.classList.remove('voted'));
+                    document.querySelectorAll('.vote-btn').forEach(b => {
+                        b.classList.remove('voted');
+                        b.disabled = true;
+                        b.style.opacity = '0.5';
+                        b.style.cursor = 'default';
+                    });
                     this.classList.add('voted');
-                    localStorage.setItem('context_vote_' + new Date().toISOString().slice(0,10), vote);
+                    this.style.opacity = '1';
+                    localStorage.setItem(todayKey, vote);
                 });
             });
 
