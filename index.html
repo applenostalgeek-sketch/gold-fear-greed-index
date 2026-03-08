@@ -206,6 +206,7 @@
         }
         .vote-btn:hover { border-color: #8b5cf6; }
         .vote-btn.voted { border-color: #8b5cf6; background: rgba(139, 92, 246, 0.15); }
+        .vote-thanks { color: #8b5cf6; font-size: 0.75rem; margin-left: 4px; }
 
         /* === ASSET CARDS === */
         .assets {
@@ -601,6 +602,7 @@
                     <div class="context-vote">
                         <button class="vote-btn" data-vote="useful" title="Useful">👍</button>
                         <button class="vote-btn" data-vote="not-useful" title="Not useful">👎</button>
+                        <span class="vote-thanks" id="voteThanks" style="display:none;">Thanks!</span>
                     </div>
                 </div>
             </div>
@@ -1135,11 +1137,12 @@
             const existingVote = localStorage.getItem(todayKey);
             if (existingVote) {
                 document.querySelectorAll('.vote-btn').forEach(b => {
-                    if (b.dataset.vote === existingVote) b.classList.add('voted');
+                    if (b.dataset.vote === existingVote) { b.classList.add('voted'); b.style.opacity = '1'; }
+                    else { b.style.opacity = '0.5'; }
                     b.disabled = true;
-                    b.style.opacity = '0.5';
                     b.style.cursor = 'default';
                 });
+                document.getElementById('voteThanks').style.display = 'inline';
             }
             document.querySelectorAll('.vote-btn').forEach(btn => {
                 btn.addEventListener('click', function() {
@@ -1161,6 +1164,7 @@
                     this.classList.add('voted');
                     this.style.opacity = '1';
                     localStorage.setItem(todayKey, vote);
+                    document.getElementById('voteThanks').style.display = 'inline';
                 });
             });
 
