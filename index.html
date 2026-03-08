@@ -999,38 +999,37 @@
             const greedAssets = assets.filter(a => a.score >= 55);
             const neutralAssets = assets.filter(a => a.score > 45 && a.score < 55);
 
-            let parts = [];
+            let insight = '';
 
-            // Primary phrase: convergence or zone breakdown
+            // Primary phrase: convergence or zone narrative
             if (fearAssets.length === 4) {
-                parts.push('All four markets are in Fear territory — a rare alignment signaling broad risk aversion.');
+                insight = 'All four markets are aligned in Fear — a rare signal of broad risk aversion across asset classes.';
             } else if (greedAssets.length === 4) {
-                parts.push('All four markets show Greed — broad optimism across asset classes.');
+                insight = 'All four markets are showing Greed — broad optimism across asset classes.';
             } else {
-                let zones = [];
-                if (greedAssets.length > 0) zones.push(greedAssets.map(a => a.name).join(' and ') + ' in Greed');
-                if (neutralAssets.length > 0) zones.push(neutralAssets.map(a => a.name).join(' and ') + ' Neutral');
-                if (fearAssets.length > 0) zones.push(fearAssets.map(a => a.name).join(' and ') + ' in Fear');
-                parts.push(zones.join(', ') + '.');
+                // Build natural sentence: "[highest] leads in [zone] while [lowest] sits in [zone]"
+                insight = `${highest.name} leads in ${getLabel(highest.score)} while ${lowest.name} sits in ${getLabel(lowest.score)}.`;
+                // Add middle ground if mixed
+                if (neutralAssets.length > 0 && neutralAssets[0] !== highest && neutralAssets[0] !== lowest) {
+                    insight += ` ${neutralAssets.map(a => a.name).join(' and ')} holding Neutral.`;
+                }
             }
 
-            // Secondary: biggest daily mover (≥5 pts)
+            // Add biggest mover if significant
             if (Math.abs(biggestDaily.delta1d) >= 5) {
-                const dir = biggestDaily.delta1d > 0 ? 'up' : 'down';
-                parts.push(`${biggestDaily.name} ${dir} ${Math.abs(biggestDaily.delta1d)} pts today.`);
-            }
-            // Or biggest weekly mover (≥8 pts) if no big daily move
-            else if (Math.abs(biggestWeekly.delta7d) >= 8) {
+                const verb = biggestDaily.delta1d > 0 ? 'surged' : 'dropped';
+                insight += ` ${biggestDaily.name} ${verb} ${Math.abs(biggestDaily.delta1d)} pts today.`;
+            } else if (Math.abs(biggestWeekly.delta7d) >= 8) {
                 const dir = biggestWeekly.delta7d > 0 ? 'up' : 'down';
-                parts.push(`${biggestWeekly.name} ${dir} ${Math.abs(biggestWeekly.delta7d)} pts this week.`);
+                insight += ` ${biggestWeekly.name} ${dir} ${Math.abs(biggestWeekly.delta7d)} pts this week.`;
             }
 
-            // Tertiary: divergence gap
+            // Add divergence gap if large
             if (gap >= 25) {
-                parts.push(`${highest.name} and ${lowest.name} are ${gap} points apart.`);
+                insight += ` ${highest.name} and ${lowest.name} are ${gap} points apart.`;
             }
 
-            document.getElementById('insight').textContent = parts.join(' ');
+            document.getElementById('insight').textContent = insight;
 
             // Update asset cards with mini circles
             function updateCard(prefix, assetData, assetKey) {
