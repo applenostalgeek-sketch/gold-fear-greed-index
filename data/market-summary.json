@@ -1,0 +1,27 @@
+{
+  "date": "2026-03-08",
+  "timestamp": "2026-03-08T12:28:26Z",
+  "summary": "Shock February jobs loss of 92,000 amid war-fueled oil surge sends stocks deeper into fear territory, while bonds extend gains as rate-cut odds spike and gold holds strength amid Middle East tensions .",
+  "scores": {
+    "gold": {
+      "score": 62.7,
+      "label": "Greed"
+    },
+    "stocks": {
+      "score": 44.3,
+      "label": "Fear"
+    },
+    "crypto": {
+      "score": 41.3,
+      "label": "Fear"
+    },
+    "bonds": {
+      "score": 67.3,
+      "label": "Greed"
+    },
+    "sentiment": {
+      "score": 53.9,
+      "label": "Neutral"
+    }
+  }
+}
