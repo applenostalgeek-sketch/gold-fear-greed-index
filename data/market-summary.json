@@ -1,7 +1,7 @@
 {
   "date": "2026-03-08",
-  "timestamp": "2026-03-08T12:52:35Z",
-  "summary": "Markets show mixed signals with Gold leading at 62.6 (Greed) while Crypto lags at 42.1 (Fear). Overall sentiment sits at 49.7.",
+  "timestamp": "2026-03-08T12:54:11Z",
+  "summary": "Gold holds Greed (62.6) amid geopolitical stress and tariff uncertainty, while Stocks remain in Fear (43.0) as equities face macro headwinds. Bonds slide further, dropping to Neutral (51.2) on a falling trend as yields retreat. Crypto registers Fear (42.1), weighed down by recession concerns and risk-off sentiment, leaving overall markets at Neutral (49.7).",
   "scores": {
     "gold": {
       "score": 62.6,
