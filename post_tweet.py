@@ -456,8 +456,39 @@ def detect_calm(data):
 # ─── Main logic ───
 
 
+def load_ai_context():
+    """Load AI context from market-summary.json, return first sentence."""
+    try:
+        with open('data/market-summary.json', 'r') as f:
+            summary = json.load(f).get('summary', '')
+        if not summary or len(summary) < 20:
+            return None
+        # Extract first sentence (skip abbreviations like U.S., St., etc.)
+        import re
+        match = re.search(r'(?<![A-Z])\.\s', summary)
+        if match and match.start() < 200:
+            return summary[:match.start() + 1]
+        # If first sentence too long, truncate at last space within 200 chars
+        if len(summary) > 200:
+            truncated = summary[:200]
+            last_space = truncated.rfind(' ')
+            if last_space > 100:
+                return truncated[:last_space] + '...'
+        return summary if len(summary) <= 200 else summary[:197] + '...'
+    except (FileNotFoundError, json.JSONDecodeError):
+        return None
+
+
 def generate_best_tweet(data):
-    """Try all detectors and pick the highest-priority story."""
+    """Try AI context first, then fall back to story detectors."""
+    # Try AI context as headline
+    ai_headline = load_ai_context()
+    if ai_headline:
+        tweet = build_tweet(ai_headline, data)
+        if len(tweet) <= 280:
+            return tweet
+
+    # Fallback: story detectors (priority order)
     detectors = [
         detect_extreme,
         detect_big_mover,
