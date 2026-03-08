@@ -30,9 +30,12 @@ def load_scores():
             data = json.load(f)
         score = data['score']
         label = data['label']
-        prev_score = data['history'][1]['score'] if len(data['history']) > 1 else score
-        delta = round(score - prev_score, 1)
-        assets[name] = {'score': score, 'label': label, 'delta': delta}
+        history = data.get('history', [])
+        delta_1d = round(score - history[1]['score'], 1) if len(history) > 1 else 0
+        delta_7d = round(score - history[6]['score'], 1) if len(history) > 6 else 0
+        delta_14d = round(score - history[13]['score'], 1) if len(history) > 13 else 0
+        assets[name] = {'score': score, 'label': label,
+                        'delta': delta_1d, 'delta_7d': delta_7d, 'delta_14d': delta_14d}
 
     avg = round(sum(a['score'] for a in assets.values()) / 4, 1)
     assets['Sentiment'] = {'score': avg, 'label': get_label(avg)}
@@ -84,46 +87,48 @@ def generate_summary():
     score_lines = []
     for name in ['Gold', 'Stocks', 'Crypto', 'Bonds']:
         s = scores[name]
-        delta_str = f"+{s['delta']}" if s['delta'] >= 0 else str(s['delta'])
-        score_lines.append(f"- {name}: {s['score']} ({s['label']}, {delta_str} vs yesterday)")
+        d1 = f"+{s['delta']}" if s['delta'] >= 0 else str(s['delta'])
+        d7 = f"+{s['delta_7d']}" if s['delta_7d'] >= 0 else str(s['delta_7d'])
+        d14 = f"+{s['delta_14d']}" if s['delta_14d'] >= 0 else str(s['delta_14d'])
+        trend = "rising" if s['delta_7d'] > 3 else "falling" if s['delta_7d'] < -3 else "stable"
+        score_lines.append(f"- {name}: {s['score']} ({s['label']}, {d1} 1d, {d7} 7d, {d14} 14d, trend: {trend})")
 
     sentiment = scores['Sentiment']
     score_lines.append(f"- Market Sentiment (average): {sentiment['score']} ({sentiment['label']})")
     scores_text = "\n".join(score_lines)
 
-    prompt = f"""You write the daily "What's happening" summary for onoff.markets, a multi-asset Fear & Greed index site tracking Gold, Stocks, Crypto, and Bonds.
+    system = """You write a daily 2-3 sentence market summary for onoff.markets (a Fear & Greed index site).
 
-Today's Fear & Greed scores (0 = Extreme Fear, 100 = Extreme Greed):
+Rules:
+- MAX 350 characters. 2-3 sentences.
+- Mention all 4 markets: Gold, Stocks, Crypto, Bonds.
+- Respect the trend direction provided (rising/falling/stable). Never contradict it.
+- Describe current state only. No predictions, no "ahead", no "expect".
+- Reference the Fear & Greed scores and labels, not asset prices.
+- Use web search to find today's catalysts (macro, geopolitics, central banks).
+- Be factual. No filler. Every word must add information.
+- Plain text only. No emojis, no markdown.
+- Vary phrasing from yesterday's summary.
+- Output ONLY the summary. No preamble, no reasoning, no commentary."""
+
+    user_msg = f"""Today's scores (0=Extreme Fear, 100=Extreme Greed):
 {scores_text}
 
-Instructions:
-- Write 2-3 sentences, MAX 350 characters total
-- ALL FOUR markets (Gold, Stocks, Crypto, Bonds) must be referenced — do not skip any
-- Focus on the Fear & Greed SCORES and LABELS, not on asset prices or returns
-- Use web search to identify today's key market catalysts (macro data, geopolitics, central bank decisions, earnings, etc.)
-- Be factual: describe observed correlations ("amid rising tensions"), not definitive causation ("because of")
-- Mention specific catalysts when clear (e.g. "jobs report", "Fed meeting", "oil spike")
-- If scores barely moved, focus on what's keeping markets in their current state
-- Vary your phrasing — avoid repeating yesterday's structure
-- No emojis, no markdown, plain text only
-- Write in English
-- Do NOT start with "Markets" — vary sentence openings
+Yesterday's summary (vary from this): "{previous}"
 
-Yesterday's summary (do not repeat similar phrasing):
-"{previous}"
-
-Write the summary now. Output ONLY the summary text, nothing else."""
+Write the summary now."""
 
     try:
         response = client.messages.create(
-            model="claude-haiku-4-5-20251001",
+            model="claude-sonnet-4-6",
             max_tokens=200,
+            system=system,
             tools=[{
                 "type": "web_search_20250305",
                 "name": "web_search",
                 "max_uses": 3
             }],
-            messages=[{"role": "user", "content": prompt}]
+            messages=[{"role": "user", "content": user_msg}]
         )
 
         # Concatenate all text blocks (web search splits across multiple)
@@ -137,13 +142,12 @@ Write the summary now. Output ONLY the summary text, nothing else."""
 
         # Strip preamble — model sometimes prefixes with reasoning
         import re
-        # Remove everything up to and including known preamble endings
-        for pattern in [r"here'?s the summary:\s*",
-                        r"here is the summary:\s*",
-                        r"based on my research[^:]*:\s*"]:
-            match = re.search(pattern, full_text, re.IGNORECASE)
-            if match:
-                full_text = full_text[match.end():].strip()
+
+        # Remove everything before and including a colon if it starts with preamble
+        full_text = re.sub(
+            r'^(?:based on|here (?:is|\'s)|let me|i\'?ll search)[^:]*:\s*',
+            '', full_text, flags=re.IGNORECASE
+        ).strip()
 
         # Remove leading "I'll search..." type sentences
         full_text = re.sub(
