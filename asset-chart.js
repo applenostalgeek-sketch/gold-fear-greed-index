@@ -200,8 +200,8 @@
         let is30dHigh = false, is30dLow = false;
         if (history.length >= 30) {
             const scores30 = history.slice(0, 30).map(h => h.score);
-            if (score >= Math.max(...scores30) - 1) is30dHigh = true;
-            if (score <= Math.min(...scores30) + 1) is30dLow = true;
+            if (score >= Math.max(...scores30)) is30dHigh = true;
+            if (score <= Math.min(...scores30)) is30dLow = true;
         }
 
         // Streak
