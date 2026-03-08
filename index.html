@@ -1001,17 +1001,41 @@
 
             let insight = '';
 
-            // Primary phrase: convergence or zone narrative
+            // Primary phrase: risk-on/risk-off narrative + convergence
+            const strongRiskOff = bonds.score > 60 || gold.score > 60;
+            const strongRiskOn = stocks.score > 60 || crypto.score > 60;
+
             if (fearAssets.length === 4) {
                 insight = 'All four markets are aligned in Fear — a rare signal of broad risk aversion across asset classes.';
             } else if (greedAssets.length === 4) {
                 insight = 'All four markets are showing Greed — broad optimism across asset classes.';
+            } else if (rounded <= 25) {
+                insight = `Markets are in full panic mode. ${lowest.name} faces the heaviest selling pressure, while ${highest.name} is the most sought-after asset right now.`;
+            } else if (rounded <= 45) {
+                if (strongRiskOff) {
+                    insight = `Investors are playing it safe. ${highest.name} is attracting the most interest, while ${lowest.name} faces the heaviest selling pressure.`;
+                } else {
+                    insight = `Caution is the dominant mood. ${lowest.name} is under the most pressure, though no market is showing extreme behavior yet.`;
+                }
+            } else if (rounded <= 55) {
+                const allNeutral = neutralAssets.length === 4;
+                if (allNeutral) {
+                    insight = 'No strong conviction in any direction. All four markets are near neutral — investors are waiting for a clearer signal.';
+                } else {
+                    insight = `Mixed signals. ${highest.name} leads with the most buying interest while ${lowest.name} faces the most pressure.`;
+                }
+            } else if (rounded <= 75) {
+                if (strongRiskOn) {
+                    insight = `Risk appetite is growing. ${highest.name} is attracting the most confidence, while ${lowest.name} is losing interest.`;
+                } else {
+                    insight = `Optimism is building slowly. ${highest.name} leads the way, though the shift toward risk is gradual.`;
+                }
             } else {
-                // Build natural sentence: "[highest] leads in [zone] while [lowest] sits in [zone]"
-                insight = `${highest.name} leads in ${getLabel(highest.score)} while ${lowest.name} sits in ${getLabel(lowest.score)}.`;
-                // Add middle ground if mixed
-                if (neutralAssets.length > 0 && neutralAssets[0] !== highest && neutralAssets[0] !== lowest) {
-                    insight += ` ${neutralAssets.map(a => a.name).join(' and ')} holding Neutral.`;
+                const euphoria = crypto.score > 75 && stocks.score > 75;
+                if (euphoria) {
+                    insight = `Full euphoria mode. ${highest.name} is seeing the most aggressive buying while ${lowest.name} is being ignored.`;
+                } else {
+                    insight = `Strong risk appetite across markets. ${highest.name} is attracting the heaviest buying interest while ${lowest.name} is being neglected.`;
                 }
             }
 
