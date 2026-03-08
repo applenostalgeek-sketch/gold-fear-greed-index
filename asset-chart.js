@@ -234,12 +234,6 @@
 
     // ==================== Historical Context (5Y) ====================
 
-    function ordinal(n) {
-        const s = ['th', 'st', 'nd', 'rd'];
-        const v = n % 100;
-        return n + (s[(v - 20) % 10] || s[v] || s[0]);
-    }
-
     function buildHistoricalContext(score, label, history1y) {
         if (!history5yData || !history5yData.history || history5yData.history.length < 100) return '';
 
@@ -247,14 +241,16 @@
         const getZone = s => s <= 25 ? 'Extreme Fear' : s <= 45 ? 'Fear' : s <= 55 ? 'Neutral' : s <= 75 ? 'Greed' : 'Extreme Greed';
         const parts = [];
 
-        // 1. Percentile with natural phrasing for extremes
+        // 1. Percentile — plain language, no jargon
         const below = scores5y.filter(s => s < score).length;
         const percentile = Math.round((below / scores5y.length) * 100);
         if (percentile <= 10) parts.push('Near 5-year lows');
-        else if (percentile <= 25) parts.push('Lower than usual (' + ordinal(percentile) + ' percentile over 5 years)');
-        else if (percentile >= 90) parts.push('Near 5-year highs');
-        else if (percentile >= 75) parts.push('Higher than usual (' + ordinal(percentile) + ' percentile over 5 years)');
-        else parts.push(ordinal(percentile) + ' percentile over the last 5 years');
+        else if (percentile <= 25) parts.push('Historically low');
+        else if (percentile <= 40) parts.push('Below its 5-year average');
+        else if (percentile <= 60) parts.push('Near its 5-year average');
+        else if (percentile <= 75) parts.push('Above its 5-year average');
+        else if (percentile < 90) parts.push('Historically high');
+        else parts.push('Near 5-year highs');
 
         // 2. Zone streak from 1Y (DESC order) + average from 5Y (ASC order)
         const currentZone = getZone(score);
