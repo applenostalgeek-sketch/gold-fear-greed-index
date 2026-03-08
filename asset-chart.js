@@ -152,17 +152,7 @@
 
         // Insight text
         if (assetData.components) {
-            let phrase1 = '';
-            if (rounded <= 25) phrase1 = CFG.phrases.extremeFear;
-            else if (rounded <= 45) phrase1 = CFG.phrases.fear;
-            else if (rounded <= 55) phrase1 = CFG.phrases.neutral;
-            else if (rounded <= 75) phrase1 = CFG.phrases.greed;
-            else phrase1 = CFG.phrases.extremeGreed;
-
-            const factPhrase = buildFactPhrase(assetData, score);
-            const historicalContext = buildHistoricalContext(score, assetData.label, assetData.history || []);
-            let insightText = factPhrase;
-            if (historicalContext) insightText += ' ' + historicalContext;
+            const insightText = buildInsightText(assetData, score);
             document.getElementById('insight').textContent = insightText;
         }
 
@@ -187,13 +177,18 @@
         return div.innerHTML;
     }
 
-    // ==================== Fact Phrase ====================
+    // ==================== Insight Text ====================
 
-    function buildFactPhrase(data, score) {
+    function buildInsightText(data, score) {
         const history = data.history || [];
         if (history.length < 2) return '';
 
-        const getZone = s => s <= 25 ? 'EF' : s <= 45 ? 'F' : s <= 55 ? 'N' : s <= 75 ? 'G' : 'EG';
+        const label = data.label;
+        const getZone = s => s <= 25 ? 'Extreme Fear' : s <= 45 ? 'Fear' : s <= 55 ? 'Neutral' : s <= 75 ? 'Greed' : 'Extreme Greed';
+
+        // === Gather all signals ===
+
+        // Weekly diff
         const weeklyDiff = history.length >= 7 ? Math.round(score - history[6].score) : 0;
 
         // 30-day extremes
@@ -204,87 +199,161 @@
             if (score <= Math.min(...scores30)) is30dLow = true;
         }
 
-        // Streak
+        // Direction streak (rising/falling)
         const dir = history[0].score > history[1].score ? 1 : -1;
-        let streak = 1;
+        let dirStreak = 1;
         for (let i = 1; i < history.length - 1; i++) {
-            if (dir > 0 && history[i].score > history[i+1].score) streak++;
-            else if (dir < 0 && history[i].score < history[i+1].score) streak++;
+            if (dir > 0 && history[i].score > history[i + 1].score) dirStreak++;
+            else if (dir < 0 && history[i].score < history[i + 1].score) dirStreak++;
             else break;
         }
-        streak *= dir;
+        dirStreak *= dir;
 
-        // Stability
-        let daysNear = 1;
-        for (let i = 1; i < Math.min(history.length, 14); i++) {
-            if (Math.abs(history[i].score - score) <= 5) daysNear++;
-            else break;
+        // Zone change
+        const zoneChanged = getZone(history[0].score) !== getZone(history[1].score);
+
+        // 14-day velocity
+        let velocity = 0;
+        if (history.length >= 14) {
+            velocity = Math.round(history[0].score - history[13].score);
         }
 
-        // Priority selection
-        if (is30dLow) return 'Lowest score in 30 days.';
-        if (is30dHigh) return 'Highest score in 30 days.';
-        if (Math.abs(weeklyDiff) > 10) return (weeklyDiff > 0 ? 'Up' : 'Down') + ' ' + Math.abs(weeklyDiff) + ' pts this week.';
-        if (Math.abs(streak) >= 5) return (streak > 0 ? 'Rising' : 'Falling') + ' ' + Math.abs(streak) + ' days straight.';
-        if (getZone(history[0].score) !== getZone(history[1].score)) return 'Just entered ' + data.label + '.';
-        if (Math.abs(weeklyDiff) > 5) return (weeklyDiff > 0 ? 'Up' : 'Down') + ' ' + Math.abs(weeklyDiff) + ' pts this week.';
-        if (daysNear >= 3) return 'Holding near ' + Math.round(score) + ' for ' + daysNear + ' days.';
-        return 'No major move recently.';
-    }
+        // 5Y historical context
+        let percentileText = '';
+        let zoneStreakText = '';
+        if (history5yData && history5yData.history && history5yData.history.length >= 100) {
+            const scores5y = history5yData.history.map(h => h.score);
 
-    // ==================== Historical Context (5Y) ====================
+            // Percentile
+            const below = scores5y.filter(s => s < score).length;
+            const pct = Math.round((below / scores5y.length) * 100);
+            if (pct <= 10) percentileText = 'near 5-year lows';
+            else if (pct <= 25) percentileText = 'historically low';
+            else if (pct <= 40) percentileText = 'below its 5-year average';
+            else if (pct <= 60) percentileText = 'near its 5-year average';
+            else if (pct <= 75) percentileText = 'above its 5-year average';
+            else if (pct < 90) percentileText = 'historically high';
+            else percentileText = 'near 5-year highs';
 
-    function buildHistoricalContext(score, label, history1y) {
-        if (!history5yData || !history5yData.history || history5yData.history.length < 100) return '';
+            // Zone streak
+            const currentZone = getZone(score);
+            let zoneStreak = 0;
+            for (const entry of history) {
+                if (getZone(entry.score) === currentZone) zoneStreak++;
+                else break;
+            }
 
-        const scores5y = history5yData.history.map(h => h.score);
-        const getZone = s => s <= 25 ? 'Extreme Fear' : s <= 45 ? 'Fear' : s <= 55 ? 'Neutral' : s <= 75 ? 'Greed' : 'Extreme Greed';
-        const parts = [];
+            // Average zone duration from 5Y
+            const runs = [];
+            let runLen = 1;
+            for (let i = 1; i < scores5y.length; i++) {
+                if (getZone(scores5y[i]) === getZone(scores5y[i - 1])) {
+                    runLen++;
+                } else {
+                    if (getZone(scores5y[i - 1]) === currentZone) runs.push(runLen);
+                    runLen = 1;
+                }
+            }
+            const avgDur = runs.length > 0 ? Math.round(runs.reduce((a, b) => a + b, 0) / runs.length) : 0;
 
-        // 1. Percentile — plain language, no jargon
-        const below = scores5y.filter(s => s < score).length;
-        const percentile = Math.round((below / scores5y.length) * 100);
-        if (percentile <= 10) parts.push('Near 5-year lows');
-        else if (percentile <= 25) parts.push('Historically low');
-        else if (percentile <= 40) parts.push('Below its 5-year average');
-        else if (percentile <= 60) parts.push('Near its 5-year average');
-        else if (percentile <= 75) parts.push('Above its 5-year average');
-        else if (percentile < 90) parts.push('Historically high');
-        else parts.push('Near 5-year highs');
-
-        // 2. Zone streak from 1Y (DESC order) + average from 5Y (ASC order)
-        const currentZone = getZone(score);
-        let streak = 0;
-        for (const entry of history1y) {
-            if (getZone(entry.score) === currentZone) streak++;
-            else break;
-        }
-
-        // Average zone duration from 5Y
-        const runs = [];
-        let runLen = 1;
-        for (let i = 1; i < scores5y.length; i++) {
-            if (getZone(scores5y[i]) === getZone(scores5y[i - 1])) {
-                runLen++;
-            } else {
-                if (getZone(scores5y[i - 1]) === currentZone) runs.push(runLen);
-                runLen = 1;
+            zoneStreakText = 'in ' + label + ' for ' + zoneStreak + ' day' + (zoneStreak !== 1 ? 's' : '');
+            if (avgDur > 0) {
+                zoneStreakText += ' (avg ' + avgDur + ')';
+                if (zoneStreak > avgDur * 1.5) zoneStreakText += ' — unusually long';
             }
         }
 
-        const avgDuration = runs.length > 0 ? Math.round(runs.reduce((a, b) => a + b, 0) / runs.length) : 0;
-        let streakText = 'In ' + label + ' for ' + streak + ' day' + (streak !== 1 ? 's' : '');
-        if (avgDuration > 0) {
-            streakText += ' (avg ' + avgDuration + ')';
-            if (streak > avgDuration * 1.5) streakText += ' — unusually long';
-        }
-        parts.push(streakText);
+        // === Build narrative ===
 
-        // 3. Velocity 14d
-        if (history1y.length >= 14) {
-            const velocity = Math.round(history1y[0].score - history1y[13].score);
-            if (Math.abs(velocity) >= 3) {
-                parts.push((velocity > 0 ? '+' : '') + velocity + ' pts over 14 days');
+        // Velocity text (only if not redundant with weekly)
+        const savedPercentile = percentileText; // save before it gets consumed
+        const velocityRedundant = Math.abs(weeklyDiff) > 5 && Math.abs(velocity - weeklyDiff) < 4;
+        const velText = Math.abs(velocity) >= 3 && !velocityRedundant
+            ? (velocity > 0 ? 'up' : 'down') + ' ' + Math.abs(velocity) + ' pts over two weeks'
+            : '';
+
+        // Pick lead
+        let lead = '';
+        let usedVelocityInLead = false;
+
+        if (is30dLow) {
+            lead = 'At its lowest point in 30 days';
+        } else if (is30dHigh) {
+            lead = 'At its highest point in 30 days';
+        } else if (zoneChanged) {
+            // Zone change + percentile together: "Just entered Fear at a historically low level"
+            if (percentileText) {
+                lead = 'Just entered ' + label + ' at a ' + percentileText + ' level';
+                percentileText = ''; // consumed
+            } else {
+                lead = 'Just entered ' + label;
+            }
+        } else if (Math.abs(weeklyDiff) > 10) {
+            lead = 'Dropped sharply — down ' + Math.abs(weeklyDiff) + ' pts this week';
+            if (weeklyDiff > 0) lead = 'Surged — up ' + Math.abs(weeklyDiff) + ' pts this week';
+        } else if (Math.abs(dirStreak) >= 5) {
+            lead = (dirStreak > 0 ? 'Rising' : 'Falling') + ' for ' + Math.abs(dirStreak) + ' days straight';
+        } else if (Math.abs(velocity) >= 8) {
+            lead = (velocity > 0 ? 'Recovering' : 'Easing') + ' — ' + (velocity > 0 ? 'up' : 'down') + ' ' + Math.abs(velocity) + ' pts over two weeks';
+            usedVelocityInLead = true;
+        } else if (Math.abs(weeklyDiff) > 5) {
+            lead = (weeklyDiff > 0 ? 'Up' : 'Down') + ' ' + Math.abs(weeklyDiff) + ' pts this week';
+        } else if (Math.abs(velocity) >= 5) {
+            lead = 'Gradually ' + (velocity > 0 ? 'improving' : 'declining') + ' — ' + (velocity > 0 ? 'up' : 'down') + ' ' + Math.abs(velocity) + ' pts over two weeks';
+            usedVelocityInLead = true;
+        }
+
+        // Assemble parts
+        const parts = [];
+
+        if (lead) {
+            // If percentile not consumed, add contrast or support
+            if (percentileText) {
+                // Check if velocity contradicts the historical level
+                const isLow = percentileText.includes('low') || percentileText.includes('lows');
+                const isHigh = percentileText.includes('high') || percentileText.includes('highs');
+                if ((isLow && velocity > 5) || (isHigh && velocity < -5)) {
+                    parts.push(lead + ', though ' + percentileText);
+                } else if (isLow || isHigh) {
+                    parts.push(lead + ', ' + percentileText);
+                } else {
+                    parts.push(lead + '. ' + percentileText.charAt(0).toUpperCase() + percentileText.slice(1));
+                }
+            } else {
+                parts.push(lead);
+            }
+        } else {
+            // No notable short-term signal — lead with historical context
+            if (percentileText) {
+                parts.push(percentileText.charAt(0).toUpperCase() + percentileText.slice(1));
+            }
+        }
+
+        // Zone streak
+        if (zoneStreakText) {
+            // Attach to previous with separator
+            const last = parts.length - 1;
+            if (last >= 0) {
+                parts[last] += ' — ' + zoneStreakText;
+            } else {
+                parts.push(zoneStreakText.charAt(0).toUpperCase() + zoneStreakText.slice(1));
+            }
+        }
+
+        // Velocity (if not already used)
+        if (velText && !usedVelocityInLead) {
+            const last = parts.length - 1;
+            if (last >= 0) {
+                // Check for contradiction: low but improving, or high but declining
+                const isLow = savedPercentile.includes('low') || savedPercentile.includes('lows');
+                const isHigh = savedPercentile.includes('high') || savedPercentile.includes('highs');
+                if ((isLow && velocity > 5) || (isHigh && velocity < -5)) {
+                    parts[last] += ', though ' + velText;
+                } else {
+                    parts[last] += ', ' + velText;
+                }
+            } else {
+                parts.push(velText.charAt(0).toUpperCase() + velText.slice(1));
             }
         }
 
