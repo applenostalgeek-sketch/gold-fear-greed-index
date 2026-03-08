@@ -1,22 +1,22 @@
 {
-  "score": 42.1,
+  "score": 42.0,
   "label": "Fear",
-  "timestamp": "2026-03-08T12:33:29Z",
+  "timestamp": "2026-03-08T13:02:34Z",
   "components": {
     "context": {
-      "score": 45.4,
+      "score": 45.2,
       "weight": 0.3,
-      "detail": "30-day change: -2.7%"
+      "detail": "30-day change: -2.8%"
     },
     "momentum": {
-      "score": 37.7,
+      "score": 37.6,
       "weight": 0.2,
-      "detail": "RSI: 50, Price vs MA200: -29.4%"
+      "detail": "RSI: 49, Price vs MA200: -29.5%"
     },
     "dominance": {
-      "score": 52.2,
+      "score": 52.1,
       "weight": 0.2,
-      "detail": "BTC +4.3% vs ETH +5.1% (14d)"
+      "detail": "BTC +4.2% vs ETH +4.9% (14d)"
     },
     "volume": {
       "score": 44.7,
@@ -32,8 +32,8 @@
   "history": [
     {
       "date": "2026-03-08",
-      "score": 42.1,
-      "price": 67421.21
+      "score": 42.0,
+      "price": 67316.94
     },
     {
       "date": "2026-03-07",
