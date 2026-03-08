@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LG19C5SPCF"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-LG19C5SPCF');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gold vs Stocks — Understanding Risk-On vs Risk-Off | OnOff.Markets</title>
+    <link rel="canonical" href="https://onoff.markets/gold-vs-stocks-sentiment.html">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Gold vs Stocks: understand risk-on vs risk-off dynamics. Learn how safe havens and risk assets move in opposite directions and how to read the signals.">
+    <meta name="keywords" content="gold vs stocks, risk on risk off explained, safe haven vs risk assets, market rotation, gold stocks correlation">
+    <meta name="author" content="OnOff.Markets">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://onoff.markets/gold-vs-stocks-sentiment.html">
+    <meta property="og:title" content="Gold vs Stocks — Risk-On vs Risk-Off | OnOff.Markets">
+    <meta property="og:description" content="How safe havens and risk assets move in opposite directions, and how to read the signals.">
+    <meta property="og:image" content="https://onoff.markets/og-home.png">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://onoff.markets/gold-vs-stocks-sentiment.html">
+    <meta name="twitter:title" content="Gold vs Stocks — Risk-On vs Risk-Off | OnOff.Markets">
+    <meta name="twitter:description" content="How safe havens and risk assets move in opposite directions.">
+    <meta name="twitter:image" content="https://onoff.markets/og-home.png">
+
+    <!-- Structured Data - FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What does risk-on risk-off mean in investing?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Risk-on risk-off describes how investors rotate between asset classes based on their confidence. During risk-on periods, money flows into higher-risk, higher-reward assets like stocks and crypto. During risk-off periods, investors seek safety in assets like gold and government bonds. This rotation is one of the most fundamental dynamics in financial markets."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Why do gold and stocks move in opposite directions?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Gold and stocks often move inversely because they serve different roles in a portfolio. Stocks represent growth and risk appetite — they do well when the economy is strong and investors are confident. Gold is a safe haven — it attracts capital when investors are worried about inflation, geopolitical risk, or economic downturns. When fear rises, money leaves stocks and flows into gold. When confidence returns, the reverse happens."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How does OnOff.Markets measure risk-on vs risk-off sentiment?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "OnOff.Markets calculates a Market Sentiment composite by comparing risk-on assets (average of Stocks and Crypto indices) against risk-off assets (average of Bonds and Gold indices). When the Greed Side (Stocks + Crypto) exceeds the Fear Side (Bonds + Gold), sentiment is risk-on. When the Fear Side dominates, sentiment is risk-off. This provides a single view of how money is flowing between safe havens and risk assets."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="theme-color" content="#0a0a0a">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+
+    <!-- Shared Styles -->
+    <link rel="stylesheet" href="shared.css">
+
+    <style>
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        .page-header p {
+            font-size: 1.1rem;
+            color: #999;
+            line-height: 1.6;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Section Styles */
+        .section {
+            margin: 80px 0;
+        }
+
+        .section h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: #fff;
+        }
+
+        .section h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 40px 0 20px 0;
+            color: #fff;
+        }
+
+        .section p {
+            font-size: 1rem;
+            color: #ccc;
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+
+        .section ul {
+            margin: 16px 0 16px 32px;
+            color: #ccc;
+            line-height: 1.8;
+        }
+
+        .section li {
+            margin-bottom: 8px;
+        }
+
+        /* Component Box */
+        .component-box {
+            background: #0d0d0d;
+            border: 1px solid #1a1a1a;
+            border-left: 4px solid #666;
+            border-radius: 8px;
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .component-box.gold {
+            border-left-color: #FFD700;
+        }
+
+        .component-box.bonds {
+            border-left-color: #22c55e;
+        }
+
+        .component-box.stocks {
+            border-left-color: #4A90E2;
+        }
+
+        .component-box.crypto {
+            border-left-color: #F7931A;
+        }
+
+        .component-box h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .component-box p {
+            font-size: 0.95rem;
+            color: #ccc;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .component-box ul {
+            margin: 12px 0 0 24px;
+            color: #ccc;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: #0d0d0d;
+            border: 1px solid #1a1a1a;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            margin: 60px 0;
+        }
+
+        .contact-section h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .contact-section p {
+            font-size: 1rem;
+            color: #999;
+            margin-bottom: 24px;
+        }
+
+        .contact-section a {
+            display: inline-block;
+            background: #FFD700;
+            color: #0a0a0a;
+            padding: 12px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .contact-section a:hover {
+            background: #ffd70099;
+            transform: translateY(-2px);
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .page-header p {
+                font-size: 1rem;
+            }
+
+            .section h2 {
+                font-size: 1.5rem;
+            }
+
+            .contact-section {
+                padding: 32px 20px;
+            }
+
+            .component-box {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span>On</span>
+                <span class="logo-dots">●●</span>
+                <span>Off</span>
+                <span class="logo-suffix">.Markets</span>
+            </a>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-links" id="navLinks">
+                <a href="gold.html">Gold</a>
+                <a href="bonds.html">Bonds</a>
+                <a href="stocks.html">Stocks</a>
+                <a href="crypto.html">Crypto</a>
+                <a href="about.html">About</a>
+                <button class="alert-btn">🔔 Alerts</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>Gold vs Stocks: Risk-On vs Risk-Off</h1>
+            <p>How safe havens and risk assets move in opposite directions</p>
+        </div>
+
+        <!-- Risk-On vs Risk-Off Explained -->
+        <div class="section">
+            <h2>Risk-On vs Risk-Off Explained</h2>
+            <p>
+                Every day, billions of dollars flow between two camps: <strong>risk assets</strong> and <strong>safe havens</strong>. This rotation — known as the risk-on / risk-off dynamic — is one of the most fundamental forces in financial markets.
+            </p>
+            <p>
+                During <strong>risk-on</strong> periods, investors are confident. They buy stocks for growth, crypto for speculation, and sell defensive assets. The economy looks strong, earnings are rising, and the mood is optimistic. Money flows toward higher returns and higher risk.
+            </p>
+            <p>
+                During <strong>risk-off</strong> periods, fear takes over. Investors sell risky assets and flee to safety — gold, government bonds, cash. They accept lower returns in exchange for preservation. Uncertainty drives the shift: recession fears, geopolitical crises, financial stress.
+            </p>
+            <p>
+                This is why gold and stocks often move in <strong>opposite directions</strong>. They represent two sides of the same coin: confidence vs. fear. When one side gains, the other typically weakens. Not always — there are exceptions — but the pattern is persistent enough to be one of the most tracked relationships in investing.
+            </p>
+        </div>
+
+        <!-- How Our Composite Score Works -->
+        <div class="section">
+            <h2>How Our Composite Score Works</h2>
+            <p>
+                The <a href="index.html" style="color: #FFD700; text-decoration: underline;">Market Sentiment Indicator</a> on our homepage quantifies this risk-on / risk-off dynamic by comparing the four indices:
+            </p>
+
+            <div class="component-box" style="border-left-color: #e74c3c;">
+                <h4>Greed Side (Risk-On)</h4>
+                <p><strong>Average of Stocks + Crypto indices.</strong> When this side is high, investors are embracing risk. Equity markets are strong, crypto is surging, and speculative appetite is healthy. Higher readings indicate more aggressive positioning.</p>
+            </div>
+
+            <div class="component-box" style="border-left-color: #22c55e;">
+                <h4>Fear Side (Risk-Off)</h4>
+                <p><strong>Average of Bonds + Gold indices.</strong> When this side is high, investors are seeking safety. Gold demand is strong, bond markets show defensive positioning, and capital is flowing away from risk. Higher readings indicate more cautious positioning.</p>
+            </div>
+
+            <p>
+                The Market Sentiment score reflects the <strong>difference</strong> between these two sides. When risk-on assets have higher sentiment than risk-off assets, the composite tilts toward Greed. When safe havens dominate, it tilts toward Fear.
+            </p>
+            <p>
+                Crucially, each side blends a traditional asset with an alternative one: Stocks (traditional) + Crypto (alternative) on the risk side, Bonds (traditional) + Gold (alternative) on the safe haven side. This <strong>50/50 balance</strong> ensures neither traditional nor alternative markets dominate the signal.
+            </p>
+        </div>
+
+        <!-- Historical Patterns -->
+        <div class="section">
+            <h2>Historical Patterns</h2>
+            <p>
+                Looking at 5 years of data across all four indices reveals how rare — and how meaningful — convergence events are:
+            </p>
+
+            <h3>Universal Fear: A Rare Signal</h3>
+            <p>
+                All four indices below 45 at the same time happened on only <strong>33 trading days</strong> out of approximately 1,260 — just 2.6% of the time. Every single one of those days occurred during the <strong>2022 Federal Reserve rate hiking crisis</strong>, when aggressive monetary tightening crushed bonds, stocks, crypto, and even gold simultaneously.
+            </p>
+            <p>
+                The last time all four converged in fear was <strong>September 2022</strong> — over 2.5 years ago. These moments of universal pessimism are exceptionally rare and have historically marked significant market turning points.
+            </p>
+
+            <h3>Universal Greed: More Common</h3>
+            <p>
+                All four indices above 55 occurred on <strong>79 trading days</strong> (6.3% of the time), roughly 16 episodes per year. This is more frequent because markets have a <strong>structural bullish bias</strong> — over time, asset prices tend to rise. Still, these periods of broad optimism deserve monitoring, as they indicate elevated risk appetite across all markets.
+            </p>
+
+            <h3>Divergence Patterns</h3>
+            <p>
+                The most actionable signals often come from <strong>divergences</strong> between risk-on and risk-off assets:
+            </p>
+            <ul>
+                <li><strong>Gold surging + Stocks falling:</strong> Classic flight-to-safety. Often triggered by geopolitical risk, recession fears, or financial stress. The money isn't disappearing — it's rotating.</li>
+                <li><strong>Crypto surging + Bonds weakening:</strong> Maximum risk appetite. Investors are chasing speculative returns and abandoning defensive positions. Often seen during liquidity-driven rallies.</li>
+                <li><strong>All risk-on AND risk-off rising:</strong> Unusual, but happens when central banks inject massive liquidity — all boats rise. Watch for the divergence that follows when the liquidity recedes.</li>
+            </ul>
+        </div>
+
+        <!-- Reading the Signals Today -->
+        <div class="section">
+            <h2>Reading the Signals Today</h2>
+            <p>
+                The <a href="index.html" style="color: #FFD700; text-decoration: underline;">homepage dashboard</a> shows all four indices side by side with the Market Sentiment composite. Here's how to read it:
+            </p>
+            <ul>
+                <li><strong>Check the composite first.</strong> Is the Market Sentiment tilting risk-on or risk-off? This gives you the broad picture in one glance.</li>
+                <li><strong>Look at the spread.</strong> A wide gap between the Greed Side and Fear Side means strong conviction. A narrow gap means uncertainty.</li>
+                <li><strong>Identify divergences.</strong> If gold is in Greed while stocks are in Fear, that's a clear flight-to-safety signal. If crypto is surging while bonds are flat, speculative appetite is selective.</li>
+                <li><strong>Consider the trend.</strong> A single day's reading matters less than the direction. Is sentiment improving or deteriorating? The historical chart shows the trajectory.</li>
+            </ul>
+            <p>
+                Remember: this is a <strong>thermometer</strong>, not a crystal ball. It tells you where sentiment stands today, not where markets will go tomorrow. Use it as one input in your broader investment process.
+            </p>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="contact-section">
+            <h2>Explore the Indices</h2>
+            <p>Track real-time sentiment across Gold, Bonds, Stocks and Crypto.</p>
+            <a href="index.html">View Market Sentiment →</a>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p class="disclaimer">
+                <strong>Legal Disclaimer:</strong> OnOff.Markets provides sentiment indicators for informational and educational purposes only. Nothing on this site constitutes financial, investment, legal, or tax advice. All indices are based on publicly available data and quantitative models that may contain errors or inaccuracies.
+                <br><br>
+                <strong>No Guarantees:</strong> Past sentiment patterns do not predict future market movements. Markets can remain irrational longer than you can remain solvent. Extreme fear does not guarantee rallies, and extreme greed does not guarantee corrections.
+                <br><br>
+                <strong>Use At Your Own Risk:</strong> Trading and investing carry substantial risk of loss. Never invest money you cannot afford to lose. Always conduct your own research, use proper risk management, and consult qualified financial professionals before making investment decisions. We are not liable for any losses resulting from the use of these tools.
+            </p>
+            <p class="credits">
+                Sources: Yahoo Finance, FRED | Updated Daily | <a href="mailto:contact@onoff.markets">Contact</a>
+            </p>
+        </footer>
+    </div>
+
+    <script src="shared.js"></script>
+    <script>updateLogoDots();</script>
+    <script src="alert-signup.js"></script>
+</body>
+</html>

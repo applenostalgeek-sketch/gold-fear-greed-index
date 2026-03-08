@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-LG19C5SPCF"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
+        gtag('config', 'G-LG19C5SPCF');
+    </script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>What is the Fear & Greed Index? | OnOff.Markets</title>
+    <link rel="canonical" href="https://onoff.markets/what-is-fear-and-greed.html">
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="What is the Fear & Greed Index and how does it work? Learn how market sentiment is measured on a 0-100 scale across Gold, Bonds, Stocks and Crypto.">
+    <meta name="keywords" content="what is fear and greed index, fear and greed index explained, market sentiment index, how fear greed works">
+    <meta name="author" content="OnOff.Markets">
+
+    <!-- Open Graph / Social Media -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://onoff.markets/what-is-fear-and-greed.html">
+    <meta property="og:title" content="What is the Fear & Greed Index? | OnOff.Markets">
+    <meta property="og:description" content="Understanding market sentiment in one number. Learn how the Fear & Greed Index works across Gold, Bonds, Stocks and Crypto.">
+    <meta property="og:image" content="https://onoff.markets/og-home.png">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="https://onoff.markets/what-is-fear-and-greed.html">
+    <meta name="twitter:title" content="What is the Fear & Greed Index? | OnOff.Markets">
+    <meta name="twitter:description" content="Understanding market sentiment in one number.">
+    <meta name="twitter:image" content="https://onoff.markets/og-home.png">
+
+    <!-- Structured Data - FAQPage -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is a Fear and Greed Index?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "A Fear and Greed Index is a market sentiment indicator that measures investor emotions on a scale from 0 (Extreme Fear) to 100 (Extreme Greed). When fear dominates, investors sell aggressively, often creating oversold conditions. When greed takes over, markets become euphoric and overbought. The index quantifies this psychology using multiple technical and market indicators."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How is the Fear and Greed Index calculated?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Each Fear and Greed Index combines multiple weighted components specific to its asset class. For example, the Gold index uses 5 components (price momentum, RSI, dollar strength, real rates, VIX), while the Stocks index uses 7 components. Each component is normalized to a 0-100 scale and combined using fixed weights. All formulas and data sources are publicly documented."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What is the difference between CNN Fear and Greed and OnOff.Markets?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "CNN's Fear and Greed Index only covers US stocks and uses proprietary calculations. OnOff.Markets provides four separate indices covering Gold, Bonds, Stocks, and Crypto, plus a Market Sentiment composite that shows risk-on vs risk-off flows across all asset classes. All methodology is fully transparent and documented."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How often is the index updated?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "All four indices are updated daily at 02:00 UTC (9:00 PM ET / 3:00 AM Paris) via automated workflows. The data reflects the previous day's market close. Each index maintains 365 days of historical data, and 5-year historical data is also available."
+                }
+            }
+        ]
+    }
+    </script>
+
+    <!-- Favicons -->
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/site.webmanifest">
+    <meta name="theme-color" content="#0a0a0a">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+
+    <!-- Shared Styles -->
+    <link rel="stylesheet" href="shared.css">
+
+    <style>
+        /* Page Header */
+        .page-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .page-header h1 {
+            font-size: 3rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+            letter-spacing: -0.02em;
+        }
+
+        .page-header p {
+            font-size: 1.1rem;
+            color: #999;
+            line-height: 1.6;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        /* Section Styles */
+        .section {
+            margin: 80px 0;
+        }
+
+        .section h2 {
+            font-size: 2rem;
+            font-weight: 600;
+            margin-bottom: 24px;
+            color: #fff;
+        }
+
+        .section h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin: 40px 0 20px 0;
+            color: #fff;
+        }
+
+        .section p {
+            font-size: 1rem;
+            color: #ccc;
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+
+        .section ul {
+            margin: 16px 0 16px 32px;
+            color: #ccc;
+            line-height: 1.8;
+        }
+
+        .section li {
+            margin-bottom: 8px;
+        }
+
+        /* Component Box */
+        .component-box {
+            background: #0d0d0d;
+            border: 1px solid #1a1a1a;
+            border-left: 4px solid #666;
+            border-radius: 8px;
+            padding: 24px;
+            margin: 24px 0;
+        }
+
+        .component-box.gold {
+            border-left-color: #FFD700;
+        }
+
+        .component-box.bonds {
+            border-left-color: #22c55e;
+        }
+
+        .component-box.stocks {
+            border-left-color: #4A90E2;
+        }
+
+        .component-box.crypto {
+            border-left-color: #F7931A;
+        }
+
+        .component-box h4 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: #fff;
+        }
+
+        .component-box p {
+            font-size: 0.95rem;
+            color: #ccc;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .component-box ul {
+            margin: 12px 0 0 24px;
+            color: #ccc;
+        }
+
+        /* Contact Section */
+        .contact-section {
+            background: #0d0d0d;
+            border: 1px solid #1a1a1a;
+            border-radius: 12px;
+            padding: 40px;
+            text-align: center;
+            margin: 60px 0;
+        }
+
+        .contact-section h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            margin-bottom: 16px;
+        }
+
+        .contact-section p {
+            font-size: 1rem;
+            color: #999;
+            margin-bottom: 24px;
+        }
+
+        .contact-section a {
+            display: inline-block;
+            background: #FFD700;
+            color: #0a0a0a;
+            padding: 12px 32px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .contact-section a:hover {
+            background: #ffd70099;
+            transform: translateY(-2px);
+        }
+
+        /* Mobile */
+        @media (max-width: 768px) {
+            .page-header h1 {
+                font-size: 2rem;
+            }
+
+            .page-header p {
+                font-size: 1rem;
+            }
+
+            .section h2 {
+                font-size: 1.5rem;
+            }
+
+            .contact-section {
+                padding: 32px 20px;
+            }
+
+            .component-box {
+                padding: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Mobile Menu Overlay -->
+    <div class="mobile-menu-overlay" id="mobileMenuOverlay"></div>
+
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-container">
+            <a href="index.html" class="logo">
+                <span>On</span>
+                <span class="logo-dots">●●</span>
+                <span>Off</span>
+                <span class="logo-suffix">.Markets</span>
+            </a>
+            <button class="mobile-menu-toggle" id="mobileMenuToggle" aria-label="Toggle menu">
+                <span></span>
+                <span></span>
+                <span></span>
+            </button>
+            <div class="nav-links" id="navLinks">
+                <a href="gold.html">Gold</a>
+                <a href="bonds.html">Bonds</a>
+                <a href="stocks.html">Stocks</a>
+                <a href="crypto.html">Crypto</a>
+                <a href="about.html">About</a>
+                <button class="alert-btn">🔔 Alerts</button>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1>What is the Fear & Greed Index?</h1>
+            <p>Understanding market sentiment in one number</p>
+        </div>
+
+        <!-- The Concept -->
+        <div class="section">
+            <h2>The Concept</h2>
+            <p>
+                Markets are not driven purely by fundamentals. Behind every rally and every crash, two powerful emotions are at work: <strong>fear</strong> and <strong>greed</strong>.
+            </p>
+            <p>
+                When fear takes hold, investors panic. They sell indiscriminately, dump risky assets, and flee to safety. Prices overshoot to the downside, creating oversold conditions that often mark the best buying opportunities.
+            </p>
+            <p>
+                When greed dominates, the opposite happens. Investors pile in, chase momentum, and ignore risk. Prices overshoot to the upside, creating overbought conditions that often precede corrections.
+            </p>
+            <p>
+                A Fear & Greed Index captures this emotional cycle in a single number. It aggregates multiple market signals into a score from 0 to 100, giving investors a quick read on the prevailing mood. The idea is simple: <strong>extreme sentiment tends to revert</strong>. Markets that are too fearful often bounce, and markets that are too greedy often correct.
+            </p>
+        </div>
+
+        <!-- How It Works -->
+        <div class="section">
+            <h2>How It Works</h2>
+            <p>
+                Each index scores from <strong>0 to 100</strong>, divided into five zones:
+            </p>
+            <ul>
+                <li><strong>0-25 — Extreme Fear:</strong> Panic selling dominates. Investors are capitulating, and assets may be deeply oversold. Historically, these are periods where contrarian buyers find opportunities.</li>
+                <li><strong>25-45 — Fear:</strong> Cautious sentiment prevails. Investors are defensive, favoring safe havens over risk assets. Selling pressure is elevated but not panicked.</li>
+                <li><strong>45-55 — Neutral:</strong> No strong directional bias. The market is balanced between buyers and sellers. Often a transitional phase between trends.</li>
+                <li><strong>55-75 — Greed:</strong> Optimism is rising. Risk appetite is healthy, and investors are willing to take on more exposure. Momentum is positive.</li>
+                <li><strong>75-100 — Extreme Greed:</strong> Euphoria and FOMO (fear of missing out) drive prices higher. Markets are stretched, and the risk of a pullback or correction increases significantly.</li>
+            </ul>
+            <p>
+                Each zone reflects a different market regime. The key insight is that <strong>extreme readings are contrarian signals</strong>: when everyone is fearful, it may be time to consider buying. When everyone is greedy, caution is warranted.
+            </p>
+        </div>
+
+        <!-- Our Multi-Asset Approach -->
+        <div class="section">
+            <h2>Our Multi-Asset Approach</h2>
+            <p>
+                Most Fear & Greed indices — like CNN's popular version — only cover <strong>one asset class</strong>: US stocks. That gives you a narrow view of market sentiment.
+            </p>
+            <p>
+                OnOff.Markets takes a different approach. We provide <strong>four independent indices</strong> covering Gold, Bonds, Stocks, and Crypto, plus a <strong>Market Sentiment composite</strong> that shows how money flows between risk assets and safe havens.
+            </p>
+            <p>
+                Why does this matter? Because markets don't move in isolation. When stocks crash, gold often rallies. When crypto enters extreme greed, bonds may signal caution. By tracking sentiment across all four asset classes, you get a <strong>complete picture</strong> of how investors feel about risk — not just a slice of it.
+            </p>
+            <p>
+                Every component, every weight, every data source is <strong>publicly documented</strong>. No black boxes. No proprietary secrets. Just transparent quantitative analysis, updated daily.
+            </p>
+        </div>
+
+        <!-- The Four Indices -->
+        <div class="section">
+            <h2>The Four Indices</h2>
+
+            <div class="component-box gold">
+                <h4>Gold Fear & Greed Index</h4>
+                <p>
+                    Measures sentiment toward the world's oldest safe haven. Combines GLD price momentum, RSI and moving averages, dollar strength, real interest rates, and VIX volatility. When investors fear economic uncertainty, gold sentiment tends to rise.
+                </p>
+                <p style="margin-top: 12px;">
+                    <a href="gold.html" style="color: #FFD700; text-decoration: underline;">View Gold Index →</a>
+                </p>
+            </div>
+
+            <div class="component-box bonds">
+                <h4>Bonds Fear & Greed Index</h4>
+                <p>
+                    Tracks sentiment in fixed income markets. Uses duration demand (TLT), yield curve shape, credit quality spreads (HYG vs LQD), real yields, bond volatility, and equity-bond rotation. Bonds are the traditional risk-off barometer.
+                </p>
+                <p style="margin-top: 12px;">
+                    <a href="bonds.html" style="color: #22c55e; text-decoration: underline;">View Bonds Index →</a>
+                </p>
+            </div>
+
+            <div class="component-box stocks">
+                <h4>Stocks Fear & Greed Index</h4>
+                <p>
+                    Captures equity market sentiment with 7 components: price strength, VIX, momentum, market participation, junk bond demand, safe haven demand, and sector rotation. The broadest of our four indices, reflecting multiple facets of investor risk appetite.
+                </p>
+                <p style="margin-top: 12px;">
+                    <a href="stocks.html" style="color: #4A90E2; text-decoration: underline;">View Stocks Index →</a>
+                </p>
+            </div>
+
+            <div class="component-box crypto">
+                <h4>Crypto Fear & Greed Index</h4>
+                <p>
+                    Measures sentiment in the crypto market. Uses BTC 30-day trend, RSI and moving averages, Bitcoin dominance vs Ethereum, volume trends, and volatility. Calibrated for crypto's unique dynamics, where extreme greed has historically coincided with strong momentum.
+                </p>
+                <p style="margin-top: 12px;">
+                    <a href="crypto.html" style="color: #F7931A; text-decoration: underline;">View Crypto Index →</a>
+                </p>
+            </div>
+        </div>
+
+        <!-- CTA Section -->
+        <div class="contact-section">
+            <h2>Explore the Indices</h2>
+            <p>Track real-time sentiment across Gold, Bonds, Stocks and Crypto.</p>
+            <a href="index.html">View Market Sentiment →</a>
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <p class="disclaimer">
+                <strong>Legal Disclaimer:</strong> OnOff.Markets provides sentiment indicators for informational and educational purposes only. Nothing on this site constitutes financial, investment, legal, or tax advice. All indices are based on publicly available data and quantitative models that may contain errors or inaccuracies.
+                <br><br>
+                <strong>No Guarantees:</strong> Past sentiment patterns do not predict future market movements. Markets can remain irrational longer than you can remain solvent. Extreme fear does not guarantee rallies, and extreme greed does not guarantee corrections.
+                <br><br>
+                <strong>Use At Your Own Risk:</strong> Trading and investing carry substantial risk of loss. Never invest money you cannot afford to lose. Always conduct your own research, use proper risk management, and consult qualified financial professionals before making investment decisions. We are not liable for any losses resulting from the use of these tools.
+            </p>
+            <p class="credits">
+                Sources: Yahoo Finance, FRED | Updated Daily | <a href="mailto:contact@onoff.markets">Contact</a>
+            </p>
+        </footer>
+    </div>
+
+    <script src="shared.js"></script>
+    <script>updateLogoDots();</script>
+    <script src="alert-signup.js"></script>
+</body>
+</html>
