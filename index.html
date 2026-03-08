@@ -758,21 +758,19 @@
 
         async function loadData() {
             try {
-                const [goldRes, stocksRes, cryptoRes, bondsRes, summaryRes] = await Promise.all([
+                const [goldRes, stocksRes, cryptoRes, bondsRes] = await Promise.all([
                     fetch('data/gold-fear-greed.json'),
                     fetch('data/stocks-fear-greed.json'),
                     fetch('data/crypto-fear-greed.json'),
-                    fetch('data/bonds-fear-greed.json'),
-                    fetch('data/market-summary.json').catch(() => null)
+                    fetch('data/bonds-fear-greed.json')
                 ]);
 
                 gold = await goldRes.json();
                 stocks = await stocksRes.json();
                 crypto = await cryptoRes.json();
                 bonds = await bondsRes.json();
-                const marketSummary = summaryRes && summaryRes.ok ? await summaryRes.json() : null;
 
-                updateUI(gold, stocks, crypto, bonds, marketSummary);
+                updateUI(gold, stocks, crypto, bonds);
                 updateHistoryChart(30);
             } catch (error) {
                 console.error('Error:', error);
@@ -877,7 +875,7 @@
             ctx.fill();
         }
 
-        function updateUI(gold, stocks, crypto, bonds, marketSummary) {
+        function updateUI(gold, stocks, crypto, bonds) {
             // Risk-On vs Risk-Off calculation
             const riskOn = (stocks.score + crypto.score) / 2;
             const riskOff = (bonds.score + gold.score) / 2;
@@ -976,63 +974,63 @@
             const b = parseInt(color.slice(5,7), 16);
             insightBox.style.backgroundColor = `rgba(${r}, ${g}, ${b}, 0.07)`;
 
-            // Insight text — AI summary with template fallback
+            // Insight text — data-driven from scores and history
             const assets = [
-                { name: 'Gold', score: gold.score },
-                { name: 'Bonds', score: bonds.score },
-                { name: 'Stocks', score: stocks.score },
-                { name: 'Crypto', score: crypto.score }
+                { name: 'Gold', score: gold.score, history: gold.history || [] },
+                { name: 'Stocks', score: stocks.score, history: stocks.history || [] },
+                { name: 'Crypto', score: crypto.score, history: crypto.history || [] },
+                { name: 'Bonds', score: bonds.score, history: bonds.history || [] }
             ];
             const highest = assets.reduce((a, b) => a.score > b.score ? a : b);
             const lowest = assets.reduce((a, b) => a.score < b.score ? a : b);
+            const gap = Math.round(highest.score - lowest.score);
 
-            let insight = '';
+            // Compute deltas
+            assets.forEach(a => {
+                a.delta1d = a.history.length > 1 ? Math.round(a.score - a.history[1].score) : 0;
+                a.delta7d = a.history.length > 6 ? Math.round(a.score - a.history[6].score) : 0;
+            });
+            const biggestDaily = assets.reduce((a, b) => Math.abs(a.delta1d) > Math.abs(b.delta1d) ? a : b);
+            const biggestWeekly = assets.reduce((a, b) => Math.abs(a.delta7d) > Math.abs(b.delta7d) ? a : b);
 
-            // Use AI summary if available and fresh (same day)
-            if (marketSummary && marketSummary.summary) {
-                insight = marketSummary.summary;
+            // Zone grouping
+            const getLabel = s => s <= 25 ? 'Extreme Fear' : s <= 45 ? 'Fear' : s <= 55 ? 'Neutral' : s <= 75 ? 'Greed' : 'Extreme Greed';
+            const fearAssets = assets.filter(a => a.score <= 45);
+            const greedAssets = assets.filter(a => a.score >= 55);
+            const neutralAssets = assets.filter(a => a.score > 45 && a.score < 55);
+
+            let parts = [];
+
+            // Primary phrase: convergence or zone breakdown
+            if (fearAssets.length === 4) {
+                parts.push('All four markets are in Fear territory — a rare alignment signaling broad risk aversion.');
+            } else if (greedAssets.length === 4) {
+                parts.push('All four markets show Greed — broad optimism across asset classes.');
             } else {
-                // Template fallback
-                if (rounded <= 25) {
-                    insight = `Markets are in full panic mode. ${lowest.name} faces the heaviest selling pressure, while ${highest.name} is the most sought-after asset right now.`;
-                } else if (rounded <= 45) {
-                    const strongRiskOff = bonds.score > 60 || gold.score > 60;
-                    if (strongRiskOff) {
-                        insight = `Investors are playing it safe. ${highest.name} is attracting the most interest, while ${lowest.name} faces the heaviest selling pressure.`;
-                    } else {
-                        insight = `Caution is the dominant mood. ${lowest.name} is under the most pressure, though no market is showing extreme behavior yet.`;
-                    }
-                } else if (rounded <= 55) {
-                    const allNeutral = Math.abs(bonds.score - 50) < 15 && Math.abs(gold.score - 50) < 15 && Math.abs(stocks.score - 50) < 15 && Math.abs(crypto.score - 50) < 15;
-                    if (allNeutral) {
-                        insight = `No strong conviction in any direction. All four markets are near neutral — investors are waiting for a clearer signal.`;
-                    } else {
-                        insight = `Mixed signals. ${highest.name} is seeing the most buying interest while ${lowest.name} faces the most pressure — no clear trend yet.`;
-                    }
-                } else if (rounded <= 75) {
-                    const strongRiskOn = stocks.score > 60 || crypto.score > 60;
-                    if (strongRiskOn) {
-                        insight = `Risk appetite is growing. ${highest.name} is attracting the most confidence, while ${lowest.name} is losing interest.`;
-                    } else {
-                        insight = `Optimism is building slowly. ${highest.name} leads the way, though the shift toward risk is gradual — no euphoria yet.`;
-                    }
-                } else {
-                    const euphoria = crypto.score > 75 && stocks.score > 75;
-                    if (euphoria) {
-                        insight = `Full euphoria mode. ${highest.name} is seeing the most aggressive buying while ${lowest.name} is being ignored. Historically, this level of greed often precedes a correction.`;
-                    } else {
-                        insight = `Strong risk appetite across markets. ${highest.name} is attracting the heaviest buying interest while ${lowest.name} is being neglected.`;
-                    }
-                }
-
-                // Cross-market gap
-                const gap = Math.round(highest.score - lowest.score);
-                if (gap >= 40) {
-                    insight += ` ${highest.name} and ${lowest.name} are ${gap} points apart.`;
-                }
+                let zones = [];
+                if (greedAssets.length > 0) zones.push(greedAssets.map(a => a.name).join(' and ') + ' in Greed');
+                if (neutralAssets.length > 0) zones.push(neutralAssets.map(a => a.name).join(' and ') + ' Neutral');
+                if (fearAssets.length > 0) zones.push(fearAssets.map(a => a.name).join(' and ') + ' in Fear');
+                parts.push(zones.join(', ') + '.');
             }
 
-            document.getElementById('insight').textContent = insight;
+            // Secondary: biggest daily mover (≥5 pts)
+            if (Math.abs(biggestDaily.delta1d) >= 5) {
+                const dir = biggestDaily.delta1d > 0 ? 'up' : 'down';
+                parts.push(`${biggestDaily.name} ${dir} ${Math.abs(biggestDaily.delta1d)} pts today.`);
+            }
+            // Or biggest weekly mover (≥8 pts) if no big daily move
+            else if (Math.abs(biggestWeekly.delta7d) >= 8) {
+                const dir = biggestWeekly.delta7d > 0 ? 'up' : 'down';
+                parts.push(`${biggestWeekly.name} ${dir} ${Math.abs(biggestWeekly.delta7d)} pts this week.`);
+            }
+
+            // Tertiary: divergence gap
+            if (gap >= 25) {
+                parts.push(`${highest.name} and ${lowest.name} are ${gap} points apart.`);
+            }
+
+            document.getElementById('insight').textContent = parts.join(' ');
 
             // Update asset cards with mini circles
             function updateCard(prefix, assetData, assetKey) {
