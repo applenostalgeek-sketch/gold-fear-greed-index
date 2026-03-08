@@ -1,7 +1,7 @@
 {
   "date": "2026-03-08",
-  "timestamp": "2026-03-08T19:36:43Z",
-  "summary": "The Iran conflict and elevated oil prices are overriding normal macro trading this week, lifting gold while pressing stocks and crypto into fear. The Supreme Court's block of emergency tariffs \u2014 replaced by new 15% duties under separate authority \u2014 keeps trade policy uncertain, weighing on risk assets across equities and crypto. The Fed's March 18 rate decision looms as an additional anchor for bonds and risk positioning.",
+  "timestamp": "2026-03-08T19:41:20Z",
+  "summary": "WTI crude ended last week up 35% \u2014 its biggest weekly gain since 1983 \u2014 as the U.S.-Iran war choked Strait of Hormuz traffic, while February payrolls shocked with a 92,000 job loss. The stagflationary mix of a weakening economy and spiking oil-driven inflation leaves the Fed with no clean policy tool, pressuring stocks and crypto into fear while channeling safe-haven flows into gold and whipsawing bonds between growth fears and inflation risk.",
   "scores": {
     "gold": {
       "score": 62.6,
@@ -12,7 +12,7 @@
       "label": "Fear"
     },
     "crypto": {
-      "score": 42.0,
+      "score": 42.6,
       "label": "Fear"
     },
     "bonds": {
@@ -20,7 +20,7 @@
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 49.7,
+      "score": 49.8,
       "label": "Neutral"
     }
   }
