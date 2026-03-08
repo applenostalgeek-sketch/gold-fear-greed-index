@@ -1,26 +1,26 @@
 {
   "date": "2026-03-08",
-  "timestamp": "2026-03-08T12:28:26Z",
-  "summary": "Shock February jobs loss of 92,000 amid war-fueled oil surge sends stocks deeper into fear territory, while bonds extend gains as rate-cut odds spike and gold holds strength amid Middle East tensions .",
+  "timestamp": "2026-03-08T12:33:37Z",
+  "summary": "Amid lingering fallout from February's 92,000 job loss and Middle East tensions pushing crude past $90, crypto tumbles 6.7% as stocks flatline, while gold's greed sentiment ebbs yet holds near resistance amid inflation worries from surging oil.",
   "scores": {
     "gold": {
-      "score": 62.7,
+      "score": 62.6,
       "label": "Greed"
     },
     "stocks": {
-      "score": 44.3,
+      "score": 43.0,
       "label": "Fear"
     },
     "crypto": {
-      "score": 41.3,
+      "score": 42.1,
       "label": "Fear"
     },
     "bonds": {
-      "score": 67.3,
-      "label": "Greed"
+      "score": 51.2,
+      "label": "Neutral"
     },
     "sentiment": {
-      "score": 53.9,
+      "score": 49.7,
       "label": "Neutral"
     }
   }
