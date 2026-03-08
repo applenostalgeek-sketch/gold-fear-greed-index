@@ -174,6 +174,39 @@
             font-weight: 400;
         }
 
+        /* === AI CONTEXT (inside insight box) === */
+        .context-section {
+            margin-top: 16px;
+            padding-top: 14px;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+        }
+        .context-label {
+            font-size: 0.7rem;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        .beta-tag {
+            font-size: 0.55rem; font-weight: 700; text-transform: uppercase;
+            background: #8b5cf6; color: #fff; padding: 1px 5px; border-radius: 3px;
+            vertical-align: middle; margin-left: 3px;
+        }
+        .context-text { font-size: 0.92rem; color: #aaa; line-height: 1.6; }
+        .context-footer {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-top: 8px; font-size: 0.68rem; color: #444;
+        }
+        .context-vote { display: flex; gap: 6px; }
+        .vote-btn {
+            background: none; border: 1px solid #333; border-radius: 4px;
+            padding: 2px 8px; cursor: pointer; font-size: 0.8rem;
+            transition: border-color 0.2s;
+        }
+        .vote-btn:hover { border-color: #8b5cf6; }
+        .vote-btn.voted { border-color: #8b5cf6; background: rgba(139, 92, 246, 0.15); }
+
         /* === ASSET CARDS === */
         .assets {
             display: grid;
@@ -471,6 +504,7 @@
             .mini-score-text { font-size: 24px; }
             .insight-box { padding: 18px 20px; }
             .insight-text { font-size: 0.9rem; }
+            .context-text { font-size: 0.85rem; }
             .chart-toggles { justify-content: center; }
             .chart-toggle-btn { font-size: 0.7rem; padding: 5px 10px; }
             .cta-box { padding: 24px 18px; }
@@ -558,6 +592,17 @@
             </div>
             <div class="insight-text" id="insight">
                 Loading market analysis...
+            </div>
+            <div class="context-section" id="contextBox" style="display:none;">
+                <div class="context-label">Context <span class="beta-tag">Beta</span></div>
+                <div class="context-text" id="contextText"></div>
+                <div class="context-footer">
+                    <span class="context-disclaimer">AI-generated from index components. May contain errors.</span>
+                    <div class="context-vote">
+                        <button class="vote-btn" data-vote="useful" title="Useful">👍</button>
+                        <button class="vote-btn" data-vote="not-useful" title="Not useful">👎</button>
+                    </div>
+                </div>
             </div>
         </div>
 
@@ -1073,6 +1118,34 @@
             }
 
             document.getElementById('insight').textContent = insight;
+
+            // AI Context [Beta]
+            fetch('data/market-summary.json')
+                .then(r => r.json())
+                .then(data => {
+                    if (data.summary && data.summary.length > 20) {
+                        document.getElementById('contextText').textContent = data.summary;
+                        document.getElementById('contextBox').style.display = 'block';
+                    }
+                })
+                .catch(() => {}); // Silent fail — context is optional
+
+            // Vote buttons (GA events)
+            document.querySelectorAll('.vote-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    const vote = this.dataset.vote;
+                    if (typeof gtag === 'function') {
+                        gtag('event', 'context_vote', {
+                            event_category: 'ai_context',
+                            event_label: vote,
+                            value: vote === 'useful' ? 1 : 0
+                        });
+                    }
+                    document.querySelectorAll('.vote-btn').forEach(b => b.classList.remove('voted'));
+                    this.classList.add('voted');
+                    localStorage.setItem('context_vote_' + new Date().toISOString().slice(0,10), vote);
+                });
+            });
 
             // Update asset cards with mini circles
             function updateCard(prefix, assetData, assetKey) {

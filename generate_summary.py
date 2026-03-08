@@ -1,14 +1,50 @@
 #!/usr/bin/env python3
-"""Generate AI market summary using Claude Haiku with web search.
+"""Generate AI market context using Claude Haiku from component data only.
 
 Called daily after the 4 index calculations. Produces a 2-3 sentence
-summary explaining market catalysts. Falls back to a template if the
-API is unavailable.
+context explaining WHY scores are what they are, based ONLY on component
+data (RSI, VIX, DXY, yields, etc.) — no web search, no external catalysts.
+Falls back to a template if the API is unavailable.
 """
 
 import json
 import os
 from datetime import datetime, timezone
+
+
+COMPONENT_NAMES = {
+    'Gold': {
+        'gld_price': 'GLD Price',
+        'momentum': 'Momentum',
+        'dollar_index': 'Dollar Index',
+        'real_rates': 'Real Rates',
+        'vix': 'VIX',
+    },
+    'Stocks': {
+        'price_strength': 'Price Strength',
+        'vix': 'VIX',
+        'momentum': 'Momentum',
+        'market_participation': 'Breadth',
+        'junk_bonds': 'Credit Spread',
+        'safe_haven': 'Safe Haven',
+        'sector_rotation': 'Sector Rotation',
+    },
+    'Crypto': {
+        'context': 'BTC Price',
+        'momentum': 'Momentum',
+        'dominance': 'BTC Dominance',
+        'volume': 'Volume',
+        'volatility': 'Volatility',
+    },
+    'Bonds': {
+        'yield_curve': 'Yield Curve',
+        'duration_risk': 'Duration Risk',
+        'credit_quality': 'Credit Quality',
+        'real_rates': 'Real Rates',
+        'bond_volatility': 'Bond Volatility',
+        'equity_vs_bonds': 'Equity vs Bonds',
+    },
+}
 
 
 def get_label(score):
@@ -33,13 +69,46 @@ def load_scores():
         history = data.get('history', [])
         delta_1d = round(score - history[1]['score'], 1) if len(history) > 1 else 0
         delta_7d = round(score - history[6]['score'], 1) if len(history) > 6 else 0
-        delta_14d = round(score - history[13]['score'], 1) if len(history) > 13 else 0
         assets[name] = {'score': score, 'label': label,
-                        'delta': delta_1d, 'delta_7d': delta_7d, 'delta_14d': delta_14d}
+                        'delta': delta_1d, 'delta_7d': delta_7d}
 
     avg = round(sum(a['score'] for a in assets.values()) / 4, 1)
     assets['Sentiment'] = {'score': avg, 'label': get_label(avg)}
     return assets
+
+
+def load_components():
+    """Load component details from each asset JSON."""
+    result = {}
+    for name, filename in [('Gold', 'gold-fear-greed.json'),
+                           ('Stocks', 'stocks-fear-greed.json'),
+                           ('Crypto', 'crypto-fear-greed.json'),
+                           ('Bonds', 'bonds-fear-greed.json')]:
+        with open(f'data/{filename}') as f:
+            data = json.load(f)
+        result[name] = data.get('components', {})
+    return result
+
+
+def format_components(scores, components):
+    """Format component data as text for the prompt."""
+    lines = []
+    for name in ['Gold', 'Stocks', 'Crypto', 'Bonds']:
+        s = scores[name]
+        d1 = f"+{s['delta']}" if s['delta'] >= 0 else str(s['delta'])
+        d7 = f"+{s['delta_7d']}" if s['delta_7d'] >= 0 else str(s['delta_7d'])
+        lines.append(f"{name} ({s['score']} — {s['label']}, {d1} 1d, {d7} 7d):")
+
+        names_map = COMPONENT_NAMES.get(name, {})
+        for key, comp in components.get(name, {}).items():
+            label = names_map.get(key, key)
+            weight_pct = int(comp['weight'] * 100)
+            lines.append(f"  - {label} ({weight_pct}%): {comp['score']} — {comp['detail']}")
+        lines.append("")
+
+    sentiment = scores['Sentiment']
+    lines.append(f"Market Sentiment (avg): {sentiment['score']} ({sentiment['label']})")
+    return "\n".join(lines)
 
 
 def load_previous_summary():
@@ -52,76 +121,106 @@ def load_previous_summary():
     return ''
 
 
-def fallback_summary(scores):
-    """Template-based fallback when API is unavailable."""
-    asset_scores = {k: v for k, v in scores.items() if k != 'Sentiment'}
-    highest = max(asset_scores, key=lambda k: asset_scores[k]['score'])
-    lowest = min(asset_scores, key=lambda k: asset_scores[k]['score'])
-    sentiment = scores['Sentiment']
+def fallback_summary(scores, components):
+    """Interpretive fallback when API is unavailable."""
+    parts = []
 
-    return (
-        f"Markets show mixed signals with {highest} leading at "
-        f"{asset_scores[highest]['score']} ({asset_scores[highest]['label']}) "
-        f"while {lowest} lags at {asset_scores[lowest]['score']} "
-        f"({asset_scores[lowest]['label']}). Overall sentiment sits at "
-        f"{sentiment['score']}."
-    )
+    # Detect VIX stress (shared between gold and stocks)
+    gold_vix = components.get('Gold', {}).get('vix', {})
+    stocks_vix = components.get('Stocks', {}).get('vix', {})
+    vix_score = gold_vix.get('score', 50)
+    if vix_score >= 80:
+        parts.append("Market stress is elevated, boosting safe-haven demand.")
+    elif vix_score <= 20:
+        parts.append("Low volatility signals investor complacency.")
+
+    # Detect gold-dollar divergence
+    gold_dollar = components.get('Gold', {}).get('dollar_index', {})
+    gold_price = components.get('Gold', {}).get('gld_price', {})
+    if gold_dollar.get('score', 50) < 30 and gold_price.get('score', 50) > 60:
+        parts.append("Gold is rallying despite dollar strength, suggesting strong underlying demand.")
+
+    # Detect weak equity momentum
+    stocks_mom = components.get('Stocks', {}).get('momentum', {})
+    stocks_breadth = components.get('Stocks', {}).get('market_participation', {})
+    if stocks_mom.get('score', 50) < 40 and stocks_breadth.get('score', 50) < 40:
+        parts.append("Stocks show weak momentum with narrow market participation.")
+    elif stocks_mom.get('score', 50) > 60 and stocks_breadth.get('score', 50) > 60:
+        parts.append("Broad equity participation supports the current stock rally.")
+
+    # Detect crypto volatility
+    crypto_vol = components.get('Crypto', {}).get('volatility', {})
+    if crypto_vol.get('score', 50) <= 25:
+        parts.append("Crypto volatility remains extreme, weighing on sentiment.")
+
+    # Detect bond signals
+    yield_curve = components.get('Bonds', {}).get('yield_curve', {})
+    if yield_curve.get('score', 50) > 70:
+        parts.append("A steep yield curve points to economic optimism in bond markets.")
+    elif yield_curve.get('score', 50) < 30:
+        parts.append("A flat or inverted yield curve signals economic caution.")
+
+    if not parts:
+        # Generic fallback
+        asset_scores = {k: v for k, v in scores.items() if k != 'Sentiment'}
+        highest = max(asset_scores, key=lambda k: asset_scores[k]['score'])
+        lowest = min(asset_scores, key=lambda k: asset_scores[k]['score'])
+        parts.append(
+            f"Risk appetite favors {highest} over {lowest}, "
+            f"with overall sentiment near {scores['Sentiment']['label'].lower()} territory."
+        )
+
+    return " ".join(parts[:3])
 
 
 def generate_summary():
+    scores = load_scores()
+    components = load_components()
+
     api_key = os.environ.get('ANTHROPIC_API_KEY')
     if not api_key:
         print("  No ANTHROPIC_API_KEY set, using fallback")
-        return fallback_summary(load_scores())
+        return fallback_summary(scores, components)
 
     try:
         import anthropic
         client = anthropic.Anthropic(api_key=api_key)
     except Exception as e:
         print(f"  Anthropic client error: {e}, using fallback")
-        return fallback_summary(load_scores())
+        return fallback_summary(scores, components)
 
-    scores = load_scores()
     previous = load_previous_summary()
+    components_text = format_components(scores, components)
 
-    score_lines = []
-    for name in ['Gold', 'Stocks', 'Crypto', 'Bonds']:
-        s = scores[name]
-        d1 = f"+{s['delta']}" if s['delta'] >= 0 else str(s['delta'])
-        d7 = f"+{s['delta_7d']}" if s['delta_7d'] >= 0 else str(s['delta_7d'])
-        d14 = f"+{s['delta_14d']}" if s['delta_14d'] >= 0 else str(s['delta_14d'])
-        trend = "rising" if s['delta_7d'] > 3 else "falling" if s['delta_7d'] < -3 else "stable"
-        score_lines.append(f"- {name}: {s['score']} ({s['label']}, {d1} 1d, {d7} 7d, {d14} 14d, trend: {trend})")
+    today = datetime.now(timezone.utc).strftime('%Y-%m-%d')
 
-    sentiment = scores['Sentiment']
-    score_lines.append(f"- Market Sentiment (average): {sentiment['score']} ({sentiment['label']})")
-    scores_text = "\n".join(score_lines)
+    system = f"""You write a 2-3 sentence context blurb for a multi-asset Fear & Greed dashboard. Today is {today}.
 
-    system = """You write a daily 2-3 sentence market summary for onoff.markets (a Fear & Greed index site).
+Use web search to find this week's main market catalysts. Connect them to the sentiment data.
 
 Rules:
-- MAX 350 characters. 2-3 sentences.
-- Mention all 4 markets: Gold, Stocks, Crypto, Bonds.
-- Respect the trend direction provided (rising/falling/stable). Never contradict it.
-- Describe current state only. No predictions, no "ahead", no "expect".
-- Reference the Fear & Greed scores and labels, not asset prices.
-- Use web search to find today's catalysts (macro, geopolitics, central banks).
-- Be factual. No filler. Every word must add information.
-- Plain text only. No emojis, no markdown.
-- Vary phrasing from yesterday's summary.
-- Output ONLY the summary. No preamble, no reasoning, no commentary."""
+- 2-3 SHORT sentences. Strictly under 450 characters total.
+- Name the 1-2 biggest catalysts this week (Fed, jobs data, tariffs, geopolitics, etc.) and explain how they affect the 4 markets.
+- Write like a dashboard subtitle, not a research note. Be concise and direct.
+- ONLY cite facts found in your search results. Never invent data.
+- Do NOT restate scores or indicators the user already sees.
+- Do NOT predict. Current state only.
+- Plain text. No emojis, no markdown.
+- Vary from yesterday's context.
+- Output ONLY the blurb."""
 
-    user_msg = f"""Today's scores (0=Extreme Fear, 100=Extreme Greed):
-{scores_text}
+    user_msg = f"""Dashboard data:
 
-Yesterday's summary (vary from this): "{previous}"
+{components_text}
 
-Write the summary now."""
+Yesterday's context (vary): "{previous}"
+
+What are the 1-2 key catalysts driving these markets this week?"""
 
     try:
         response = client.messages.create(
             model="claude-sonnet-4-6",
-            max_tokens=200,
+            max_tokens=250,
             system=system,
             tools=[{
                 "type": "web_search_20250305",
@@ -131,41 +230,22 @@ Write the summary now."""
             messages=[{"role": "user", "content": user_msg}]
         )
 
-        # Concatenate all text blocks (web search splits across multiple)
-        text_blocks = [block.text.strip() for block in response.content
-                       if block.type == "text" and block.text.strip()]
-        if not text_blocks:
-            print("  No text in response, using fallback")
-            return fallback_summary(scores)
-
-        full_text = " ".join(text_blocks).strip()
-
-        # Strip preamble — model sometimes prefixes with reasoning
+        # Web search splits response across multiple text blocks
         import re
-
-        # Remove everything before and including a colon if it starts with preamble
-        full_text = re.sub(
-            r'^(?:based on|here (?:is|\'s)|let me|i\'?ll search)[^:]*:\s*',
-            '', full_text, flags=re.IGNORECASE
-        ).strip()
-
-        # Remove leading "I'll search..." type sentences
-        full_text = re.sub(
-            r"^I'?ll\s+search\s+.*?(?:\.\s+)",
-            "", full_text, flags=re.IGNORECASE
-        ).strip()
-
-        # Clean trailing whitespace before punctuation
-        summary = re.sub(r'\s+([.!?])', r'\1', full_text).strip()
+        text_parts = [block.text for block in response.content
+                      if block.type == "text" and block.text.strip()]
+        # Join with space, then clean up spacing artifacts
+        summary = " ".join(part.strip() for part in text_parts).strip()
+        summary = re.sub(r'\s+([,.;:!?])', r'\1', summary)
+        summary = re.sub(r'\s{2,}', ' ', summary)
 
         if not summary or len(summary) < 20:
             print("  Response too short, using fallback")
-            return fallback_summary(scores)
+            return fallback_summary(scores, components)
 
         # Truncate if too long
-        if len(summary) > 400:
-            # Cut at last sentence boundary within limit
-            truncated = summary[:400]
+        if len(summary) > 450:
+            truncated = summary[:450]
             last_period = truncated.rfind('.')
             if last_period > 200:
                 summary = truncated[:last_period + 1]
@@ -176,11 +256,11 @@ Write the summary now."""
 
     except Exception as e:
         print(f"  API error: {e}, using fallback")
-        return fallback_summary(scores)
+        return fallback_summary(scores, components)
 
 
 def main():
-    print("Generating market summary...")
+    print("Generating AI context summary...")
     summary = generate_summary()
     scores = load_scores()
 
