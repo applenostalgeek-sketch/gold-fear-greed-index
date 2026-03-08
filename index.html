@@ -38,10 +38,17 @@
     <script type="application/ld+json">
     {
         "@context": "https://schema.org",
-        "@type": "WebSite",
-        "name": "OnOff.Markets",
+        "@type": "WebApplication",
+        "name": "OnOff.Markets — Fear & Greed Index",
         "url": "https://onoff.markets",
-        "description": "Real-time Fear & Greed indices for Gold, Bonds, Stocks and Crypto markets. Updated daily.",
+        "description": "Real-time Fear & Greed indices for Gold, Bonds, Stocks and Crypto markets. Track market sentiment across 4 asset classes, updated daily.",
+        "applicationCategory": "FinanceApplication",
+        "operatingSystem": "All",
+        "offers": {
+            "@type": "Offer",
+            "price": "0",
+            "priceCurrency": "USD"
+        },
         "publisher": {
             "@type": "Organization",
             "name": "OnOff.Markets",
@@ -142,11 +149,22 @@
 
         .insight-icon { font-size: 1.1rem; }
 
-        .insight-title {
+        h2.insight-title {
             font-size: 0.75rem;
             color: #555;
             text-transform: uppercase;
             letter-spacing: 0.1em;
+            margin: 0;
+            font-weight: 400;
+        }
+
+        .section-heading {
+            font-size: 0.75rem;
+            color: #555;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+            margin: 0 0 12px 0;
         }
 
         .insight-text {
@@ -536,7 +554,7 @@
         <div class="insight-box">
             <div class="insight-header">
                 <span class="insight-icon">💡</span>
-                <span class="insight-title">What's happening</span>
+                <h2 class="insight-title">What's happening</h2>
             </div>
             <div class="insight-text" id="insight">
                 Loading market analysis...
@@ -544,6 +562,7 @@
         </div>
 
         <!-- Asset Cards with Mini Circles -->
+        <h2 class="section-heading">Asset Breakdown</h2>
         <div class="assets">
             <a href="gold.html" class="asset-card">
                 <span class="asset-name">Gold</span>
