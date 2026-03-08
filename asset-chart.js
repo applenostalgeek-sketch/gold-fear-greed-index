@@ -18,6 +18,7 @@
     if (!CFG) { console.error('ASSET_CONFIG not set'); return; }
 
     let assetData = null;
+    let history5yData = null;
     let chartHistory = [];
     let currentPeriod = 30;
 
@@ -68,8 +69,14 @@
 
     async function loadData() {
         try {
-            const response = await fetch(CFG.dataUrl);
+            // Derive 5Y URL from dataUrl: "data/gold-fear-greed.json" → "data/history-5y-gold.json"
+            const asset5yUrl = CFG.dataUrl.replace(/([^/]+)-fear-greed\.json/, 'history-5y-$1.json');
+            const [response, response5y] = await Promise.all([
+                fetch(CFG.dataUrl),
+                fetch(asset5yUrl).catch(() => null)
+            ]);
             assetData = await response.json();
+            history5yData = response5y && response5y.ok ? await response5y.json() : null;
             updateUI();
             updateHistoryChart(30);
         } catch (error) {
@@ -153,7 +160,10 @@
             else phrase1 = CFG.phrases.extremeGreed;
 
             const factPhrase = buildFactPhrase(assetData, score);
-            document.getElementById('insight').textContent = phrase1 + ' ' + factPhrase;
+            const historicalContext = buildHistoricalContext(score, assetData.label, assetData.history || []);
+            let insightText = factPhrase;
+            if (historicalContext) insightText += ' ' + historicalContext;
+            document.getElementById('insight').textContent = insightText;
         }
 
         // Components
@@ -220,6 +230,69 @@
         if (Math.abs(weeklyDiff) > 5) return (weeklyDiff > 0 ? 'Up' : 'Down') + ' ' + Math.abs(weeklyDiff) + ' pts this week.';
         if (daysNear >= 3) return 'Holding near ' + Math.round(score) + ' for ' + daysNear + ' days.';
         return 'No major move recently.';
+    }
+
+    // ==================== Historical Context (5Y) ====================
+
+    function ordinal(n) {
+        const s = ['th', 'st', 'nd', 'rd'];
+        const v = n % 100;
+        return n + (s[(v - 20) % 10] || s[v] || s[0]);
+    }
+
+    function buildHistoricalContext(score, label, history1y) {
+        if (!history5yData || !history5yData.history || history5yData.history.length < 100) return '';
+
+        const scores5y = history5yData.history.map(h => h.score);
+        const getZone = s => s <= 25 ? 'Extreme Fear' : s <= 45 ? 'Fear' : s <= 55 ? 'Neutral' : s <= 75 ? 'Greed' : 'Extreme Greed';
+        const parts = [];
+
+        // 1. Percentile with natural phrasing for extremes
+        const below = scores5y.filter(s => s < score).length;
+        const percentile = Math.round((below / scores5y.length) * 100);
+        if (percentile <= 10) parts.push('Near 5-year lows');
+        else if (percentile <= 25) parts.push('Lower than usual (' + ordinal(percentile) + ' percentile over 5 years)');
+        else if (percentile >= 90) parts.push('Near 5-year highs');
+        else if (percentile >= 75) parts.push('Higher than usual (' + ordinal(percentile) + ' percentile over 5 years)');
+        else parts.push(ordinal(percentile) + ' percentile over the last 5 years');
+
+        // 2. Zone streak from 1Y (DESC order) + average from 5Y (ASC order)
+        const currentZone = getZone(score);
+        let streak = 0;
+        for (const entry of history1y) {
+            if (getZone(entry.score) === currentZone) streak++;
+            else break;
+        }
+
+        // Average zone duration from 5Y
+        const runs = [];
+        let runLen = 1;
+        for (let i = 1; i < scores5y.length; i++) {
+            if (getZone(scores5y[i]) === getZone(scores5y[i - 1])) {
+                runLen++;
+            } else {
+                if (getZone(scores5y[i - 1]) === currentZone) runs.push(runLen);
+                runLen = 1;
+            }
+        }
+
+        const avgDuration = runs.length > 0 ? Math.round(runs.reduce((a, b) => a + b, 0) / runs.length) : 0;
+        let streakText = 'In ' + label + ' for ' + streak + ' day' + (streak !== 1 ? 's' : '');
+        if (avgDuration > 0) {
+            streakText += ' (avg ' + avgDuration + ')';
+            if (streak > avgDuration * 1.5) streakText += ' — unusually long';
+        }
+        parts.push(streakText);
+
+        // 3. Velocity 14d
+        if (history1y.length >= 14) {
+            const velocity = Math.round(history1y[0].score - history1y[13].score);
+            if (Math.abs(velocity) >= 3) {
+                parts.push((velocity > 0 ? '+' : '') + velocity + ' pts over 14 days');
+            }
+        }
+
+        return parts.join('. ') + '.';
     }
 
     // ==================== Chart ====================
