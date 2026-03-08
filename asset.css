@@ -12,7 +12,6 @@
     color: #fff;
     text-transform: uppercase;
     letter-spacing: 0.1em;
-    white-space: nowrap;
 }
 
 .asset-title {
@@ -24,6 +23,19 @@
     align-items: center;
     justify-content: center;
     gap: 8px;
+}
+
+.h1-asset {
+    color: var(--asset-color, #888);
+}
+
+.seo-intro {
+    text-align: center;
+    color: #666;
+    font-size: 0.85rem;
+    line-height: 1.6;
+    max-width: 560px;
+    margin: 0 auto 32px;
 }
 
 .updated {

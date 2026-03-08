@@ -102,7 +102,7 @@
     <link rel="stylesheet" href="asset.css?v=3">
     <link rel="stylesheet" href="gauge.css?v=1">
     <style>
-        .asset-title { --asset-color: #FFD700; color: var(--asset-color); }
+        :root { --asset-color: #FFD700; }
     </style>
 </head>
 <body>
@@ -139,10 +139,10 @@
     <div class="container">
         <!-- Header -->
         <div class="header">
-            <h1>Fear & Greed Index</h1>
-            <div class="asset-title">🪙 Gold</div>
+            <h1><span class="h1-asset">Gold</span> Fear & Greed Index</h1>
             <div class="updated" id="updated">Updated: Loading...</div>
         </div>
+        <p class="seo-intro">Track real-time gold market sentiment. Our Gold Fear & Greed Index combines price momentum, dollar strength, real interest rates and volatility into a single 0-100 score, updated daily.</p>
 
         <!-- Hero Score: Circle Gauge -->
         <div class="hero">

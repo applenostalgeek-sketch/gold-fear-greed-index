@@ -102,7 +102,7 @@
     <link rel="stylesheet" href="asset.css?v=3">
     <link rel="stylesheet" href="gauge.css?v=1">
     <style>
-        .asset-title { --asset-color: #10b981; color: var(--asset-color); }
+        :root { --asset-color: #10b981; }
     </style>
 </head>
 <body>
@@ -138,10 +138,10 @@
 
     <div class="container">
         <div class="header">
-            <h1>Fear & Greed Index</h1>
-            <div class="asset-title">📊 Bonds</div>
+            <h1><span class="h1-asset">Bonds</span> Fear & Greed Index</h1>
             <div class="updated" id="updated">Updated: Loading...</div>
         </div>
+        <p class="seo-intro">Track real-time bond market sentiment. Our Bonds Fear & Greed Index combines duration demand, yield curve, credit spreads and real rates into a single 0-100 score, updated daily.</p>
 
         <div class="hero">
             <div class="circle-container" id="circle-container">
