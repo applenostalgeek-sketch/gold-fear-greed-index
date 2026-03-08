@@ -93,11 +93,13 @@ def generate_summary():
 
     prompt = f"""You write the daily "What's happening" summary for onoff.markets, a multi-asset Fear & Greed index site tracking Gold, Stocks, Crypto, and Bonds.
 
-Today's scores (0 = Extreme Fear, 100 = Extreme Greed):
+Today's Fear & Greed scores (0 = Extreme Fear, 100 = Extreme Greed):
 {scores_text}
 
 Instructions:
 - Write 2-3 sentences, MAX 350 characters total
+- ALL FOUR markets (Gold, Stocks, Crypto, Bonds) must be referenced — do not skip any
+- Focus on the Fear & Greed SCORES and LABELS, not on asset prices or returns
 - Use web search to identify today's key market catalysts (macro data, geopolitics, central bank decisions, earnings, etc.)
 - Be factual: describe observed correlations ("amid rising tensions"), not definitive causation ("because of")
 - Mention specific catalysts when clear (e.g. "jobs report", "Fed meeting", "oil spike")
