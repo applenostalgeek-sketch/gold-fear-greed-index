@@ -1,10 +1,10 @@
 {
-  "date": "2026-03-08",
-  "timestamp": "2026-03-08T19:41:20Z",
-  "summary": "WTI crude ended last week up 35% \u2014 its biggest weekly gain since 1983 \u2014 as the U.S.-Iran war choked Strait of Hormuz traffic, while February payrolls shocked with a 92,000 job loss. The stagflationary mix of a weakening economy and spiking oil-driven inflation leaves the Fed with no clean policy tool, pressuring stocks and crypto into fear while channeling safe-haven flows into gold and whipsawing bonds between growth fears and inflation risk.",
+  "date": "2026-03-09",
+  "timestamp": "2026-03-09T04:20:44Z",
+  "summary": "The Iran conflict remains the dominant driver this week, with markets watching for any signs the U.S.-Israeli offensive becomes protracted. Meanwhile, the Supreme Court's ruling against the administration's broad tariff strategy has forced a pivot to narrower, sector-based frameworks, maintaining an elevated uncertainty premium across global markets.",
   "scores": {
     "gold": {
-      "score": 62.6,
+      "score": 62.2,
       "label": "Greed"
     },
     "stocks": {
@@ -12,7 +12,7 @@
       "label": "Fear"
     },
     "crypto": {
-      "score": 42.6,
+      "score": 42.7,
       "label": "Fear"
     },
     "bonds": {
