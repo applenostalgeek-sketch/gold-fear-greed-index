@@ -1,26 +1,26 @@
 {
-  "date": "2026-03-09",
-  "timestamp": "2026-03-09T04:20:44Z",
-  "summary": "The Iran conflict remains the dominant driver this week, with markets watching for any signs the U.S.-Israeli offensive becomes protracted. Meanwhile, the Supreme Court's ruling against the administration's broad tariff strategy has forced a pivot to narrower, sector-based frameworks, maintaining an elevated uncertainty premium across global markets.",
+  "date": "2026-03-10",
+  "timestamp": "2026-03-10T04:11:40Z",
+  "summary": "Trump's new 15% global tariff \u2014 imposed via Section 122 after the Supreme Court voided IEEPA-based duties \u2014 is the dominant driver this week, keeping stocks in fear territory and the DXY under pressure. Surging oil prices tied to Gulf supply disruption fears are lifting Treasury yields and reinforcing gold's safe-haven bid while weighing on equities and crypto risk appetite.",
   "scores": {
     "gold": {
-      "score": 62.2,
+      "score": 62.0,
       "label": "Greed"
     },
     "stocks": {
-      "score": 43.0,
+      "score": 43.9,
       "label": "Fear"
     },
     "crypto": {
-      "score": 42.7,
+      "score": 45.4,
       "label": "Fear"
     },
     "bonds": {
-      "score": 51.2,
+      "score": 52.3,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 49.8,
+      "score": 50.9,
       "label": "Neutral"
     }
   }
