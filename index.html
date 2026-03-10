@@ -1170,8 +1170,8 @@
 
             // Update asset cards with mini circles
             function updateCard(prefix, assetData, assetKey) {
-                const c = getColor(assetData.score);
                 const score = Math.round(assetData.score);
+                const c = getColor(score);
 
                 // Score text inside mini circle
                 document.getElementById(prefix + 'Value').textContent = score;

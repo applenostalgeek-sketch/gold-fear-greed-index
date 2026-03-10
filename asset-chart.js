@@ -164,7 +164,7 @@
                 const card = document.createElement('div');
                 card.className = 'component-card';
                 card.innerHTML = '<div class="component-name">' + escapeHtml(name) + '</div>'
-                    + '<div class="component-score" style="color: ' + getColor(data.score) + '">' + Math.round(data.score) + '</div>'
+                    + '<div class="component-score" style="color: ' + getColor(Math.round(data.score)) + '">' + Math.round(data.score) + '</div>'
                     + '<div class="component-detail">' + escapeHtml(data.detail) + '</div>';
                 grid.appendChild(card);
             });
