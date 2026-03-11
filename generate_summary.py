@@ -203,6 +203,7 @@ Rules:
 - Name the 1-2 biggest catalysts this week (Fed, jobs data, tariffs, geopolitics, etc.) and explain how they affect the 4 markets.
 - Write like a dashboard subtitle, not a research note. Be concise and direct.
 - ONLY cite facts found in your search results. Never invent data.
+- Only reference events that have already happened or are happening TODAY ({today}). Never reference upcoming events.
 - Do NOT restate scores or indicators the user already sees.
 - Do NOT predict. Current state only.
 - Plain text. No emojis, no markdown.
