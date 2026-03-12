@@ -5,11 +5,6 @@ on:
     # Run every day at 2:00 UTC (3:00 Paris time)
     - cron: '0 2 * * *'
   workflow_dispatch:  # Allow manual trigger
-  push:
-    branches:
-      - main
-    paths:
-      - '.github/workflows/update-index.yml'
 
 jobs:
   update-indices:
@@ -75,17 +70,21 @@ jobs:
         run: |
           python generate_summary.py
 
+      - name: Generate share card
+        run: |
+          python generate_share_card.py
+
       - name: Check for changes
         id: git-check
         run: |
-          git diff --exit-code data/gold-fear-greed.json data/stocks-fear-greed.json data/crypto-fear-greed.json data/bonds-fear-greed.json data/previous-labels.json data/previous-scores.json data/etf-shares.json data/history-5y-gold.json data/history-5y-stocks.json data/history-5y-crypto.json data/history-5y-bonds.json data/market-summary.json || echo "changed=true" >> $GITHUB_OUTPUT
+          git diff --exit-code data/gold-fear-greed.json data/stocks-fear-greed.json data/crypto-fear-greed.json data/bonds-fear-greed.json data/previous-labels.json data/previous-scores.json data/etf-shares.json data/history-5y-gold.json data/history-5y-stocks.json data/history-5y-crypto.json data/history-5y-bonds.json data/market-summary.json og-home.png || echo "changed=true" >> $GITHUB_OUTPUT
 
       - name: Commit and push changes
         if: steps.git-check.outputs.changed == 'true'
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add data/gold-fear-greed.json data/stocks-fear-greed.json data/crypto-fear-greed.json data/bonds-fear-greed.json data/previous-labels.json data/previous-scores.json data/etf-shares.json data/history-5y-gold.json data/history-5y-stocks.json data/history-5y-crypto.json data/history-5y-bonds.json data/market-summary.json
+          git add data/gold-fear-greed.json data/stocks-fear-greed.json data/crypto-fear-greed.json data/bonds-fear-greed.json data/previous-labels.json data/previous-scores.json data/etf-shares.json data/history-5y-gold.json data/history-5y-stocks.json data/history-5y-crypto.json data/history-5y-bonds.json data/market-summary.json og-home.png
           git commit -m "Update Gold, Stocks, Crypto & Bonds Fear & Greed Indices - $(date -u '+%Y-%m-%d %H:%M UTC')"
           git push
 

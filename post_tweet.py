@@ -51,15 +51,15 @@ def dashboard(data):
 
 
 def build_tweet(headline, data, context=None):
-    """Assemble tweet: headline + dashboard + optional context + URL."""
-    parts = [headline.strip(), dashboard(data)]
+    """Assemble tweet: headline + optional context + URL (image attached separately)."""
+    parts = [headline.strip()]
     if context:
         parts.append(context.strip())
     parts.append(URL)
     tweet = "\n\n".join(parts)
     # Drop context if too long
     if len(tweet) > 280 and context:
-        parts = [headline.strip(), dashboard(data), URL]
+        parts = [headline.strip(), URL]
         tweet = "\n\n".join(parts)
     return tweet
 
@@ -514,8 +514,36 @@ def generate_best_tweet(data):
     return best_tweet
 
 
+def upload_image():
+    """Upload og-home.png via Twitter API v1.1. Returns media_id or None."""
+    try:
+        import tweepy
+    except ImportError:
+        return None
+
+    image_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'og-home.png')
+    if not os.path.exists(image_path):
+        print("Warning: og-home.png not found, tweeting without image.")
+        return None
+
+    api_key = os.environ.get('TWITTER_API_KEY')
+    api_secret = os.environ.get('TWITTER_API_SECRET')
+    access_token = os.environ.get('TWITTER_ACCESS_TOKEN')
+    access_secret = os.environ.get('TWITTER_ACCESS_TOKEN_SECRET')
+
+    try:
+        auth = tweepy.OAuth1UserHandler(api_key, api_secret, access_token, access_secret)
+        api = tweepy.API(auth)
+        media = api.media_upload(image_path)
+        print(f"Image uploaded: media_id={media.media_id}")
+        return media.media_id
+    except Exception as e:
+        print(f"Warning: Image upload failed ({e}), tweeting without image.")
+        return None
+
+
 def post_tweet(tweet_text):
-    """Post the tweet using Tweepy."""
+    """Post the tweet using Tweepy, with optional image."""
     try:
         import tweepy
     except ImportError:
@@ -532,6 +560,9 @@ def post_tweet(tweet_text):
         print("Required: TWITTER_API_KEY, TWITTER_API_SECRET, TWITTER_ACCESS_TOKEN, TWITTER_ACCESS_TOKEN_SECRET")
         sys.exit(1)
 
+    # Upload image first
+    media_id = upload_image()
+
     client = tweepy.Client(
         consumer_key=api_key,
         consumer_secret=api_secret,
@@ -540,7 +571,10 @@ def post_tweet(tweet_text):
     )
 
     try:
-        response = client.create_tweet(text=tweet_text)
+        kwargs = {'text': tweet_text}
+        if media_id:
+            kwargs['media_ids'] = [media_id]
+        response = client.create_tweet(**kwargs)
         tweet_id = response.data['id']
         print(f"Tweet posted successfully! ID: {tweet_id}")
         return tweet_id
