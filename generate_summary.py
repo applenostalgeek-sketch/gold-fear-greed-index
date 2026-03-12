@@ -221,7 +221,7 @@ What are the 1-2 key catalysts driving these markets this week?"""
     try:
         response = client.messages.create(
             model="claude-sonnet-4-6",
-            max_tokens=250,
+            max_tokens=350,
             system=system,
             tools=[{
                 "type": "web_search_20250305",
