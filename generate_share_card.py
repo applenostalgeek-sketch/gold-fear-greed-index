@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
-"""Generate dynamic OG share card (1200x630) with current Fear & Greed scores."""
+"""Generate dynamic OG share card (1200x630) with current Fear & Greed scores.
+Uses 2x supersampling for smooth circles and crisp text."""
 
 import json
 import os
@@ -7,6 +8,7 @@ from datetime import datetime, timezone
 from PIL import Image, ImageDraw, ImageFont
 
 WIDTH, HEIGHT = 1200, 630
+SCALE = 2  # Supersampling factor
 BG = (10, 10, 10)           # #0a0a0a
 WHITE = (255, 255, 255)
 GRAY = (102, 102, 102)      # #666
@@ -15,7 +17,7 @@ LIGHT_GRAY = (153, 153, 153)
 ASSETS = ['gold', 'bonds', 'stocks', 'crypto']
 ASSET_LABELS = {'gold': 'Gold', 'bonds': 'Bonds', 'stocks': 'Stocks', 'crypto': 'Crypto'}
 
-# Score color thresholds (matching shared.js / generate_og_images.py)
+
 def score_color(score):
     s = round(score)
     if s <= 25:
@@ -62,7 +64,7 @@ def get_font(style, size):
     }
     for path in fonts.get(style, fonts['regular']):
         if os.path.exists(path):
-            return ImageFont.truetype(path, size)
+            return ImageFont.truetype(path, size * SCALE)
     return ImageFont.load_default()
 
 
@@ -82,33 +84,31 @@ def draw_circle_score(draw, cx, cy, radius, score, font_score, font_label_small)
     color = score_color(score)
     label = score_label(score)
 
-    # Circle outline
     draw.ellipse(
         [cx - radius, cy - radius, cx + radius, cy + radius],
-        outline=color, width=3
+        outline=color, width=3 * SCALE
     )
 
-    # Score text (centered in circle)
     score_text = str(round(score))
     bbox = draw.textbbox((0, 0), score_text, font=font_score)
     tw = bbox[2] - bbox[0]
     th = bbox[3] - bbox[1]
-    draw.text((cx - tw // 2, cy - th // 2 - 8), score_text, fill=color, font=font_score)
+    draw.text((cx - tw // 2, cy - th // 2 - 8 * SCALE), score_text, fill=color, font=font_score)
 
-    # Label text under score
     bbox = draw.textbbox((0, 0), label, font=font_label_small)
     tw = bbox[2] - bbox[0]
-    draw.text((cx - tw // 2, cy + 18), label, fill=color, font=font_label_small)
+    draw.text((cx - tw // 2, cy + 18 * SCALE), label, fill=color, font=font_label_small)
 
 
 def generate():
     scores = load_scores()
     sentiment = round(sum(scores.values()) / len(scores))
 
-    img = Image.new('RGB', (WIDTH, HEIGHT), BG)
+    S = SCALE
+    img = Image.new('RGB', (WIDTH * S, HEIGHT * S), BG)
     draw = ImageDraw.Draw(img)
 
-    # Fonts
+    # Fonts (sizes are already multiplied by SCALE in get_font)
     font_logo = get_font('bold', 24)
     font_logo_gray = get_font('medium', 24)
     font_date = get_font('regular', 18)
@@ -121,67 +121,66 @@ def generate():
     font_url = get_font('medium', 16)
 
     # --- Header: Logo left, Date right ---
-    header_y = 36
-    # Logo: "On··Off .Markets"
-    draw.text((60, header_y), "On", fill=WHITE, font=font_logo)
+    header_y = 36 * S
+    draw.text((60 * S, header_y), "On", fill=WHITE, font=font_logo)
     on_w = draw.textbbox((0, 0), "On", font=font_logo)[2]
-    draw.text((60 + on_w, header_y + 2), "··", fill=GRAY, font=font_date)
+    draw.text((60 * S + on_w, header_y + 2 * S), "··", fill=GRAY, font=font_date)
     dots_w = draw.textbbox((0, 0), "··", font=font_date)[2]
-    draw.text((60 + on_w + dots_w, header_y), "Off", fill=WHITE, font=font_logo)
+    draw.text((60 * S + on_w + dots_w, header_y), "Off", fill=WHITE, font=font_logo)
     off_w = draw.textbbox((0, 0), "Off", font=font_logo)[2]
-    draw.text((60 + on_w + dots_w + off_w + 6, header_y), ".Markets", fill=GRAY, font=font_logo_gray)
+    draw.text((60 * S + on_w + dots_w + off_w + 6 * S, header_y), ".Markets", fill=GRAY, font=font_logo_gray)
 
     # Date (right-aligned)
     date_str = datetime.now(timezone.utc).strftime("%B %d, %Y")
     date_bbox = draw.textbbox((0, 0), date_str, font=font_date)
     date_w = date_bbox[2] - date_bbox[0]
-    draw.text((WIDTH - 60 - date_w, header_y + 4), date_str, fill=GRAY, font=font_date)
+    draw.text((WIDTH * S - 60 * S - date_w, header_y + 4 * S), date_str, fill=GRAY, font=font_date)
 
     # --- Center: MARKET SENTIMENT + big score + label ---
-    center_y = 140
+    center_y = 140 * S
     subtitle_text = "MARKET SENTIMENT"
     bbox = draw.textbbox((0, 0), subtitle_text, font=font_subtitle)
     tw = bbox[2] - bbox[0]
-    draw.text((WIDTH // 2 - tw // 2, center_y), subtitle_text, fill=GRAY, font=font_subtitle)
+    draw.text((WIDTH * S // 2 - tw // 2, center_y), subtitle_text, fill=GRAY, font=font_subtitle)
 
     sentiment_color = score_color(sentiment)
     sentiment_label = score_label(sentiment).upper()
 
-    # Big score
     score_text = str(sentiment)
     bbox = draw.textbbox((0, 0), score_text, font=font_big_score)
     tw = bbox[2] - bbox[0]
-    score_y = center_y + 34
-    draw.text((WIDTH // 2 - tw // 2, score_y), score_text, fill=sentiment_color, font=font_big_score)
+    score_y = center_y + 34 * S
+    draw.text((WIDTH * S // 2 - tw // 2, score_y), score_text, fill=sentiment_color, font=font_big_score)
 
-    # Label under score
     bbox = draw.textbbox((0, 0), sentiment_label, font=font_big_label)
     tw = bbox[2] - bbox[0]
-    draw.text((WIDTH // 2 - tw // 2, score_y + 100), sentiment_label, fill=sentiment_color, font=font_big_label)
+    draw.text((WIDTH * S // 2 - tw // 2, score_y + 100 * S), sentiment_label, fill=sentiment_color, font=font_big_label)
 
     # --- Asset circles row ---
-    circle_y = 440
-    radius = 48
+    circle_y = 440 * S
+    radius = 48 * S
     n_assets = 4
-    total_width = n_assets * (radius * 2) + (n_assets - 1) * 80
-    start_x = WIDTH // 2 - total_width // 2 + radius
+    total_width = n_assets * (radius * 2) + (n_assets - 1) * 80 * S
+    start_x = WIDTH * S // 2 - total_width // 2 + radius
 
     for i, asset in enumerate(ASSETS):
-        cx = start_x + i * (radius * 2 + 80)
+        cx = start_x + i * (radius * 2 + 80 * S)
         draw_circle_score(draw, cx, circle_y, radius, scores[asset],
                          font_circle_score, font_circle_label)
 
-        # Asset name below circle
         name = ASSET_LABELS[asset]
         bbox = draw.textbbox((0, 0), name, font=font_asset_name)
         tw = bbox[2] - bbox[0]
-        draw.text((cx - tw // 2, circle_y + radius + 14), name, fill=LIGHT_GRAY, font=font_asset_name)
+        draw.text((cx - tw // 2, circle_y + radius + 14 * S), name, fill=LIGHT_GRAY, font=font_asset_name)
 
     # --- Footer: URL bottom right ---
     url_text = "onoff.markets"
     bbox = draw.textbbox((0, 0), url_text, font=font_url)
     url_w = bbox[2] - bbox[0]
-    draw.text((WIDTH - 60 - url_w, HEIGHT - 45), url_text, fill=GRAY, font=font_url)
+    draw.text((WIDTH * S - 60 * S - url_w, HEIGHT * S - 45 * S), url_text, fill=GRAY, font=font_url)
+
+    # Downsample to final size (LANCZOS for smooth result)
+    img = img.resize((WIDTH, HEIGHT), Image.LANCZOS)
 
     # Save
     output_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'og-home.png')

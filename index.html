@@ -497,43 +497,6 @@
             margin: 16px 0;
         }
 
-        /* === SHARE BUTTON === */
-        .share-row {
-            display: flex;
-            justify-content: center;
-            margin: 20px 0 0 0;
-        }
-
-        .share-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 6px;
-            padding: 8px 18px;
-            border-radius: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            background: transparent;
-            color: #666;
-            font-size: 0.78rem;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .share-btn:hover {
-            color: #fff;
-            border-color: rgba(255, 255, 255, 0.2);
-        }
-
-        .share-btn svg {
-            width: 14px;
-            height: 14px;
-            stroke: currentColor;
-            fill: none;
-            stroke-width: 2;
-            stroke-linecap: round;
-            stroke-linejoin: round;
-        }
-
         /* === MOBILE === */
         @media (max-width: 768px) {
             .tagline { font-size: 0.85rem; }
@@ -751,12 +714,6 @@
                 <canvas class="asset-sparkline" id="cryptoSparkline"></canvas>
                 <div class="asset-micro" id="cryptoMicro"></div>
             </a>
-        </div>
-        <div class="share-row">
-            <button class="share-btn" id="shareBtn" title="Share today's scores">
-                <svg viewBox="0 0 24 24"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
-                Share
-            </button>
         </div>
 
         <!-- Inline Alert CTA -->
@@ -1724,33 +1681,6 @@
             resizeTimeout = setTimeout(() => drawChart(), 200);
         });
 
-        // Share button
-        document.getElementById('shareBtn').addEventListener('click', async function() {
-            const imageUrl = 'og-home.png';
-            if (navigator.share && navigator.canShare) {
-                try {
-                    const response = await fetch(imageUrl);
-                    const blob = await response.blob();
-                    const file = new File([blob], 'onoff-markets.png', { type: 'image/png' });
-                    if (navigator.canShare({ files: [file] })) {
-                        await navigator.share({
-                            title: 'Market Sentiment - OnOff.Markets',
-                            files: [file]
-                        });
-                        return;
-                    }
-                } catch (e) {
-                    if (e.name === 'AbortError') return;
-                }
-            }
-            // Fallback: download the image
-            const a = document.createElement('a');
-            a.href = imageUrl;
-            a.download = 'onoff-markets-sentiment.png';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-        });
     </script>
     <script src="alert-signup.js"></script>
 </body>
