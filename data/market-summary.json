@@ -1,26 +1,26 @@
 {
-  "date": "2026-03-11",
-  "timestamp": "2026-03-11T04:11:51Z",
-  "summary": "The Fed concludes its two-day meeting today, with rates expected on hold but markets fixated on the dot plot and Powell's guidance on the pace of cuts. Simultaneously, volatile oil near $90 and mixed signals from the U.S.-Iran conflict \u2014 Trump threatening escalation while Iran denied wanting a truce \u2014 are whipsawing bonds and lifting gold's safe-haven bid while keeping stocks in fear.",
+  "date": "2026-03-12",
+  "timestamp": "2026-03-12T04:15:59Z",
+  "summary": "Oil above $90 and the Hormuz shipping disruption from the ongoing Iran conflict remain the dominant macro force this week, raising stagflation fears as a weakening labor market collides with energy-driven inflation, leaving the Fed trapped between cutting and holding. Last Friday's payrolls fell 92,000 with unemployment at 4.",
   "scores": {
     "gold": {
-      "score": 63.1,
-      "label": "Greed"
+      "score": 55.4,
+      "label": "Neutral"
     },
     "stocks": {
+      "score": 46.2,
+      "label": "Neutral"
+    },
+    "crypto": {
       "score": 45.1,
       "label": "Fear"
     },
-    "crypto": {
-      "score": 41.8,
+    "bonds": {
+      "score": 45.4,
       "label": "Fear"
     },
-    "bonds": {
-      "score": 49.5,
-      "label": "Neutral"
-    },
     "sentiment": {
-      "score": 49.9,
+      "score": 48.0,
       "label": "Neutral"
     }
   }
