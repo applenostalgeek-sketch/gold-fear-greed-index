@@ -170,7 +170,7 @@ def fallback_summary(scores, components):
             f"with overall sentiment near {scores['Sentiment']['label'].lower()} territory."
         )
 
-    return " ".join(parts[:3])
+    return " ".join(parts[:3]), None
 
 
 def generate_summary():
@@ -194,13 +194,16 @@ def generate_summary():
 
     today = datetime.now(timezone.utc).strftime('%Y-%m-%d')
 
-    system = f"""You write a 2-3 sentence context blurb for a multi-asset Fear & Greed dashboard. Today is {today}.
+    system = f"""You write market context for a multi-asset Fear & Greed dashboard. Today is {today}.
 
 Use web search to find this week's main market catalysts. Connect them to the sentiment data.
 
-Rules:
-- 2-3 SHORT sentences. Strictly under 450 characters total.
-- Name the 1-2 biggest catalysts this week (Fed, jobs data, tariffs, geopolitics, etc.) and explain how they affect the 4 markets.
+You must output valid JSON with two fields:
+- "summary": 2-3 sentences, under 450 characters. For the website.
+- "tweet": 1 punchy sentence, under 220 characters. For Twitter. Same idea as summary but much shorter.
+
+Rules (apply to both):
+- Name the 1-2 biggest catalysts this week (Fed, jobs data, tariffs, geopolitics, etc.) and explain how they affect markets.
 - Write like a dashboard subtitle, not a research note. Be concise and direct.
 - ONLY cite facts found in your search results. Never invent data.
 - Only reference events that have already happened or are happening TODAY ({today}). Never reference upcoming events.
@@ -208,7 +211,7 @@ Rules:
 - Do NOT predict. Current state only.
 - Plain text. No emojis, no markdown.
 - Vary from yesterday's context.
-- Output ONLY the blurb."""
+- Output ONLY the JSON object, nothing else."""
 
     user_msg = f"""Dashboard data:
 
@@ -235,16 +238,28 @@ What are the 1-2 key catalysts driving these markets this week?"""
         import re
         text_parts = [block.text for block in response.content
                       if block.type == "text" and block.text.strip()]
-        # Join with space, then clean up spacing artifacts
-        summary = " ".join(part.strip() for part in text_parts).strip()
-        summary = re.sub(r'\s+([,.;:!?])', r'\1', summary)
-        summary = re.sub(r'\s{2,}', ' ', summary)
+        raw = " ".join(part.strip() for part in text_parts).strip()
+        raw = re.sub(r'\s+([,.;:!?])', r'\1', raw)
+        raw = re.sub(r'\s{2,}', ' ', raw)
+
+        # Try to parse JSON response
+        summary = raw
+        tweet = None
+        try:
+            # Extract JSON from response (may have extra text around it)
+            json_match = re.search(r'\{[^{}]*\}', raw, re.DOTALL)
+            if json_match:
+                parsed = json.loads(json_match.group())
+                summary = parsed.get('summary', raw)
+                tweet = parsed.get('tweet', None)
+        except (json.JSONDecodeError, AttributeError):
+            pass  # Fall back to raw text as summary
 
         if not summary or len(summary) < 20:
             print("  Response too short, using fallback")
-            return fallback_summary(scores, components)
+            return fallback_summary(scores, components), None
 
-        # Truncate if too long
+        # Truncate summary if too long
         if len(summary) > 450:
             truncated = summary[:450]
             last_period = truncated.rfind('.')
@@ -253,22 +268,32 @@ What are the 1-2 key catalysts driving these markets this week?"""
             else:
                 summary = truncated.rstrip() + "..."
 
-        return summary
+        # Truncate tweet if too long
+        if tweet and len(tweet) > 220:
+            truncated = tweet[:220]
+            last_space = truncated.rfind(' ')
+            if last_space > 100:
+                tweet = truncated[:last_space] + "..."
+            else:
+                tweet = truncated.rstrip() + "..."
+
+        return summary, tweet
 
     except Exception as e:
         print(f"  API error: {e}, using fallback")
-        return fallback_summary(scores, components)
+        return fallback_summary(scores, components)  # returns (summary, None)
 
 
 def main():
     print("Generating AI context summary...")
-    summary = generate_summary()
+    summary, tweet = generate_summary()
     scores = load_scores()
 
     output = {
         'date': datetime.now(timezone.utc).strftime('%Y-%m-%d'),
         'timestamp': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
         'summary': summary,
+        'tweet': tweet,
         'scores': {
             name.lower(): {'score': s['score'], 'label': s['label']}
             for name, s in scores.items()
@@ -279,6 +304,8 @@ def main():
         json.dump(output, f, indent=2)
 
     print(f"  Summary ({len(summary)} chars): {summary}")
+    if tweet:
+        print(f"  Tweet ({len(tweet)} chars): {tweet}")
     print("Done.")
 
 

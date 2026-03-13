@@ -457,18 +457,24 @@ def detect_calm(data):
 
 
 def load_ai_context():
-    """Load AI context from market-summary.json, return first sentence."""
+    """Load tweet text from market-summary.json, fall back to first sentence of summary."""
     try:
         with open('data/market-summary.json', 'r') as f:
-            summary = json.load(f).get('summary', '')
+            data = json.load(f)
+
+        # Prefer dedicated tweet field
+        tweet = data.get('tweet', '')
+        if tweet and len(tweet) >= 20:
+            return tweet
+
+        # Fall back to first sentence of summary
+        summary = data.get('summary', '')
         if not summary or len(summary) < 20:
             return None
-        # Extract first sentence (skip abbreviations like U.S., St., etc.)
         import re
         match = re.search(r'(?<![A-Z])\.\s', summary)
         if match and match.start() < 200:
             return summary[:match.start() + 1]
-        # If first sentence too long, truncate at last space within 200 chars
         if len(summary) > 200:
             truncated = summary[:200]
             last_space = truncated.rfind(' ')
