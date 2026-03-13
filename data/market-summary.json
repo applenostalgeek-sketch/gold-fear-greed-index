@@ -1,22 +1,22 @@
 {
-  "date": "2026-03-12",
-  "timestamp": "2026-03-12T04:15:59Z",
-  "summary": "Oil above $90 and the Hormuz shipping disruption from the ongoing Iran conflict remain the dominant macro force this week, raising stagflation fears as a weakening labor market collides with energy-driven inflation, leaving the Fed trapped between cutting and holding. Last Friday's payrolls fell 92,000 with unemployment at 4.",
+  "date": "2026-03-13",
+  "timestamp": "2026-03-13T04:14:33Z",
+  "summary": "The Hormuz-driven oil shock and February's -92,000 payroll print have collided into a stagflation threat, leaving the Fed trapped between holding against energy inflation and easing into a weakening labor market. The 10-year Treasury yield climbed to 4.19% on March 11 as a market-driven inflationary risk premium \u2014 not Fed hikes \u2014 pushed long rates higher, weighing on bond duration and equity valuations simultaneously.",
   "scores": {
     "gold": {
-      "score": 55.4,
+      "score": 52.6,
       "label": "Neutral"
     },
     "stocks": {
-      "score": 46.2,
-      "label": "Neutral"
-    },
-    "crypto": {
-      "score": 45.1,
+      "score": 43.2,
       "label": "Fear"
     },
+    "crypto": {
+      "score": 51.2,
+      "label": "Neutral"
+    },
     "bonds": {
-      "score": 45.4,
+      "score": 45.2,
       "label": "Fear"
     },
     "sentiment": {
