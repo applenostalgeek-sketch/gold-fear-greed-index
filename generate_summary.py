@@ -198,11 +198,7 @@ def generate_summary():
 
 Use web search to find this week's main market catalysts. Connect them to the sentiment data.
 
-You must output valid JSON with two fields:
-- "summary": 2-3 sentences, under 450 characters. For the website.
-- "tweet": 1 punchy sentence, under 220 characters. For Twitter. Same idea as summary but much shorter.
-
-Rules (apply to both):
+Rules:
 - Name the 1-2 biggest catalysts this week (Fed, jobs data, tariffs, geopolitics, etc.) and explain how they affect markets.
 - Write like a dashboard subtitle, not a research note. Be concise and direct.
 - ONLY cite facts found in your search results. Never invent data.
@@ -211,7 +207,10 @@ Rules (apply to both):
 - Do NOT predict. Current state only.
 - Plain text. No emojis, no markdown.
 - Vary from yesterday's context.
-- Output ONLY the JSON object, nothing else."""
+
+Output format (strictly follow this, no other text):
+SUMMARY: [2-3 sentences, under 450 characters. For the website.]
+TWEET: [1 punchy sentence, under 220 characters. Same idea, shorter.]"""
 
     user_msg = f"""Dashboard data:
 
@@ -242,18 +241,15 @@ What are the 1-2 key catalysts driving these markets this week?"""
         raw = re.sub(r'\s+([,.;:!?])', r'\1', raw)
         raw = re.sub(r'\s{2,}', ' ', raw)
 
-        # Try to parse JSON response
+        # Parse SUMMARY: and TWEET: format
         summary = raw
         tweet = None
-        try:
-            # Extract JSON from response (may have extra text around it)
-            json_match = re.search(r'\{[^{}]*\}', raw, re.DOTALL)
-            if json_match:
-                parsed = json.loads(json_match.group())
-                summary = parsed.get('summary', raw)
-                tweet = parsed.get('tweet', None)
-        except (json.JSONDecodeError, AttributeError):
-            pass  # Fall back to raw text as summary
+        summary_match = re.search(r'SUMMARY:\s*(.+?)(?=\nTWEET:|\Z)', raw, re.DOTALL)
+        tweet_match = re.search(r'TWEET:\s*(.+)', raw, re.DOTALL)
+        if summary_match:
+            summary = summary_match.group(1).strip()
+        if tweet_match:
+            tweet = tweet_match.group(1).strip()
 
         if not summary or len(summary) < 20:
             print("  Response too short, using fallback")
