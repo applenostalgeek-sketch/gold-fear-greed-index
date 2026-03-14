@@ -1,26 +1,27 @@
 {
-  "date": "2026-03-13",
-  "timestamp": "2026-03-13T04:14:33Z",
-  "summary": "The Hormuz-driven oil shock and February's -92,000 payroll print have collided into a stagflation threat, leaving the Fed trapped between holding against energy inflation and easing into a weakening labor market. The 10-year Treasury yield climbed to 4.19% on March 11 as a market-driven inflationary risk premium \u2014 not Fed hikes \u2014 pushed long rates higher, weighing on bond duration and equity valuations simultaneously.",
+  "date": "2026-03-14",
+  "timestamp": "2026-03-14T04:12:28Z",
+  "summary": "The search results give me strong, well-sourced catalysts. Here are the key facts grounding the JSON: - Oil surged again this week \u2014 Brent and WTI each gained over 8\u201311% on the week \u2014 as the U.S.-Israel war against Iran entered a third week, pushing equities to new 2026 lows.",
+  "tweet": null,
   "scores": {
     "gold": {
-      "score": 52.6,
-      "label": "Neutral"
+      "score": 43.3,
+      "label": "Fear"
     },
     "stocks": {
-      "score": 43.2,
+      "score": 42.8,
       "label": "Fear"
     },
     "crypto": {
-      "score": 51.2,
+      "score": 52.6,
       "label": "Neutral"
     },
     "bonds": {
-      "score": 45.2,
+      "score": 43.0,
       "label": "Fear"
     },
     "sentiment": {
-      "score": 48.0,
+      "score": 45.4,
       "label": "Neutral"
     }
   }
