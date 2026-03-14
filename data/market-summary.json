@@ -1,11 +1,11 @@
 {
   "date": "2026-03-14",
-  "timestamp": "2026-03-14T04:12:28Z",
-  "summary": "The search results give me strong, well-sourced catalysts. Here are the key facts grounding the JSON: - Oil surged again this week \u2014 Brent and WTI each gained over 8\u201311% on the week \u2014 as the U.S.-Israel war against Iran entered a third week, pushing equities to new 2026 lows.",
-  "tweet": null,
+  "timestamp": "2026-03-14T06:35:25Z",
+  "summary": "A shock February jobs print \u2014 the U.S. economy shed 92,000 jobs \u2014 collided with a Middle East-driven oil supply squeeze as the Strait of Hormuz closure sent energy prices surging. This toxic cocktail of slowing growth and rising prices has left the Fed paralyzed, effectively ending hopes for a rate cut at the FOMC meeting this week. The S&P 500 posted a 1.6% weekly loss and its first three-week losing streak in roughly a year.",
+  "tweet": "A negative jobs print, a Hormuz oil shock, and a technical breakdown have shattered the soft-landing consensus \u2014 leaving every asset class on edge ahead of the Fed.",
   "scores": {
     "gold": {
-      "score": 43.3,
+      "score": 43.8,
       "label": "Fear"
     },
     "stocks": {
@@ -13,7 +13,7 @@
       "label": "Fear"
     },
     "crypto": {
-      "score": 52.6,
+      "score": 52.0,
       "label": "Neutral"
     },
     "bonds": {
