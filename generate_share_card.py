@@ -135,7 +135,10 @@ def center_text(draw, y, text, font, fill):
 
 def generate():
     scores = load_scores()
-    sentiment = round(sum(scores.values()) / len(scores))
+    # Same formula as index.html: risk-on vs risk-off
+    risk_on = (scores['stocks'] + scores['crypto']) / 2
+    risk_off = (scores['bonds'] + scores['gold']) / 2
+    sentiment = round(((risk_on - risk_off + 100) / 200) * 100)
 
     S = SCALE
     img = Image.new('RGB', (WIDTH * S, HEIGHT * S), (19, 17, 26))
