@@ -1,11 +1,11 @@
 {
-  "date": "2026-03-14",
-  "timestamp": "2026-03-14T06:35:25Z",
-  "summary": "A shock February jobs print \u2014 the U.S. economy shed 92,000 jobs \u2014 collided with a Middle East-driven oil supply squeeze as the Strait of Hormuz closure sent energy prices surging. This toxic cocktail of slowing growth and rising prices has left the Fed paralyzed, effectively ending hopes for a rate cut at the FOMC meeting this week. The S&P 500 posted a 1.6% weekly loss and its first three-week losing streak in roughly a year.",
-  "tweet": "A negative jobs print, a Hormuz oil shock, and a technical breakdown have shattered the soft-landing consensus \u2014 leaving every asset class on edge ahead of the Fed.",
+  "date": "2026-03-15",
+  "timestamp": "2026-03-15T04:34:12Z",
+  "summary": "The Iran conflict continues to grip energy markets, with Brent crude surpassing $90 a barrel as fighting escalates and Strait of Hormuz shipping traffic remains severely disrupted. The FOMC meeting this week is not about a rate move \u2014 it is about navigating rising geopolitical risk without losing control of inflation expectations, as the stagflation risk from a deteriorating labor market colliding with energy-driven inflation keeps the Fed pinned...",
+  "tweet": "Oil above $90 and a broken labor market have the Fed's mandates pulling in opposite directions \u2014 weak jobs argue for a cut, stubborn inflation argues against, leaving the FOMC to do nothing.",
   "scores": {
     "gold": {
-      "score": 43.8,
+      "score": 44.2,
       "label": "Fear"
     },
     "stocks": {
@@ -13,7 +13,7 @@
       "label": "Fear"
     },
     "crypto": {
-      "score": 52.0,
+      "score": 50.1,
       "label": "Neutral"
     },
     "bonds": {
@@ -21,7 +21,7 @@
       "label": "Fear"
     },
     "sentiment": {
-      "score": 45.4,
+      "score": 45.0,
       "label": "Neutral"
     }
   }
