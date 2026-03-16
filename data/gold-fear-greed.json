@@ -1,7 +1,7 @@
 {
-  "score": 51.5,
-  "label": "Neutral",
-  "timestamp": "2026-03-16T04:41:55Z",
+  "score": 43.1,
+  "label": "Fear",
+  "timestamp": "2026-03-16T11:17:31Z",
   "components": {
     "gld_price": {
       "score": 35.5,
@@ -9,30 +9,30 @@
       "detail": "GLD 14d: -2.9%"
     },
     "momentum": {
-      "score": 59.5,
+      "score": 58.3,
       "weight": 0.25,
-      "detail": "RSI: 43, Price > MA50"
+      "detail": "RSI: 42, Price > MA50"
     },
     "dollar_index": {
-      "score": 50.0,
+      "score": 8.9,
       "weight": 0.2,
-      "detail": "Data unavailable"
+      "detail": "DXY: 100.30 (+2.7% 14d, MA30: 98.06)"
     },
     "real_rates": {
-      "score": 39.6,
+      "score": 42.9,
       "weight": 0.15,
-      "detail": "TIPS 10Y: 1.89% (avg: 1.82%)"
+      "detail": "10Y Yield: 4.28% (proxy, avg: 4.16%)"
     },
     "vix": {
-      "score": 100,
+      "score": 96.2,
       "weight": 0.1,
-      "detail": "VIX: 27.2 (avg: 18.3, z: +2.4)"
+      "detail": "VIX: 25.5 (avg: 18.4, z: +1.8)"
     }
   },
   "history": [
     {
       "date": "2026-03-16",
-      "score": 51.5,
+      "score": 43.1,
       "price": 460.84
     },
     {
