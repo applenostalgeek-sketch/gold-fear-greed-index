@@ -334,7 +334,7 @@ class GoldFearGreedIndex:
             Tuple of (score 0-100, detail string)
         """
         try:
-            dxy = yf.Ticker("DX-Y.NYB")  # US Dollar Index
+            dxy = yf.Ticker("DX=F")  # US Dollar Index Futures
             hist = dxy.history(period="3mo")
 
             if hist.empty:
@@ -497,7 +497,7 @@ class GoldFearGreedIndex:
             # Get historical data for ALL components
             gold = yf.Ticker("GC=F")
             vix = yf.Ticker("^VIX")
-            dxy = yf.Ticker("DX-Y.NYB")
+            dxy = yf.Ticker("DX=F")
             gld = yf.Ticker("GLD")
             tnx = yf.Ticker("^TNX")
 

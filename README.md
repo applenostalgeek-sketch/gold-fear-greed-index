@@ -115,7 +115,7 @@ All data is **100% free** and publicly accessible:
 
 - **Yahoo Finance** (via yfinance): All price, volume, and technical data
   - ETFs: GLD, TLT, SPY, SHY, LQD, HYG, RSP, QQQ, XLP, TIP
-  - Indices: ^VIX, DX-Y.NYB (DXY), ^TNX, ^IRX
+  - Indices: ^VIX, DX=F (DXY), ^TNX, ^IRX
   - Crypto: BTC-USD, ETH-USD
 
 - **FRED API** (Federal Reserve): Treasury yields and TIPS

@@ -22,7 +22,7 @@ FRED_SERIES = ['DGS10', 'DGS2', 'DFII10']
 
 SYMBOLS = [
     'BTC-USD', 'ETH-USD',
-    'GC=F', 'GLD', 'SPY', '^VIX', 'DX-Y.NYB', '^TNX',
+    'GC=F', 'GLD', 'SPY', '^VIX', 'DX=F', '^TNX',
     'RSP', 'HYG', 'TLT', 'QQQ', 'XLP', 'LQD', 'SHY'
 ]
 
@@ -125,7 +125,7 @@ def calc_gold(data):
     gld = data['GLD']['Close']
     gc = data.get('GC=F', {})
     vix = data['^VIX']['Close']
-    dxy = data['DX-Y.NYB']['Close']
+    dxy = data['DX=F']['Close']
     tnx = data['^TNX']['Close']
     dfii10 = data.get('FRED_DFII10', pd.Series(dtype=float))
 

@@ -22,7 +22,7 @@ No subscriptions, no paywalls, no proprietary black boxes.
 - URL: https://onoff.markets/gold.html
 - Measures: investor sentiment towards gold
 - 5 components: GLD Price Momentum (30%), RSI & Moving Averages (25%), Dollar Index (20%), Real Rates via FRED TIPS (15%), VIX (10%)
-- Data: Yahoo Finance (GLD, GC=F, DX-Y.NYB, ^VIX) + FRED API (DFII10)
+- Data: Yahoo Finance (GLD, GC=F, DX=F, ^VIX) + FRED API (DFII10)
 
 ### Stocks Fear & Greed Index
 - URL: https://onoff.markets/stocks.html
