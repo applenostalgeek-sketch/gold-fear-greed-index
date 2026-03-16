@@ -1,27 +1,27 @@
 {
-  "date": "2026-03-15",
-  "timestamp": "2026-03-15T04:34:12Z",
-  "summary": "The Iran conflict continues to grip energy markets, with Brent crude surpassing $90 a barrel as fighting escalates and Strait of Hormuz shipping traffic remains severely disrupted. The FOMC meeting this week is not about a rate move \u2014 it is about navigating rising geopolitical risk without losing control of inflation expectations, as the stagflation risk from a deteriorating labor market colliding with energy-driven inflation keeps the Fed pinned...",
-  "tweet": "Oil above $90 and a broken labor market have the Fed's mandates pulling in opposite directions \u2014 weak jobs argue for a cut, stubborn inflation argues against, leaving the FOMC to do nothing.",
+  "date": "2026-03-16",
+  "timestamp": "2026-03-16T04:42:15Z",
+  "summary": "The US attacked military targets on Iran's main oil-export hub of Kharg Island over the weekend and threatened to expand strikes to energy infrastructure if Tehran interferes with Strait of Hormuz transit, keeping stagflation risk front and center across all assets.",
+  "tweet": "Iran strikes on Kharg Island and a Fed dot-plot reset are the week's twin hammers \u2014 energy-driven inflation versus a softening labor market leaves Powell with nowhere to go.",
   "scores": {
     "gold": {
-      "score": 44.2,
-      "label": "Fear"
+      "score": 51.5,
+      "label": "Neutral"
     },
     "stocks": {
       "score": 42.8,
       "label": "Fear"
     },
     "crypto": {
-      "score": 50.1,
-      "label": "Neutral"
+      "score": 56.4,
+      "label": "Greed"
     },
     "bonds": {
       "score": 43.0,
       "label": "Fear"
     },
     "sentiment": {
-      "score": 45.0,
+      "score": 48.4,
       "label": "Neutral"
     }
   }
