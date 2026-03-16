@@ -297,12 +297,6 @@
             margin-top: 2px;
         }
 
-        .asset-micro {
-            font-size: 0.6rem;
-            color: #444;
-            line-height: 1.3;
-            text-align: center;
-        }
 
         /* === INLINE CTA === */
         .cta-section {
@@ -634,7 +628,6 @@
                 <div class="asset-trend" id="goldTrend"></div>
                 <div class="asset-label" id="goldLabel">--</div>
                 <canvas class="asset-sparkline" id="goldSparkline"></canvas>
-                <div class="asset-micro" id="goldMicro"></div>
             </a>
 
             <a href="bonds.html" class="asset-card">
@@ -660,7 +653,6 @@
                 <div class="asset-trend" id="bondsTrend"></div>
                 <div class="asset-label" id="bondsLabel">--</div>
                 <canvas class="asset-sparkline" id="bondsSparkline"></canvas>
-                <div class="asset-micro" id="bondsMicro"></div>
             </a>
 
             <a href="stocks.html" class="asset-card">
@@ -686,7 +678,6 @@
                 <div class="asset-trend" id="stocksTrend"></div>
                 <div class="asset-label" id="stocksLabel">--</div>
                 <canvas class="asset-sparkline" id="stocksSparkline"></canvas>
-                <div class="asset-micro" id="stocksMicro"></div>
             </a>
 
             <a href="crypto.html" class="asset-card">
@@ -712,7 +703,6 @@
                 <div class="asset-trend" id="cryptoTrend"></div>
                 <div class="asset-label" id="cryptoLabel">--</div>
                 <canvas class="asset-sparkline" id="cryptoSparkline"></canvas>
-                <div class="asset-micro" id="cryptoMicro"></div>
             </a>
         </div>
 
@@ -843,38 +833,6 @@
             }
         }
 
-        // Micro-descriptions for each asset based on score
-        function getMicro(asset, score) {
-            if (asset === 'gold') {
-                if (score <= 25) return 'Investors selling gold';
-                if (score <= 45) return 'Low demand for gold';
-                if (score <= 55) return 'Stable gold demand';
-                if (score <= 75) return 'Investors buying gold';
-                return 'Strong rush to gold';
-            }
-            if (asset === 'bonds') {
-                if (score <= 25) return 'Investors leaving bonds';
-                if (score <= 45) return 'Low bond appetite';
-                if (score <= 55) return 'Neutral bond demand';
-                if (score <= 75) return 'Investors buying bonds';
-                return 'Strong flight to bonds';
-            }
-            if (asset === 'stocks') {
-                if (score <= 25) return 'Panic selling stocks';
-                if (score <= 45) return 'Cautious stock market';
-                if (score <= 55) return 'Stable equity market';
-                if (score <= 75) return 'Investors buying stocks';
-                return 'Euphoric stock buying';
-            }
-            if (asset === 'crypto') {
-                if (score <= 25) return 'Crypto sell-off';
-                if (score <= 45) return 'Low crypto confidence';
-                if (score <= 55) return 'Neutral crypto mood';
-                if (score <= 75) return 'Crypto appetite rising';
-                return 'Crypto euphoria';
-            }
-            return '';
-        }
 
         function getTrendArrow(history) {
             if (!history || history.length < 2) return '';
@@ -1206,7 +1164,6 @@
                 }
 
                 document.getElementById(prefix + 'Label').style.display = 'none';
-                document.getElementById(prefix + 'Micro').textContent = getMicro(assetKey, assetData.score);
                 drawSparkline(prefix + 'Sparkline', assetData.history, c);
 
                 // Store fill Y for wave animation
