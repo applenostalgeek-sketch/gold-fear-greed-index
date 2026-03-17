@@ -1,35 +1,40 @@
 {
-  "score": 43.1,
+  "score": 42.2,
   "label": "Fear",
-  "timestamp": "2026-03-16T11:17:31Z",
+  "timestamp": "2026-03-17T04:20:56Z",
   "components": {
     "gld_price": {
-      "score": 35.5,
+      "score": 36.3,
       "weight": 0.3,
-      "detail": "GLD 14d: -2.9%"
+      "detail": "GLD 14d: -2.7%"
     },
     "momentum": {
-      "score": 58.3,
+      "score": 60.0,
       "weight": 0.25,
-      "detail": "RSI: 42, Price > MA50"
+      "detail": "RSI: 43, Price > MA50"
     },
     "dollar_index": {
-      "score": 8.9,
+      "score": 10.2,
       "weight": 0.2,
-      "detail": "DXY: 100.30 (+2.7% 14d, MA30: 98.06)"
+      "detail": "DXY: 100.36 (+2.7% 14d, MA30: 97.95)"
     },
     "real_rates": {
-      "score": 42.9,
+      "score": 39.0,
       "weight": 0.15,
-      "detail": "10Y Yield: 4.28% (proxy, avg: 4.16%)"
+      "detail": "TIPS 10Y: 1.92% (avg: 1.82%)"
     },
     "vix": {
-      "score": 96.2,
+      "score": 83.9,
       "weight": 0.1,
-      "detail": "VIX: 25.5 (avg: 18.4, z: +1.8)"
+      "detail": "VIX: 23.5 (avg: 18.4, z: +1.4)"
     }
   },
   "history": [
+    {
+      "date": "2026-03-17",
+      "score": 42.2,
+      "price": 460.43
+    },
     {
       "date": "2026-03-16",
       "score": 43.1,
@@ -1849,11 +1854,6 @@
       "date": "2025-03-18",
       "score": 69.3,
       "price": 279.96
-    },
-    {
-      "date": "2025-03-17",
-      "score": 62.8,
-      "price": 276.73
     }
   ]
 }

@@ -1,27 +1,27 @@
 {
-  "date": "2026-03-16",
-  "timestamp": "2026-03-16T04:42:15Z",
-  "summary": "The US attacked military targets on Iran's main oil-export hub of Kharg Island over the weekend and threatened to expand strikes to energy infrastructure if Tehran interferes with Strait of Hormuz transit, keeping stagflation risk front and center across all assets.",
-  "tweet": "Iran strikes on Kharg Island and a Fed dot-plot reset are the week's twin hammers \u2014 energy-driven inflation versus a softening labor market leaves Powell with nowhere to go.",
+  "date": "2026-03-17",
+  "timestamp": "2026-03-17T04:21:14Z",
+  "summary": "The FOMC meeting, which kicked off today and concludes tomorrow, has Wall Street focused on how the Fed characterizes spiking energy prices and their impact on inflation amid the ongoing Middle East conflict. With a hold near-certain at 92%+, the real market mover is the updated dot plot and SEP, which could show downward GDP revisions and upward inflation projections \u2014 deepening the stagflation bind already pressuring equities and bonds.",
+  "tweet": "FOMC meeting today isn't about a rate move \u2014 it's about whether the Fed can hold inflation expectations while geopolitical risk rises.",
   "scores": {
     "gold": {
-      "score": 51.5,
-      "label": "Neutral"
+      "score": 42.2,
+      "label": "Fear"
     },
     "stocks": {
-      "score": 42.8,
+      "score": 44.8,
       "label": "Fear"
     },
     "crypto": {
-      "score": 56.4,
+      "score": 60.6,
       "label": "Greed"
     },
     "bonds": {
-      "score": 43.0,
+      "score": 45.4,
       "label": "Fear"
     },
     "sentiment": {
-      "score": 48.4,
+      "score": 48.2,
       "label": "Neutral"
     }
   }
