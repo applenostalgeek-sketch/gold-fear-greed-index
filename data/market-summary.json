@@ -1,27 +1,27 @@
 {
-  "date": "2026-03-17",
-  "timestamp": "2026-03-17T04:21:14Z",
-  "summary": "The FOMC meeting, which kicked off today and concludes tomorrow, has Wall Street focused on how the Fed characterizes spiking energy prices and their impact on inflation amid the ongoing Middle East conflict. With a hold near-certain at 92%+, the real market mover is the updated dot plot and SEP, which could show downward GDP revisions and upward inflation projections \u2014 deepening the stagflation bind already pressuring equities and bonds.",
-  "tweet": "FOMC meeting today isn't about a rate move \u2014 it's about whether the Fed can hold inflation expectations while geopolitical risk rises.",
+  "date": "2026-03-18",
+  "timestamp": "2026-03-18T04:26:40Z",
+  "summary": "The FOMC concludes today, March 18, with markets watching Powell's press conference for any signal on inflation given spiking energy prices tied to the escalating Middle East conflict. Futures pricing suggests the Fed won't ease until at least September, with only a single cut expected this year \u2014 keeping duration under pressure and gold's safe-haven bid capped by a rising DXY.",
+  "tweet": "Fed day: Powell must navigate the Iran war, inflation fears, and a choppy labor market \u2014 while a post-IEEPA tariff rebuild keeps stagflation on the table across every asset class.",
   "scores": {
     "gold": {
-      "score": 42.2,
+      "score": 42.0,
       "label": "Fear"
     },
     "stocks": {
-      "score": 44.8,
-      "label": "Fear"
+      "score": 46.4,
+      "label": "Neutral"
     },
     "crypto": {
-      "score": 60.6,
+      "score": 59.9,
       "label": "Greed"
     },
     "bonds": {
-      "score": 45.4,
-      "label": "Fear"
+      "score": 46.0,
+      "label": "Neutral"
     },
     "sentiment": {
-      "score": 48.2,
+      "score": 48.6,
       "label": "Neutral"
     }
   }
