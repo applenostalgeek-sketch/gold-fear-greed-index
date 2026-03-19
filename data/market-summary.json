@@ -1,28 +1,28 @@
 {
-  "date": "2026-03-18",
-  "timestamp": "2026-03-18T04:26:40Z",
-  "summary": "The FOMC concludes today, March 18, with markets watching Powell's press conference for any signal on inflation given spiking energy prices tied to the escalating Middle East conflict. Futures pricing suggests the Fed won't ease until at least September, with only a single cut expected this year \u2014 keeping duration under pressure and gold's safe-haven bid capped by a rising DXY.",
-  "tweet": "Fed day: Powell must navigate the Iran war, inflation fears, and a choppy labor market \u2014 while a post-IEEPA tariff rebuild keeps stagflation on the table across every asset class.",
+  "date": "2026-03-19",
+  "timestamp": "2026-03-19T04:25:09Z",
+  "summary": "The Fed held rates at 3.5\u20133.75% yesterday, with its updated projections showing slightly higher inflation and only one cut expected this year, as Powell flagged that goods inflation remains elevated due to tariffs raising consumer prices.",
+  "tweet": "Fed held and signaled just one cut in 2026 while new Section 301 trade probes across a dozen economies keep the policy fog thick across every asset class.",
   "scores": {
     "gold": {
-      "score": 42.0,
+      "score": 32.9,
       "label": "Fear"
     },
     "stocks": {
-      "score": 46.4,
-      "label": "Neutral"
+      "score": 44.7,
+      "label": "Fear"
     },
     "crypto": {
-      "score": 59.9,
+      "score": 56.5,
       "label": "Greed"
     },
     "bonds": {
-      "score": 46.0,
-      "label": "Neutral"
+      "score": 45.3,
+      "label": "Fear"
     },
     "sentiment": {
-      "score": 48.6,
-      "label": "Neutral"
+      "score": 44.8,
+      "label": "Fear"
     }
   }
 }
