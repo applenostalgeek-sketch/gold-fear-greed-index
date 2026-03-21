@@ -90,9 +90,7 @@ async function updateLogoDots() {
         const stocks = await stocksRes.json();
         const crypto = await cryptoRes.json();
 
-        const riskOn = (stocks.score + crypto.score) / 2;
-        const riskOff = (bonds.score + gold.score) / 2;
-        const position = ((riskOn - riskOff + 100) / 200) * 100;
+        const position = (gold.score + stocks.score + crypto.score + bonds.score) / 4;
 
         const logoDots = document.querySelector('.logo-dots');
         if (logoDots) logoDots.style.color = getColor(position);

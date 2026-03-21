@@ -44,8 +44,8 @@ No subscriptions, no paywalls, no proprietary black boxes.
 
 ### Market Sentiment (Composite)
 - URL: https://onoff.markets/
-- Formula: compares risk-on assets (Stocks + Crypto average) vs risk-off assets (Bonds + Gold average)
-- Shows whether investors prefer risk assets or safe havens
+- Formula: simple average of the four individual indices (Gold + Stocks + Crypto + Bonds) / 4
+- Shows overall investor sentiment across all asset classes
 
 ## Data Endpoints (JSON)
 

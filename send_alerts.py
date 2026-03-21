@@ -67,11 +67,9 @@ def load_current_scores():
                 'history': data.get('history', []),
             }
 
-    # Compute Market Sentiment (Risk-On vs Risk-Off)
+    # Compute Market Sentiment (simple average of all 4 indices)
     if all(k in current for k in ['gold', 'bonds', 'stocks', 'crypto']):
-        risk_on = (current['stocks']['score'] + current['crypto']['score']) / 2
-        risk_off = (current['bonds']['score'] + current['gold']['score']) / 2
-        sentiment_score = round(((risk_on - risk_off + 100) / 200) * 100, 1)
+        sentiment_score = round((current['gold']['score'] + current['stocks']['score'] + current['crypto']['score'] + current['bonds']['score']) / 4, 1)
         current['sentiment'] = {
             'score': sentiment_score,
             'label': get_label(sentiment_score),

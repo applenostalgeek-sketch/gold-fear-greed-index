@@ -51,16 +51,13 @@ If you can't verify it, you can't trust it.
 
 ## Market Sentiment Indicator
 
-The homepage score combines all 4 indices into a single risk-on / risk-off reading:
+The homepage score is the simple average of all 4 individual indices:
 
 ```
-Greed Side  = (Stocks Score + Crypto Score) / 2
-Fear Side   = (Bonds Score + Gold Score) / 2
-Sentiment   = Greed Side - Fear Side
-Position    = ((Sentiment + 100) / 200) x 100
+Sentiment = (Gold + Stocks + Crypto + Bonds) / 4
 ```
 
-Below 50 = fear dominates (investors prefer safe havens). Above 50 = greed dominates (investors chase risk).
+Below 50 = fear dominates across markets. Above 50 = optimism prevails.
 
 ---
 

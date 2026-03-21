@@ -900,11 +900,8 @@
         }
 
         function updateUI(gold, stocks, crypto, bonds) {
-            // Risk-On vs Risk-Off calculation
-            const riskOn = (stocks.score + crypto.score) / 2;
-            const riskOff = (bonds.score + gold.score) / 2;
-            const rotationScore = riskOn - riskOff;
-            const position = ((rotationScore + 100) / 200) * 100;
+            // Market Sentiment — simple average of all 4 indices
+            const position = (gold.score + stocks.score + crypto.score + bonds.score) / 4;
 
             // Update score with trend arrow
             const scoreEl = document.getElementById('score');
@@ -925,9 +922,7 @@
                 const todayData = dateMap[dates[0]];
                 const yesterdayData = dateMap[dates[1]];
                 if (todayData && yesterdayData && todayData.gold != null && todayData.stocks != null && todayData.crypto != null && todayData.bonds != null && yesterdayData.gold != null && yesterdayData.stocks != null && yesterdayData.crypto != null && yesterdayData.bonds != null) {
-                    const yesterdayRiskOn = (yesterdayData.stocks + yesterdayData.crypto) / 2;
-                    const yesterdayRiskOff = (yesterdayData.bonds + yesterdayData.gold) / 2;
-                    const yesterdayPosition = ((yesterdayRiskOn - yesterdayRiskOff + 100) / 200) * 100;
+                    const yesterdayPosition = (yesterdayData.gold + yesterdayData.stocks + yesterdayData.crypto + yesterdayData.bonds) / 4;
                     const diff = position - yesterdayPosition;
                     if (diff > 2) sentimentArrow = '↑';
                     else if (diff < -2) sentimentArrow = '↓';
@@ -1362,9 +1357,7 @@
             dates.forEach(date => {
                 const d = dateMap[date];
                 if (d.gold != null && d.stocks != null && d.crypto != null && d.bonds != null) {
-                    const riskOn = (d.stocks + d.crypto) / 2;
-                    const riskOff = (d.bonds + d.gold) / 2;
-                    d.sentiment = ((riskOn - riskOff + 100) / 200) * 100;
+                    d.sentiment = (d.gold + d.stocks + d.crypto + d.bonds) / 4;
                 }
             });
 
