@@ -14,6 +14,28 @@ import os
 from typing import Dict, Tuple, Optional
 
 
+DXY_TICKERS = ["DX=F", "DX-Y.NYB"]
+
+
+def fetch_dxy_data(period=None, start=None, end=None):
+    """Fetch Dollar Index data with cascading fallback across tickers.
+    Returns a DataFrame or empty DataFrame if all fail."""
+    for ticker in DXY_TICKERS:
+        try:
+            t = yf.Ticker(ticker)
+            if period:
+                hist = t.history(period=period)
+            else:
+                hist = t.history(start=start, end=end)
+            if not hist.empty and len(hist) >= 5:
+                print(f"  DXY: using {ticker} ({len(hist)} rows)")
+                return hist
+        except Exception as e:
+            print(f"  DXY: {ticker} failed: {e}")
+    print("  DXY: all tickers failed")
+    return yf.Ticker(DXY_TICKERS[0]).history(period="0d")  # empty DataFrame
+
+
 class GoldFearGreedIndex:
     """Main class to calculate the Gold Fear & Greed Index"""
 
@@ -334,11 +356,10 @@ class GoldFearGreedIndex:
             Tuple of (score 0-100, detail string)
         """
         try:
-            dxy = yf.Ticker("DX=F")  # US Dollar Index Futures
-            hist = dxy.history(period="3mo")
+            hist = fetch_dxy_data(period="3mo")
 
             if hist.empty:
-                raise ValueError("No DXY data available")
+                raise ValueError("No DXY data available from any ticker")
 
             current_dxy = hist['Close'].iloc[-1]
 
@@ -497,13 +518,13 @@ class GoldFearGreedIndex:
             # Get historical data for ALL components
             gold = yf.Ticker("GC=F")
             vix = yf.Ticker("^VIX")
-            dxy = yf.Ticker("DX=F")
+            # DXY fetched below via fetch_dxy_data()
             gld = yf.Ticker("GLD")
             tnx = yf.Ticker("^TNX")
 
             gold_hist = gold.history(start=start_date, end=end_date + timedelta(days=1))
             vix_hist = vix.history(start=start_date, end=end_date + timedelta(days=1))
-            dxy_hist = dxy.history(start=start_date, end=end_date + timedelta(days=1))
+            dxy_hist = fetch_dxy_data(start=start_date, end=end_date + timedelta(days=1))
             gld_hist = gld.history(start=start_date, end=end_date + timedelta(days=1))
             tnx_hist = tnx.history(start=start_date, end=end_date + timedelta(days=1))
 
