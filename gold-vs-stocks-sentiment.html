@@ -61,7 +61,7 @@
                 "name": "How does OnOff.Markets measure risk-on vs risk-off sentiment?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "OnOff.Markets calculates a Market Sentiment composite by comparing risk-on assets (average of Stocks and Crypto indices) against risk-off assets (average of Bonds and Gold indices). When the Greed Side (Stocks + Crypto) exceeds the Fear Side (Bonds + Gold), sentiment is risk-on. When the Fear Side dominates, sentiment is risk-off. This provides a single view of how money is flowing between safe havens and risk assets."
+                    "text": "OnOff.Markets calculates a Market Sentiment composite as the simple average of four indices: Gold, Stocks, Crypto, and Bonds. This provides a single view of overall investor sentiment across all asset classes. By comparing the four individual scores side by side, investors can also identify risk-on vs risk-off flows — for example, when Gold and Bonds are in Greed while Stocks and Crypto are in Fear, that signals a flight to safety."
                 }
             }
         ]
@@ -307,24 +307,21 @@
         <div class="section">
             <h2>How Our Composite Score Works</h2>
             <p>
-                The <a href="index.html" style="color: #FFD700; text-decoration: underline;">Market Sentiment Indicator</a> on our homepage quantifies this risk-on / risk-off dynamic by comparing the four indices:
+                The <a href="index.html" style="color: #FFD700; text-decoration: underline;">Market Sentiment Indicator</a> on our homepage is the simple average of all four indices: <strong>(Gold + Stocks + Crypto + Bonds) / 4</strong>. When three out of four markets are in Fear, the composite reflects that reality.
             </p>
 
             <div class="component-box" style="border-left-color: #e74c3c;">
-                <h4>Greed Side (Risk-On)</h4>
-                <p><strong>Average of Stocks + Crypto indices.</strong> When this side is high, investors are embracing risk. Equity markets are strong, crypto is surging, and speculative appetite is healthy. Higher readings indicate more aggressive positioning.</p>
+                <h4>Risk-On Assets</h4>
+                <p><strong>Stocks + Crypto.</strong> When both are high, investors are embracing risk. Equity markets are strong, crypto is surging, and speculative appetite is healthy.</p>
             </div>
 
             <div class="component-box" style="border-left-color: #22c55e;">
-                <h4>Fear Side (Risk-Off)</h4>
-                <p><strong>Average of Bonds + Gold indices.</strong> When this side is high, investors are seeking safety. Gold demand is strong, bond markets show defensive positioning, and capital is flowing away from risk. Higher readings indicate more cautious positioning.</p>
+                <h4>Risk-Off Assets</h4>
+                <p><strong>Bonds + Gold.</strong> When both are high, investors are seeking safety. Gold demand is strong, bond markets show defensive positioning, and capital is flowing away from risk.</p>
             </div>
 
             <p>
-                The Market Sentiment score reflects the <strong>difference</strong> between these two sides. When risk-on assets have higher sentiment than risk-off assets, the composite tilts toward Greed. When safe havens dominate, it tilts toward Fear.
-            </p>
-            <p>
-                Crucially, each side blends a traditional asset with an alternative one: Stocks (traditional) + Crypto (alternative) on the risk side, Bonds (traditional) + Gold (alternative) on the safe haven side. This <strong>50/50 balance</strong> ensures neither traditional nor alternative markets dominate the signal.
+                By comparing the four asset cards side by side, you can immediately see whether money is flowing toward risk or toward safety — without needing a formula to tell you. That's the power of the multi-asset view.
             </p>
         </div>
 
@@ -366,8 +363,8 @@
                 The <a href="index.html" style="color: #FFD700; text-decoration: underline;">homepage dashboard</a> shows all four indices side by side with the Market Sentiment composite. Here's how to read it:
             </p>
             <ul>
-                <li><strong>Check the composite first.</strong> Is the Market Sentiment tilting risk-on or risk-off? This gives you the broad picture in one glance.</li>
-                <li><strong>Look at the spread.</strong> A wide gap between the Greed Side and Fear Side means strong conviction. A narrow gap means uncertainty.</li>
+                <li><strong>Check the composite first.</strong> Is Market Sentiment in Fear or Greed? This gives you the broad picture in one glance.</li>
+                <li><strong>Look for divergences.</strong> A wide gap between risk-on and risk-off assets means strong conviction. When all four are similar, the market lacks direction.</li>
                 <li><strong>Identify divergences.</strong> If gold is in Greed while stocks are in Fear, that's a clear flight-to-safety signal. If crypto is surging while bonds are flat, speculative appetite is selective.</li>
                 <li><strong>Consider the trend.</strong> A single day's reading matters less than the direction. Is sentiment improving or deteriorating? The historical chart shows the trajectory.</li>
             </ul>

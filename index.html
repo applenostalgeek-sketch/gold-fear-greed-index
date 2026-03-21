@@ -772,14 +772,11 @@
             <h3>Formula</h3>
             <div class="formula-box">
                 <p style="font-family: 'Courier New', monospace; font-size: 0.95rem; color: #ccc; margin: 0; line-height: 2;">
-                    Greed Side = (Stocks Score + Crypto Score) / 2<br>
-                    Fear Side = (Bonds Score + Gold Score) / 2<br>
-                    Market Sentiment = Greed Side - Fear Side<br>
-                    Position = ((Market Sentiment + 100) / 200) &times; 100
+                    Market Sentiment = (Gold + Stocks + Crypto + Bonds) / 4
                 </p>
             </div>
             <p>
-                This produces a 0-100 score. Below 50, fear dominates — investors prefer safe havens. Above 50, greed dominates — investors chase risk. Equal weighting (50/50) within each side avoids bias toward traditional or alternative markets.
+                The simple average of all four indices. Below 50, fear dominates across markets. Above 50, optimism prevails. When three out of four markets are in Fear, the composite reflects that reality — no single asset can mask broad market stress.
             </p>
 
             <h3>Interpretation</h3>
