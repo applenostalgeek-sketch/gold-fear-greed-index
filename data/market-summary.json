@@ -1,27 +1,27 @@
 {
-  "date": "2026-03-20",
-  "timestamp": "2026-03-20T04:16:30Z",
-  "summary": "Stocks fell Wednesday and Thursday after Powell elevated inflation concerns, as investors monitor the ongoing U.S.-Iran war now entering its third week, which is fueling fears of an energy shock adding inflationary pressure globally.",
-  "tweet": "The Iran war and rising oil have complicated the Fed's inflation picture, dragging stocks, bonds, and gold into fear territory while crypto holds its ground.",
+  "date": "2026-03-21",
+  "timestamp": "2026-03-21T04:07:08Z",
+  "summary": "The Fed held rates steady at 3.50\u20133.75% this week, navigating higher-than-expected inflation amid a war. Powell acknowledged a rate hike was discussed, and markets have now pushed the next expected cut to late 2026 at the earliest.",
+  "tweet": "War and sticky inflation are the twin weights on markets \u2014 with PPI hot two months running, the question has shifted from when the Fed cuts to whether it cuts at all.",
   "scores": {
     "gold": {
-      "score": 32.2,
+      "score": 32.3,
       "label": "Fear"
     },
     "stocks": {
-      "score": 42.8,
+      "score": 41.4,
       "label": "Fear"
     },
     "crypto": {
-      "score": 58.0,
+      "score": 58.8,
       "label": "Greed"
     },
     "bonds": {
-      "score": 44.6,
+      "score": 38.2,
       "label": "Fear"
     },
     "sentiment": {
-      "score": 44.4,
+      "score": 42.7,
       "label": "Fear"
     }
   }
