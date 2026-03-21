@@ -27,7 +27,7 @@ Each index outputs a **0-100 score**:
 - **56-75**: Greed
 - **76-100**: Extreme Greed
 
-The homepage features a **Market Sentiment Indicator** that compares risk assets (Stocks + Crypto) versus safe havens (Bonds + Gold) to show the overall market mood.
+The homepage features a **Market Sentiment Indicator** — the simple average of all four indices — showing the overall market mood at a glance.
 
 ---
 
@@ -75,12 +75,12 @@ Below 50 = fear dominates across markets. Above 50 = optimism prevails.
 ### Bonds (6 Components)
 | Component | Weight | Description |
 |-----------|--------|-------------|
+| Duration Risk / TLT | 30% | Direct 14-day TLT ETF performance (x12 multiplier) |
 | Yield Curve Shape | 20% | 10Y-2Y Treasury spread from FRED (structural signal) |
-| Duration Risk / TLT | 20% | Direct 14-day TLT ETF performance |
-| Credit Quality | 20% | LQD vs TLT performance (credit spreads) |
-| Real Rates | 15% | 10-Year TIPS yields (x10 multiplier) |
-| Bond Volatility | 15% | 5-day vs 30-day TLT vol (MOVE proxy, x75) |
-| Equity vs Bonds | 10% | TLT vs SPY relative performance (x8) |
+| Credit Quality | 20% | HYG vs LQD performance (credit spreads) |
+| Real Rates | 15% | 10-Year TIPS yields from FRED (x10 multiplier) |
+| Bond Volatility | 10% | 5-day vs 30-day TLT vol (MOVE proxy, x60) |
+| Equity vs Bonds | 5% | TLT vs SPY relative performance (x8) |
 
 ### Stocks (7 Components)
 | Component | Weight | Description |
