@@ -270,46 +270,6 @@
             height: 13px;
         }
 
-        .share-menu {
-            position: absolute;
-            top: 34px;
-            right: 6px;
-            background: #161622;
-            border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 10px;
-            padding: 8px;
-            font-size: 11px;
-            color: #ccc;
-            white-space: nowrap;
-            z-index: 200;
-            display: none;
-            min-width: 140px;
-            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-        }
-
-        .share-menu.visible { display: block; }
-
-        .share-menu-row {
-            display: flex;
-            flex-direction: column;
-            gap: 5px;
-        }
-
-        .share-menu-btn {
-            background: rgba(255,255,255,0.05);
-            border: 1px solid rgba(255,255,255,0.08);
-            border-radius: 6px;
-            color: #ccc;
-            font-size: 11px;
-            padding: 6px 10px;
-            cursor: pointer;
-            text-align: center;
-            transition: background 0.15s;
-            white-space: nowrap;
-            width: 100%;
-        }
-
-        .share-menu-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
 
         .asset-name {
             font-size: 0.7rem;
@@ -681,7 +641,6 @@
             <a href="gold.html" class="asset-card">
                 <button class="share-btn" data-asset="gold" data-url="https://onoff.markets/gold.html" data-name="Gold" title="Share">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
-                    <div class="share-menu" id="menuGold"></div>
                 </button>
                 <span class="asset-name">Gold</span>
                 <div class="asset-circle-wrap">
@@ -710,7 +669,6 @@
             <a href="bonds.html" class="asset-card">
                 <button class="share-btn" data-asset="bonds" data-url="https://onoff.markets/bonds.html" data-name="Bonds" title="Share">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
-                    <div class="share-menu" id="menuBonds"></div>
                 </button>
                 <span class="asset-name">Bonds</span>
                 <div class="asset-circle-wrap">
@@ -739,7 +697,6 @@
             <a href="stocks.html" class="asset-card">
                 <button class="share-btn" data-asset="stocks" data-url="https://onoff.markets/stocks.html" data-name="Stocks" title="Share">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
-                    <div class="share-menu" id="menuStocks"></div>
                 </button>
                 <span class="asset-name">Stocks</span>
                 <div class="asset-circle-wrap">
@@ -768,7 +725,6 @@
             <a href="crypto.html" class="asset-card">
                 <button class="share-btn" data-asset="crypto" data-url="https://onoff.markets/crypto.html" data-name="Crypto" title="Share">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
-                    <div class="share-menu" id="menuCrypto"></div>
                 </button>
                 <span class="asset-name">Crypto</span>
                 <div class="asset-circle-wrap">
@@ -1717,58 +1673,19 @@
             resizeTimeout = setTimeout(() => drawChart(), 200);
         });
 
-        // Share + Embed menu on asset cards
-        let openMenu = null;
-
-        function buildMenu(menu, asset, url, name) {
-            const canShare = !!navigator.share;
-            menu.innerHTML = `
-                <div class="share-menu-row">
-                    ${canShare ? `<button class="share-menu-btn" id="btnShare-${asset}">↑ Share</button>` : ''}
-                    <button class="share-menu-btn" id="btnCopyLink-${asset}">🔗 Copy link</button>
-                </div>
-            `;
-
-            if (canShare) {
-                menu.querySelector(`#btnShare-${asset}`).addEventListener('click', e => {
-                    e.stopPropagation();
-                    navigator.share({ title: `${name} Fear & Greed Index`, url });
-                });
-            }
-
-            menu.querySelector(`#btnCopyLink-${asset}`).addEventListener('click', e => {
-                e.stopPropagation();
-                navigator.clipboard.writeText(url).then(() => {
-                    e.target.textContent = '✓ Copied!';
-                    setTimeout(() => { e.target.textContent = '🔗 Copy link'; }, 1800);
-                });
-            });
-        }
-
+        // Share buttons on asset cards — direct share on click
         document.querySelectorAll('.share-btn').forEach(btn => {
-            const asset = btn.dataset.asset;
-            const url   = btn.dataset.url;
-            const name  = btn.dataset.name;
-            const menu  = btn.querySelector('.share-menu');
-            buildMenu(menu, asset, url, name);
-
             btn.addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
-                if (openMenu && openMenu !== menu) {
-                    openMenu.classList.remove('visible');
+                const url  = this.dataset.url;
+                const name = this.dataset.name;
+                if (navigator.share) {
+                    navigator.share({ title: `${name} Fear & Greed Index`, url });
+                } else {
+                    navigator.clipboard.writeText(url);
                 }
-                menu.classList.toggle('visible');
-                openMenu = menu.classList.contains('visible') ? menu : null;
             });
-        });
-
-        // Close menu when clicking outside
-        document.addEventListener('click', () => {
-            if (openMenu) {
-                openMenu.classList.remove('visible');
-                openMenu = null;
-            }
         });
 
     </script>
