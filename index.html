@@ -270,25 +270,46 @@
             height: 13px;
         }
 
-        .share-tooltip {
+        .share-menu {
             position: absolute;
             top: 34px;
             right: 6px;
-            background: #1e1e2e;
+            background: #161622;
             border: 1px solid rgba(255,255,255,0.1);
-            border-radius: 8px;
-            padding: 6px 10px;
+            border-radius: 10px;
+            padding: 8px;
             font-size: 11px;
             color: #ccc;
             white-space: nowrap;
-            z-index: 100;
+            z-index: 200;
             display: none;
-            pointer-events: none;
+            min-width: 140px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.5);
         }
 
-        .share-tooltip.visible {
-            display: block;
+        .share-menu.visible { display: block; }
+
+        .share-menu-row {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
         }
+
+        .share-menu-btn {
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 6px;
+            color: #ccc;
+            font-size: 11px;
+            padding: 6px 10px;
+            cursor: pointer;
+            text-align: center;
+            transition: background 0.15s;
+            white-space: nowrap;
+            width: 100%;
+        }
+
+        .share-menu-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
 
         .asset-name {
             font-size: 0.7rem;
@@ -658,9 +679,9 @@
         <h2 class="section-heading">Asset Breakdown</h2>
         <div class="assets">
             <a href="gold.html" class="asset-card">
-                <button class="share-btn" data-url="https://onoff.markets/gold.html" data-name="Gold" title="Share">
+                <button class="share-btn" data-asset="gold" data-url="https://onoff.markets/gold.html" data-name="Gold" title="Share">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
-                    <span class="share-tooltip" id="tooltipGold">Link copied!</span>
+                    <div class="share-menu" id="menuGold"></div>
                 </button>
                 <span class="asset-name">Gold</span>
                 <div class="asset-circle-wrap">
@@ -687,9 +708,9 @@
             </a>
 
             <a href="bonds.html" class="asset-card">
-                <button class="share-btn" data-url="https://onoff.markets/bonds.html" data-name="Bonds" title="Share">
+                <button class="share-btn" data-asset="bonds" data-url="https://onoff.markets/bonds.html" data-name="Bonds" title="Share">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
-                    <span class="share-tooltip" id="tooltipBonds">Link copied!</span>
+                    <div class="share-menu" id="menuBonds"></div>
                 </button>
                 <span class="asset-name">Bonds</span>
                 <div class="asset-circle-wrap">
@@ -716,9 +737,9 @@
             </a>
 
             <a href="stocks.html" class="asset-card">
-                <button class="share-btn" data-url="https://onoff.markets/stocks.html" data-name="Stocks" title="Share">
+                <button class="share-btn" data-asset="stocks" data-url="https://onoff.markets/stocks.html" data-name="Stocks" title="Share">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
-                    <span class="share-tooltip" id="tooltipStocks">Link copied!</span>
+                    <div class="share-menu" id="menuStocks"></div>
                 </button>
                 <span class="asset-name">Stocks</span>
                 <div class="asset-circle-wrap">
@@ -745,9 +766,9 @@
             </a>
 
             <a href="crypto.html" class="asset-card">
-                <button class="share-btn" data-url="https://onoff.markets/crypto.html" data-name="Crypto" title="Share">
+                <button class="share-btn" data-asset="crypto" data-url="https://onoff.markets/crypto.html" data-name="Crypto" title="Share">
                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-8"/><polyline points="16 6 12 2 8 6"/><line x1="12" y1="2" x2="12" y2="15"/></svg>
-                    <span class="share-tooltip" id="tooltipCrypto">Link copied!</span>
+                    <div class="share-menu" id="menuCrypto"></div>
                 </button>
                 <span class="asset-name">Crypto</span>
                 <div class="asset-circle-wrap">
@@ -1696,18 +1717,58 @@
             resizeTimeout = setTimeout(() => drawChart(), 200);
         });
 
-        // Share buttons on asset cards
+        // Share + Embed menu on asset cards
+        let openMenu = null;
+
+        function buildMenu(menu, asset, url, name) {
+            const canShare = !!navigator.share;
+            menu.innerHTML = `
+                <div class="share-menu-row">
+                    ${canShare ? `<button class="share-menu-btn" id="btnShare-${asset}">↑ Share</button>` : ''}
+                    <button class="share-menu-btn" id="btnCopyLink-${asset}">🔗 Copy link</button>
+                </div>
+            `;
+
+            if (canShare) {
+                menu.querySelector(`#btnShare-${asset}`).addEventListener('click', e => {
+                    e.stopPropagation();
+                    navigator.share({ title: `${name} Fear & Greed Index`, url });
+                });
+            }
+
+            menu.querySelector(`#btnCopyLink-${asset}`).addEventListener('click', e => {
+                e.stopPropagation();
+                navigator.clipboard.writeText(url).then(() => {
+                    e.target.textContent = '✓ Copied!';
+                    setTimeout(() => { e.target.textContent = '🔗 Copy link'; }, 1800);
+                });
+            });
+        }
+
         document.querySelectorAll('.share-btn').forEach(btn => {
+            const asset = btn.dataset.asset;
+            const url   = btn.dataset.url;
+            const name  = btn.dataset.name;
+            const menu  = btn.querySelector('.share-menu');
+            buildMenu(menu, asset, url, name);
+
             btn.addEventListener('click', function(e) {
                 e.preventDefault();
                 e.stopPropagation();
-                const url = this.dataset.url;
-                const tooltip = this.querySelector('.share-tooltip');
-                navigator.clipboard.writeText(url).then(() => {
-                    tooltip.classList.add('visible');
-                    setTimeout(() => tooltip.classList.remove('visible'), 1800);
-                });
+                if (openMenu && openMenu !== menu) {
+                    openMenu.classList.remove('visible');
+                }
+                menu.classList.toggle('visible');
+                openMenu = menu.classList.contains('visible') ? menu : null;
             });
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', () => {
+            if (openMenu) {
+                openMenu.classList.remove('visible');
+                openMenu = null;
+            }
         });
 
     </script>

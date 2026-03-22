@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fear & Greed Widget — OnOff.Markets</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+            background: #0a0a14;
+            color: #fff;
+            width: 220px;
+            height: 240px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 16px;
+        }
+
+        .w-name {
+            font-size: 0.6rem;
+            color: #666;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            font-weight: 600;
+        }
+
+        .w-circle-wrap {
+            width: 96px;
+            height: 96px;
+        }
+
+        .w-circle-wrap svg { width: 100%; height: 100%; }
+
+        .w-score-text {
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 28px;
+            font-weight: 700;
+            fill: #f0f0f5;
+        }
+
+        .w-circle-outline {
+            fill: none;
+            stroke-width: 1.5;
+        }
+
+        .w-label {
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .w-footer {
+            font-size: 0.55rem;
+            color: #444;
+            text-decoration: none;
+            letter-spacing: 0.05em;
+        }
+
+        .w-footer:hover { color: #666; }
+
+        .w-logo {
+            font-size: 0.65rem;
+            font-weight: 700;
+            color: #555;
+        }
+
+        .w-logo span { color: #333; }
+    </style>
+</head>
+<body>
+    <div class="w-name" id="wName">—</div>
+
+    <div class="w-circle-wrap">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+                <clipPath id="w-clip"><circle cx="50" cy="50" r="45"/></clipPath>
+                <linearGradient id="w-grad" x1="0" y1="1" x2="0" y2="0">
+                    <stop offset="0%" id="w-stop1" stop-color="#fff"/>
+                    <stop offset="100%" id="w-stop2" stop-color="#fff" stop-opacity="0.5"/>
+                </linearGradient>
+            </defs>
+            <circle class="w-circle-outline" id="wOutline" cx="50" cy="50" r="45"/>
+            <g clip-path="url(#w-clip)">
+                <rect x="0" y="0" width="100" height="100" fill="#0a0a14"/>
+                <rect id="wFill" x="0" y="100" width="100" height="100" fill="url(#w-grad)"/>
+            </g>
+            <text x="50" y="50" class="w-score-text" id="wScore" text-anchor="middle" dominant-baseline="central">—</text>
+        </svg>
+    </div>
+
+    <div class="w-label" id="wLabel">Loading</div>
+
+    <a href="https://onoff.markets" target="_blank" class="w-footer">onoff.markets</a>
+
+    <script>
+        const params = new URLSearchParams(location.search);
+        const asset = params.get('asset') || 'gold';
+
+        const names = { gold: 'Gold', bonds: 'Bonds', stocks: 'Stocks', crypto: 'Crypto' };
+        const urls  = { gold: 'gold.html', bonds: 'bonds.html', stocks: 'stocks.html', crypto: 'crypto.html' };
+
+        document.getElementById('wName').textContent = (names[asset] || asset).toUpperCase() + ' FEAR & GREED';
+        document.querySelector('.w-footer').href = 'https://onoff.markets/' + (urls[asset] || '');
+
+        function getColor(s) {
+            if (s <= 25) return '#ef4444';
+            if (s <= 45) return '#f59e0b';
+            if (s <= 55) return '#ffffff';
+            if (s <= 75) return '#22c55e';
+            return '#06b6d4';
+        }
+
+        function getLabel(s) {
+            if (s <= 25) return 'Extreme Fear';
+            if (s <= 45) return 'Fear';
+            if (s <= 55) return 'Neutral';
+            if (s <= 75) return 'Greed';
+            return 'Extreme Greed';
+        }
+
+        fetch('data/' + asset + '-fear-greed.json')
+            .then(r => r.json())
+            .then(data => {
+                const score = Math.round(data.score);
+                const color = getColor(score);
+                const label = getLabel(score);
+
+                document.getElementById('wScore').textContent = score;
+                document.getElementById('wScore').style.fill = score > 50 ? '#fff' : '#f0f0f5';
+                document.getElementById('wLabel').textContent = label;
+                document.getElementById('wLabel').style.color = color;
+                document.getElementById('wOutline').style.stroke = color;
+                document.getElementById('wOutline').style.strokeOpacity = '0.3';
+                document.getElementById('w-stop1').setAttribute('stop-color', color);
+                document.getElementById('w-stop2').setAttribute('stop-color', color);
+
+                const fillY = 95 - (data.score / 100) * 90;
+                document.getElementById('wFill').setAttribute('y', fillY);
+            })
+            .catch(() => {
+                document.getElementById('wScore').textContent = '—';
+                document.getElementById('wLabel').textContent = 'Unavailable';
+            });
+    </script>
+</body>
+</html>
