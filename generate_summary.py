@@ -242,9 +242,11 @@ What are the 1-2 key catalysts driving these markets this week?"""
         raw = re.sub(r'\s{2,}', ' ', raw)
 
         # Parse SUMMARY: and TWEET: format
+        # Clean markdown bold markers the model sometimes adds
+        raw = re.sub(r'\*{1,2}', '', raw)
         summary = raw
         tweet = None
-        summary_match = re.search(r'SUMMARY:\s*(.+?)(?=\nTWEET:|\Z)', raw, re.DOTALL)
+        summary_match = re.search(r'SUMMARY:\s*(.+?)(?=\s*TWEET:|\Z)', raw, re.DOTALL)
         tweet_match = re.search(r'TWEET:\s*(.+)', raw, re.DOTALL)
         if summary_match:
             summary = summary_match.group(1).strip()
@@ -253,7 +255,7 @@ What are the 1-2 key catalysts driving these markets this week?"""
 
         if not summary or len(summary) < 20:
             print("  Response too short, using fallback")
-            return fallback_summary(scores, components), None
+            return fallback_summary(scores, components)
 
         # Truncate summary if too long
         if len(summary) > 450:
