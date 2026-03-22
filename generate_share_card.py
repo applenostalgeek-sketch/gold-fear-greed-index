@@ -220,10 +220,123 @@ def generate():
     # Save
     output_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'og-home.png')
     img.save(output_path, 'PNG', optimize=True)
-    print(f"Share card generated: {output_path}")
-    print(f"Sentiment: {sentiment} ({score_label(sentiment)})")
+    print(f"og-home.png: {sentiment} ({score_label(sentiment)})")
     for asset in ASSETS:
         print(f"  {ASSET_LABELS[asset]}: {scores[asset]} ({score_label(scores[asset])})")
+
+    # Generate per-asset cards
+    for asset in ASSETS:
+        generate_asset_card(asset, scores[asset])
+
+
+def draw_water_circle(img, cx, cy, radius, score, color, font_score, font_label):
+    """Draw a water-fill circle gauge matching the site's mini circle style."""
+    S = SCALE
+    diameter = radius * 2
+    bg_dark = (10, 10, 20)  # #0a0a14
+
+    # --- Build circle layer ---
+    circle = Image.new('RGB', (diameter, diameter), bg_dark)
+    circle_draw = ImageDraw.Draw(circle)
+
+    # Water fill level (score 0 = empty, score 100 = full)
+    fill_ratio = score / 100
+    fill_y = int(diameter * (1 - fill_ratio))
+
+    # Fill color with reduced opacity effect (layered)
+    fill_color = tuple(int(c * 0.25) for c in color)
+    fill_color2 = tuple(int(c * 0.45) for c in color)
+    circle_draw.rectangle([0, fill_y + 6, diameter, diameter], fill=fill_color2)
+    circle_draw.rectangle([0, fill_y, diameter, fill_y + 6], fill=fill_color)
+
+    # Circular mask
+    mask = Image.new('L', (diameter, diameter), 0)
+    mask_draw = ImageDraw.Draw(mask)
+    mask_draw.ellipse([0, 0, diameter - 1, diameter - 1], fill=255)
+
+    # Apply mask
+    circle_masked = Image.new('RGB', (diameter, diameter), (19, 17, 26))
+    circle_masked.paste(circle, mask=mask)
+
+    # Composite onto main image
+    img.paste(circle_masked, (cx - radius, cy - radius))
+
+    # Draw outline on top
+    main_draw = ImageDraw.Draw(img)
+    outline_color = tuple(int(c * 0.5) for c in color)
+    main_draw.ellipse(
+        [cx - radius, cy - radius, cx + radius - 1, cy + radius - 1],
+        outline=color, width=max(3, S * 2)
+    )
+
+    # Score text
+    score_text = str(round(score))
+    bbox = main_draw.textbbox((0, 0), score_text, font=font_score)
+    tw, th = bbox[2] - bbox[0], bbox[3] - bbox[1]
+    text_color = WHITE if score > 50 else (220, 220, 235)
+    main_draw.text((cx - tw // 2, cy - th // 2 - 10 * S), score_text, fill=text_color, font=font_score)
+
+    # "/100" below score
+    slash_font = font_label
+    bbox2 = main_draw.textbbox((0, 0), "/100", font=slash_font)
+    tw2 = bbox2[2] - bbox2[0]
+    main_draw.text((cx - tw2 // 2, cy + th // 2 + 14 * S), "/100", fill=GRAY, font=slash_font)
+
+
+def generate_asset_card(asset, score):
+    """Generate a per-asset OG share card (1200x630) with water-fill circle."""
+    color = score_color(score)
+    label = score_label(score)
+    name = ASSET_LABELS[asset]
+
+    S = SCALE
+    img = Image.new('RGB', (WIDTH * S, HEIGHT * S), (19, 17, 26))
+    draw_gradient_bg(img)
+    draw = ImageDraw.Draw(img)
+
+    font_logo      = get_font('bold', 20)
+    font_logo_dot  = get_font('medium', 20)
+    font_title     = get_font('bold', 20)
+    font_circle    = get_font('bold', 90)
+    font_circle_sub = get_font('regular', 22)
+    font_label     = get_font('bold', 26)
+    font_url       = get_font('medium', 14)
+
+    # Logo centered top
+    header_y = 38 * S
+    parts = [
+        ("On", WHITE, font_logo),
+        ("..", AMBER, font_logo_dot),
+        ("Off ", WHITE, font_logo),
+        (".Markets", AMBER, font_logo_dot),
+    ]
+    total_logo_w = sum(draw.textbbox((0, 0), t, font=f)[2] for t, _, f in parts)
+    logo_x = WIDTH * S // 2 - total_logo_w // 2
+    for text, col, font in parts:
+        draw.text((logo_x, header_y), text, fill=col, font=font)
+        logo_x += draw.textbbox((0, 0), text, font=font)[2]
+
+    # Asset title
+    title = f"{name.upper()} FEAR & GREED INDEX"
+    center_text(draw, header_y + 36 * S, title, font_title, GRAY)
+
+    # Water-fill circle centered
+    circle_cx = WIDTH * S // 2
+    circle_cy = 330 * S
+    circle_r  = 185 * S
+    draw_water_circle(img, circle_cx, circle_cy, circle_r, score, color, font_circle, font_circle_sub)
+
+    # Label below circle
+    draw = ImageDraw.Draw(img)
+    center_text(draw, circle_cy + circle_r + 22 * S, label.upper(), font_label, color)
+
+    # Footer
+    center_text(draw, HEIGHT * S - 40 * S, "onoff.markets", font_url, DARK_GRAY)
+
+    img = img.resize((WIDTH, HEIGHT), Image.LANCZOS)
+    output_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), f'og-{asset}.png')
+    img.save(output_path, 'PNG', optimize=True)
+    print(f"og-{asset}.png: {round(score)} ({label})")
 
 
 if __name__ == '__main__':
