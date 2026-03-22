@@ -1,12 +1,12 @@
 {
-  "score": 41.4,
+  "score": 41.5,
   "label": "Fear",
-  "timestamp": "2026-03-21T04:06:53Z",
+  "timestamp": "2026-03-22T04:22:25Z",
   "components": {
     "price_strength": {
-      "score": 12.7,
+      "score": 14.7,
       "weight": 0.2,
-      "detail": "SPY -4.7% 14d"
+      "detail": "SPY -4.4% 14d"
     },
     "vix": {
       "score": 36.3,
@@ -14,14 +14,14 @@
       "detail": "VIX: 26.8 vs avg: 18.9"
     },
     "momentum": {
-      "score": 25.1,
+      "score": 25.6,
       "weight": 0.15,
-      "detail": "RSI: 25, Price < MA50"
+      "detail": "RSI: 26, Price < MA50"
     },
     "market_participation": {
-      "score": 39.3,
+      "score": 36.7,
       "weight": 0.15,
-      "detail": "RSP -5.7% vs SPY -4.7%"
+      "detail": "RSP -5.7% vs SPY -4.4%"
     },
     "junk_bonds": {
       "score": 75.3,
@@ -40,6 +40,11 @@
     }
   },
   "history": [
+    {
+      "date": "2026-03-22",
+      "score": 41.5,
+      "price": 648.57
+    },
     {
       "date": "2026-03-21",
       "score": 41.4,
@@ -1857,11 +1862,6 @@
     },
     {
       "date": "2025-03-23",
-      "score": 49.4,
-      "price": 559.11
-    },
-    {
-      "date": "2025-03-22",
       "score": 49.4,
       "price": 559.11
     }

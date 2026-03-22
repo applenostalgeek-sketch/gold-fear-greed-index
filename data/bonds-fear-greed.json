@@ -1,7 +1,7 @@
 {
-  "score": 38.2,
+  "score": 38.1,
   "label": "Fear",
-  "timestamp": "2026-03-21T04:06:56Z",
+  "timestamp": "2026-03-22T04:22:28Z",
   "components": {
     "yield_curve": {
       "score": 63.8,
@@ -29,12 +29,18 @@
       "detail": "Vol TLT 5j: 17.4% vs 30j: 11.3%"
     },
     "equity_vs_bonds": {
-      "score": 60.3,
+      "score": 58.3,
       "weight": 0.05,
-      "detail": "TLT vs SPY: +1.3%"
+      "detail": "TLT vs SPY: +1.0%"
     }
   },
   "history": [
+    {
+      "date": "2026-03-22",
+      "score": 38.1,
+      "label": "Fear",
+      "price": 85.83
+    },
     {
       "date": "2026-03-21",
       "score": 38.2,
@@ -2215,12 +2221,6 @@
     },
     {
       "date": "2025-03-23",
-      "score": 47.5,
-      "label": "Neutral",
-      "price": 87.09
-    },
-    {
-      "date": "2025-03-22",
       "score": 47.5,
       "label": "Neutral",
       "price": 87.09

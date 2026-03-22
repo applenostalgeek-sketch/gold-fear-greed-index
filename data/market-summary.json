@@ -1,27 +1,27 @@
 {
-  "date": "2026-03-21",
-  "timestamp": "2026-03-21T04:07:08Z",
-  "summary": "The Fed held rates steady at 3.50\u20133.75% this week, navigating higher-than-expected inflation amid a war. Powell acknowledged a rate hike was discussed, and markets have now pushed the next expected cut to late 2026 at the earliest.",
-  "tweet": "War and sticky inflation are the twin weights on markets \u2014 with PPI hot two months running, the question has shifted from when the Fed cuts to whether it cuts at all.",
+  "date": "2026-03-22",
+  "timestamp": "2026-03-22T04:23:17Z",
+  "summary": "** The Strait of Hormuz closure has sent an energy shock through global markets and supply chains. February PPI surged 0.7% month-over-month \u2014 the largest jump in over two years \u2014 pushing the year-over-year rate to 3.4%. The narrative has shifted from \"when will the Fed cut\" to \"will it cut at all,\" with markets having earlier priced two cuts this year now pricing none. **TWEET:** Hormuz",
+  "tweet": "** Hormuz",
   "scores": {
     "gold": {
-      "score": 32.3,
+      "score": 31.5,
       "label": "Fear"
     },
     "stocks": {
-      "score": 41.4,
+      "score": 41.5,
       "label": "Fear"
     },
     "crypto": {
-      "score": 58.8,
-      "label": "Greed"
+      "score": 55.1,
+      "label": "Neutral"
     },
     "bonds": {
-      "score": 38.2,
+      "score": 38.1,
       "label": "Fear"
     },
     "sentiment": {
-      "score": 42.7,
+      "score": 41.5,
       "label": "Fear"
     }
   }
