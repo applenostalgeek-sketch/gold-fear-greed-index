@@ -257,14 +257,16 @@ What are the 1-2 key catalysts driving these markets this week?"""
             print("  Response too short, using fallback")
             return fallback_summary(scores, components)
 
-        # Truncate summary if too long
+        # Truncate summary if too long — cut at sentence boundary, not decimal point
         if len(summary) > 450:
             truncated = summary[:450]
-            last_period = truncated.rfind('.')
-            if last_period > 200:
-                summary = truncated[:last_period + 1]
+            # Find last period followed by space (real sentence end, not "0.7%")
+            matches = list(re.finditer(r'\.\s', truncated))
+            if matches and matches[-1].start() > 200:
+                summary = truncated[:matches[-1].start() + 1]
             else:
-                summary = truncated.rstrip() + "..."
+                last_space = truncated.rfind(' ')
+                summary = (truncated[:last_space] + '...') if last_space > 200 else truncated
 
         # Truncate tweet if too long
         if tweet and len(tweet) > 220:
