@@ -1,7 +1,7 @@
 {
-  "score": 31.5,
+  "score": 29.1,
   "label": "Fear",
-  "timestamp": "2026-03-22T13:19:12Z",
+  "timestamp": "2026-03-23T04:30:18Z",
   "components": {
     "gld_price": {
       "score": 0,
@@ -9,14 +9,14 @@
       "detail": "GLD 14d: -11.7%"
     },
     "momentum": {
-      "score": 29.9,
+      "score": 23.6,
       "weight": 0.25,
       "detail": "RSI: 20, Price < MA50"
     },
     "dollar_index": {
-      "score": 40.9,
+      "score": 36.7,
       "weight": 0.2,
-      "detail": "DXY: 99.65 (+0.6% 14d, MA30: 98.38)"
+      "detail": "DXY: 99.64 (+0.9% 14d, MA30: 98.44)"
     },
     "real_rates": {
       "score": 39.8,
@@ -30,6 +30,11 @@
     }
   },
   "history": [
+    {
+      "date": "2026-03-23",
+      "score": 29.1,
+      "price": 413.38
+    },
     {
       "date": "2026-03-22",
       "score": 31.5,
@@ -1849,11 +1854,6 @@
       "date": "2025-03-24",
       "score": 56.3,
       "price": 277.25
-    },
-    {
-      "date": "2025-03-23",
-      "score": 59.9,
-      "price": 278.49
     }
   ]
 }

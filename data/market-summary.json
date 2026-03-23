@@ -1,11 +1,11 @@
 {
-  "date": "2026-03-22",
-  "timestamp": "2026-03-22T13:19:30Z",
-  "summary": "Brent crude swung violently this week \u2014 from under $100 to $119 and back toward $112 as continued attacks on Persian Gulf energy infrastructure compounded fears of a U.S. ground invasion, with the Pentagon deploying three warships and over 2,000 more Marines to the region. The Fed held rates at 3.50\u20133.75% but raised its 2026 inflation forecast to 2.",
-  "tweet": "Iran war keeps oil near $112/bbl; the Fed hiked its inflation forecast and markets now price zero cuts in 2026 \u2014 bonds and stocks feel it across the board.",
+  "date": "2026-03-23",
+  "timestamp": "2026-03-23T04:30:38Z",
+  "summary": "Markets snapped this week under the weight of two converging forces: the U.S.-Iran war keeping the Strait of Hormuz closed, and a Fed that raised its inflation outlook but refused to signal cuts. Stocks and bonds sold off in tandem, gold posted its worst week since 1983, and rate futures briefly priced a coin-flip chance the Fed's next move is a hike. A hotter-than-expected February PPI \u2014 up 0.",
+  "tweet": "The Fed killed any remaining hope of a 2026 cut after Powell acknowledged \"zero\" net job growth yet called conditions \"solid\" \u2014 leaving markets to absorb an oil shock with no policy relief in sight.",
   "scores": {
     "gold": {
-      "score": 31.5,
+      "score": 29.1,
       "label": "Fear"
     },
     "stocks": {
@@ -13,7 +13,7 @@
       "label": "Fear"
     },
     "crypto": {
-      "score": 55.0,
+      "score": 53.8,
       "label": "Neutral"
     },
     "bonds": {
@@ -21,7 +21,7 @@
       "label": "Fear"
     },
     "sentiment": {
-      "score": 41.5,
+      "score": 40.6,
       "label": "Fear"
     }
   }
