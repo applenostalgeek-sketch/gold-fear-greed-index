@@ -1,27 +1,27 @@
 {
-  "date": "2026-03-23",
-  "timestamp": "2026-03-23T04:30:38Z",
-  "summary": "Markets snapped this week under the weight of two converging forces: the U.S.-Iran war keeping the Strait of Hormuz closed, and a Fed that raised its inflation outlook but refused to signal cuts. Stocks and bonds sold off in tandem, gold posted its worst week since 1983, and rate futures briefly priced a coin-flip chance the Fed's next move is a hike. A hotter-than-expected February PPI \u2014 up 0.",
-  "tweet": "The Fed killed any remaining hope of a 2026 cut after Powell acknowledged \"zero\" net job growth yet called conditions \"solid\" \u2014 leaving markets to absorb an oil shock with no policy relief in sight.",
+  "date": "2026-03-24",
+  "timestamp": "2026-03-24T04:22:14Z",
+  "summary": "Global equities are in their fourth consecutive week of selling pressure, driven by the ongoing Iran-U.S. conflict now in week four with no diplomatic resolution. Market expectations around the Fed's next move have shifted from a potential cut to a potential hike, driven by higher-for-longer oil price expectations tied to the Hormuz crisis.",
+  "tweet": "Hormuz still closed, rate-hike odds now at 24% for June \u2014 and a fresh wave of Section 301 trade probes keeps multi-asset fear entrenched heading into the week's close.",
   "scores": {
     "gold": {
-      "score": 29.1,
+      "score": 30.3,
       "label": "Fear"
     },
     "stocks": {
-      "score": 41.5,
+      "score": 41.6,
       "label": "Fear"
     },
     "crypto": {
-      "score": 53.8,
-      "label": "Neutral"
+      "score": 57.4,
+      "label": "Greed"
     },
     "bonds": {
-      "score": 38.1,
+      "score": 41.3,
       "label": "Fear"
     },
     "sentiment": {
-      "score": 40.6,
+      "score": 42.7,
       "label": "Fear"
     }
   }
