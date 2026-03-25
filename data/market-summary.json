@@ -1,27 +1,27 @@
 {
-  "date": "2026-03-24",
-  "timestamp": "2026-03-24T04:22:14Z",
-  "summary": "Global equities are in their fourth consecutive week of selling pressure, driven by the ongoing Iran-U.S. conflict now in week four with no diplomatic resolution. Market expectations around the Fed's next move have shifted from a potential cut to a potential hike, driven by higher-for-longer oil price expectations tied to the Hormuz crisis.",
-  "tweet": "Hormuz still closed, rate-hike odds now at 24% for June \u2014 and a fresh wave of Section 301 trade probes keeps multi-asset fear entrenched heading into the week's close.",
+  "date": "2026-03-25",
+  "timestamp": "2026-03-25T04:23:14Z",
+  "summary": "Conflicting headlines on U.S.-Iran negotiations have kept markets on edge, with Iranian state media denying Trump's claims of productive talks while Brent crude pushed above $104, leaving energy the only S&P 500 sector in positive territory for March.",
+  "tweet": "Iran ceasefire doubts pushed crude above $104 while new Section 301 trade probes keep tariff uncertainty alive \u2014 two unresolved shocks squeezing stocks and bonds from both ends.",
   "scores": {
     "gold": {
-      "score": 30.3,
+      "score": 32.9,
       "label": "Fear"
     },
     "stocks": {
-      "score": 41.6,
+      "score": 42.3,
       "label": "Fear"
     },
     "crypto": {
-      "score": 57.4,
+      "score": 59.6,
       "label": "Greed"
     },
     "bonds": {
-      "score": 41.3,
+      "score": 40.0,
       "label": "Fear"
     },
     "sentiment": {
-      "score": 42.7,
+      "score": 43.7,
       "label": "Fear"
     }
   }
