@@ -16,6 +16,7 @@ COMPONENT_NAMES = {
     'Gold': {
         'gld_price': 'GLD Price',
         'momentum': 'Momentum',
+        'gold_vs_spy': 'Gold vs SPY',
         'dollar_index': 'Dollar Index',
         'real_rates': 'Real Rates',
         'vix': 'VIX',

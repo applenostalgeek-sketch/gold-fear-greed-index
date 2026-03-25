@@ -221,10 +221,45 @@ class GoldFearGreedIndex:
             print(f"Error calculating GLD price momentum: {e}")
             return 50.0, "Data unavailable"
 
+    def calculate_gold_vs_spy_score(self) -> Tuple[float, str]:
+        """
+        Calculate Gold vs S&P500 relative performance (20% weight)
+        Captures safe-haven allocation: gold outperforming stocks = greed for gold
+
+        Returns:
+            Tuple of (score 0-100, detail string)
+        """
+        try:
+            gld = yf.Ticker("GLD")
+            spy = yf.Ticker("SPY")
+
+            gld_hist = gld.history(period="1mo")
+            spy_hist = spy.history(period="1mo")
+
+            if len(gld_hist) < 14 or len(spy_hist) < 14:
+                raise ValueError("Insufficient data")
+
+            gld_return = (gld_hist['Close'].iloc[-1] / gld_hist['Close'].iloc[-14] - 1) * 100
+            spy_return = (spy_hist['Close'].iloc[-1] / spy_hist['Close'].iloc[-14] - 1) * 100
+
+            # Gold outperforms stocks = safe-haven demand = greed for gold = high score
+            # +20% relative gap = score 100, -20% = score 0 (mult=2.5)
+            relative = gld_return - spy_return
+            score = 50 + relative * 2.5
+            score = max(0, min(100, score))
+
+            detail = f"GLD {gld_return:+.1f}% vs SPY {spy_return:+.1f}% (14d)"
+
+            return score, detail
+
+        except Exception as e:
+            print(f"Error calculating Gold vs SPY: {e}")
+            return 50.0, "Data unavailable"
+
     def calculate_vix_score(self) -> Tuple[float, str]:
         """
-        Calculate VIX component (10% weight)
-        Uses z-score vs 3-month average for context-aware scoring
+        Calculate VIX component (15% weight)
+        Uses z-score vs 3-month average with tanh normalization (no hard saturation)
         High VIX = market fear = people buy gold = greed for gold = high score
 
         Returns:
@@ -241,15 +276,14 @@ class GoldFearGreedIndex:
             avg_vix = hist['Close'].mean()
             std_vix = hist['Close'].std()
 
-            # Z-score approach: contextualizes VIX relative to recent history
-            # VIX 1 std above avg = score 75, 2 std above = 100
-            # VIX 1 std below avg = score 25, 2 std below = 0
             if std_vix > 0:
                 z_score = (current_vix - avg_vix) / std_vix
             else:
                 z_score = 0
 
-            score = 50 + (z_score * 25)
+            # tanh normalization: smooth compression, no hard saturation cliff
+            # z=1 → ~80, z=2 → ~94, z=3 → ~99 (vs old z*25: z=2 → 100 already)
+            score = 50 + np.tanh(z_score * 0.7) * 50
             score = max(0, min(100, score))
 
             detail = f"VIX: {current_vix:.1f} (avg: {avg_vix:.1f}, z: {z_score:+.1f})"
@@ -396,37 +430,43 @@ class GoldFearGreedIndex:
         """
         # Define weights (total must equal 1.0)
         # PHILOSOPHY: Measure sentiment TOWARDS gold (like Alternative.me measures sentiment towards crypto)
+        # v3: added Gold vs SPY (safe-haven flow), rebalanced macro components, tanh VIX
         weights = {
-            'gld_price': 0.30,       # PRIMARY: Direct GLD performance = buying sentiment
-            'momentum': 0.25,        # RSI + MA mean-reversion signal
-            'dollar_index': 0.20,    # Dollar inverse correlation
-            'real_rates': 0.15,      # Critical macro factor for gold
-            'vix': 0.10,             # Safe haven demand indicator (z-score)
+            'gld_price': 0.25,       # Direct GLD performance = buying sentiment
+            'momentum': 0.20,        # RSI + MA mean-reversion signal
+            'gold_vs_spy': 0.20,     # Safe-haven allocation: gold outperforming stocks
+            'dollar_index': 0.10,    # Dollar inverse correlation (reduced, often decorrelated)
+            'real_rates': 0.10,      # Macro factor for gold (reduced weight)
+            'vix': 0.15,             # Safe haven demand indicator (tanh z-score)
         }
 
         # Calculate each component
-        print("Calculating RECALIBRATED Gold Fear & Greed Index v2...")
+        print("Calculating Gold Fear & Greed Index v3...")
         print("(Philosophy: Measure sentiment TOWARDS gold)")
 
         gld_price_score, gld_price_detail = self.calculate_gld_price_momentum_score()
-        print(f"GLD Price (30%): {gld_price_score:.1f} - {gld_price_detail}")
+        print(f"GLD Price (25%): {gld_price_score:.1f} - {gld_price_detail}")
 
         momentum_score, momentum_detail = self.calculate_momentum_score()
-        print(f"RSI/MA Momentum (25%): {momentum_score:.1f} - {momentum_detail}")
+        print(f"RSI/MA Momentum (20%): {momentum_score:.1f} - {momentum_detail}")
+
+        gvs_score, gvs_detail = self.calculate_gold_vs_spy_score()
+        print(f"Gold vs SPY (20%): {gvs_score:.1f} - {gvs_detail}")
 
         dxy_score, dxy_detail = self.calculate_dollar_index_score()
-        print(f"Dollar Index (20%): {dxy_score:.1f} - {dxy_detail}")
+        print(f"Dollar Index (10%): {dxy_score:.1f} - {dxy_detail}")
 
         real_rates_score, real_rates_detail = self.calculate_real_rates_score()
-        print(f"Real Rates (15%): {real_rates_score:.1f} - {real_rates_detail}")
+        print(f"Real Rates (10%): {real_rates_score:.1f} - {real_rates_detail}")
 
         vix_score, vix_detail = self.calculate_vix_score()
-        print(f"VIX (10%): {vix_score:.1f} - {vix_detail}")
+        print(f"VIX (15%): {vix_score:.1f} - {vix_detail}")
 
         # Calculate weighted average
         total_score = (
             gld_price_score * weights['gld_price'] +
             momentum_score * weights['momentum'] +
+            gvs_score * weights['gold_vs_spy'] +
             dxy_score * weights['dollar_index'] +
             real_rates_score * weights['real_rates'] +
             vix_score * weights['vix']
@@ -443,6 +483,11 @@ class GoldFearGreedIndex:
                 'score': round(momentum_score, 1),
                 'weight': weights['momentum'],
                 'detail': momentum_detail
+            },
+            'gold_vs_spy': {
+                'score': round(gvs_score, 1),
+                'weight': weights['gold_vs_spy'],
+                'detail': gvs_detail
             },
             'dollar_index': {
                 'score': round(dxy_score, 1),
@@ -520,19 +565,21 @@ class GoldFearGreedIndex:
             vix = yf.Ticker("^VIX")
             # DXY fetched below via fetch_dxy_data()
             gld = yf.Ticker("GLD")
+            spy = yf.Ticker("SPY")
             tnx = yf.Ticker("^TNX")
 
             gold_hist = gold.history(start=start_date, end=end_date + timedelta(days=1))
             vix_hist = vix.history(start=start_date, end=end_date + timedelta(days=1))
             dxy_hist = fetch_dxy_data(start=start_date, end=end_date + timedelta(days=1))
             gld_hist = gld.history(start=start_date, end=end_date + timedelta(days=1))
+            spy_hist = spy.history(start=start_date, end=end_date + timedelta(days=1))
             tnx_hist = tnx.history(start=start_date, end=end_date + timedelta(days=1))
 
             if len(gold_hist) < 20:
                 print("insufficient data")
                 return 50.0, None
 
-            # 1. GLD PRICE MOMENTUM (25% weight) - PRIMARY INDICATOR
+            # 1. GLD PRICE MOMENTUM (25% weight)
             if len(gld_hist) >= 14:
                 recent_price_change = (gld_hist['Close'].iloc[-1] / gld_hist['Close'].iloc[-14] - 1) * 100
                 gld_price_score = 50 + (recent_price_change * 5)
@@ -540,7 +587,7 @@ class GoldFearGreedIndex:
             else:
                 gld_price_score = 50.0
 
-            # 2. RSI/MA MOMENTUM (25% weight) - Mean-reversion signal
+            # 2. RSI/MA MOMENTUM (20% weight) - Mean-reversion signal
             if len(gold_hist) >= 200:
                 close_prices = gold_hist['Close']
                 current_price = close_prices.iloc[-1]
@@ -565,7 +612,16 @@ class GoldFearGreedIndex:
             else:
                 momentum_score = 50.0
 
-            # 3. DOLLAR INDEX (20% weight)
+            # 3. GOLD VS SPY (20% weight) - Safe-haven allocation signal
+            if len(gld_hist) >= 14 and len(spy_hist) >= 14:
+                gld_ret = (gld_hist['Close'].iloc[-1] / gld_hist['Close'].iloc[-14] - 1) * 100
+                spy_ret = (spy_hist['Close'].iloc[-1] / spy_hist['Close'].iloc[-14] - 1) * 100
+                gvs_score = 50 + (gld_ret - spy_ret) * 2.5
+                gvs_score = max(0, min(100, gvs_score))
+            else:
+                gvs_score = 50.0
+
+            # 4. DOLLAR INDEX (10% weight)
             if len(dxy_hist) >= 14:
                 current_dxy = dxy_hist['Close'].iloc[-1]
                 dxy_14d_ago = dxy_hist['Close'].iloc[-14]
@@ -575,7 +631,7 @@ class GoldFearGreedIndex:
             else:
                 dxy_score = 50.0
 
-            # 4. REAL RATES (20% weight) - Using FRED API for historical accuracy
+            # 5. REAL RATES (10% weight) - Using FRED API for historical accuracy
             if self.fred_api_key:
                 try:
                     date_str = target_date.strftime('%Y-%m-%d')
@@ -619,7 +675,7 @@ class GoldFearGreedIndex:
                 else:
                     real_rates_score = 50.0
 
-            # 5. VIX (10% weight) - Z-score vs 3-month average
+            # 6. VIX (15% weight) - Z-score with tanh normalization (no hard saturation)
             if len(vix_hist) > 10:
                 current_vix = vix_hist['Close'].iloc[-1]
                 avg_vix = vix_hist['Close'].mean()
@@ -628,18 +684,19 @@ class GoldFearGreedIndex:
                     z_score = (current_vix - avg_vix) / std_vix
                 else:
                     z_score = 0
-                vix_score = 50 + (z_score * 25)
+                vix_score = 50 + np.tanh(z_score * 0.7) * 50
                 vix_score = max(0, min(100, vix_score))
             else:
                 vix_score = 50.0
 
-            # Weighted average with RECALIBRATED weights (5 components)
+            # Weighted average v3 (6 components)
             total_score = (
-                gld_price_score * 0.30 +
-                momentum_score * 0.25 +
-                dxy_score * 0.20 +
-                real_rates_score * 0.15 +
-                vix_score * 0.10
+                gld_price_score * 0.25 +
+                momentum_score * 0.20 +
+                gvs_score * 0.20 +
+                dxy_score * 0.10 +
+                real_rates_score * 0.10 +
+                vix_score * 0.15
             )
 
             # Get GLD price for this date

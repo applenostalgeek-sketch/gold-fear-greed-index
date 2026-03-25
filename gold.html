@@ -16,7 +16,7 @@
     <link rel="canonical" href="https://onoff.markets/gold.html">
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Real-time Gold Fear & Greed Index based on volatility, momentum, ETF flows, and macro indicators. Track gold market sentiment daily.">
+    <meta name="description" content="Real-time Gold Fear & Greed Index based on price momentum, safe-haven flows, dollar strength, real rates and VIX. Track gold market sentiment daily.">
     <meta name="keywords" content="gold fear greed, gold sentiment, gold index, gold market sentiment, gold trading indicator, gold volatility">
     <meta name="author" content="OnOff.Markets">
 
@@ -24,14 +24,14 @@
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://onoff.markets/gold.html">
     <meta property="og:title" content="Gold Fear & Greed Index | OnOff.Markets">
-    <meta property="og:description" content="Is gold in Fear or Greed? Real-time index based on price momentum, dollar strength, real rates and VIX. Updated daily.">
+    <meta property="og:description" content="Is gold in Fear or Greed? Real-time index based on price momentum, safe-haven flows, dollar strength, real rates and VIX. Updated daily.">
     <meta property="og:image" content="https://onoff.markets/og-gold.png">
 
     <!-- Twitter Card -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:url" content="https://onoff.markets/gold.html">
     <meta name="twitter:title" content="Gold Fear & Greed Index">
-    <meta name="twitter:description" content="Is gold in Fear or Greed? Real-time index based on price momentum, dollar strength, real rates and VIX.">
+    <meta name="twitter:description" content="Is gold in Fear or Greed? Real-time index based on price momentum, safe-haven flows, dollar strength, real rates and VIX.">
     <meta name="twitter:image" content="https://onoff.markets/og-gold.png">
 
     <!-- Structured Data -->
@@ -60,7 +60,7 @@
                 "name": "What drives the Gold Fear & Greed Index?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "The Gold Fear & Greed Index uses 5 components: GLD Price Momentum (30%), RSI & Moving Averages (25%), Dollar Index (20%), Real Rates (15%), and VIX (10%). It measures sentiment TOWARDS gold — whether investors are buying or selling the safe haven asset."
+                    "text": "The Gold Fear & Greed Index uses 6 components: GLD Price Momentum (25%), RSI & Moving Averages (20%), Gold vs S&P500 (20%), Dollar Index (10%), Real Rates (10%), and VIX (15%). It measures sentiment TOWARDS gold — whether investors are buying or selling the safe haven asset."
                 }
             },
             {
@@ -68,7 +68,7 @@
                 "name": "How does the US dollar affect gold sentiment?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Gold and the dollar typically move inversely. A weakening dollar makes gold cheaper for foreign buyers, increasing demand and pushing the index higher. The Dollar Index component tracks 14-day DXY changes with a x15 multiplier, contributing 20% to the overall score."
+                    "text": "Gold and the dollar typically move inversely. A weakening dollar makes gold cheaper for foreign buyers, increasing demand and pushing the index higher. The Dollar Index component tracks 14-day DXY changes with a x15 multiplier, contributing 10% to the overall score."
                 }
             },
             {
@@ -253,58 +253,69 @@
         <section class="methodology-section">
             <h2>How This Index is Calculated</h2>
             <p>
-                The Gold Index measures <strong>sentiment TOWARDS gold</strong> using <strong>5 components</strong>. Like Alternative.me measures crypto sentiment, we measure whether investors are buying or selling gold, regardless of the reason. All scores from 0-100:
+                The Gold Index measures <strong>sentiment TOWARDS gold</strong> using <strong>6 components</strong>. We measure whether investors are buying or selling gold and whether they are allocating to it as a safe haven, regardless of the underlying macro reason. All scores from 0-100:
             </p>
 
             <div class="component-box">
-                <h4>1. GLD Price Momentum (30%)</h4>
-                <p class="weight">Direct 14-day GLD performance (PRIMARY INDICATOR)</p>
+                <h4>1. GLD Price Momentum (25%)</h4>
+                <p class="weight">Direct 14-day GLD performance</p>
                 <p>
-                    <strong>Highest weight component.</strong> Measures direct SPDR Gold Trust (GLD) price change over 14 days.
-                    <strong>GLD +10% = score 100 (extreme greed), GLD -10% = score 0 (extreme fear).</strong> This captures
-                    actual buying/selling sentiment regardless of macro reasons. Uses a x5 multiplier centered at 50.
+                    Measures direct SPDR Gold Trust (GLD) price change over 14 days.
+                    <strong>GLD +10% = score 100 (extreme greed), GLD -10% = score 0 (extreme fear).</strong>
+                    Captures actual buying/selling sentiment regardless of the underlying reason. Uses a x5 multiplier centered at 50.
                 </p>
             </div>
 
             <div class="component-box">
-                <h4>2. RSI & Moving Averages (25%)</h4>
+                <h4>2. RSI & Moving Averages (20%)</h4>
                 <p class="weight">Mean-reversion and trend signal</p>
                 <p>
                     Combines 14-day RSI with price position relative to 50-day and 200-day moving averages.
-                    <strong>Uses proportional distance-based scoring:</strong> contribution scales with how far price is above/below each MA,
-                    rather than binary on/off signals. RSI provides a +/-25 point contribution centered at 50.
-                    Price above MA50 by 10% = strong bullish signal, price below both MAs with RSI &lt; 30 = extreme fear.
+                    Contribution scales with distance from each MA rather than binary signals.
+                    RSI provides a ±25 point contribution centered at 50.
+                    Price above MA50 by 10% = strong bullish signal; price below both MAs with RSI &lt; 30 = extreme fear.
                 </p>
             </div>
 
             <div class="component-box">
-                <h4>3. Dollar Index (20%)</h4>
+                <h4>3. Gold vs S&amp;P500 (20%)</h4>
+                <p class="weight">Safe-haven allocation flow</p>
+                <p>
+                    Compares gold's 14-day return against the S&amp;P500 (SPY ETF).
+                    <strong>Gold outperforming stocks = investors choosing gold as safe haven = higher score.</strong>
+                    Gold +5% while stocks -5% = strong safe-haven demand. Gold underperforming stocks = risk-on environment, less demand for gold.
+                    Uses a x2.5 multiplier on the relative performance gap.
+                </p>
+            </div>
+
+            <div class="component-box">
+                <h4>4. Dollar Index (10%)</h4>
                 <p class="weight">USD strength (inverted correlation)</p>
                 <p>
                     Gold and the dollar typically move inversely. <strong>Weakening dollar = stronger gold demand = higher score.</strong>
                     Tracks 14-day change in DXY (US Dollar Index vs basket of currencies) with a x15 multiplier.
-                    Dollar down 3.3% = score 100, dollar up 3.3% = score 0. Also factors in DXY position relative to its 30-day moving average.
+                    Dollar down 3.3% = score 100, dollar up 3.3% = score 0.
                 </p>
             </div>
 
             <div class="component-box">
-                <h4>4. Real Rates (15%)</h4>
+                <h4>5. Real Rates (10%)</h4>
                 <p class="weight">10-Year TIPS yield (inflation-adjusted)</p>
                 <p>
                     Gold is a non-yielding asset, so <strong>lower real rates = more attractive gold = higher score.</strong>
-                    Uses FRED API (DFII10 - 10-Year Treasury Inflation-Indexed Security) with Yahoo fallback (TIP ETF).
-                    Real rate at -1% = score ~94, at +3% = score ~19. Fundamental driver of gold valuation.
+                    Uses FRED API (DFII10 — 10-Year Treasury Inflation-Indexed Security) with Yahoo Finance fallback.
+                    Real rate at -1% = score ~94, at +3% = score ~19.
                 </p>
             </div>
 
             <div class="component-box">
-                <h4>5. VIX (10%)</h4>
-                <p class="weight">Safe haven demand (z-score normalized)</p>
+                <h4>6. VIX (15%)</h4>
+                <p class="weight">Market stress / safe haven demand</p>
                 <p>
-                    Uses a <strong>z-score approach</strong>: compares current VIX to its 3-month average and standard deviation.
-                    <strong>VIX significantly above average = market stress = increased safe haven gold demand = higher score.</strong>
-                    Score = 50 + (z-score x 25), capped 0-100. This contextualizes the VIX level rather than using fixed thresholds,
-                    making the signal adaptive to changing volatility regimes.
+                    Compares current VIX to its 3-month average using a z-score with tanh normalization.
+                    <strong>VIX above average = market stress = increased safe haven demand for gold = higher score.</strong>
+                    Uses tanh(z × 0.7) × 50 formula: smooth compression with no hard saturation cliff,
+                    preserving signal even during extreme volatility spikes.
                 </p>
             </div>
 
