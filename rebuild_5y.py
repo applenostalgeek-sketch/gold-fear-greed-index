@@ -22,9 +22,10 @@ FRED_SERIES = ['DGS10', 'DGS2', 'DFII10']
 
 SYMBOLS = [
     'BTC-USD', 'ETH-USD',
-    'GC=F', 'GLD', 'SPY', '^VIX', 'DX=F', '^TNX',
+    'GC=F', 'GLD', 'SPY', '^VIX', 'DX-Y.NYB', '^TNX',
     'RSP', 'HYG', 'TLT', 'QQQ', 'XLP', 'LQD', 'SHY'
 ]
+# DX=F is often delisted on Yahoo — use DX-Y.NYB as primary DXY source
 
 
 def clamp(series):
@@ -118,22 +119,32 @@ def get_label(score):
 
 
 # ========================================
-# GOLD
+# GOLD (v3: Config A + tanh VIX)
 # ========================================
 def calc_gold(data):
-    print("\nCalculating GOLD scores...")
+    print("\nCalculating GOLD scores (v3)...")
     gld = data['GLD']['Close']
-    gc = data.get('GC=F', {})
+    spy = data['SPY']['Close']
     vix = data['^VIX']['Close']
-    dxy = data['DX=F']['Close']
     tnx = data['^TNX']['Close']
     dfii10 = data.get('FRED_DFII10', pd.Series(dtype=float))
 
-    # 1. GLD Price Momentum (30%)
+    # DXY with fallback (DX=F often delisted, DX-Y.NYB is primary)
+    if 'DX-Y.NYB' in data and len(data['DX-Y.NYB']) > 0:
+        dxy = data['DX-Y.NYB']['Close']
+        print("  Gold DXY: using DX-Y.NYB")
+    elif 'DX=F' in data and len(data['DX=F']) > 0:
+        dxy = data['DX=F']['Close']
+        print("  Gold DXY: using DX=F")
+    else:
+        dxy = None
+        print("  Gold DXY: unavailable, component set to neutral")
+
+    # 1. GLD Price Momentum (25%)
     gld_mom_14d = (gld / gld.shift(14) - 1) * 100
     gld_price_score = clamp(50 + gld_mom_14d * 5)
 
-    # 2. Momentum RSI/MA (25%)
+    # 2. Momentum RSI/MA (20%)
     rsi = compute_rsi(gld, 14)
     ma50 = gld.rolling(50).mean()
     ma200 = gld.rolling(200).mean()
@@ -147,13 +158,20 @@ def calc_gold(data):
     rsi_contrib = ((rsi - 50) * 0.5).clip(-25, 25)
     momentum_score = clamp(50 + ma50_contrib + ma200_contrib + rsi_contrib)
 
-    # 3. Dollar Index (20%)
-    dxy_change_14d = (dxy / dxy.shift(14) - 1) * 100
-    dollar_score = clamp(50 - dxy_change_14d * 15)
+    # 3. Gold vs SPY (20%) — safe-haven allocation flow
+    gld_ret_14d = (gld / gld.shift(14) - 1) * 100
+    spy_ret_14d = (spy / spy.shift(14) - 1) * 100
+    gvs_score = clamp(50 + (gld_ret_14d - spy_ret_14d) * 2.5)
 
-    # 4. Real Rates (15%) — FRED DFII10 (TIPS), fallback Yahoo ^TNX
+    # 4. Dollar Index (10%)
+    if dxy is not None:
+        dxy_change_14d = (dxy / dxy.shift(14) - 1) * 100
+        dollar_score = clamp(50 - dxy_change_14d * 15)
+    else:
+        dollar_score = pd.Series(50.0, index=gld.index)
+
+    # 5. Real Rates (10%) — FRED DFII10 (TIPS), fallback Yahoo ^TNX
     if len(dfii10) > 0:
-        # Align FRED DFII10 to GLD trading days (forward-fill for weekends/holidays)
         dfii10_aligned = dfii10.reindex(gld.index, method='ffill')
         real_rates_score = clamp(75 - (dfii10_aligned * 18.75))
         print("  Gold Real Rates: using FRED DFII10")
@@ -161,28 +179,29 @@ def calc_gold(data):
         real_rates_score = clamp(100 - (tnx - 2) * 25)
         print("  Gold Real Rates: FRED unavailable, using Yahoo ^TNX fallback")
 
-    # 5. VIX (10%)
-    vix_avg = vix.rolling(63).mean()  # ~3 months
+    # 6. VIX (15%) — tanh z-score (no hard saturation)
+    vix_avg = vix.rolling(63).mean()
     vix_std = vix.rolling(63).std()
     vix_z = (vix - vix_avg) / vix_std
-    vix_score = clamp(50 + vix_z * 25)
+    vix_score = clamp(50 + np.tanh(vix_z * 0.7) * 50)
 
-    # Weighted average
-    # Align all series to common dates
+    # Weighted average v3 (6 components)
     df = pd.DataFrame({
         'gld_price': gld_price_score,
         'momentum': momentum_score,
+        'gold_vs_spy': gvs_score,
         'dollar': dollar_score,
         'real_rates': real_rates_score,
         'vix': vix_score,
     }).dropna()
 
     df['score'] = (
-        df['gld_price'] * 0.30 +
-        df['momentum'] * 0.25 +
-        df['dollar'] * 0.20 +
-        df['real_rates'] * 0.15 +
-        df['vix'] * 0.10
+        df['gld_price'] * 0.25 +
+        df['momentum'] * 0.20 +
+        df['gold_vs_spy'] * 0.20 +
+        df['dollar'] * 0.10 +
+        df['real_rates'] * 0.10 +
+        df['vix'] * 0.15
     ).round(1)
 
     return df['score']
