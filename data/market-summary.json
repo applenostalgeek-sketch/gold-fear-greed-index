@@ -1,27 +1,27 @@
 {
-  "date": "2026-03-25",
-  "timestamp": "2026-03-25T04:23:14Z",
-  "summary": "Conflicting headlines on U.S.-Iran negotiations have kept markets on edge, with Iranian state media denying Trump's claims of productive talks while Brent crude pushed above $104, leaving energy the only S&P 500 sector in positive territory for March.",
-  "tweet": "Iran ceasefire doubts pushed crude above $104 while new Section 301 trade probes keep tariff uncertainty alive \u2014 two unresolved shocks squeezing stocks and bonds from both ends.",
+  "date": "2026-03-26",
+  "timestamp": "2026-03-26T04:34:45Z",
+  "summary": "Middle East conflict escalation \u2014 including attacks on energy infrastructure and Strait of Hormuz disruption fears \u2014 has jolted inflation expectations and compressed rate-cut bets across markets. A hotter-than-expected PPI print this week (+0.7% MoM) has flipped market rate expectations, shifting from a potential cut to a potential hike in 2026.",
+  "tweet": "A surprise PPI surge and Strait of Hormuz fears have flipped rate-cut bets to potential hike bets \u2014 fear is spreading from bonds into stocks and crushing gold's safe-haven appeal.",
   "scores": {
     "gold": {
-      "score": 32.9,
+      "score": 32.0,
       "label": "Fear"
     },
     "stocks": {
-      "score": 42.3,
+      "score": 45.1,
       "label": "Fear"
     },
     "crypto": {
-      "score": 59.6,
+      "score": 59.1,
       "label": "Greed"
     },
     "bonds": {
-      "score": 40.0,
+      "score": 43.2,
       "label": "Fear"
     },
     "sentiment": {
-      "score": 43.7,
+      "score": 44.8,
       "label": "Fear"
     }
   }
