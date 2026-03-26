@@ -184,7 +184,7 @@
         if (history.length < 2) return '';
 
         const label = data.label;
-        const getZone = s => s <= 25 ? 'Extreme Fear' : s <= 45 ? 'Fear' : s <= 55 ? 'Neutral' : s <= 75 ? 'Greed' : 'Extreme Greed';
+        const getZone = s => { s = Math.round(s); return s <= 25 ? 'Extreme Fear' : s <= 45 ? 'Fear' : s <= 55 ? 'Neutral' : s <= 75 ? 'Greed' : 'Extreme Greed'; };
 
         // === Gather all signals ===
 
