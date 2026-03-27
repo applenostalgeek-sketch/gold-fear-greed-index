@@ -1,27 +1,27 @@
 {
-  "date": "2026-03-26",
-  "timestamp": "2026-03-26T04:34:45Z",
-  "summary": "Middle East conflict escalation \u2014 including attacks on energy infrastructure and Strait of Hormuz disruption fears \u2014 has jolted inflation expectations and compressed rate-cut bets across markets. A hotter-than-expected PPI print this week (+0.7% MoM) has flipped market rate expectations, shifting from a potential cut to a potential hike in 2026.",
-  "tweet": "A surprise PPI surge and Strait of Hormuz fears have flipped rate-cut bets to potential hike bets \u2014 fear is spreading from bonds into stocks and crushing gold's safe-haven appeal.",
+  "date": "2026-03-27",
+  "timestamp": "2026-03-27T04:36:15Z",
+  "summary": "U.S.-Iran peace talks flickered this week \u2014 Pakistan reportedly delivered a 15-point U.S. proposal to Tehran, and Iran signaled it would allow \"non-hostile\" ships through the Strait of Hormuz \u2014 but Iran denied any negotiations and rejected a ceasefire, keeping energy risk premiums elevated and bonds under pressure.",
+  "tweet": "Iran rejected a U.S. peace plan while new Section 301 trade probes across a dozen economies keep policy risk front and center \u2014 fear is the base case.",
   "scores": {
     "gold": {
-      "score": 32.0,
+      "score": 31.2,
       "label": "Fear"
     },
     "stocks": {
-      "score": 45.1,
+      "score": 42.4,
       "label": "Fear"
     },
     "crypto": {
-      "score": 59.1,
-      "label": "Greed"
+      "score": 49.1,
+      "label": "Neutral"
     },
     "bonds": {
-      "score": 43.2,
+      "score": 43.1,
       "label": "Fear"
     },
     "sentiment": {
-      "score": 44.8,
+      "score": 41.4,
       "label": "Fear"
     }
   }
