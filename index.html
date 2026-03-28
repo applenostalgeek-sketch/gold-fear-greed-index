@@ -826,11 +826,11 @@
 
             <h3>Interpretation</h3>
             <ul>
-                <li><strong>0-25 (Extreme Fear):</strong> Investors fleeing to safe havens (bonds + gold), markets in distress</li>
-                <li><strong>25-45 (Fear):</strong> Cautious sentiment, investors favoring safety over risk</li>
-                <li><strong>45-55 (Neutral):</strong> No clear direction, balanced between fear and greed</li>
-                <li><strong>55-75 (Greed):</strong> Growing risk appetite, investors favoring stocks and crypto</li>
-                <li><strong>75-100 (Extreme Greed):</strong> Euphoric risk-taking across assets, potential top warning</li>
+                <li><strong>0-25 (Extreme Fear):</strong> Broad distress across all asset classes — rare, historically a contrarian signal</li>
+                <li><strong>25-45 (Fear):</strong> Negative sentiment dominates — most markets under pressure, investors cautious</li>
+                <li><strong>45-55 (Neutral):</strong> No strong conviction — markets balanced, waiting for a clearer signal</li>
+                <li><strong>55-75 (Greed):</strong> Broad optimism — most markets showing positive sentiment and risk appetite</li>
+                <li><strong>75-100 (Extreme Greed):</strong> Euphoric sentiment across asset classes — broad FOMO, potential warning sign</li>
             </ul>
 
             <p style="font-size: 0.85rem; color: #666; margin-top: 20px;">
@@ -1068,15 +1068,25 @@
 
             if (fearAssets.length === 4) {
                 insight = 'All four markets are aligned in Fear — a rare signal of broad risk aversion across asset classes.';
+            } else if (fearAssets.length === 3) {
+                const outlier = assets.find(a => a.score >= 46);
+                insight = outlier
+                    ? `Three markets in Fear — broad risk aversion. Only ${outlier.name} is holding up.`
+                    : `Three markets are in Fear — broad selling pressure across asset classes.`;
             } else if (greedAssets.length === 4) {
                 insight = 'All four markets are showing Greed — broad optimism across asset classes.';
+            } else if (greedAssets.length === 3) {
+                const outlier = assets.find(a => a.score < 55);
+                insight = outlier
+                    ? `Three markets in Greed — broad risk appetite. Only ${outlier.name} is lagging.`
+                    : `Three markets are showing Greed — strong optimism across asset classes.`;
             } else if (rounded <= 25) {
                 insight = `Markets are in full panic mode. ${lowest.name} faces the heaviest selling pressure, while ${highest.name} is the most sought-after asset right now.`;
             } else if (rounded <= 45) {
                 if (strongRiskOff) {
                     insight = `Investors are playing it safe. ${highest.name} is attracting the most interest, while ${lowest.name} faces the heaviest selling pressure.`;
                 } else {
-                    insight = `Caution is the dominant mood. ${lowest.name} is under the most pressure, though no market is showing extreme behavior yet.`;
+                    insight = `Caution is the dominant mood. ${lowest.name} is under the most pressure while ${highest.name} holds relatively better.`;
                 }
             } else if (rounded <= 55) {
                 const allNeutral = neutralAssets.length === 4;
