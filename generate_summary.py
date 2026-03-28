@@ -210,7 +210,7 @@ Rules:
 - Vary from yesterday's context.
 
 Output format (strictly follow this, no other text):
-SUMMARY: [2-3 sentences, under 450 characters. For the website.]
+SUMMARY: [2 sentences max, under 300 characters. For the website. Must be complete sentences — never end mid-clause.]
 TWEET: [1 punchy sentence, under 220 characters. Same idea, shorter.]"""
 
     user_msg = f"""Dashboard data:
@@ -259,15 +259,17 @@ What are the 1-2 key catalysts driving these markets this week?"""
             return fallback_summary(scores, components)
 
         # Truncate summary if too long — cut at sentence boundary, not decimal point
-        if len(summary) > 450:
-            truncated = summary[:450]
-            # Find last period followed by space (real sentence end, not "0.7%")
-            matches = list(re.finditer(r'\.\s', truncated))
-            if matches and matches[-1].start() > 200:
+        if len(summary) > 320:
+            truncated = summary[:320]
+            # Find last sentence end: period/!/? followed by space or end of string
+            matches = list(re.finditer(r'[.!?](?=\s|$)', truncated))
+            if matches and matches[-1].start() > 100:
                 summary = truncated[:matches[-1].start() + 1]
             else:
+                # Cut at last word boundary, strip trailing continuation punctuation
                 last_space = truncated.rfind(' ')
-                summary = (truncated[:last_space] + '...') if last_space > 200 else truncated
+                cut = truncated[:last_space].rstrip(' ,;:—-') if last_space > 100 else truncated.rstrip(' ,;:—-')
+                summary = cut + '.'
 
         # Truncate tweet if too long
         if tweet and len(tweet) > 220:
