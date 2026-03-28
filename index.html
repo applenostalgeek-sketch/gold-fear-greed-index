@@ -856,11 +856,16 @@
 
         async function loadData() {
             try {
-                const [goldRes, stocksRes, cryptoRes, bondsRes] = await Promise.all([
+                const [goldRes, stocksRes, cryptoRes, bondsRes,
+                       gold5yRes, stocks5yRes, crypto5yRes, bonds5yRes] = await Promise.all([
                     fetch('data/gold-fear-greed.json'),
                     fetch('data/stocks-fear-greed.json'),
                     fetch('data/crypto-fear-greed.json'),
-                    fetch('data/bonds-fear-greed.json')
+                    fetch('data/bonds-fear-greed.json'),
+                    fetch('data/history-5y-gold.json').catch(() => null),
+                    fetch('data/history-5y-stocks.json').catch(() => null),
+                    fetch('data/history-5y-crypto.json').catch(() => null),
+                    fetch('data/history-5y-bonds.json').catch(() => null)
                 ]);
 
                 gold = await goldRes.json();
@@ -868,7 +873,23 @@
                 crypto = await cryptoRes.json();
                 bonds = await bondsRes.json();
 
-                updateUI(gold, stocks, crypto, bonds);
+                // Compute composite 5Y percentile
+                let composite5yPct = null;
+                try {
+                    const h5y = await Promise.all([gold5yRes, stocks5yRes, crypto5yRes, bonds5yRes].map(r => r && r.ok ? r.json() : null));
+                    if (h5y.every(d => d && d.history && d.history.length >= 100)) {
+                        const maps = h5y.map(d => Object.fromEntries(d.history.map(e => [e.date, e.score])));
+                        const commonDates = Object.keys(maps[0]).filter(dt => maps.every(m => m[dt] != null));
+                        if (commonDates.length >= 100) {
+                            const composites = commonDates.map(dt => maps.reduce((sum, m) => sum + m[dt], 0) / 4);
+                            const current = (gold.score + stocks.score + crypto.score + bonds.score) / 4;
+                            const below = composites.filter(s => s < current).length;
+                            composite5yPct = Math.round(below / composites.length * 100);
+                        }
+                    }
+                } catch (e) { /* silent fail */ }
+
+                updateUI(gold, stocks, crypto, bonds, composite5yPct);
                 updateHistoryChart(30);
             } catch (error) {
                 console.error('Error:', error);
@@ -941,7 +962,7 @@
             ctx.fill();
         }
 
-        function updateUI(gold, stocks, crypto, bonds) {
+        function updateUI(gold, stocks, crypto, bonds, composite5yPct) {
             // Market Sentiment — simple average of all 4 indices
             const position = (gold.score + stocks.score + crypto.score + bonds.score) / 4;
 
@@ -1122,6 +1143,16 @@
             // Add divergence gap if large
             if (gap >= 25) {
                 insight += ` ${highest.name} and ${lowest.name} are ${gap} points apart.`;
+            }
+
+            // Add 5Y percentile context only when historically significant
+            if (composite5yPct != null) {
+                let pctText = null;
+                if (composite5yPct <= 10) pctText = 'Sentiment is near 5-year lows.';
+                else if (composite5yPct <= 15) pctText = 'Sentiment is historically low.';
+                else if (composite5yPct >= 90) pctText = 'Sentiment is near 5-year highs.';
+                else if (composite5yPct >= 85) pctText = 'Sentiment is historically high.';
+                if (pctText) insight += ' ' + pctText;
             }
 
             document.getElementById('insight').textContent = insight;
