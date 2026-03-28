@@ -1,10 +1,10 @@
 {
   "asset": "stocks",
-  "generated": "2026-03-27T04:35:22Z",
-  "total_days": 1255,
+  "generated": "2026-03-28T04:23:15Z",
+  "total_days": 1256,
   "date_range": {
     "start": "2021-03-29",
-    "end": "2026-03-27"
+    "end": "2026-03-28"
   },
   "score_stats": {
     "min": 16.2,
@@ -7541,6 +7541,12 @@
       "score": 42.4,
       "label": "Fear",
       "price": 645.09
+    },
+    {
+      "date": "2026-03-28",
+      "score": 36.2,
+      "label": "Fear",
+      "price": 634.09
     }
   ]
 }

@@ -1,10 +1,10 @@
 {
   "asset": "bonds",
-  "generated": "2026-03-27T04:35:22Z",
-  "total_days": 1255,
+  "generated": "2026-03-28T04:23:15Z",
+  "total_days": 1256,
   "date_range": {
     "start": "2021-03-29",
-    "end": "2026-03-27"
+    "end": "2026-03-28"
   },
   "score_stats": {
     "min": 27.9,
@@ -7541,6 +7541,12 @@
       "score": 43.1,
       "label": "Fear",
       "price": 86.11
+    },
+    {
+      "date": "2026-03-28",
+      "score": 40.8,
+      "label": "Fear",
+      "price": 85.64
     }
   ]
 }
