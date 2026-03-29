@@ -1,7 +1,7 @@
 {
-  "score": 36.2,
+  "score": 36.7,
   "label": "Fear",
-  "timestamp": "2026-03-28T04:23:13Z",
+  "timestamp": "2026-03-29T04:38:57Z",
   "components": {
     "price_strength": {
       "score": 1.1,
@@ -19,9 +19,9 @@
       "detail": "RSI: 24, Price < MA50"
     },
     "market_participation": {
-      "score": 66.7,
+      "score": 70.7,
       "weight": 0.15,
-      "detail": "RSP -4.4% vs SPY -6.1%"
+      "detail": "RSP -4.0% vs SPY -6.1%"
     },
     "junk_bonds": {
       "score": 63.4,
@@ -34,12 +34,17 @@
       "detail": "TLT -3.0% 14d"
     },
     "sector_rotation": {
-      "score": 41.5,
+      "score": 40.2,
       "weight": 0.1,
-      "detail": "QQQ -7.4% vs XLP -4.6%"
+      "detail": "QQQ -7.3% vs XLP -4.1%"
     }
   },
   "history": [
+    {
+      "date": "2026-03-29",
+      "score": 36.7,
+      "price": 634.09
+    },
     {
       "date": "2026-03-28",
       "score": 36.2,
@@ -1857,11 +1862,6 @@
     },
     {
       "date": "2025-03-30",
-      "score": 50.4,
-      "price": 550.86
-    },
-    {
-      "date": "2025-03-29",
       "score": 50.4,
       "price": 550.86
     }
