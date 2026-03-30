@@ -1,27 +1,27 @@
 {
-  "date": "2026-03-29",
-  "timestamp": "2026-03-29T04:39:12Z",
-  "summary": "The Middle East war has escalated with attacks on energy infrastructure and a possible prolonged closure of the Strait of Hormuz, triggering a sharp repricing in energy markets. Crude topping $110 is compounding inflation pressure as the Iran conflict drags on alongside U.S. tariffs raising costs.",
-  "tweet": "The Iran war is pushing U.S. inflation well above Fed projections, with Fed funds futures now pricing a hike instead of a cut \u2014 fear is the dominant trade across every asset class.",
+  "date": "2026-03-30",
+  "timestamp": "2026-03-30T04:47:16Z",
+  "summary": "The Iran war widened sharply over the weekend as Houthi militants entered the conflict and fired missiles at Israel, sending Brent surging above $116 a barrel at the open. Simultaneously, stagflation fears are deepening: PCE inflation forecasts for 2026 have been revised up to 3.1% while consumer sentiment fell to a three-month low of 53.3, pushing real rates and bond duration risk further into stressed territory across all asset classes.",
+  "tweet": "Brent spiked above $116 as Houthis joined the Iran war \u2014 PCE inflation forecasts revised up to 3.1% for 2026 \u2014 stagflation fear is now the dominant market regime.",
   "scores": {
     "gold": {
-      "score": 34.2,
+      "score": 34.1,
       "label": "Fear"
     },
     "stocks": {
-      "score": 36.7,
+      "score": 36.2,
       "label": "Fear"
     },
     "crypto": {
-      "score": 47.7,
-      "label": "Neutral"
+      "score": 45.2,
+      "label": "Fear"
     },
     "bonds": {
       "score": 40.8,
       "label": "Fear"
     },
     "sentiment": {
-      "score": 39.9,
+      "score": 39.1,
       "label": "Fear"
     }
   }
