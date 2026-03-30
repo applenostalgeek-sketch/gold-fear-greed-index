@@ -1077,9 +1077,9 @@
 
             // Zone grouping
             const getLabel = s => s <= 25 ? 'Extreme Fear' : s <= 45 ? 'Fear' : s <= 55 ? 'Neutral' : s <= 75 ? 'Greed' : 'Extreme Greed';
-            const fearAssets = assets.filter(a => a.score <= 45);
-            const greedAssets = assets.filter(a => a.score >= 55);
-            const neutralAssets = assets.filter(a => a.score > 45 && a.score < 55);
+            const fearAssets = assets.filter(a => Math.round(a.score) <= 45);
+            const greedAssets = assets.filter(a => Math.round(a.score) >= 55);
+            const neutralAssets = assets.filter(a => Math.round(a.score) > 45 && Math.round(a.score) < 55);
 
             let insight = '';
 
