@@ -1,27 +1,27 @@
 {
-  "date": "2026-03-30",
-  "timestamp": "2026-03-30T04:47:16Z",
-  "summary": "The Iran war widened sharply over the weekend as Houthi militants entered the conflict and fired missiles at Israel, sending Brent surging above $116 a barrel at the open. Simultaneously, stagflation fears are deepening: PCE inflation forecasts for 2026 have been revised up to 3.1% while consumer sentiment fell to a three-month low of 53.3, pushing real rates and bond duration risk further into stressed territory across all asset classes.",
-  "tweet": "Brent spiked above $116 as Houthis joined the Iran war \u2014 PCE inflation forecasts revised up to 3.1% for 2026 \u2014 stagflation fear is now the dominant market regime.",
+  "date": "2026-03-31",
+  "timestamp": "2026-03-31T04:37:48Z",
+  "summary": "Markets remain tethered to the Iran conflict and the trajectory of oil prices, with reports that Trump told aides he is willing to end the U.S. military campaign against Iran even if the Strait of Hormuz remains largely closed sending futures higher but leaving deep uncertainty intact.",
+  "tweet": "Iran de-escalation signals lifted futures but oil above $100 and a Fed on hold keep fear entrenched \u2014 the Strait of Hormuz is still the market's pressure valve.",
   "scores": {
     "gold": {
-      "score": 34.1,
+      "score": 35.5,
       "label": "Fear"
     },
     "stocks": {
-      "score": 36.2,
+      "score": 31.8,
       "label": "Fear"
     },
     "crypto": {
-      "score": 45.2,
-      "label": "Fear"
+      "score": 46.3,
+      "label": "Neutral"
     },
     "bonds": {
-      "score": 40.8,
+      "score": 45.3,
       "label": "Fear"
     },
     "sentiment": {
-      "score": 39.1,
+      "score": 39.7,
       "label": "Fear"
     }
   }
