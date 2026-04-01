@@ -1,28 +1,28 @@
 {
-  "date": "2026-03-31",
-  "timestamp": "2026-03-31T04:37:48Z",
-  "summary": "Markets remain tethered to the Iran conflict and the trajectory of oil prices, with reports that Trump told aides he is willing to end the U.S. military campaign against Iran even if the Strait of Hormuz remains largely closed sending futures higher but leaving deep uncertainty intact.",
-  "tweet": "Iran de-escalation signals lifted futures but oil above $100 and a Fed on hold keep fear entrenched \u2014 the Strait of Hormuz is still the market's pressure valve.",
+  "date": "2026-04-01",
+  "timestamp": "2026-04-01T04:49:58Z",
+  "summary": "Iran ceasefire optimism lifted equities Tuesday but oil held above $100, keeping the relief fragile. A jobs data gauntlet now takes center stage, with ADP today and March nonfarm payrolls Friday \u2014 after February shed 92,000 jobs, another miss would sharpen recession fears at a precarious moment for risk assets.",
+  "tweet": "Iran ceasefire hopes bounced stocks, but oil above $100 and a brutal jobs week keep the rally on thin ice.",
   "scores": {
     "gold": {
-      "score": 35.5,
+      "score": 40.1,
       "label": "Fear"
     },
     "stocks": {
-      "score": 31.8,
-      "label": "Fear"
+      "score": 45.5,
+      "label": "Neutral"
     },
     "crypto": {
-      "score": 46.3,
+      "score": 46.4,
       "label": "Neutral"
     },
     "bonds": {
-      "score": 45.3,
-      "label": "Fear"
+      "score": 48.2,
+      "label": "Neutral"
     },
     "sentiment": {
-      "score": 39.7,
-      "label": "Fear"
+      "score": 45.0,
+      "label": "Neutral"
     }
   }
 }
