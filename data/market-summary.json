@@ -1,27 +1,27 @@
 {
-  "date": "2026-04-01",
-  "timestamp": "2026-04-01T04:49:58Z",
-  "summary": "Iran ceasefire optimism lifted equities Tuesday but oil held above $100, keeping the relief fragile. A jobs data gauntlet now takes center stage, with ADP today and March nonfarm payrolls Friday \u2014 after February shed 92,000 jobs, another miss would sharpen recession fears at a precarious moment for risk assets.",
-  "tweet": "Iran ceasefire hopes bounced stocks, but oil above $100 and a brutal jobs week keep the rally on thin ice.",
+  "date": "2026-04-02",
+  "timestamp": "2026-04-02T04:31:49Z",
+  "summary": "The Iran ceasefire pause, now extended through April 6, is keeping volatility elevated and oil near $100, weighing on stocks and suppressing gold's safe-haven premium as sentiment stays in limbo. A soft ADP print of 62,000 jobs adds caution ahead of Friday's payroll report, which markets cannot react to until Monday given the Good Friday close.",
+  "tweet": "Iran talks extended through Apr 6, oil near $100, and a tepid ADP print put markets on edge before Friday's payrol",
   "scores": {
     "gold": {
-      "score": 40.1,
+      "score": 42.8,
       "label": "Fear"
     },
     "stocks": {
-      "score": 45.5,
+      "score": 48.0,
       "label": "Neutral"
     },
     "crypto": {
-      "score": 46.4,
+      "score": 46.7,
       "label": "Neutral"
     },
     "bonds": {
-      "score": 48.2,
+      "score": 51.2,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 45.0,
+      "score": 47.2,
       "label": "Neutral"
     }
   }
