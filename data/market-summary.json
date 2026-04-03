@@ -1,27 +1,27 @@
 {
-  "date": "2026-04-02",
-  "timestamp": "2026-04-02T04:31:49Z",
-  "summary": "The Iran ceasefire pause, now extended through April 6, is keeping volatility elevated and oil near $100, weighing on stocks and suppressing gold's safe-haven premium as sentiment stays in limbo. A soft ADP print of 62,000 jobs adds caution ahead of Friday's payroll report, which markets cannot react to until Monday given the Good Friday close.",
-  "tweet": "Iran talks extended through Apr 6, oil near $100, and a tepid ADP print put markets on edge before Friday's payrol",
+  "date": "2026-04-03",
+  "timestamp": "2026-04-03T04:32:00Z",
+  "summary": "Trump's Wednesday address signaling the U.S. would hit Iran \"extremely hard\" over the next two to three weeks, with no clear path to reopening the Strait of Hormuz, sent oil prices higher and stocks lower. Meanwhile, the March jobs report landed this morning on Good Friday while every stock exchange sits dark, meaning markets cannot price in the data until Monday.",
+  "tweet": "Trump's Iran escalation rattled stocks overnight and March payrolls hit this morning on a closed market \u2014 whatever the number, the reaction waits until Monday.",
   "scores": {
     "gold": {
-      "score": 42.8,
+      "score": 38.9,
       "label": "Fear"
     },
     "stocks": {
-      "score": 48.0,
+      "score": 47.7,
       "label": "Neutral"
     },
     "crypto": {
-      "score": 46.7,
-      "label": "Neutral"
+      "score": 44.6,
+      "label": "Fear"
     },
     "bonds": {
-      "score": 51.2,
+      "score": 53.1,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 47.2,
+      "score": 46.1,
       "label": "Neutral"
     }
   }
