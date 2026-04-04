@@ -1,11 +1,11 @@
 {
-  "date": "2026-04-03",
-  "timestamp": "2026-04-03T04:32:00Z",
-  "summary": "Trump's Wednesday address signaling the U.S. would hit Iran \"extremely hard\" over the next two to three weeks, with no clear path to reopening the Strait of Hormuz, sent oil prices higher and stocks lower. Meanwhile, the March jobs report landed this morning on Good Friday while every stock exchange sits dark, meaning markets cannot price in the data until Monday.",
-  "tweet": "Trump's Iran escalation rattled stocks overnight and March payrolls hit this morning on a closed market \u2014 whatever the number, the reaction waits until Monday.",
+  "date": "2026-04-04",
+  "timestamp": "2026-04-04T04:21:02Z",
+  "summary": "Iran war trajectory and the Fed's hawkish pivot are the twin forces pressing on markets. Trump's signal of continued strikes kept oil near $110-$112 a barrel this week while choking off Fed easing hopes; the FOMC cut its 2026 rate-cut projections from three to just one. The March jobs report landed today with markets dark, leaving the data unpriced until Monday.",
+  "tweet": "Iran war keeps oil above $110 and the Fed on hold \u2014 the March jobs report hit this morning with every exchange closed, leaving the week's final catalyst unpriced until Monday.",
   "scores": {
     "gold": {
-      "score": 38.9,
+      "score": 38.7,
       "label": "Fear"
     },
     "stocks": {
@@ -13,15 +13,15 @@
       "label": "Neutral"
     },
     "crypto": {
-      "score": 44.6,
-      "label": "Fear"
+      "score": 46.1,
+      "label": "Neutral"
     },
     "bonds": {
-      "score": 53.1,
+      "score": 53.3,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 46.1,
+      "score": 46.5,
       "label": "Neutral"
     }
   }
