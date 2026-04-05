@@ -1,7 +1,7 @@
 {
-  "score": 38.7,
+  "score": 39.7,
   "label": "Fear",
-  "timestamp": "2026-04-04T04:20:43Z",
+  "timestamp": "2026-04-05T04:38:27Z",
   "components": {
     "gld_price": {
       "score": 16.3,
@@ -9,9 +9,9 @@
       "detail": "GLD 14d: -6.7%"
     },
     "momentum": {
-      "score": 41.3,
+      "score": 44.1,
       "weight": 0.2,
-      "detail": "RSI: 37, Price < MA50"
+      "detail": "RSI: 38, Price < MA50"
     },
     "gold_vs_spy": {
       "score": 37.4,
@@ -19,9 +19,9 @@
       "detail": "GLD -6.7% vs SPY -1.7% (14d)"
     },
     "dollar_index": {
-      "score": 40.9,
+      "score": 45.2,
       "weight": 0.1,
-      "detail": "DXY: 100.19 (+0.6% 14d, MA30: 99.24)"
+      "detail": "DXY: 100.03 (+0.3% 14d, MA30: 99.16)"
     },
     "real_rates": {
       "score": 38.1,
@@ -35,6 +35,11 @@
     }
   },
   "history": [
+    {
+      "date": "2026-04-05",
+      "score": 39.7,
+      "price": 429.41
+    },
     {
       "date": "2026-04-04",
       "score": 38.7,
@@ -1851,11 +1856,6 @@
     },
     {
       "date": "2025-04-06",
-      "score": 62.5,
-      "price": 279.72
-    },
-    {
-      "date": "2025-04-05",
       "score": 62.5,
       "price": 279.72
     }

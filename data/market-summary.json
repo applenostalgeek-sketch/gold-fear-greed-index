@@ -1,11 +1,11 @@
 {
-  "date": "2026-04-04",
-  "timestamp": "2026-04-04T04:21:02Z",
-  "summary": "Iran war trajectory and the Fed's hawkish pivot are the twin forces pressing on markets. Trump's signal of continued strikes kept oil near $110-$112 a barrel this week while choking off Fed easing hopes; the FOMC cut its 2026 rate-cut projections from three to just one. The March jobs report landed today with markets dark, leaving the data unpriced until Monday.",
-  "tweet": "Iran war keeps oil above $110 and the Fed on hold \u2014 the March jobs report hit this morning with every exchange closed, leaving the week's final catalyst unpriced until Monday.",
+  "date": "2026-04-05",
+  "timestamp": "2026-04-05T04:38:42Z",
+  "summary": "Stocks snapped a five-week losing streak on optimism that the Iran war could end sooner than feared, while a blowout March jobs report \u2014 178,000 payrolls vs. a 59,000 consensus \u2014 landed with markets closed for Good Friday and remains unpriced. That jobs beat complicates the Fed's path as oil-driven inflation persists, keeping sentiment fragile across all asset classes heading into Monday's open.",
+  "tweet": "Iran war ceasefire hopes drove a relief rally, but a scorching March jobs print keeps rate-cut hopes near zero \u2014 markets reprice everything Monday.",
   "scores": {
     "gold": {
-      "score": 38.7,
+      "score": 39.7,
       "label": "Fear"
     },
     "stocks": {
@@ -13,7 +13,7 @@
       "label": "Neutral"
     },
     "crypto": {
-      "score": 46.1,
+      "score": 49.3,
       "label": "Neutral"
     },
     "bonds": {
@@ -21,7 +21,7 @@
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 46.5,
+      "score": 47.5,
       "label": "Neutral"
     }
   }
