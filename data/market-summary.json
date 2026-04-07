@@ -1,27 +1,27 @@
 {
-  "date": "2026-04-06",
-  "timestamp": "2026-04-06T04:46:45Z",
-  "summary": "The U.S.-Iran war, now in its sixth week, remains the dominant macro shock \u2014 crude oil surged past $113 a barrel as Trump threatened strikes on Iranian infrastructure and demanded the Strait of Hormuz reopen, through which 20% of global oil transits.",
-  "tweet": "Iran war oil shock meets an unpriced jobs beat \u2014 today is the first session to trade both, leaving no asset class untouched.",
+  "date": "2026-04-07",
+  "timestamp": "2026-04-07T04:35:44Z",
+  "summary": "A fragile ceasefire bid with Iran is the week's dominant catalyst \u2014 crude holds above $112 as a Tuesday military deadline looms, keeping energy costs elevated and stagflation fears alive. A shock jobs report showing a loss of 92,000 positions and GDP revised to 0.7% added a hard macro hit, explaining pressure across equities and gold while bonds find modest support.",
+  "tweet": "Iran ceasefire talks vs. a Tuesday escalation deadline, a jobs miss of 92K, and GDP slashed",
   "scores": {
     "gold": {
-      "score": 39.2,
+      "score": 39.8,
       "label": "Fear"
     },
     "stocks": {
-      "score": 47.7,
+      "score": 47.3,
       "label": "Neutral"
     },
     "crypto": {
-      "score": 54.1,
+      "score": 54.6,
       "label": "Neutral"
     },
     "bonds": {
-      "score": 53.3,
+      "score": 52.4,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 48.6,
+      "score": 48.5,
       "label": "Neutral"
     }
   }
