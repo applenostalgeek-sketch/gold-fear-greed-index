@@ -1,19 +1,19 @@
 {
   "date": "2026-04-08",
-  "timestamp": "2026-04-08T06:03:15Z",
-  "summary": "The US-Iran ceasefire announced Tuesday night has paused a five-week conflict that had closed the Strait of Hormuz and sent equity prices reeling. WTI crude tumbled roughly 18% to under $93 on the news, relieving the energy shock that had been suppressing stocks and fueling inflation fears.",
-  "tweet": "The Iran ceasefire crushed oil prices and lifted stocks, but tariff-driven goods inflation and a jittery DXY keep sentiment stuck in neutral across assets.",
+  "timestamp": "2026-04-08T08:29:29Z",
+  "summary": "A US-Iran ceasefire brokered overnight sent WTI crude tumbling nearly 19% \u2014 its sharpest drop in almost six years \u2014 after Trump agreed to suspend military action contingent on Iran reopening the Strait of Hormuz. Markets now see the Fed on hold as the energy shock eases, but attention is shifting to whether the oil collapse feeds through into inflation data and what that means for rates.",
+  "tweet": "WTI plunged 19% after Iran agreed to reopen the Strait of Hormuz \u2014 the biggest single-day crude drop since 2020 \u2014 but fresh Section 301 trade probes keep tariff risk simmering under the surface.",
   "scores": {
     "gold": {
-      "score": 50.7,
-      "label": "Neutral"
+      "score": 44.8,
+      "label": "Fear"
     },
     "stocks": {
-      "score": 48.8,
+      "score": 51.0,
       "label": "Neutral"
     },
     "crypto": {
-      "score": 56.2,
+      "score": 56.3,
       "label": "Greed"
     },
     "bonds": {
@@ -21,7 +21,7 @@
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 52.4,
+      "score": 51.5,
       "label": "Neutral"
     }
   }
