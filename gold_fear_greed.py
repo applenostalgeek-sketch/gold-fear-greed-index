@@ -24,12 +24,16 @@ def clean_hist(hist, ticker=None):
     then drops remaining NaN rows as last resort."""
     if not hist.empty and 'Close' in hist.columns:
         if ticker and hist['Close'].iloc[-1] != hist['Close'].iloc[-1]:  # NaN check
+            print(f"  ⚠️ {ticker}: Chart API returned NaN for last close, trying Quote API fallback...")
             try:
                 quote_price = yf.Ticker(ticker).info.get('regularMarketPrice')
                 if quote_price is not None:
                     hist.loc[hist.index[-1], 'Close'] = quote_price
-            except Exception:
-                pass
+                    print(f"  ✅ {ticker}: Quote API fallback succeeded ({quote_price})")
+                else:
+                    print(f"  ❌ {ticker}: Quote API returned None, will drop row")
+            except Exception as e:
+                print(f"  ❌ {ticker}: Quote API fallback failed ({e}), will drop row")
         hist = hist.dropna(subset=['Close'])
     return hist
 
