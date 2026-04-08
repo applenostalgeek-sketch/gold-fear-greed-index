@@ -1,22 +1,22 @@
 {
-  "score": 77.9,
-  "label": "Extreme Greed",
-  "timestamp": "2026-04-08T05:45:15Z",
+  "score": 44.1,
+  "label": "Fear",
+  "timestamp": "2026-04-08T05:48:01Z",
   "components": {
     "gld_price": {
-      "score": 100,
+      "score": 15.6,
       "weight": 0.25,
-      "detail": "GLD 14d: +nan%"
+      "detail": "GLD 14d: -6.9%"
     },
     "momentum": {
-      "score": 55.8,
+      "score": 55.6,
       "weight": 0.2,
       "detail": "RSI: 49, Price < MA50"
     },
     "gold_vs_spy": {
-      "score": 100,
+      "score": 36.5,
       "weight": 0.2,
-      "detail": "GLD +nan% vs SPY +nan% (14d)"
+      "detail": "GLD -6.9% vs SPY -1.5% (14d)"
     },
     "dollar_index": {
       "score": 68.8,
@@ -37,8 +37,8 @@
   "history": [
     {
       "date": "2026-04-08",
-      "score": 77.9,
-      "price": NaN
+      "score": 44.1,
+      "price": 427.65
     },
     {
       "date": "2026-04-07",

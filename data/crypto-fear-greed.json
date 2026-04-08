@@ -1,7 +1,7 @@
 {
   "score": 56.2,
   "label": "Greed",
-  "timestamp": "2026-04-08T05:45:18Z",
+  "timestamp": "2026-04-08T05:48:04Z",
   "components": {
     "context": {
       "score": 58.2,
@@ -14,9 +14,9 @@
       "detail": "RSI: 54, Price vs MA200: -19.4%"
     },
     "dominance": {
-      "score": 58.5,
+      "score": 58.2,
       "weight": 0.2,
-      "detail": "BTC +0.6% vs ETH +3.4% (14d)"
+      "detail": "BTC +0.5% vs ETH +3.3% (14d)"
     },
     "volume": {
       "score": 45.2,
@@ -24,7 +24,7 @@
       "detail": "Vol 7d/30d: 0.84x, price up"
     },
     "volatility": {
-      "score": 70.8,
+      "score": 71.0,
       "weight": 0.15,
       "detail": "Vol 14d: 41.0% annualized"
     }
@@ -33,7 +33,7 @@
     {
       "date": "2026-04-08",
       "score": 56.2,
-      "price": 71712.27
+      "price": 71691.99
     },
     {
       "date": "2026-04-07",

@@ -1,7 +1,7 @@
 {
-  "score": 79.7,
-  "label": "Extreme Greed",
-  "timestamp": "2026-04-08T05:45:20Z",
+  "score": 52.3,
+  "label": "Neutral",
+  "timestamp": "2026-04-08T05:48:07Z",
   "components": {
     "yield_curve": {
       "score": 65.0,
@@ -9,14 +9,14 @@
       "detail": "Courbe: +0.50% (10Y-2Y)"
     },
     "duration_risk": {
-      "score": 100,
+      "score": 47.1,
       "weight": 0.3,
-      "detail": "TLT 14j: +nan%"
+      "detail": "TLT 14j: -0.2%"
     },
     "credit_quality": {
-      "score": 100,
+      "score": 53.0,
       "weight": 0.2,
-      "detail": "HYG vs LQD: +nan%"
+      "detail": "HYG vs LQD: +0.2%"
     },
     "real_rates": {
       "score": 40.4,
@@ -29,17 +29,17 @@
       "detail": "Vol TLT 5j: 10.3% vs 30j: 11.6%"
     },
     "equity_vs_bonds": {
-      "score": 100,
+      "score": 58.0,
       "weight": 0.05,
-      "detail": "TLT vs SPY: +nan%"
+      "detail": "TLT vs SPY: +1.0%"
     }
   },
   "history": [
     {
       "date": "2026-04-08",
-      "score": 79.7,
-      "label": "Extreme Greed",
-      "price": NaN
+      "score": 52.3,
+      "label": "Neutral",
+      "price": 86.65
     },
     {
       "date": "2026-04-07",

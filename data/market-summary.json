@@ -1,28 +1,28 @@
 {
   "date": "2026-04-08",
-  "timestamp": "2026-04-08T05:45:33Z",
-  "summary": "The Iran-Strait of Hormuz standoff remains the week's dominant driver, with markets volatile around Trump's deadline and Pakistan brokering a last-minute proposal asking Iran to open the strait for two weeks as a goodwill gesture. Today's release of FOMC meeting minutes adds a second focal point, with markets looking for clues on how the Fed is reading the energy price shock from the conflict.",
-  "tweet": "Iran deadline and oil near $114/barrel are setting the pace \u2014 FOMC minutes today add a policy wildcard as markets search for direction.",
+  "timestamp": "2026-04-08T05:49:06Z",
+  "summary": "Oil plunged and stocks surged after the US and Iran agreed to a two-week ceasefire, giving markets a respite from turbulence driven by the Middle East conflict. WTI crude futures tumbled about 18% to under $93 a barrel following Trump's declaration, unwinding the energy shock that had been the dominant macro force for weeks.",
+  "tweet": "US-Iran ceasefire sent oil cratering 18% overnight and futures surging \u2014 but with CPI due Friday, the relief rally meets its first inflation reality check.",
   "scores": {
     "gold": {
-      "score": 77.9,
-      "label": "Extreme Greed"
+      "score": 44.1,
+      "label": "Fear"
     },
     "stocks": {
-      "score": 79.7,
-      "label": "Extreme Greed"
+      "score": 47.3,
+      "label": "Neutral"
     },
     "crypto": {
       "score": 56.2,
       "label": "Greed"
     },
     "bonds": {
-      "score": 79.7,
-      "label": "Extreme Greed"
+      "score": 52.3,
+      "label": "Neutral"
     },
     "sentiment": {
-      "score": 73.4,
-      "label": "Greed"
+      "score": 50.0,
+      "label": "Neutral"
     }
   }
 }
