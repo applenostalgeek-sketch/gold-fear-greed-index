@@ -1,28 +1,28 @@
 {
-  "date": "2026-04-07",
-  "timestamp": "2026-04-07T04:35:44Z",
-  "summary": "A fragile ceasefire bid with Iran is the week's dominant catalyst \u2014 crude holds above $112 as a Tuesday military deadline looms, keeping energy costs elevated and stagflation fears alive. A shock jobs report showing a loss of 92,000 positions and GDP revised to 0.7% added a hard macro hit, explaining pressure across equities and gold while bonds find modest support.",
-  "tweet": "Iran ceasefire talks vs. a Tuesday escalation deadline, a jobs miss of 92K, and GDP slashed",
+  "date": "2026-04-08",
+  "timestamp": "2026-04-08T04:39:31Z",
+  "summary": "The US and Iran agreed to a two-week ceasefire today, giving markets a sharp relief rally \u2014 WTI tumbled as much as 19% and Brent slid to around $95 as Strait of Hormuz flows are set to resume.",
+  "tweet": "US-Iran ceasefire sparks oil's biggest crash in years, sending stocks and futures surging \u2014 but tariff inflation keeps the dollar weak and gold bid.",
   "scores": {
     "gold": {
-      "score": 39.8,
-      "label": "Fear"
+      "score": 78.8,
+      "label": "Extreme Greed"
     },
     "stocks": {
-      "score": 47.3,
-      "label": "Neutral"
+      "score": 78.7,
+      "label": "Extreme Greed"
     },
     "crypto": {
-      "score": 54.6,
-      "label": "Neutral"
+      "score": 56.5,
+      "label": "Greed"
     },
     "bonds": {
-      "score": 52.4,
-      "label": "Neutral"
+      "score": 79.7,
+      "label": "Extreme Greed"
     },
     "sentiment": {
-      "score": 48.5,
-      "label": "Neutral"
+      "score": 73.4,
+      "label": "Greed"
     }
   }
 }
