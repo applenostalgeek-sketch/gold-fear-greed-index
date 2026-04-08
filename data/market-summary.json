@@ -1,11 +1,11 @@
 {
   "date": "2026-04-08",
-  "timestamp": "2026-04-08T05:14:37Z",
-  "summary": "Trump's sweeping global tariffs \u2014 a 10% baseline on all imports with steeper rates on dozens of countries \u2014 have rattled equity markets and stoked recession fears. Simultaneously, the Iran conflict is pressing the dollar lower, with markets watching for a breakthrough before Trump's deadline demanding uninterrupted Strait of Hormuz transit, while Axios reported US strikes on Kharg Island today.",
-  "tweet": "Tariff shock and US strikes on Iran's Kharg Island are the twin catalysts today \u2014 dollar sliding, gold surging, bonds bid as traders seek cover.",
+  "timestamp": "2026-04-08T05:45:33Z",
+  "summary": "The Iran-Strait of Hormuz standoff remains the week's dominant driver, with markets volatile around Trump's deadline and Pakistan brokering a last-minute proposal asking Iran to open the strait for two weeks as a goodwill gesture. Today's release of FOMC meeting minutes adds a second focal point, with markets looking for clues on how the Fed is reading the energy price shock from the conflict.",
+  "tweet": "Iran deadline and oil near $114/barrel are setting the pace \u2014 FOMC minutes today add a policy wildcard as markets search for direction.",
   "scores": {
     "gold": {
-      "score": 77.5,
+      "score": 77.9,
       "label": "Extreme Greed"
     },
     "stocks": {
@@ -13,7 +13,7 @@
       "label": "Extreme Greed"
     },
     "crypto": {
-      "score": 56.4,
+      "score": 56.2,
       "label": "Greed"
     },
     "bonds": {
@@ -21,7 +21,7 @@
       "label": "Extreme Greed"
     },
     "sentiment": {
-      "score": 73.3,
+      "score": 73.4,
       "label": "Greed"
     }
   }
