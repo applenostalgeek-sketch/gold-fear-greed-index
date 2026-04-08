@@ -1,7 +1,7 @@
 {
-  "score": 78.7,
+  "score": 79.7,
   "label": "Extreme Greed",
-  "timestamp": "2026-04-08T04:38:30Z",
+  "timestamp": "2026-04-08T05:14:23Z",
   "components": {
     "price_strength": {
       "score": 100,
@@ -9,9 +9,9 @@
       "detail": "SPY +nan% 14d"
     },
     "vix": {
-      "score": 39.5,
+      "score": 44.7,
       "weight": 0.2,
-      "detail": "VIX: 25.8 vs avg: 21.0"
+      "detail": "VIX: 24.2 vs avg: 21.0"
     },
     "momentum": {
       "score": 38.4,
@@ -42,7 +42,7 @@
   "history": [
     {
       "date": "2026-04-08",
-      "score": 78.7,
+      "score": 79.7,
       "price": NaN
     },
     {

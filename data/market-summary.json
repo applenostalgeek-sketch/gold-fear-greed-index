@@ -1,19 +1,19 @@
 {
   "date": "2026-04-08",
-  "timestamp": "2026-04-08T04:39:31Z",
-  "summary": "The US and Iran agreed to a two-week ceasefire today, giving markets a sharp relief rally \u2014 WTI tumbled as much as 19% and Brent slid to around $95 as Strait of Hormuz flows are set to resume.",
-  "tweet": "US-Iran ceasefire sparks oil's biggest crash in years, sending stocks and futures surging \u2014 but tariff inflation keeps the dollar weak and gold bid.",
+  "timestamp": "2026-04-08T05:14:37Z",
+  "summary": "Trump's sweeping global tariffs \u2014 a 10% baseline on all imports with steeper rates on dozens of countries \u2014 have rattled equity markets and stoked recession fears. Simultaneously, the Iran conflict is pressing the dollar lower, with markets watching for a breakthrough before Trump's deadline demanding uninterrupted Strait of Hormuz transit, while Axios reported US strikes on Kharg Island today.",
+  "tweet": "Tariff shock and US strikes on Iran's Kharg Island are the twin catalysts today \u2014 dollar sliding, gold surging, bonds bid as traders seek cover.",
   "scores": {
     "gold": {
-      "score": 78.8,
+      "score": 77.5,
       "label": "Extreme Greed"
     },
     "stocks": {
-      "score": 78.7,
+      "score": 79.7,
       "label": "Extreme Greed"
     },
     "crypto": {
-      "score": 56.5,
+      "score": 56.4,
       "label": "Greed"
     },
     "bonds": {
@@ -21,7 +21,7 @@
       "label": "Extreme Greed"
     },
     "sentiment": {
-      "score": 73.4,
+      "score": 73.3,
       "label": "Greed"
     }
   }
