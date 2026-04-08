@@ -1,7 +1,7 @@
 {
-  "score": 51.0,
+  "score": 51.1,
   "label": "Neutral",
-  "timestamp": "2026-04-08T08:29:11Z",
+  "timestamp": "2026-04-08T08:34:29Z",
   "components": {
     "price_strength": {
       "score": 49.5,
@@ -9,9 +9,9 @@
       "detail": "SPY -0.1% 14d"
     },
     "vix": {
-      "score": 56.1,
+      "score": 56.3,
       "weight": 0.2,
-      "detail": "VIX: 20.6 vs avg: 21.1"
+      "detail": "VIX: 20.5 vs avg: 21.1"
     },
     "momentum": {
       "score": 38.5,
@@ -42,7 +42,7 @@
   "history": [
     {
       "date": "2026-04-08",
-      "score": 51.0,
+      "score": 51.1,
       "price": 659.22
     },
     {
