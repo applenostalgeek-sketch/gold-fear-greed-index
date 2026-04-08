@@ -1,7 +1,7 @@
 {
-  "score": 44.6,
+  "score": 44.5,
   "label": "Fear",
-  "timestamp": "2026-04-08T08:34:27Z",
+  "timestamp": "2026-04-08T08:51:23Z",
   "components": {
     "gld_price": {
       "score": 35.5,
@@ -9,7 +9,7 @@
       "detail": "GLD 14d: -2.9%"
     },
     "momentum": {
-      "score": 55.0,
+      "score": 54.6,
       "weight": 0.2,
       "detail": "RSI: 48, Price < MA50"
     },
@@ -19,9 +19,9 @@
       "detail": "GLD -2.9% vs SPY -0.1% (14d)"
     },
     "dollar_index": {
-      "score": 55.9,
+      "score": 55.7,
       "weight": 0.1,
-      "detail": "DXY: 98.84 (-0.4% 14d, MA30: 99.33)"
+      "detail": "DXY: 98.85 (-0.4% 14d, MA30: 99.33)"
     },
     "real_rates": {
       "score": 37.9,
@@ -37,7 +37,7 @@
   "history": [
     {
       "date": "2026-04-08",
-      "score": 44.6,
+      "score": 44.5,
       "price": 431.81
     },
     {

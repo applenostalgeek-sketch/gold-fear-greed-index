@@ -1,11 +1,11 @@
 {
   "date": "2026-04-08",
-  "timestamp": "2026-04-08T08:34:51Z",
-  "summary": "The S&P 500 snapped a five-week losing streak last week with a 3.4% gain, closing near 6,611, as markets stabilized after weeks of Middle East-driven selling. <br> The Iran conflict \u2014 now in its 39th day \u2014 remains the dominant macro force, with Trump threatening to strike Iranian infrastructure and Kharg Island already hit, keeping oil prices elevated.",
-  "tweet": "Iran conflict and Fed hold fears drove UBS to cut its S&P 500 year-end target to 7,500 \u2014 stocks just snapped a 5-week losing streak but the ceiling is getting lower. --- SUMMARY: The S&P 500 snapped a five-week losing...",
+  "timestamp": "2026-04-08T08:51:40Z",
+  "summary": "A relief rally swept global markets today after a two-week US-Iran ceasefire deal was struck. WTI crude tumbled as much as 19% after Trump agreed to suspend bombing of Iran to restore Strait of Hormuz flows, with Brent sliding 14% to around $94 per barrel. Fed rate cut expectations have evaporated, with an extended hold now the base case, leaving geopolitics as the dominant driver across all assets.",
+  "tweet": "Iran ceasefire deal sends oil crashing 19% today, sparking a broad relief rally \u2014 but the Fed is on hold and gold's drop flags that safe-haven demand is already unwinding fast.",
   "scores": {
     "gold": {
-      "score": 44.6,
+      "score": 44.5,
       "label": "Fear"
     },
     "stocks": {
@@ -13,7 +13,7 @@
       "label": "Neutral"
     },
     "crypto": {
-      "score": 56.3,
+      "score": 56.2,
       "label": "Greed"
     },
     "bonds": {
