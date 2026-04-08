@@ -11,6 +11,25 @@ import numpy as np
 from datetime import datetime, timedelta
 import json
 import os
+import math
+
+
+def clean_hist(hist):
+    """Drop rows where Close is NaN (Yahoo holiday/delayed data bug)."""
+    if not hist.empty and 'Close' in hist.columns:
+        hist = hist.dropna(subset=['Close'])
+    return hist
+
+
+def sanitize_for_json(obj):
+    """Replace float NaN/Inf with None for valid JSON output."""
+    if isinstance(obj, float) and (math.isnan(obj) or math.isinf(obj)):
+        return None
+    if isinstance(obj, dict):
+        return {k: sanitize_for_json(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [sanitize_for_json(i) for i in obj]
+    return obj
 
 
 class CryptoFearGreedIndex:
@@ -27,7 +46,7 @@ class CryptoFearGreedIndex:
         """
         try:
             btc = yf.Ticker("BTC-USD")
-            hist = btc.history(period="1y")
+            hist = clean_hist(btc.history(period="1y"))
 
             if len(hist) < 200:
                 raise ValueError("Insufficient data for momentum calculation")
@@ -77,7 +96,7 @@ class CryptoFearGreedIndex:
         """
         try:
             btc = yf.Ticker("BTC-USD")
-            hist = btc.history(period="3mo")
+            hist = clean_hist(btc.history(period="3mo"))
 
             if hist.empty:
                 raise ValueError("No BTC data")
@@ -117,7 +136,7 @@ class CryptoFearGreedIndex:
         """
         try:
             btc = yf.Ticker("BTC-USD")
-            hist = btc.history(period="3mo")
+            hist = clean_hist(btc.history(period="3mo"))
 
             if len(hist) < 30:
                 raise ValueError("Insufficient data")
@@ -153,8 +172,8 @@ class CryptoFearGreedIndex:
             btc = yf.Ticker("BTC-USD")
             eth = yf.Ticker("ETH-USD")
 
-            btc_hist = btc.history(period="1mo")
-            eth_hist = eth.history(period="1mo")
+            btc_hist = clean_hist(btc.history(period="1mo"))
+            eth_hist = clean_hist(eth.history(period="1mo"))
 
             if len(btc_hist) < 14 or len(eth_hist) < 14:
                 raise ValueError("Insufficient data")
@@ -187,7 +206,7 @@ class CryptoFearGreedIndex:
         """
         try:
             btc = yf.Ticker("BTC-USD")
-            hist = btc.history(period="3mo")
+            hist = clean_hist(btc.history(period="3mo"))
 
             if len(hist) < 30:
                 raise ValueError("Insufficient data")
@@ -325,8 +344,8 @@ class CryptoFearGreedIndex:
             btc = yf.Ticker("BTC-USD")
             eth = yf.Ticker("ETH-USD")
 
-            btc_hist = btc.history(start=start_date, end=end_date + timedelta(days=1))
-            eth_hist = eth.history(start=start_date, end=end_date + timedelta(days=1))
+            btc_hist = clean_hist(btc.history(start=start_date, end=end_date + timedelta(days=1)))
+            eth_hist = clean_hist(eth.history(start=start_date, end=end_date + timedelta(days=1)))
 
             if len(btc_hist) < 20:
                 print("insufficient data")
@@ -476,8 +495,11 @@ class CryptoFearGreedIndex:
                         # Fetch today's BTC price
                         try:
                             btc = yf.Ticker("BTC-USD")
-                            ph = btc.history(period="5d")
-                            price = round(float(ph['Close'].iloc[-1]), 2)
+                            ph = clean_hist(btc.history(period="5d"))
+                            if ph.empty:
+                                price = None
+                            else:
+                                price = round(float(ph['Close'].iloc[-1]), 2)
                         except Exception:
                             price = None
                     else:
@@ -499,8 +521,11 @@ class CryptoFearGreedIndex:
                 # Fetch today's BTC price
                 try:
                     btc = yf.Ticker("BTC-USD")
-                    ph = btc.history(period="5d")
-                    today_price = round(float(ph['Close'].iloc[-1]), 2)
+                    ph = clean_hist(btc.history(period="5d"))
+                    if ph.empty:
+                        today_price = None
+                    else:
+                        today_price = round(float(ph['Close'].iloc[-1]), 2)
                 except Exception:
                     today_price = None
 
@@ -533,7 +558,7 @@ class CryptoFearGreedIndex:
 
             # Save to file
             with open(filepath, 'w') as f:
-                json.dump(result, f, indent=2)
+                json.dump(sanitize_for_json(result), f, indent=2)
 
             print(f"\n✅ Crypto Index saved to {filepath} with {len(history)} days of history")
 

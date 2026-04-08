@@ -12,9 +12,28 @@ from datetime import datetime, timedelta
 import requests
 import os
 from typing import Dict, Tuple, Optional
+import math
 
 
 DXY_TICKERS = ["DX=F", "DX-Y.NYB"]
+
+
+def clean_hist(hist):
+    """Drop rows where Close is NaN (Yahoo holiday/delayed data bug)."""
+    if not hist.empty and 'Close' in hist.columns:
+        hist = hist.dropna(subset=['Close'])
+    return hist
+
+
+def sanitize_for_json(obj):
+    """Replace float NaN/Inf with None for valid JSON output."""
+    if isinstance(obj, float) and (math.isnan(obj) or math.isinf(obj)):
+        return None
+    if isinstance(obj, dict):
+        return {k: sanitize_for_json(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [sanitize_for_json(i) for i in obj]
+    return obj
 
 
 def fetch_dxy_data(period=None, start=None, end=None):
@@ -24,9 +43,9 @@ def fetch_dxy_data(period=None, start=None, end=None):
         try:
             t = yf.Ticker(ticker)
             if period:
-                hist = t.history(period=period)
+                hist = clean_hist(t.history(period=period))
             else:
-                hist = t.history(start=start, end=end)
+                hist = clean_hist(t.history(start=start, end=end))
             if not hist.empty and len(hist) >= 5:
                 print(f"  DXY: using {ticker} ({len(hist)} rows)")
                 return hist
@@ -63,7 +82,7 @@ class GoldFearGreedIndex:
         try:
             # Fetch gold data (XAU/USD)
             gold = yf.Ticker("GC=F")  # Gold Futures
-            hist = gold.history(period="3mo")
+            hist = clean_hist(gold.history(period="3mo"))
 
             if hist.empty:
                 raise ValueError("No gold price data available")
@@ -103,7 +122,7 @@ class GoldFearGreedIndex:
         """
         try:
             gold = yf.Ticker("GC=F")
-            hist = gold.history(period="1y")
+            hist = clean_hist(gold.history(period="1y"))
 
             if len(hist) < 200:
                 raise ValueError("Insufficient data for momentum calculation")
@@ -163,8 +182,8 @@ class GoldFearGreedIndex:
             gold = yf.Ticker("GC=F")
             spy = yf.Ticker("SPY")
 
-            gold_hist = gold.history(period="1mo")
-            spy_hist = spy.history(period="1mo")
+            gold_hist = clean_hist(gold.history(period="1mo"))
+            spy_hist = clean_hist(spy.history(period="1mo"))
 
             if len(gold_hist) < 14 or len(spy_hist) < 14:
                 raise ValueError("Insufficient data")
@@ -200,7 +219,7 @@ class GoldFearGreedIndex:
         """
         try:
             gld = yf.Ticker("GLD")
-            hist = gld.history(period="1mo")
+            hist = clean_hist(gld.history(period="1mo"))
 
             if len(hist) < 14:
                 raise ValueError("Insufficient GLD data")
@@ -233,8 +252,8 @@ class GoldFearGreedIndex:
             gld = yf.Ticker("GLD")
             spy = yf.Ticker("SPY")
 
-            gld_hist = gld.history(period="1mo")
-            spy_hist = spy.history(period="1mo")
+            gld_hist = clean_hist(gld.history(period="1mo"))
+            spy_hist = clean_hist(spy.history(period="1mo"))
 
             if len(gld_hist) < 14 or len(spy_hist) < 14:
                 raise ValueError("Insufficient data")
@@ -267,7 +286,7 @@ class GoldFearGreedIndex:
         """
         try:
             vix = yf.Ticker("^VIX")
-            hist = vix.history(period="3mo")
+            hist = clean_hist(vix.history(period="3mo"))
 
             if hist.empty:
                 raise ValueError("No VIX data available")
@@ -359,7 +378,7 @@ class GoldFearGreedIndex:
         # Lower nominal yields generally = more gold appeal
         try:
             tnx = yf.Ticker("^TNX")
-            hist = tnx.history(period="3mo")
+            hist = clean_hist(tnx.history(period="3mo"))
 
             if hist.empty:
                 raise ValueError("No TNX data")
@@ -568,12 +587,12 @@ class GoldFearGreedIndex:
             spy = yf.Ticker("SPY")
             tnx = yf.Ticker("^TNX")
 
-            gold_hist = gold.history(start=start_date, end=end_date + timedelta(days=1))
-            vix_hist = vix.history(start=start_date, end=end_date + timedelta(days=1))
+            gold_hist = clean_hist(gold.history(start=start_date, end=end_date + timedelta(days=1)))
+            vix_hist = clean_hist(vix.history(start=start_date, end=end_date + timedelta(days=1)))
             dxy_hist = fetch_dxy_data(start=start_date, end=end_date + timedelta(days=1))
-            gld_hist = gld.history(start=start_date, end=end_date + timedelta(days=1))
-            spy_hist = spy.history(start=start_date, end=end_date + timedelta(days=1))
-            tnx_hist = tnx.history(start=start_date, end=end_date + timedelta(days=1))
+            gld_hist = clean_hist(gld.history(start=start_date, end=end_date + timedelta(days=1)))
+            spy_hist = clean_hist(spy.history(start=start_date, end=end_date + timedelta(days=1)))
+            tnx_hist = clean_hist(tnx.history(start=start_date, end=end_date + timedelta(days=1)))
 
             if len(gold_hist) < 20:
                 print("insufficient data")
@@ -749,8 +768,11 @@ class GoldFearGreedIndex:
                         # Fetch today's GLD price
                         try:
                             gld = yf.Ticker("GLD")
-                            ph = gld.history(period="5d")
-                            price = round(float(ph['Close'].iloc[-1]), 2)
+                            ph = clean_hist(gld.history(period="5d"))
+                            if ph.empty:
+                                price = None
+                            else:
+                                price = round(float(ph['Close'].iloc[-1]), 2)
                         except Exception:
                             price = None
                     else:
@@ -772,8 +794,11 @@ class GoldFearGreedIndex:
                 # Fetch today's GLD price
                 try:
                     gld = yf.Ticker("GLD")
-                    ph = gld.history(period="5d")
-                    today_price = round(float(ph['Close'].iloc[-1]), 2)
+                    ph = clean_hist(gld.history(period="5d"))
+                    if ph.empty:
+                        today_price = None
+                    else:
+                        today_price = round(float(ph['Close'].iloc[-1]), 2)
                 except Exception:
                     today_price = None
 
@@ -806,7 +831,7 @@ class GoldFearGreedIndex:
 
             # Save to file
             with open(filepath, 'w') as f:
-                json.dump(result, f, indent=2)
+                json.dump(sanitize_for_json(result), f, indent=2)
 
             print(f"\n✅ Index saved to {filepath} with {len(history)} days of history")
 

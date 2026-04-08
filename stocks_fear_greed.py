@@ -10,8 +10,27 @@ import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
 import json
+import math
 import os
 import time
+
+
+def clean_hist(hist):
+    """Drop rows where Close is NaN (Yahoo holiday/delayed data bug)."""
+    if not hist.empty and 'Close' in hist.columns:
+        hist = hist.dropna(subset=['Close'])
+    return hist
+
+
+def sanitize_for_json(obj):
+    """Replace float NaN/Inf with None for valid JSON output."""
+    if isinstance(obj, float) and (math.isnan(obj) or math.isinf(obj)):
+        return None
+    if isinstance(obj, dict):
+        return {k: sanitize_for_json(v) for k, v in obj.items()}
+    if isinstance(obj, list):
+        return [sanitize_for_json(i) for i in obj]
+    return obj
 
 
 class StocksFearGreedIndex:
@@ -27,7 +46,7 @@ class StocksFearGreedIndex:
         """
         try:
             spy = yf.Ticker("SPY")
-            hist = spy.history(period="1y")
+            hist = clean_hist(spy.history(period="1y"))
 
             if len(hist) < 200:
                 raise ValueError("Insufficient data for momentum calculation")
@@ -79,7 +98,7 @@ class StocksFearGreedIndex:
         """
         try:
             vix = yf.Ticker("^VIX")
-            hist = vix.history(period="3mo")
+            hist = clean_hist(vix.history(period="3mo"))
 
             if hist.empty:
                 raise ValueError("No VIX data")
@@ -118,8 +137,8 @@ class StocksFearGreedIndex:
             spy = yf.Ticker("SPY")
             rsp = yf.Ticker("RSP")  # Equal weight S&P 500
 
-            spy_hist = spy.history(period="1mo")
-            rsp_hist = rsp.history(period="1mo")
+            spy_hist = clean_hist(spy.history(period="1mo"))
+            rsp_hist = clean_hist(rsp.history(period="1mo"))
 
             if len(spy_hist) < 14 or len(rsp_hist) < 14:
                 raise ValueError("Insufficient data")
@@ -153,8 +172,8 @@ class StocksFearGreedIndex:
             hyg = yf.Ticker("HYG")  # High yield bonds
             tlt = yf.Ticker("TLT")  # Long-term treasuries
 
-            hyg_hist = hyg.history(period="1mo")
-            tlt_hist = tlt.history(period="1mo")
+            hyg_hist = clean_hist(hyg.history(period="1mo"))
+            tlt_hist = clean_hist(tlt.history(period="1mo"))
 
             if len(hyg_hist) < 14 or len(tlt_hist) < 14:
                 raise ValueError("Insufficient data")
@@ -185,7 +204,7 @@ class StocksFearGreedIndex:
         """
         try:
             tlt = yf.Ticker("TLT")
-            hist = tlt.history(period="3mo")
+            hist = clean_hist(tlt.history(period="3mo"))
 
             if len(hist) < 30:
                 raise ValueError("Insufficient data")
@@ -218,7 +237,7 @@ class StocksFearGreedIndex:
         """
         try:
             spy = yf.Ticker("SPY")
-            hist = spy.history(period="1mo")
+            hist = clean_hist(spy.history(period="1mo"))
 
             if len(hist) < 14:
                 raise ValueError("Insufficient data")
@@ -252,8 +271,8 @@ class StocksFearGreedIndex:
             qqq = yf.Ticker("QQQ")  # Nasdaq-100 (tech-heavy)
             xlp = yf.Ticker("XLP")  # Consumer Staples (defensive)
 
-            qqq_hist = qqq.history(period="1mo")
-            xlp_hist = xlp.history(period="1mo")
+            qqq_hist = clean_hist(qqq.history(period="1mo"))
+            xlp_hist = clean_hist(xlp.history(period="1mo"))
 
             if len(qqq_hist) < 14 or len(xlp_hist) < 14:
                 raise ValueError("Insufficient data")
@@ -397,13 +416,13 @@ class StocksFearGreedIndex:
             hyg = yf.Ticker("HYG")
             tlt = yf.Ticker("TLT")
 
-            spy_hist = spy.history(start=start_date, end=end_date + timedelta(days=1))
-            vix_hist = vix.history(start=start_date, end=end_date + timedelta(days=1))
-            rsp_hist = rsp.history(start=start_date, end=end_date + timedelta(days=1))
-            qqq_hist = qqq.history(start=start_date, end=end_date + timedelta(days=1))
-            xlp_hist = xlp.history(start=start_date, end=end_date + timedelta(days=1))
-            hyg_hist = hyg.history(start=start_date, end=end_date + timedelta(days=1))
-            tlt_hist = tlt.history(start=start_date, end=end_date + timedelta(days=1))
+            spy_hist = clean_hist(spy.history(start=start_date, end=end_date + timedelta(days=1)))
+            vix_hist = clean_hist(vix.history(start=start_date, end=end_date + timedelta(days=1)))
+            rsp_hist = clean_hist(rsp.history(start=start_date, end=end_date + timedelta(days=1)))
+            qqq_hist = clean_hist(qqq.history(start=start_date, end=end_date + timedelta(days=1)))
+            xlp_hist = clean_hist(xlp.history(start=start_date, end=end_date + timedelta(days=1)))
+            hyg_hist = clean_hist(hyg.history(start=start_date, end=end_date + timedelta(days=1)))
+            tlt_hist = clean_hist(tlt.history(start=start_date, end=end_date + timedelta(days=1)))
 
             if len(spy_hist) < 20:
                 print("insufficient data")
@@ -547,8 +566,11 @@ class StocksFearGreedIndex:
                         # Fetch today's SPY price
                         try:
                             spy = yf.Ticker("SPY")
-                            ph = spy.history(period="5d")
-                            price = round(float(ph['Close'].iloc[-1]), 2)
+                            ph = clean_hist(spy.history(period="5d"))
+                            if ph.empty:
+                                price = None
+                            else:
+                                price = round(float(ph['Close'].iloc[-1]), 2)
                         except Exception:
                             price = None
                     else:
@@ -574,8 +596,11 @@ class StocksFearGreedIndex:
                 # Fetch today's SPY price
                 try:
                     spy = yf.Ticker("SPY")
-                    ph = spy.history(period="5d")
-                    today_price = round(float(ph['Close'].iloc[-1]), 2)
+                    ph = clean_hist(spy.history(period="5d"))
+                    if ph.empty:
+                        today_price = None
+                    else:
+                        today_price = round(float(ph['Close'].iloc[-1]), 2)
                 except Exception:
                     today_price = None
 
@@ -608,7 +633,7 @@ class StocksFearGreedIndex:
 
             # Save to file
             with open(filepath, 'w') as f:
-                json.dump(result, f, indent=2)
+                json.dump(sanitize_for_json(result), f, indent=2)
 
             print(f"\n✅ Stocks Index saved to {filepath} with {len(history)} days of history")
 
