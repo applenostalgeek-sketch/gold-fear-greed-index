@@ -14,9 +14,18 @@ import os
 import math
 
 
-def clean_hist(hist):
-    """Drop rows where Close is NaN (Yahoo holiday/delayed data bug)."""
+def clean_hist(hist, ticker=None):
+    """Fix rows where Close is NaN (Yahoo Chart API bug).
+    First tries to fill from Quote API (regularMarketPrice),
+    then drops remaining NaN rows as last resort."""
     if not hist.empty and 'Close' in hist.columns:
+        if ticker and hist['Close'].iloc[-1] != hist['Close'].iloc[-1]:  # NaN check
+            try:
+                quote_price = yf.Ticker(ticker).info.get('regularMarketPrice')
+                if quote_price is not None:
+                    hist.loc[hist.index[-1], 'Close'] = quote_price
+            except Exception:
+                pass
         hist = hist.dropna(subset=['Close'])
     return hist
 
@@ -46,7 +55,7 @@ class CryptoFearGreedIndex:
         """
         try:
             btc = yf.Ticker("BTC-USD")
-            hist = clean_hist(btc.history(period="1y"))
+            hist = clean_hist(btc.history(period="1y"), "BTC-USD")
 
             if len(hist) < 200:
                 raise ValueError("Insufficient data for momentum calculation")
@@ -96,7 +105,7 @@ class CryptoFearGreedIndex:
         """
         try:
             btc = yf.Ticker("BTC-USD")
-            hist = clean_hist(btc.history(period="3mo"))
+            hist = clean_hist(btc.history(period="3mo"), "BTC-USD")
 
             if hist.empty:
                 raise ValueError("No BTC data")
@@ -136,7 +145,7 @@ class CryptoFearGreedIndex:
         """
         try:
             btc = yf.Ticker("BTC-USD")
-            hist = clean_hist(btc.history(period="3mo"))
+            hist = clean_hist(btc.history(period="3mo"), "BTC-USD")
 
             if len(hist) < 30:
                 raise ValueError("Insufficient data")
@@ -172,8 +181,8 @@ class CryptoFearGreedIndex:
             btc = yf.Ticker("BTC-USD")
             eth = yf.Ticker("ETH-USD")
 
-            btc_hist = clean_hist(btc.history(period="1mo"))
-            eth_hist = clean_hist(eth.history(period="1mo"))
+            btc_hist = clean_hist(btc.history(period="1mo"), "BTC-USD")
+            eth_hist = clean_hist(eth.history(period="1mo"), "ETH-USD")
 
             if len(btc_hist) < 14 or len(eth_hist) < 14:
                 raise ValueError("Insufficient data")
@@ -206,7 +215,7 @@ class CryptoFearGreedIndex:
         """
         try:
             btc = yf.Ticker("BTC-USD")
-            hist = clean_hist(btc.history(period="3mo"))
+            hist = clean_hist(btc.history(period="3mo"), "BTC-USD")
 
             if len(hist) < 30:
                 raise ValueError("Insufficient data")
@@ -344,8 +353,8 @@ class CryptoFearGreedIndex:
             btc = yf.Ticker("BTC-USD")
             eth = yf.Ticker("ETH-USD")
 
-            btc_hist = clean_hist(btc.history(start=start_date, end=end_date + timedelta(days=1)))
-            eth_hist = clean_hist(eth.history(start=start_date, end=end_date + timedelta(days=1)))
+            btc_hist = clean_hist(btc.history(start=start_date, end=end_date + timedelta(days=1)), "BTC-USD")
+            eth_hist = clean_hist(eth.history(start=start_date, end=end_date + timedelta(days=1)), "ETH-USD")
 
             if len(btc_hist) < 20:
                 print("insufficient data")
@@ -495,7 +504,7 @@ class CryptoFearGreedIndex:
                         # Fetch today's BTC price
                         try:
                             btc = yf.Ticker("BTC-USD")
-                            ph = clean_hist(btc.history(period="5d"))
+                            ph = clean_hist(btc.history(period="5d"), "BTC-USD")
                             if ph.empty:
                                 price = None
                             else:
@@ -521,7 +530,7 @@ class CryptoFearGreedIndex:
                 # Fetch today's BTC price
                 try:
                     btc = yf.Ticker("BTC-USD")
-                    ph = clean_hist(btc.history(period="5d"))
+                    ph = clean_hist(btc.history(period="5d"), "BTC-USD")
                     if ph.empty:
                         today_price = None
                     else:

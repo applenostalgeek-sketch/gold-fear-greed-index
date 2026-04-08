@@ -15,9 +15,18 @@ import os
 from typing import Dict, Tuple, Optional
 
 
-def clean_hist(hist):
-    """Drop rows where Close is NaN (Yahoo holiday/delayed data bug)."""
+def clean_hist(hist, ticker=None):
+    """Fix rows where Close is NaN (Yahoo Chart API bug).
+    First tries to fill from Quote API (regularMarketPrice),
+    then drops remaining NaN rows as last resort."""
     if not hist.empty and 'Close' in hist.columns:
+        if ticker and hist['Close'].iloc[-1] != hist['Close'].iloc[-1]:  # NaN check
+            try:
+                quote_price = yf.Ticker(ticker).info.get('regularMarketPrice')
+                if quote_price is not None:
+                    hist.loc[hist.index[-1], 'Close'] = quote_price
+            except Exception:
+                pass
         hist = hist.dropna(subset=['Close'])
     return hist
 
@@ -106,7 +115,7 @@ class BondsFearGreedIndex:
         """
         try:
             tlt = yf.Ticker("TLT")  # Long-term Treasury Bonds
-            hist = clean_hist(tlt.history(period="3mo"))
+            hist = clean_hist(tlt.history(period="3mo"), "TLT")
 
             if hist.empty:
                 raise ValueError("No TLT data available")
@@ -142,8 +151,8 @@ class BondsFearGreedIndex:
             hyg = yf.Ticker("HYG")  # High Yield Corporate Bonds
             lqd = yf.Ticker("LQD")  # Investment Grade Corporate Bonds
 
-            hyg_hist = clean_hist(hyg.history(period="2mo"))
-            lqd_hist = clean_hist(lqd.history(period="2mo"))
+            hyg_hist = clean_hist(hyg.history(period="2mo"), "HYG")
+            lqd_hist = clean_hist(lqd.history(period="2mo"), "LQD")
 
             if hyg_hist.empty or lqd_hist.empty:
                 raise ValueError("No HYG or LQD data available")
@@ -218,8 +227,8 @@ class BondsFearGreedIndex:
                 tnx = yf.Ticker("^TNX")  # 10-Year Treasury Yield
                 irx = yf.Ticker("^IRX")  # 13-week T-Bill (short-term proxy)
 
-                tnx_hist = clean_hist(tnx.history(period="5d"))
-                irx_hist = clean_hist(irx.history(period="5d"))
+                tnx_hist = clean_hist(tnx.history(period="5d"), "^TNX")
+                irx_hist = clean_hist(irx.history(period="5d"), "^IRX")
 
                 if tnx_hist.empty or irx_hist.empty:
                     raise ValueError("Yahoo yield data unavailable")
@@ -254,7 +263,7 @@ class BondsFearGreedIndex:
         """
         try:
             tlt = yf.Ticker("TLT")
-            hist = clean_hist(tlt.history(period="3mo"))
+            hist = clean_hist(tlt.history(period="3mo"), "TLT")
 
             if hist.empty:
                 raise ValueError("No TLT data available")
@@ -293,7 +302,7 @@ class BondsFearGreedIndex:
         """
         try:
             tlt = yf.Ticker("TLT")
-            hist = clean_hist(tlt.history(period="2mo"))
+            hist = clean_hist(tlt.history(period="2mo"), "TLT")
 
             if hist.empty or 'Volume' not in hist.columns:
                 raise ValueError("No TLT volume data available")
@@ -356,7 +365,7 @@ class BondsFearGreedIndex:
             # FALLBACK: Use nominal 10Y yield centered on historical average
             try:
                 tnx = yf.Ticker("^TNX")  # 10-Year Treasury Yield
-                tnx_hist = clean_hist(tnx.history(period="5d"))
+                tnx_hist = clean_hist(tnx.history(period="5d"), "^TNX")
 
                 if tnx_hist.empty:
                     raise ValueError("Yahoo yield data unavailable")
@@ -389,8 +398,8 @@ class BondsFearGreedIndex:
             tlt = yf.Ticker("TLT")  # 20+ Year Treasury
             shy = yf.Ticker("SHY")  # 1-3 Year Treasury
 
-            tlt_hist = clean_hist(tlt.history(period="2mo"))
-            shy_hist = clean_hist(shy.history(period="2mo"))
+            tlt_hist = clean_hist(tlt.history(period="2mo"), "TLT")
+            shy_hist = clean_hist(shy.history(period="2mo"), "SHY")
 
             if tlt_hist.empty or shy_hist.empty:
                 raise ValueError("No TLT or SHY data available")
@@ -429,8 +438,8 @@ class BondsFearGreedIndex:
             spy = yf.Ticker("SPY")  # S&P 500
             tlt = yf.Ticker("TLT")  # Treasuries
 
-            spy_hist = clean_hist(spy.history(period="2mo"))
-            tlt_hist = clean_hist(tlt.history(period="2mo"))
+            spy_hist = clean_hist(spy.history(period="2mo"), "SPY")
+            tlt_hist = clean_hist(tlt.history(period="2mo"), "TLT")
 
             if spy_hist.empty or tlt_hist.empty:
                 raise ValueError("No SPY or TLT data available")
@@ -576,10 +585,10 @@ class BondsFearGreedIndex:
             lqd = yf.Ticker("LQD")
             spy = yf.Ticker("SPY")
 
-            tlt_hist = clean_hist(tlt.history(start=start_date, end=end_date + timedelta(days=1)))
-            hyg_hist = clean_hist(hyg.history(start=start_date, end=end_date + timedelta(days=1)))
-            lqd_hist = clean_hist(lqd.history(start=start_date, end=end_date + timedelta(days=1)))
-            spy_hist = clean_hist(spy.history(start=start_date, end=end_date + timedelta(days=1)))
+            tlt_hist = clean_hist(tlt.history(start=start_date, end=end_date + timedelta(days=1)), "TLT")
+            hyg_hist = clean_hist(hyg.history(start=start_date, end=end_date + timedelta(days=1)), "HYG")
+            lqd_hist = clean_hist(lqd.history(start=start_date, end=end_date + timedelta(days=1)), "LQD")
+            spy_hist = clean_hist(spy.history(start=start_date, end=end_date + timedelta(days=1)), "SPY")
 
             if tlt_hist.empty or len(tlt_hist) < 20:
                 print("insufficient data")
@@ -693,7 +702,7 @@ class BondsFearGreedIndex:
                     # Fetch today's TLT price
                     try:
                         tlt = yf.Ticker("TLT")
-                        ph = clean_hist(tlt.history(period="5d"))
+                        ph = clean_hist(tlt.history(period="5d"), "TLT")
                         if ph.empty:
                             price = None
                         else:
@@ -748,7 +757,7 @@ class BondsFearGreedIndex:
             # Fetch today's TLT price
             try:
                 tlt = yf.Ticker("TLT")
-                ph = clean_hist(tlt.history(period="5d"))
+                ph = clean_hist(tlt.history(period="5d"), "TLT")
                 if ph.empty:
                     today_price = None
                 else:

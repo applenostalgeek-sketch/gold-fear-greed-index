@@ -15,9 +15,18 @@ import os
 import time
 
 
-def clean_hist(hist):
-    """Drop rows where Close is NaN (Yahoo holiday/delayed data bug)."""
+def clean_hist(hist, ticker=None):
+    """Fix rows where Close is NaN (Yahoo Chart API bug).
+    First tries to fill from Quote API (regularMarketPrice),
+    then drops remaining NaN rows as last resort."""
     if not hist.empty and 'Close' in hist.columns:
+        if ticker and hist['Close'].iloc[-1] != hist['Close'].iloc[-1]:  # NaN check
+            try:
+                quote_price = yf.Ticker(ticker).info.get('regularMarketPrice')
+                if quote_price is not None:
+                    hist.loc[hist.index[-1], 'Close'] = quote_price
+            except Exception:
+                pass
         hist = hist.dropna(subset=['Close'])
     return hist
 
@@ -46,7 +55,7 @@ class StocksFearGreedIndex:
         """
         try:
             spy = yf.Ticker("SPY")
-            hist = clean_hist(spy.history(period="1y"))
+            hist = clean_hist(spy.history(period="1y"), "SPY")
 
             if len(hist) < 200:
                 raise ValueError("Insufficient data for momentum calculation")
@@ -98,7 +107,7 @@ class StocksFearGreedIndex:
         """
         try:
             vix = yf.Ticker("^VIX")
-            hist = clean_hist(vix.history(period="3mo"))
+            hist = clean_hist(vix.history(period="3mo"), "^VIX")
 
             if hist.empty:
                 raise ValueError("No VIX data")
@@ -137,8 +146,8 @@ class StocksFearGreedIndex:
             spy = yf.Ticker("SPY")
             rsp = yf.Ticker("RSP")  # Equal weight S&P 500
 
-            spy_hist = clean_hist(spy.history(period="1mo"))
-            rsp_hist = clean_hist(rsp.history(period="1mo"))
+            spy_hist = clean_hist(spy.history(period="1mo"), "SPY")
+            rsp_hist = clean_hist(rsp.history(period="1mo"), "RSP")
 
             if len(spy_hist) < 14 or len(rsp_hist) < 14:
                 raise ValueError("Insufficient data")
@@ -172,8 +181,8 @@ class StocksFearGreedIndex:
             hyg = yf.Ticker("HYG")  # High yield bonds
             tlt = yf.Ticker("TLT")  # Long-term treasuries
 
-            hyg_hist = clean_hist(hyg.history(period="1mo"))
-            tlt_hist = clean_hist(tlt.history(period="1mo"))
+            hyg_hist = clean_hist(hyg.history(period="1mo"), "HYG")
+            tlt_hist = clean_hist(tlt.history(period="1mo"), "TLT")
 
             if len(hyg_hist) < 14 or len(tlt_hist) < 14:
                 raise ValueError("Insufficient data")
@@ -204,7 +213,7 @@ class StocksFearGreedIndex:
         """
         try:
             tlt = yf.Ticker("TLT")
-            hist = clean_hist(tlt.history(period="3mo"))
+            hist = clean_hist(tlt.history(period="3mo"), "TLT")
 
             if len(hist) < 30:
                 raise ValueError("Insufficient data")
@@ -237,7 +246,7 @@ class StocksFearGreedIndex:
         """
         try:
             spy = yf.Ticker("SPY")
-            hist = clean_hist(spy.history(period="1mo"))
+            hist = clean_hist(spy.history(period="1mo"), "SPY")
 
             if len(hist) < 14:
                 raise ValueError("Insufficient data")
@@ -271,8 +280,8 @@ class StocksFearGreedIndex:
             qqq = yf.Ticker("QQQ")  # Nasdaq-100 (tech-heavy)
             xlp = yf.Ticker("XLP")  # Consumer Staples (defensive)
 
-            qqq_hist = clean_hist(qqq.history(period="1mo"))
-            xlp_hist = clean_hist(xlp.history(period="1mo"))
+            qqq_hist = clean_hist(qqq.history(period="1mo"), "QQQ")
+            xlp_hist = clean_hist(xlp.history(period="1mo"), "XLP")
 
             if len(qqq_hist) < 14 or len(xlp_hist) < 14:
                 raise ValueError("Insufficient data")
@@ -416,13 +425,13 @@ class StocksFearGreedIndex:
             hyg = yf.Ticker("HYG")
             tlt = yf.Ticker("TLT")
 
-            spy_hist = clean_hist(spy.history(start=start_date, end=end_date + timedelta(days=1)))
-            vix_hist = clean_hist(vix.history(start=start_date, end=end_date + timedelta(days=1)))
-            rsp_hist = clean_hist(rsp.history(start=start_date, end=end_date + timedelta(days=1)))
-            qqq_hist = clean_hist(qqq.history(start=start_date, end=end_date + timedelta(days=1)))
-            xlp_hist = clean_hist(xlp.history(start=start_date, end=end_date + timedelta(days=1)))
-            hyg_hist = clean_hist(hyg.history(start=start_date, end=end_date + timedelta(days=1)))
-            tlt_hist = clean_hist(tlt.history(start=start_date, end=end_date + timedelta(days=1)))
+            spy_hist = clean_hist(spy.history(start=start_date, end=end_date + timedelta(days=1)), "SPY")
+            vix_hist = clean_hist(vix.history(start=start_date, end=end_date + timedelta(days=1)), "^VIX")
+            rsp_hist = clean_hist(rsp.history(start=start_date, end=end_date + timedelta(days=1)), "RSP")
+            qqq_hist = clean_hist(qqq.history(start=start_date, end=end_date + timedelta(days=1)), "QQQ")
+            xlp_hist = clean_hist(xlp.history(start=start_date, end=end_date + timedelta(days=1)), "XLP")
+            hyg_hist = clean_hist(hyg.history(start=start_date, end=end_date + timedelta(days=1)), "HYG")
+            tlt_hist = clean_hist(tlt.history(start=start_date, end=end_date + timedelta(days=1)), "TLT")
 
             if len(spy_hist) < 20:
                 print("insufficient data")
@@ -566,7 +575,7 @@ class StocksFearGreedIndex:
                         # Fetch today's SPY price
                         try:
                             spy = yf.Ticker("SPY")
-                            ph = clean_hist(spy.history(period="5d"))
+                            ph = clean_hist(spy.history(period="5d"), "SPY")
                             if ph.empty:
                                 price = None
                             else:
@@ -596,7 +605,7 @@ class StocksFearGreedIndex:
                 # Fetch today's SPY price
                 try:
                     spy = yf.Ticker("SPY")
-                    ph = clean_hist(spy.history(period="5d"))
+                    ph = clean_hist(spy.history(period="5d"), "SPY")
                     if ph.empty:
                         today_price = None
                     else:
