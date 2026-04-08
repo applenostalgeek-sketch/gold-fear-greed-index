@@ -1,15 +1,15 @@
 {
   "date": "2026-04-08",
-  "timestamp": "2026-04-08T05:49:06Z",
-  "summary": "Oil plunged and stocks surged after the US and Iran agreed to a two-week ceasefire, giving markets a respite from turbulence driven by the Middle East conflict. WTI crude futures tumbled about 18% to under $93 a barrel following Trump's declaration, unwinding the energy shock that had been the dominant macro force for weeks.",
-  "tweet": "US-Iran ceasefire sent oil cratering 18% overnight and futures surging \u2014 but with CPI due Friday, the relief rally meets its first inflation reality check.",
+  "timestamp": "2026-04-08T06:03:15Z",
+  "summary": "The US-Iran ceasefire announced Tuesday night has paused a five-week conflict that had closed the Strait of Hormuz and sent equity prices reeling. WTI crude tumbled roughly 18% to under $93 on the news, relieving the energy shock that had been suppressing stocks and fueling inflation fears.",
+  "tweet": "The Iran ceasefire crushed oil prices and lifted stocks, but tariff-driven goods inflation and a jittery DXY keep sentiment stuck in neutral across assets.",
   "scores": {
     "gold": {
-      "score": 44.1,
-      "label": "Fear"
+      "score": 50.7,
+      "label": "Neutral"
     },
     "stocks": {
-      "score": 47.3,
+      "score": 48.8,
       "label": "Neutral"
     },
     "crypto": {
@@ -17,11 +17,11 @@
       "label": "Greed"
     },
     "bonds": {
-      "score": 52.3,
+      "score": 54.1,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 50.0,
+      "score": 52.4,
       "label": "Neutral"
     }
   }

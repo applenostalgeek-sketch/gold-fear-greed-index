@@ -1,6 +1,6 @@
 {
   "asset": "gold",
-  "generated": "2026-04-08T04:38:33Z",
+  "generated": "2026-04-08T06:03:00Z",
   "total_days": 1259,
   "date_range": {
     "start": "2021-04-09",
@@ -7559,6 +7559,12 @@
       "score": 39.8,
       "label": "Fear",
       "price": 427.65
+    },
+    {
+      "date": "2026-04-08",
+      "score": 50.7,
+      "label": "Neutral",
+      "price": 431.81
     }
   ]
 }
