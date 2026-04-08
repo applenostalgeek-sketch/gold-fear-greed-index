@@ -243,8 +243,9 @@ What are the 1-2 key catalysts driving these markets this week?"""
         raw = re.sub(r'\s{2,}', ' ', raw)
 
         # Parse SUMMARY: and TWEET: format
-        # Clean markdown bold markers the model sometimes adds
+        # Clean markdown bold markers and HTML tags the model sometimes adds
         raw = re.sub(r'\*{1,2}', '', raw)
+        raw = re.sub(r'<br\s*/?>', ' ', raw)
         summary = raw
         tweet = None
         summary_match = re.search(r'SUMMARY:\s*(.+?)(?=\s*TWEET:|\Z)', raw, re.DOTALL)
