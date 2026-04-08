@@ -7,6 +7,7 @@ and removes entries older than 5 years.
 """
 
 import json
+import math
 import os
 from datetime import datetime, timedelta, timezone
 
@@ -74,8 +75,9 @@ def append_5y():
             'score': today_entry['score'],
             'label': get_label(today_entry['score']),
         }
-        if today_entry.get('price') is not None:
-            new_entry['price'] = today_entry['price']
+        price = today_entry.get('price')
+        if price is not None and not (isinstance(price, float) and math.isnan(price)):
+            new_entry['price'] = price
 
         history.append(new_entry)
 
