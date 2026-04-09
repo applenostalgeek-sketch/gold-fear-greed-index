@@ -1,28 +1,28 @@
 {
-  "date": "2026-04-08",
-  "timestamp": "2026-04-08T08:51:40Z",
-  "summary": "A relief rally swept global markets today after a two-week US-Iran ceasefire deal was struck. WTI crude tumbled as much as 19% after Trump agreed to suspend bombing of Iran to restore Strait of Hormuz flows, with Brent sliding 14% to around $94 per barrel. Fed rate cut expectations have evaporated, with an extended hold now the base case, leaving geopolitics as the dominant driver across all assets.",
-  "tweet": "Iran ceasefire deal sends oil crashing 19% today, sparking a broad relief rally \u2014 but the Fed is on hold and gold's drop flags that safe-haven demand is already unwinding fast.",
+  "date": "2026-04-09",
+  "timestamp": "2026-04-09T04:35:55Z",
+  "summary": "The US-Iran ceasefire that drove Wednesday's broad risk rally is already showing cracks \u2014 Iran's parliament says key terms have been breached and the Strait of Hormuz remains effectively closed. Stocks are pulling back and oil is rebounding as the fragile truce dominates sentiment, while a 10% universal tariff under Section 122 quietly persists as a structural headwind.",
+  "tweet": "Ceasefire cracks: Iran says terms were breached, Hormuz stays blocked, and markets are giving back Wednesday's relief rally gains.",
   "scores": {
     "gold": {
-      "score": 44.5,
-      "label": "Fear"
+      "score": 52.0,
+      "label": "Neutral"
     },
     "stocks": {
-      "score": 51.1,
-      "label": "Neutral"
-    },
-    "crypto": {
-      "score": 56.2,
+      "score": 59.4,
       "label": "Greed"
     },
-    "bonds": {
-      "score": 54.1,
+    "crypto": {
+      "score": 53.4,
       "label": "Neutral"
     },
+    "bonds": {
+      "score": 56.9,
+      "label": "Greed"
+    },
     "sentiment": {
-      "score": 51.5,
-      "label": "Neutral"
+      "score": 55.4,
+      "label": "Greed"
     }
   }
 }
