@@ -1,27 +1,27 @@
 {
-  "date": "2026-04-09",
-  "timestamp": "2026-04-09T04:35:55Z",
-  "summary": "The US-Iran ceasefire that drove Wednesday's broad risk rally is already showing cracks \u2014 Iran's parliament says key terms have been breached and the Strait of Hormuz remains effectively closed. Stocks are pulling back and oil is rebounding as the fragile truce dominates sentiment, while a 10% universal tariff under Section 122 quietly persists as a structural headwind.",
-  "tweet": "Ceasefire cracks: Iran says terms were breached, Hormuz stays blocked, and markets are giving back Wednesday's relief rally gains.",
+  "date": "2026-04-10",
+  "timestamp": "2026-04-10T04:49:14Z",
+  "summary": "March CPI \u2014 released today \u2014 is the first inflation read to partially capture the energy price shock from the US-Iran conflict, against a February PCE that already showed 2.8% year-over-year, keeping the Fed firmly on hold.",
+  "tweet": "March CPI hits today as the Strait of Hormuz stays largely blocked \u2014 inflation data and a fragile ceasefire are pulling risk sentiment in opposite directions.",
   "scores": {
     "gold": {
-      "score": 52.0,
-      "label": "Neutral"
+      "score": 56.6,
+      "label": "Greed"
     },
     "stocks": {
-      "score": 59.4,
+      "score": 61.6,
       "label": "Greed"
     },
     "crypto": {
-      "score": 53.4,
-      "label": "Neutral"
-    },
-    "bonds": {
-      "score": 56.9,
+      "score": 56.3,
       "label": "Greed"
     },
+    "bonds": {
+      "score": 53.6,
+      "label": "Neutral"
+    },
     "sentiment": {
-      "score": 55.4,
+      "score": 57.0,
       "label": "Greed"
     }
   }
