@@ -1,27 +1,27 @@
 {
-  "date": "2026-04-10",
-  "timestamp": "2026-04-10T04:49:14Z",
-  "summary": "March CPI \u2014 released today \u2014 is the first inflation read to partially capture the energy price shock from the US-Iran conflict, against a February PCE that already showed 2.8% year-over-year, keeping the Fed firmly on hold.",
-  "tweet": "March CPI hits today as the Strait of Hormuz stays largely blocked \u2014 inflation data and a fragile ceasefire are pulling risk sentiment in opposite directions.",
+  "date": "2026-04-11",
+  "timestamp": "2026-04-11T04:24:15Z",
+  "summary": "Stocks posted a second straight weekly gain amid a fragile US-Iran ceasefire, lifting risk appetite across equities, crypto, and bonds while driving gold to record highs on residual safe-haven demand. Friday's University of Michigan consumer sentiment index fell to 47.6, the lowest reading on record, a stark reminder that Main Street confidence has not followed Wall Street's relief rally.",
+  "tweet": "Iran headline volatility drove markets all week, but signs of a de-escalation off-ramp snapped the S&P's 5-week losing streak \u2014 even as consumer sentiment collapsed to a record low.",
   "scores": {
     "gold": {
-      "score": 56.6,
+      "score": 60.7,
       "label": "Greed"
     },
     "stocks": {
-      "score": 61.6,
+      "score": 60.3,
       "label": "Greed"
     },
     "crypto": {
-      "score": 56.3,
+      "score": 61.3,
       "label": "Greed"
     },
     "bonds": {
-      "score": 53.6,
-      "label": "Neutral"
+      "score": 59.1,
+      "label": "Greed"
     },
     "sentiment": {
-      "score": 57.0,
+      "score": 60.4,
       "label": "Greed"
     }
   }
