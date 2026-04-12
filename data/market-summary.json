@@ -1,11 +1,11 @@
 {
-  "date": "2026-04-11",
-  "timestamp": "2026-04-11T04:24:15Z",
-  "summary": "Stocks posted a second straight weekly gain amid a fragile US-Iran ceasefire, lifting risk appetite across equities, crypto, and bonds while driving gold to record highs on residual safe-haven demand. Friday's University of Michigan consumer sentiment index fell to 47.6, the lowest reading on record, a stark reminder that Main Street confidence has not followed Wall Street's relief rally.",
-  "tweet": "Iran headline volatility drove markets all week, but signs of a de-escalation off-ramp snapped the S&P's 5-week losing streak \u2014 even as consumer sentiment collapsed to a record low.",
+  "date": "2026-04-12",
+  "timestamp": "2026-04-12T04:48:37Z",
+  "summary": "March CPI came in at 3.3% annually, the highest since May 2024, driven by the ongoing Middle East conflict's impact on energy prices. FOMC minutes from the March meeting showed policymakers concerned the conflict could sustain inflationary pressures, though they still anticipated one rate cut this year.",
+  "tweet": "Hot CPI at 3.3% and a fragile US-Iran ceasefire are keeping the Fed on hold and gold elevated while equities and risk assets push higher on relief.",
   "scores": {
     "gold": {
-      "score": 60.7,
+      "score": 61.1,
       "label": "Greed"
     },
     "stocks": {
@@ -13,7 +13,7 @@
       "label": "Greed"
     },
     "crypto": {
-      "score": 61.3,
+      "score": 58.9,
       "label": "Greed"
     },
     "bonds": {
@@ -21,7 +21,7 @@
       "label": "Greed"
     },
     "sentiment": {
-      "score": 60.4,
+      "score": 59.9,
       "label": "Greed"
     }
   }

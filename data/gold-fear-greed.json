@@ -1,7 +1,7 @@
 {
-  "score": 60.7,
+  "score": 61.1,
   "label": "Greed",
-  "timestamp": "2026-04-11T04:23:59Z",
+  "timestamp": "2026-04-12T04:48:20Z",
   "components": {
     "gld_price": {
       "score": 90.9,
@@ -9,9 +9,9 @@
       "detail": "GLD 14d: +8.2%"
     },
     "momentum": {
-      "score": 57.0,
+      "score": 58.7,
       "weight": 0.2,
-      "detail": "RSI: 58, Price < MA50"
+      "detail": "RSI: 59, Price < MA50"
     },
     "gold_vs_spy": {
       "score": 61.3,
@@ -35,6 +35,11 @@
     }
   },
   "history": [
+    {
+      "date": "2026-04-12",
+      "score": 61.1,
+      "price": 437.13
+    },
     {
       "date": "2026-04-11",
       "score": 60.7,
@@ -1851,11 +1856,6 @@
     },
     {
       "date": "2025-04-13",
-      "score": 76.9,
-      "price": 297.93
-    },
-    {
-      "date": "2025-04-12",
       "score": 76.9,
       "price": 297.93
     }
