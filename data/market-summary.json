@@ -1,11 +1,11 @@
 {
-  "date": "2026-04-12",
-  "timestamp": "2026-04-12T04:48:37Z",
-  "summary": "March CPI came in at 3.3% annually, the highest since May 2024, driven by the ongoing Middle East conflict's impact on energy prices. FOMC minutes from the March meeting showed policymakers concerned the conflict could sustain inflationary pressures, though they still anticipated one rate cut this year.",
-  "tweet": "Hot CPI at 3.3% and a fragile US-Iran ceasefire are keeping the Fed on hold and gold elevated while equities and risk assets push higher on relief.",
+  "date": "2026-04-13",
+  "timestamp": "2026-04-13T05:10:24Z",
+  "summary": "Peace talks between the U.S. and Iran collapsed over the weekend, and Trump ordered a blockade of the Strait of Hormuz, sending oil surging and equities lower. The effective closure of the key shipping route has driven energy prices sharply higher and heightened inflation risks, reinforcing expectations that central banks may delay rate cuts or even tighten policy further.",
+  "tweet": "U.S.-Iran talks collapsed and Trump blockaded the Strait of Hormuz \u2014 stocks dropped over 1% at the open as banks kick off earnings season under a darkening macro backdrop.",
   "scores": {
     "gold": {
-      "score": 61.1,
+      "score": 61.6,
       "label": "Greed"
     },
     "stocks": {
@@ -13,7 +13,7 @@
       "label": "Greed"
     },
     "crypto": {
-      "score": 58.9,
+      "score": 56.9,
       "label": "Greed"
     },
     "bonds": {
@@ -21,7 +21,7 @@
       "label": "Greed"
     },
     "sentiment": {
-      "score": 59.9,
+      "score": 59.5,
       "label": "Greed"
     }
   }
