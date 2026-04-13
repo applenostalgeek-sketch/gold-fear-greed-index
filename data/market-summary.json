@@ -1,8 +1,8 @@
 {
   "date": "2026-04-13",
-  "timestamp": "2026-04-13T05:10:24Z",
-  "summary": "Peace talks between the U.S. and Iran collapsed over the weekend, and Trump ordered a blockade of the Strait of Hormuz, sending oil surging and equities lower. The effective closure of the key shipping route has driven energy prices sharply higher and heightened inflation risks, reinforcing expectations that central banks may delay rate cuts or even tighten policy further.",
-  "tweet": "U.S.-Iran talks collapsed and Trump blockaded the Strait of Hormuz \u2014 stocks dropped over 1% at the open as banks kick off earnings season under a darkening macro backdrop.",
+  "timestamp": "2026-04-13T05:15:35Z",
+  "summary": "The U.S. blockade of the Strait of Hormuz \u2014 triggered by the collapse of weekend peace talks \u2014 sent Brent crude surging nearly 8% toward $103 a barrel and European gas spiking up to 18%, amplifying inflation fears that are already pressuring central bank policy. Meanwhile, Q1 earnings season kicks off with major banks reporting this week, giving markets a critical fundamental test against the geopolitical noise.",
+  "tweet": "Hormuz blockade sent Brent crude surging ~8% toward $103 after U.S.-Iran talks collapsed \u2014 gold benefits as stagflation fears mount and big bank earnings step into the spotlight. --- SUMMARY: The U.S. blockade of the...",
   "scores": {
     "gold": {
       "score": 61.6,
@@ -13,7 +13,7 @@
       "label": "Greed"
     },
     "crypto": {
-      "score": 56.9,
+      "score": 56.7,
       "label": "Greed"
     },
     "bonds": {
@@ -21,7 +21,7 @@
       "label": "Greed"
     },
     "sentiment": {
-      "score": 59.5,
+      "score": 59.4,
       "label": "Greed"
     }
   }

@@ -1,7 +1,7 @@
 {
   "score": 61.6,
   "label": "Greed",
-  "timestamp": "2026-04-13T05:10:08Z",
+  "timestamp": "2026-04-13T05:15:16Z",
   "components": {
     "gld_price": {
       "score": 90.9,
@@ -9,7 +9,7 @@
       "detail": "GLD 14d: +8.2%"
     },
     "momentum": {
-      "score": 60.7,
+      "score": 60.5,
       "weight": 0.2,
       "detail": "RSI: 66, Price < MA50"
     },
@@ -19,9 +19,9 @@
       "detail": "GLD +8.2% vs SPY +3.7% (14d)"
     },
     "dollar_index": {
-      "score": 56.2,
+      "score": 56.1,
       "weight": 0.1,
-      "detail": "DXY: 99.02 (-0.4% 14d, MA30: 99.45)"
+      "detail": "DXY: 99.03 (-0.4% 14d, MA30: 99.45)"
     },
     "real_rates": {
       "score": 38.4,
