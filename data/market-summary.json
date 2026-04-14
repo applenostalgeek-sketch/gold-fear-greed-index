@@ -1,27 +1,27 @@
 {
-  "date": "2026-04-13",
-  "timestamp": "2026-04-13T05:15:35Z",
-  "summary": "The U.S. blockade of the Strait of Hormuz \u2014 triggered by the collapse of weekend peace talks \u2014 sent Brent crude surging nearly 8% toward $103 a barrel and European gas spiking up to 18%, amplifying inflation fears that are already pressuring central bank policy. Meanwhile, Q1 earnings season kicks off with major banks reporting this week, giving markets a critical fundamental test against the geopolitical noise.",
-  "tweet": "Hormuz blockade sent Brent crude surging ~8% toward $103 after U.S.-Iran talks collapsed \u2014 gold benefits as stagflation fears mount and big bank earnings step into the spotlight. --- SUMMARY: The U.S. blockade of the...",
+  "date": "2026-04-14",
+  "timestamp": "2026-04-14T04:47:25Z",
+  "summary": "March PPI \u2014 released this morning \u2014 follows February's final demand index rising 3.4% year-over-year, keeping producer-level inflation firmly in focus. Inflation remains too high to achieve the Fed's 2% target anytime soon, dimming hopes for rate cuts in 2026, which is driving gold's outperformance and the dollar's slide.",
+  "tweet": "March PPI lands today against a 3.4% Feb YoY baseline, while major bank Q1 earnings stress-test whether fundamentals can hold up under sticky inflation and tariff headwinds.",
   "scores": {
     "gold": {
-      "score": 61.6,
+      "score": 61.8,
       "label": "Greed"
     },
     "stocks": {
-      "score": 60.3,
+      "score": 62.2,
       "label": "Greed"
     },
     "crypto": {
-      "score": 56.7,
+      "score": 57.9,
       "label": "Greed"
     },
     "bonds": {
-      "score": 59.1,
+      "score": 57.2,
       "label": "Greed"
     },
     "sentiment": {
-      "score": 59.4,
+      "score": 59.8,
       "label": "Greed"
     }
   }
