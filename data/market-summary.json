@@ -1,27 +1,27 @@
 {
-  "date": "2026-04-14",
-  "timestamp": "2026-04-14T04:47:25Z",
-  "summary": "March PPI \u2014 released this morning \u2014 follows February's final demand index rising 3.4% year-over-year, keeping producer-level inflation firmly in focus. Inflation remains too high to achieve the Fed's 2% target anytime soon, dimming hopes for rate cuts in 2026, which is driving gold's outperformance and the dollar's slide.",
-  "tweet": "March PPI lands today against a 3.4% Feb YoY baseline, while major bank Q1 earnings stress-test whether fundamentals can hold up under sticky inflation and tariff headwinds.",
+  "date": "2026-04-15",
+  "timestamp": "2026-04-15T04:47:27Z",
+  "summary": "The US-Iran conflict remains the dominant market force this week, as Iran has effectively halted Strait of Hormuz shipping since late February and Brent crude surged above $103 following Trump's blockade order. Stocks and bonds are recovering on renewed hopes for a deal after Iranian officials reached out to the Trump administration, lifting sentiment broadly.",
+  "tweet": "Iran war ceasefire hopes are driving this week's cross-asset moves \u2014 stocks and bonds rebound while gold stays bid and crypto lags as the Fed stays on hold. --- SUMMARY: The US-Iran conflict remains the dominant market...",
   "scores": {
     "gold": {
-      "score": 61.8,
+      "score": 60.0,
       "label": "Greed"
     },
     "stocks": {
-      "score": 62.2,
+      "score": 64.4,
       "label": "Greed"
     },
     "crypto": {
-      "score": 57.9,
-      "label": "Greed"
+      "score": 54.0,
+      "label": "Neutral"
     },
     "bonds": {
-      "score": 57.2,
+      "score": 60.5,
       "label": "Greed"
     },
     "sentiment": {
-      "score": 59.8,
+      "score": 59.7,
       "label": "Greed"
     }
   }
