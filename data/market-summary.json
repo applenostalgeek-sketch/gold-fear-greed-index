@@ -1,27 +1,27 @@
 {
-  "date": "2026-04-15",
-  "timestamp": "2026-04-15T04:47:27Z",
-  "summary": "The US-Iran conflict remains the dominant market force this week, as Iran has effectively halted Strait of Hormuz shipping since late February and Brent crude surged above $103 following Trump's blockade order. Stocks and bonds are recovering on renewed hopes for a deal after Iranian officials reached out to the Trump administration, lifting sentiment broadly.",
-  "tweet": "Iran war ceasefire hopes are driving this week's cross-asset moves \u2014 stocks and bonds rebound while gold stays bid and crypto lags as the Fed stays on hold. --- SUMMARY: The US-Iran conflict remains the dominant market...",
+  "date": "2026-04-16",
+  "timestamp": "2026-04-16T04:53:01Z",
+  "summary": "The S&P 500 breached 7,000 on April 15, driven by a rare alignment of cooling geopolitical tensions and a blockbuster start to Q1 earnings. Goldman Sachs kicked off with a massive beat, posting $5.33 billion in equities trading revenue, setting a bullish tone for financials. Tariff exposure guidance is now the operative variable \u2014 companies reporting record Q1 results are selling off on cautious Q2 outlooks tied to elevated tariff costs.",
+  "tweet": "S&P 500 hit 7,000 on cooling Iran tensions and bank earnings beats, but tariff guidance is now the market's real scorecard \u2014 beats mean nothing without clean Q2 outlooks.",
   "scores": {
     "gold": {
-      "score": 60.0,
+      "score": 65.6,
       "label": "Greed"
     },
     "stocks": {
-      "score": 64.4,
+      "score": 63.9,
       "label": "Greed"
     },
     "crypto": {
-      "score": 54.0,
-      "label": "Neutral"
-    },
-    "bonds": {
-      "score": 60.5,
+      "score": 56.9,
       "label": "Greed"
     },
+    "bonds": {
+      "score": 54.3,
+      "label": "Neutral"
+    },
     "sentiment": {
-      "score": 59.7,
+      "score": 60.2,
       "label": "Greed"
     }
   }
