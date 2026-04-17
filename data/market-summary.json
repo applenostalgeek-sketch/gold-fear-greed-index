@@ -1,27 +1,27 @@
 {
-  "date": "2026-04-16",
-  "timestamp": "2026-04-16T04:53:01Z",
-  "summary": "The S&P 500 breached 7,000 on April 15, driven by a rare alignment of cooling geopolitical tensions and a blockbuster start to Q1 earnings. Goldman Sachs kicked off with a massive beat, posting $5.33 billion in equities trading revenue, setting a bullish tone for financials. Tariff exposure guidance is now the operative variable \u2014 companies reporting record Q1 results are selling off on cautious Q2 outlooks tied to elevated tariff costs.",
-  "tweet": "S&P 500 hit 7,000 on cooling Iran tensions and bank earnings beats, but tariff guidance is now the market's real scorecard \u2014 beats mean nothing without clean Q2 outlooks.",
+  "date": "2026-04-17",
+  "timestamp": "2026-04-17T04:50:58Z",
+  "summary": "Trump's two-week suspension of attacks on Iran has driven a sharp risk-on rally, with the Dow posting its best single day since April 2025. That geopolitical reprieve is now colliding with a bank-heavy earnings season where results have broadly topped estimates.",
+  "tweet": "A tentative Iran ceasefire and a strong bank earnings beat are fueling the risk rally, but the Fed is locked out of cutting as war-driven inflation lingers.",
   "scores": {
     "gold": {
-      "score": 65.6,
-      "label": "Greed"
-    },
-    "stocks": {
-      "score": 63.9,
-      "label": "Greed"
-    },
-    "crypto": {
       "score": 56.9,
       "label": "Greed"
     },
+    "stocks": {
+      "score": 66.1,
+      "label": "Greed"
+    },
+    "crypto": {
+      "score": 59.6,
+      "label": "Greed"
+    },
     "bonds": {
-      "score": 54.3,
+      "score": 55.3,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 60.2,
+      "score": 59.5,
       "label": "Greed"
     }
   }
