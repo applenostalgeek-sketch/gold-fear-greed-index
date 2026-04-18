@@ -1,27 +1,27 @@
 {
-  "date": "2026-04-17",
-  "timestamp": "2026-04-17T04:50:58Z",
-  "summary": "Trump's two-week suspension of attacks on Iran has driven a sharp risk-on rally, with the Dow posting its best single day since April 2025. That geopolitical reprieve is now colliding with a bank-heavy earnings season where results have broadly topped estimates.",
-  "tweet": "A tentative Iran ceasefire and a strong bank earnings beat are fueling the risk rally, but the Fed is locked out of cutting as war-driven inflation lingers.",
+  "date": "2026-04-18",
+  "timestamp": "2026-04-18T04:34:03Z",
+  "summary": "The two-week US-Iran ceasefire has proven fragile, with both sides accusing each other of violations and nations failing to reach a peace deal before its expiration. A pullback in oil from its peak \u2014 though still well above pre-war levels \u2014 has fueled the equity surge, while earnings season is adding fuel, with investors enthusiastic about corporate profit forecasts.",
+  "tweet": "Markets are pricing a collective belief that the Iran war ends soon and Strait of Hormuz oil flows normalize \u2014 but the ceasefire is cracking and oil remains above $90.",
   "scores": {
     "gold": {
-      "score": 56.9,
+      "score": 58.6,
       "label": "Greed"
     },
     "stocks": {
-      "score": 66.1,
+      "score": 68.9,
       "label": "Greed"
     },
     "crypto": {
-      "score": 59.6,
+      "score": 63.0,
       "label": "Greed"
     },
     "bonds": {
-      "score": 55.3,
-      "label": "Neutral"
+      "score": 58.7,
+      "label": "Greed"
     },
     "sentiment": {
-      "score": 59.5,
+      "score": 62.3,
       "label": "Greed"
     }
   }
