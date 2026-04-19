@@ -1,11 +1,11 @@
 {
-  "date": "2026-04-18",
-  "timestamp": "2026-04-18T04:34:03Z",
-  "summary": "The two-week US-Iran ceasefire has proven fragile, with both sides accusing each other of violations and nations failing to reach a peace deal before its expiration. A pullback in oil from its peak \u2014 though still well above pre-war levels \u2014 has fueled the equity surge, while earnings season is adding fuel, with investors enthusiastic about corporate profit forecasts.",
-  "tweet": "Markets are pricing a collective belief that the Iran war ends soon and Strait of Hormuz oil flows normalize \u2014 but the ceasefire is cracking and oil remains above $90.",
+  "date": "2026-04-19",
+  "timestamp": "2026-04-19T04:52:42Z",
+  "summary": "The IEEPA tariff refund portal goes live today, with CBP launching the CAPE system at 8am ET on April 20, releasing what amounts to a fiscal injection for importers \u2014 a structural relief catalyst underpinning broad equity and credit greed. Meanwhile, the Fed holds at 3.50\u20133.75% as March inflation reaccelerated to 3.3% headline, keeping real rates in a narrow range and capping dollar weakness without reversing it.",
+  "tweet": "IEEPA refund portal opens today, returning billions to importers as the Fed sits on hold with inflation still running hot at 3.3%.",
   "scores": {
     "gold": {
-      "score": 58.6,
+      "score": 58.9,
       "label": "Greed"
     },
     "stocks": {
@@ -13,7 +13,7 @@
       "label": "Greed"
     },
     "crypto": {
-      "score": 63.0,
+      "score": 59.8,
       "label": "Greed"
     },
     "bonds": {
@@ -21,7 +21,7 @@
       "label": "Greed"
     },
     "sentiment": {
-      "score": 62.3,
+      "score": 61.6,
       "label": "Greed"
     }
   }

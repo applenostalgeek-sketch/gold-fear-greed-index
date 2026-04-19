@@ -1,10 +1,10 @@
 {
   "asset": "stocks",
-  "generated": "2026-04-18T04:33:52Z",
+  "generated": "2026-04-19T04:52:28Z",
   "total_days": 1263,
   "date_range": {
-    "start": "2021-04-19",
-    "end": "2026-04-18"
+    "start": "2021-04-20",
+    "end": "2026-04-19"
   },
   "score_stats": {
     "min": 16.2,
@@ -12,12 +12,6 @@
     "avg": 54.8
   },
   "history": [
-    {
-      "date": "2021-04-19",
-      "score": 60.6,
-      "label": "Greed",
-      "price": 387.8
-    },
     {
       "date": "2021-04-20",
       "score": 56.4,
@@ -7586,6 +7580,12 @@
     },
     {
       "date": "2026-04-18",
+      "score": 68.9,
+      "label": "Greed",
+      "price": 710.14
+    },
+    {
+      "date": "2026-04-19",
       "score": 68.9,
       "label": "Greed",
       "price": 710.14
