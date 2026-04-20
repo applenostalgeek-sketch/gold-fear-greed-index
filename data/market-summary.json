@@ -1,11 +1,11 @@
 {
-  "date": "2026-04-19",
-  "timestamp": "2026-04-19T04:52:42Z",
-  "summary": "The IEEPA tariff refund portal goes live today, with CBP launching the CAPE system at 8am ET on April 20, releasing what amounts to a fiscal injection for importers \u2014 a structural relief catalyst underpinning broad equity and credit greed. Meanwhile, the Fed holds at 3.50\u20133.75% as March inflation reaccelerated to 3.3% headline, keeping real rates in a narrow range and capping dollar weakness without reversing it.",
-  "tweet": "IEEPA refund portal opens today, returning billions to importers as the Fed sits on hold with inflation still running hot at 3.3%.",
+  "date": "2026-04-20",
+  "timestamp": "2026-04-20T05:14:55Z",
+  "summary": "Iran's declaration that the Strait of Hormuz is open drove stocks higher and crude oil sharply lower, pushing indexes toward a third consecutive weekly gain while VIX compressed \u2014 a direct tailwind for equity greed and a headwind for gold's safe-haven bid.",
+  "tweet": "Oil plunged as Iran opened Hormuz, stocks extended their weekly win streak \u2014 but a live 50% China tariff threat and ongoing Section 122 court battles keep sentiment on a hair trigger.",
   "scores": {
     "gold": {
-      "score": 58.9,
+      "score": 57.5,
       "label": "Greed"
     },
     "stocks": {
@@ -13,7 +13,7 @@
       "label": "Greed"
     },
     "crypto": {
-      "score": 59.8,
+      "score": 55.7,
       "label": "Greed"
     },
     "bonds": {
@@ -21,7 +21,7 @@
       "label": "Greed"
     },
     "sentiment": {
-      "score": 61.6,
+      "score": 60.2,
       "label": "Greed"
     }
   }
