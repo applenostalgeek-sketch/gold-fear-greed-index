@@ -1,27 +1,27 @@
 {
-  "date": "2026-04-20",
-  "timestamp": "2026-04-20T05:14:55Z",
-  "summary": "Iran's declaration that the Strait of Hormuz is open drove stocks higher and crude oil sharply lower, pushing indexes toward a third consecutive weekly gain while VIX compressed \u2014 a direct tailwind for equity greed and a headwind for gold's safe-haven bid.",
-  "tweet": "Oil plunged as Iran opened Hormuz, stocks extended their weekly win streak \u2014 but a live 50% China tariff threat and ongoing Section 122 court battles keep sentiment on a hair trigger.",
+  "date": "2026-04-21",
+  "timestamp": "2026-04-21T04:50:08Z",
+  "summary": "US-Iran ceasefire negotiations entered a second round today, with Tehran reportedly sending a delegation to Islamabad as Trump warned he would not extend the truce without a deal, keeping the Strait of Hormuz in play as the dominant risk lever across energy, equities, and bonds.",
+  "tweet": "Iran ceasefire deadline is live \u2014 Trump says no extension without a deal and the Strait stays blocked, keeping oil, gold, and risk appetite all hostage to the same headline.",
   "scores": {
     "gold": {
-      "score": 57.5,
-      "label": "Greed"
+      "score": 50.5,
+      "label": "Neutral"
     },
     "stocks": {
-      "score": 68.9,
+      "score": 68.0,
       "label": "Greed"
     },
     "crypto": {
-      "score": 55.7,
+      "score": 58.1,
       "label": "Greed"
     },
     "bonds": {
-      "score": 58.7,
+      "score": 55.8,
       "label": "Greed"
     },
     "sentiment": {
-      "score": 60.2,
+      "score": 58.1,
       "label": "Greed"
     }
   }
