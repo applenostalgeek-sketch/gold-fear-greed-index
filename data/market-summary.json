@@ -1,27 +1,27 @@
 {
-  "date": "2026-04-21",
-  "timestamp": "2026-04-21T04:50:08Z",
-  "summary": "US-Iran ceasefire negotiations entered a second round today, with Tehran reportedly sending a delegation to Islamabad as Trump warned he would not extend the truce without a deal, keeping the Strait of Hormuz in play as the dominant risk lever across energy, equities, and bonds.",
-  "tweet": "Iran ceasefire deadline is live \u2014 Trump says no extension without a deal and the Strait stays blocked, keeping oil, gold, and risk appetite all hostage to the same headline.",
+  "date": "2026-04-22",
+  "timestamp": "2026-04-22T04:48:06Z",
+  "summary": "Trump's threat to oust Fed Chair Powell \u2014 with his term expiring May 15 \u2014 has put central bank independence at the center of market attention this week. Meanwhile, the Iran ceasefire remains the dominant macro swing factor, with WTI crude now below $84 after trading above $112 just a month ago. The Strait of Hormuz remains closed as the ceasefire clock winds down, keeping energy and risk assets in a tug-of-war.",
+  "tweet": "Fed independence under fire as Trump's May 15 Powell deadline looms, while the Strait of Hormuz ceasefire clock keeps crude and equities on edge.",
   "scores": {
     "gold": {
-      "score": 50.5,
-      "label": "Neutral"
+      "score": 42.5,
+      "label": "Fear"
     },
     "stocks": {
-      "score": 68.0,
+      "score": 67.4,
       "label": "Greed"
     },
     "crypto": {
-      "score": 58.1,
+      "score": 57.8,
       "label": "Greed"
     },
     "bonds": {
-      "score": 55.8,
-      "label": "Greed"
+      "score": 53.2,
+      "label": "Neutral"
     },
     "sentiment": {
-      "score": 58.1,
+      "score": 55.2,
       "label": "Greed"
     }
   }
