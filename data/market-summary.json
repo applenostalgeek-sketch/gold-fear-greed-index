@@ -1,27 +1,27 @@
 {
-  "date": "2026-04-22",
-  "timestamp": "2026-04-22T04:48:06Z",
-  "summary": "Trump's threat to oust Fed Chair Powell \u2014 with his term expiring May 15 \u2014 has put central bank independence at the center of market attention this week. Meanwhile, the Iran ceasefire remains the dominant macro swing factor, with WTI crude now below $84 after trading above $112 just a month ago. The Strait of Hormuz remains closed as the ceasefire clock winds down, keeping energy and risk assets in a tug-of-war.",
-  "tweet": "Fed independence under fire as Trump's May 15 Powell deadline looms, while the Strait of Hormuz ceasefire clock keeps crude and equities on edge.",
+  "date": "2026-04-23",
+  "timestamp": "2026-04-23T04:52:06Z",
+  "summary": "Trump's ceasefire extension has taken some pressure off risk assets, though crude remains elevated and Iran-U.S. talks appear to be on ice. Meanwhile, the S&P 500 notched fresh all-time highs this week even as market breadth moved lower, suggesting mega-cap tech has been the main driver of the rally.",
+  "tweet": "Iran ceasefire extended but fragile, while an earnings-driven mega-cap surge pushes stocks to all-time highs even as breadth stays thin and gold fades.",
   "scores": {
     "gold": {
-      "score": 42.5,
-      "label": "Fear"
+      "score": 46.6,
+      "label": "Neutral"
     },
     "stocks": {
-      "score": 67.4,
+      "score": 67.1,
       "label": "Greed"
     },
     "crypto": {
-      "score": 57.8,
+      "score": 59.2,
       "label": "Greed"
     },
     "bonds": {
-      "score": 53.2,
+      "score": 53.4,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 55.2,
+      "score": 56.6,
       "label": "Greed"
     }
   }
