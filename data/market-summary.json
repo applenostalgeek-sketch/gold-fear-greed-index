@@ -1,28 +1,28 @@
 {
-  "date": "2026-04-23",
-  "timestamp": "2026-04-23T04:52:06Z",
-  "summary": "Trump's ceasefire extension has taken some pressure off risk assets, though crude remains elevated and Iran-U.S. talks appear to be on ice. Meanwhile, the S&P 500 notched fresh all-time highs this week even as market breadth moved lower, suggesting mega-cap tech has been the main driver of the rally.",
-  "tweet": "Iran ceasefire extended but fragile, while an earnings-driven mega-cap surge pushes stocks to all-time highs even as breadth stays thin and gold fades.",
+  "date": "2026-04-24",
+  "timestamp": "2026-04-24T04:56:18Z",
+  "summary": "Stocks pulled back Thursday as uncertainty over the Iran conflict hovered, with oil prices ticking higher even as tech stocks and the AI theme led gains, with the U.S. tech sector up 11% so far this month. On trade, Trump encouraged companies not to seek tariff refunds while India-U.S. trade talks got underway in Washington with Trump's tariffs in focus, keeping policy uncertainty alive across assets.",
+  "tweet": "Iran war risk and a packed earnings season are pulling equities in opposite directions, while fresh India-U.S. trade talks keep tariff uncertainty simmering.",
   "scores": {
     "gold": {
-      "score": 46.6,
-      "label": "Neutral"
+      "score": 45.1,
+      "label": "Fear"
     },
     "stocks": {
-      "score": 67.1,
+      "score": 66.3,
       "label": "Greed"
     },
     "crypto": {
-      "score": 59.2,
+      "score": 56.4,
       "label": "Greed"
     },
     "bonds": {
-      "score": 53.4,
+      "score": 51.9,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 56.6,
-      "label": "Greed"
+      "score": 54.9,
+      "label": "Neutral"
     }
   }
 }
