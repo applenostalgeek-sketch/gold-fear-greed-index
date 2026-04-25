@@ -1,28 +1,28 @@
 {
-  "date": "2026-04-24",
-  "timestamp": "2026-04-24T04:56:18Z",
-  "summary": "Stocks pulled back Thursday as uncertainty over the Iran conflict hovered, with oil prices ticking higher even as tech stocks and the AI theme led gains, with the U.S. tech sector up 11% so far this month. On trade, Trump encouraged companies not to seek tariff refunds while India-U.S. trade talks got underway in Washington with Trump's tariffs in focus, keeping policy uncertainty alive across assets.",
-  "tweet": "Iran war risk and a packed earnings season are pulling equities in opposite directions, while fresh India-U.S. trade talks keep tariff uncertainty simmering.",
+  "date": "2026-04-25",
+  "timestamp": "2026-04-25T04:37:50Z",
+  "summary": "The Iran conflict remains the dominant macro force, with the Strait of Hormuz still closed and Brent crude near $105 a barrel, even as Trump extended the U.S.-Iran ceasefire indefinitely and the Israel-Lebanon ceasefire by three weeks. Blowout chip earnings, led by Intel surging ~25% and AMD following, are reinforcing the AI demand narrative and driving the week's equity strength.",
+  "tweet": "Brent at $105 as the Strait of Hormuz stays closed, but Intel's 22% AI revenue growth and Texas Instruments' results signal resilient chip demand, keeping stocks in greed territory even as consumers sour.",
   "scores": {
     "gold": {
-      "score": 45.1,
+      "score": 44.3,
       "label": "Fear"
     },
     "stocks": {
-      "score": 66.3,
+      "score": 65.6,
       "label": "Greed"
     },
     "crypto": {
-      "score": 56.4,
+      "score": 56.9,
       "label": "Greed"
     },
     "bonds": {
-      "score": 51.9,
+      "score": 54.2,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 54.9,
-      "label": "Neutral"
+      "score": 55.2,
+      "label": "Greed"
     }
   }
 }
