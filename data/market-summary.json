@@ -1,11 +1,11 @@
 {
-  "date": "2026-04-25",
-  "timestamp": "2026-04-25T04:37:50Z",
-  "summary": "The Iran conflict remains the dominant macro force, with the Strait of Hormuz still closed and Brent crude near $105 a barrel, even as Trump extended the U.S.-Iran ceasefire indefinitely and the Israel-Lebanon ceasefire by three weeks. Blowout chip earnings, led by Intel surging ~25% and AMD following, are reinforcing the AI demand narrative and driving the week's equity strength.",
-  "tweet": "Brent at $105 as the Strait of Hormuz stays closed, but Intel's 22% AI revenue growth and Texas Instruments' results signal resilient chip demand, keeping stocks in greed territory even as consumers sour.",
+  "date": "2026-04-26",
+  "timestamp": "2026-04-26T05:13:28Z",
+  "summary": "U.S.-Iran peace talks collapsed again today after Trump scrapped Witkoff and Kushner's Pakistan trip, calling Iran's proposal insufficient. With the Strait of Hormuz still effectively closed and Brent near $105, geopolitical risk is keeping gold subdued relative to its earlier highs as equities absorb the tension. Tech and AI earnings momentum is doing the heavy lifting for stocks.",
+  "tweet": "Iran talks fell apart again as Trump canceled the Pakistan trip over a weak Iranian offer \u2014 Hormuz stays closed near $105 oil while AI earnings keep stocks in greed territory.",
   "scores": {
     "gold": {
-      "score": 44.3,
+      "score": 44.6,
       "label": "Fear"
     },
     "stocks": {
@@ -13,7 +13,7 @@
       "label": "Greed"
     },
     "crypto": {
-      "score": 56.9,
+      "score": 59.7,
       "label": "Greed"
     },
     "bonds": {
@@ -21,7 +21,7 @@
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 55.2,
+      "score": 56.0,
       "label": "Greed"
     }
   }
