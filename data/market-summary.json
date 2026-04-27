@@ -1,11 +1,11 @@
 {
-  "date": "2026-04-26",
-  "timestamp": "2026-04-26T05:13:28Z",
-  "summary": "U.S.-Iran peace talks collapsed again today after Trump scrapped Witkoff and Kushner's Pakistan trip, calling Iran's proposal insufficient. With the Strait of Hormuz still effectively closed and Brent near $105, geopolitical risk is keeping gold subdued relative to its earlier highs as equities absorb the tension. Tech and AI earnings momentum is doing the heavy lifting for stocks.",
-  "tweet": "Iran talks fell apart again as Trump canceled the Pakistan trip over a weak Iranian offer \u2014 Hormuz stays closed near $105 oil while AI earnings keep stocks in greed territory.",
+  "date": "2026-04-27",
+  "timestamp": "2026-04-27T05:26:50Z",
+  "summary": "Five of the Magnificent Seven report this week, with Alphabet, Amazon, Meta, and Microsoft all due Wednesday \u2014 shares are already up more than 10% this month, loading the bar for AI spending validation. Meanwhile, the Iran ceasefire remains on shaky ground: WTI crude climbed back near $98 after peace talks collapsed, with a U.S.",
+  "tweet": "Mag 7 earnings hit a market already at all-time highs \u2014 the Iran ceasefire holds but the Hormuz blockade doesn't inspire confidence. AI or bust.",
   "scores": {
     "gold": {
-      "score": 44.6,
+      "score": 43.8,
       "label": "Fear"
     },
     "stocks": {
@@ -13,7 +13,7 @@
       "label": "Greed"
     },
     "crypto": {
-      "score": 59.7,
+      "score": 60.8,
       "label": "Greed"
     },
     "bonds": {
@@ -21,7 +21,7 @@
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 56.0,
+      "score": 56.1,
       "label": "Greed"
     }
   }
