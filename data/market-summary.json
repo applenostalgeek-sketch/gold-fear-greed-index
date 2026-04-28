@@ -1,27 +1,27 @@
 {
-  "date": "2026-04-27",
-  "timestamp": "2026-04-27T05:26:50Z",
-  "summary": "Five of the Magnificent Seven report this week, with Alphabet, Amazon, Meta, and Microsoft all due Wednesday \u2014 shares are already up more than 10% this month, loading the bar for AI spending validation. Meanwhile, the Iran ceasefire remains on shaky ground: WTI crude climbed back near $98 after peace talks collapsed, with a U.S.",
-  "tweet": "Mag 7 earnings hit a market already at all-time highs \u2014 the Iran ceasefire holds but the Hormuz blockade doesn't inspire confidence. AI or bust.",
+  "date": "2026-04-28",
+  "timestamp": "2026-04-28T05:32:56Z",
+  "summary": "The Fed opens its two-day April meeting today with a hold widely expected, but Wall Street is focused on Powell's tone around oil-driven inflation risks. Stalled Strait of Hormuz talks keep crude elevated, capping safe-haven demand",
+  "tweet": null,
   "scores": {
     "gold": {
-      "score": 43.8,
+      "score": 39.5,
       "label": "Fear"
     },
     "stocks": {
-      "score": 65.6,
+      "score": 66.2,
       "label": "Greed"
     },
     "crypto": {
-      "score": 60.8,
+      "score": 60.9,
       "label": "Greed"
     },
     "bonds": {
-      "score": 54.2,
+      "score": 53.9,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 56.1,
+      "score": 55.1,
       "label": "Greed"
     }
   }
