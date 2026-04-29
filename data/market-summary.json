@@ -1,28 +1,28 @@
 {
-  "date": "2026-04-28",
-  "timestamp": "2026-04-28T05:32:56Z",
-  "summary": "The Fed opens its two-day April meeting today with a hold widely expected, but Wall Street is focused on Powell's tone around oil-driven inflation risks. Stalled Strait of Hormuz talks keep crude elevated, capping safe-haven demand",
-  "tweet": null,
+  "date": "2026-04-29",
+  "timestamp": "2026-04-29T05:28:35Z",
+  "summary": "Stocks are moving higher today on renewed hopes for U.S.-Iran peace talks and earnings-driven optimism around AI infrastructure names. The Senate Banking Committee is also voting today on Kevin Warsh's Fed chair nomination, coinciding with what is Powell's final FOMC meeting as head of the central bank \u2014 a leadership transition adding policy uncertainty that is pulling gold off its highs and keeping bonds in check.",
+  "tweet": "AI earnings optimism and fresh U.S.-Iran peace talk hopes are lifting stocks while a historic Fed leadership transition keeps bonds and gold on edge.",
   "scores": {
     "gold": {
-      "score": 39.5,
+      "score": 33.6,
       "label": "Fear"
     },
     "stocks": {
-      "score": 66.2,
+      "score": 63.0,
       "label": "Greed"
     },
     "crypto": {
-      "score": 60.9,
+      "score": 61.1,
       "label": "Greed"
     },
     "bonds": {
-      "score": 53.9,
+      "score": 52.3,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 55.1,
-      "label": "Greed"
+      "score": 52.5,
+      "label": "Neutral"
     }
   }
 }
