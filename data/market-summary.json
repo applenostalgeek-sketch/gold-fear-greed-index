@@ -1,27 +1,27 @@
 {
-  "date": "2026-04-29",
-  "timestamp": "2026-04-29T05:28:35Z",
-  "summary": "Stocks are moving higher today on renewed hopes for U.S.-Iran peace talks and earnings-driven optimism around AI infrastructure names. The Senate Banking Committee is also voting today on Kevin Warsh's Fed chair nomination, coinciding with what is Powell's final FOMC meeting as head of the central bank \u2014 a leadership transition adding policy uncertainty that is pulling gold off its highs and keeping bonds in check.",
-  "tweet": "AI earnings optimism and fresh U.S.-Iran peace talk hopes are lifting stocks while a historic Fed leadership transition keeps bonds and gold on edge.",
+  "date": "2026-04-30",
+  "timestamp": "2026-04-30T05:32:46Z",
+  "summary": "Q1 2026 GDP came in at just 0.5% annualized, a sharp drop from 4.4% the prior quarter, raising concerns about the growth outlook and complicating the Fed's rate path. Meanwhile, oil remains the main macro overhang, with Brent near $111 on reports of a potential long-term blockade of Iran that could close the Strait of Hormuz. Weak growth data is pressuring bonds and gold, while equities are holding up on strong mega-cap earnings momentum.",
+  "tweet": "Q1 GDP collapsed to 0.5% annualized while Brent hovers near $111 on Iran blockade fears \u2014 a stagflationary mix keeping bonds stressed and gold off its highs even as stocks ride earnings momentum.",
   "scores": {
     "gold": {
-      "score": 33.6,
+      "score": 31.5,
       "label": "Fear"
     },
     "stocks": {
-      "score": 63.0,
+      "score": 63.9,
       "label": "Greed"
     },
     "crypto": {
-      "score": 61.1,
+      "score": 56.7,
       "label": "Greed"
     },
     "bonds": {
-      "score": 52.3,
+      "score": 49.7,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 52.5,
+      "score": 50.5,
       "label": "Neutral"
     }
   }
