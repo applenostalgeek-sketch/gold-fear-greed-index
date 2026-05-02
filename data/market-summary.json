@@ -1,27 +1,27 @@
 {
-  "date": "2026-05-01",
-  "timestamp": "2026-05-01T05:43:43Z",
-  "summary": "Mag 7 earnings dominated this week, with all four reporting hyperscalers raising AI capex guidance and cloud results beating across the board \u2014 Google Cloud up 63% year over year, well ahead of estimates. Meanwhile, the Fed held rates steady in what was likely Powell's final meeting, with policymakers still gridlocked between persistent above-target inflation driven by tariffs and energy prices and a softening growth backdrop.",
-  "tweet": "Mag 7 hyperscalers all raised AI capex and Google Cloud surged 63% \u2014 but the Fed is frozen, with tariff-driven inflation keeping cuts off the table.",
+  "date": "2026-05-02",
+  "timestamp": "2026-05-02T05:13:04Z",
+  "summary": "Trump announced 25% tariffs on EU cars and trucks on May 1, breaking from the existing Turnberry Agreement, a move that would breach the 15% tariff ceiling laid out in the US-EU trade deal. The escalation is lifting stocks and weighing on bonds and gold, as trade uncertainty keeps real rates elevated and safe-haven demand subdued.",
+  "tweet": "Trump's surprise 25% EU auto tariff tears at the Turnberry trade deal, juicing equities while bonds and gold stay under pressure as the labor market holds firm.",
   "scores": {
     "gold": {
-      "score": 35.0,
+      "score": 31.8,
       "label": "Fear"
     },
     "stocks": {
-      "score": 65.8,
+      "score": 64.3,
       "label": "Greed"
     },
     "crypto": {
-      "score": 57.8,
+      "score": 59.9,
       "label": "Greed"
     },
     "bonds": {
-      "score": 51.1,
+      "score": 50.9,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 52.4,
+      "score": 51.7,
       "label": "Neutral"
     }
   }
