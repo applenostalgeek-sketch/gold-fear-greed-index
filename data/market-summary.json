@@ -1,11 +1,11 @@
 {
-  "date": "2026-05-02",
-  "timestamp": "2026-05-02T05:13:04Z",
-  "summary": "Trump announced 25% tariffs on EU cars and trucks on May 1, breaking from the existing Turnberry Agreement, a move that would breach the 15% tariff ceiling laid out in the US-EU trade deal. The escalation is lifting stocks and weighing on bonds and gold, as trade uncertainty keeps real rates elevated and safe-haven demand subdued.",
-  "tweet": "Trump's surprise 25% EU auto tariff tears at the Turnberry trade deal, juicing equities while bonds and gold stay under pressure as the labor market holds firm.",
+  "date": "2026-05-03",
+  "timestamp": "2026-05-03T05:32:30Z",
+  "summary": "This week brought major earnings from mega-cap tech alongside key economic growth and inflation data. PCE inflation hit 3.5% year-over-year in March, a near three-year high, driven largely by a surge in gas prices, keeping the Fed on hold and pressuring bonds. Separately, developments in Iran and the Strait of Hormuz continue to roil markets, with news from the region and oil price movements acting as a primary driver of market trends.",
+  "tweet": "PCE inflation at a near three-year high and Iran-Strait of Hormuz tensions are running the tape \u2014 stocks shrugging it off, bonds and gold less so.",
   "scores": {
     "gold": {
-      "score": 31.8,
+      "score": 32.0,
       "label": "Fear"
     },
     "stocks": {
@@ -13,7 +13,7 @@
       "label": "Greed"
     },
     "crypto": {
-      "score": 59.9,
+      "score": 61.8,
       "label": "Greed"
     },
     "bonds": {
@@ -21,7 +21,7 @@
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 51.7,
+      "score": 52.2,
       "label": "Neutral"
     }
   }
