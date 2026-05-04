@@ -1,11 +1,11 @@
 {
-  "date": "2026-05-03",
-  "timestamp": "2026-05-03T05:32:30Z",
-  "summary": "This week brought major earnings from mega-cap tech alongside key economic growth and inflation data. PCE inflation hit 3.5% year-over-year in March, a near three-year high, driven largely by a surge in gas prices, keeping the Fed on hold and pressuring bonds. Separately, developments in Iran and the Strait of Hormuz continue to roil markets, with news from the region and oil price movements acting as a primary driver of market trends.",
-  "tweet": "PCE inflation at a near three-year high and Iran-Strait of Hormuz tensions are running the tape \u2014 stocks shrugging it off, bonds and gold less so.",
+  "date": "2026-05-04",
+  "timestamp": "2026-05-04T05:36:52Z",
+  "summary": "The FOMC held rates at 3.50-3.75% last week, and markets are now in digestion mode ahead of the April payrolls report due Friday, May 8. Consensus expects just 50,000 jobs added in April, well below March's 178,000, making the print a critical test of whether the labor market is softening fast enough to shift the Fed's calculus. Blowout mega-cap tech earnings last week lifted equities to records, though bond markets remain wary on inflation.",
+  "tweet": "Fed held, now all eyes on Friday's jobs print \u2014 consensus at just 50K \u2014 while last week's mega-cap earnings surge keeps stocks at record highs and gold sidelined.",
   "scores": {
     "gold": {
-      "score": 32.0,
+      "score": 30.8,
       "label": "Fear"
     },
     "stocks": {
@@ -13,7 +13,7 @@
       "label": "Greed"
     },
     "crypto": {
-      "score": 61.8,
+      "score": 66.5,
       "label": "Greed"
     },
     "bonds": {
@@ -21,7 +21,7 @@
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 52.2,
+      "score": 53.1,
       "label": "Neutral"
     }
   }
