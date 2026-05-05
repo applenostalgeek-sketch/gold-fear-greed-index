@@ -1,27 +1,27 @@
 {
-  "date": "2026-05-04",
-  "timestamp": "2026-05-04T05:36:52Z",
-  "summary": "The FOMC held rates at 3.50-3.75% last week, and markets are now in digestion mode ahead of the April payrolls report due Friday, May 8. Consensus expects just 50,000 jobs added in April, well below March's 178,000, making the print a critical test of whether the labor market is softening fast enough to shift the Fed's calculus. Blowout mega-cap tech earnings last week lifted equities to records, though bond markets remain wary on inflation.",
-  "tweet": "Fed held, now all eyes on Friday's jobs print \u2014 consensus at just 50K \u2014 while last week's mega-cap earnings surge keeps stocks at record highs and gold sidelined.",
+  "date": "2026-05-05",
+  "timestamp": "2026-05-05T05:16:44Z",
+  "summary": "Equities pulled back from all-time highs Monday after Iran attacked the UAE for the first time since the ceasefire began, sending Brent crude surging toward $114. Now in its tenth week, the Middle East war has driven energy prices sharply higher and heightened inflation risks, with gold down roughly 12% since the conflict began as rising real yields and a hawkish Fed hold erode bullion's appeal and push safe-haven flows into equities instead.",
+  "tweet": "Iran-UAE missile strike jolted oil to $114/bbl Monday, knocking stocks off highs and hammering gold \u2014 now down ~12% since the war began \u2014 as a hawkish Fed hold keeps rate cuts firmly off the table.",
   "scores": {
     "gold": {
-      "score": 30.8,
+      "score": 29.9,
       "label": "Fear"
     },
     "stocks": {
-      "score": 64.3,
+      "score": 61.5,
       "label": "Greed"
     },
     "crypto": {
-      "score": 66.5,
+      "score": 64.5,
       "label": "Greed"
     },
     "bonds": {
-      "score": 50.9,
-      "label": "Neutral"
+      "score": 45.3,
+      "label": "Fear"
     },
     "sentiment": {
-      "score": 53.1,
+      "score": 50.3,
       "label": "Neutral"
     }
   }
