@@ -1,23 +1,17 @@
 {
   "asset": "gold",
-  "generated": "2026-05-05T05:16:28Z",
+  "generated": "2026-05-06T05:30:57Z",
   "total_days": 1267,
   "date_range": {
-    "start": "2021-05-06",
-    "end": "2026-05-05"
+    "start": "2021-05-07",
+    "end": "2026-05-06"
   },
   "score_stats": {
     "min": 22.0,
     "max": 86.8,
-    "avg": 53.0
+    "avg": 52.9
   },
   "history": [
-    {
-      "date": "2021-05-06",
-      "score": 58.0,
-      "label": "Greed",
-      "price": 170.06
-    },
     {
       "date": "2021-05-07",
       "score": 58.9,
@@ -7613,6 +7607,12 @@
       "score": 29.9,
       "label": "Fear",
       "price": 414.71
+    },
+    {
+      "date": "2026-05-06",
+      "score": 32.9,
+      "label": "Fear",
+      "price": 418.27
     }
   ]
 }

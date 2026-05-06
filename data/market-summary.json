@@ -1,27 +1,27 @@
 {
-  "date": "2026-05-05",
-  "timestamp": "2026-05-05T05:16:44Z",
-  "summary": "Equities pulled back from all-time highs Monday after Iran attacked the UAE for the first time since the ceasefire began, sending Brent crude surging toward $114. Now in its tenth week, the Middle East war has driven energy prices sharply higher and heightened inflation risks, with gold down roughly 12% since the conflict began as rising real yields and a hawkish Fed hold erode bullion's appeal and push safe-haven flows into equities instead.",
-  "tweet": "Iran-UAE missile strike jolted oil to $114/bbl Monday, knocking stocks off highs and hammering gold \u2014 now down ~12% since the war began \u2014 as a hawkish Fed hold keeps rate cuts firmly off the table.",
+  "date": "2026-05-06",
+  "timestamp": "2026-05-06T05:31:11Z",
+  "summary": "The Fed held rates at 3.5\u20133.75% last week, citing elevated inflation driven by rising global energy prices and high uncertainty from Middle East developments. With Powell's term expiring May 15 and Kevin Warsh's nomination advancing through the Senate Banking Committee, markets are digesting a leadership transition at the Fed \u2014 while equities found relief Tuesday as a lack of further Iran escalation cooled oil prices and supported risk appetite.",
+  "tweet": "Fed held at 3.5\u20133.75% with inflation still elevated on energy \u2014 Powell's last meeting as chair done, Warsh confirmation advancing \u2014 Iran ceasefire holding for now, stocks reclaiming ground.",
   "scores": {
     "gold": {
-      "score": 29.9,
+      "score": 32.9,
       "label": "Fear"
     },
     "stocks": {
-      "score": 61.5,
+      "score": 61.0,
       "label": "Greed"
     },
     "crypto": {
-      "score": 64.5,
+      "score": 65.1,
       "label": "Greed"
     },
     "bonds": {
-      "score": 45.3,
-      "label": "Fear"
+      "score": 47.1,
+      "label": "Neutral"
     },
     "sentiment": {
-      "score": 50.3,
+      "score": 51.5,
       "label": "Neutral"
     }
   }
