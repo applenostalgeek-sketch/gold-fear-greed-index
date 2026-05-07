@@ -1,27 +1,27 @@
 {
-  "date": "2026-05-06",
-  "timestamp": "2026-05-06T05:31:11Z",
-  "summary": "The Fed held rates at 3.5\u20133.75% last week, citing elevated inflation driven by rising global energy prices and high uncertainty from Middle East developments. With Powell's term expiring May 15 and Kevin Warsh's nomination advancing through the Senate Banking Committee, markets are digesting a leadership transition at the Fed \u2014 while equities found relief Tuesday as a lack of further Iran escalation cooled oil prices and supported risk appetite.",
-  "tweet": "Fed held at 3.5\u20133.75% with inflation still elevated on energy \u2014 Powell's last meeting as chair done, Warsh confirmation advancing \u2014 Iran ceasefire holding for now, stocks reclaiming ground.",
+  "date": "2026-05-07",
+  "timestamp": "2026-05-07T05:33:50Z",
+  "summary": "Reports that the U.S. and Iran are nearing a deal \u2014 including a moratorium on nuclear enrichment \u2014 drove a broad equity rally Wednesday, sending the S&P 500 and Nasdaq to fresh record closes. Oil dropped roughly 6% on peace optimism, though analysts warn that even if the Strait of Hormuz reopens, a full recovery in shipping and trade flows is expected to take several weeks.",
+  "tweet": "Iran peace signals sent stocks to record highs and oil plunging 6%, but the Fed stays on hold with CPI at 3.3% \u2014 risk is on while the macro overhang lingers.",
   "scores": {
     "gold": {
-      "score": 32.9,
+      "score": 35.9,
       "label": "Fear"
     },
     "stocks": {
-      "score": 61.0,
+      "score": 61.5,
       "label": "Greed"
     },
     "crypto": {
-      "score": 65.1,
+      "score": 62.4,
       "label": "Greed"
     },
     "bonds": {
-      "score": 47.1,
+      "score": 50.3,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 51.5,
+      "score": 52.5,
       "label": "Neutral"
     }
   }
