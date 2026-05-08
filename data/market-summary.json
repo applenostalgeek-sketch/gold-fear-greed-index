@@ -1,27 +1,27 @@
 {
-  "date": "2026-05-07",
-  "timestamp": "2026-05-07T05:33:50Z",
-  "summary": "Reports that the U.S. and Iran are nearing a deal \u2014 including a moratorium on nuclear enrichment \u2014 drove a broad equity rally Wednesday, sending the S&P 500 and Nasdaq to fresh record closes. Oil dropped roughly 6% on peace optimism, though analysts warn that even if the Strait of Hormuz reopens, a full recovery in shipping and trade flows is expected to take several weeks.",
-  "tweet": "Iran peace signals sent stocks to record highs and oil plunging 6%, but the Fed stays on hold with CPI at 3.3% \u2014 risk is on while the macro overhang lingers.",
+  "date": "2026-05-08",
+  "timestamp": "2026-05-08T04:54:51Z",
+  "summary": "A deeply divided Fed held rates steady last week, splitting 8-4 \u2014 the most dissent since 1992 \u2014 as policymakers clashed over whether rate cuts remain appropriate amid sticky inflation. Adding to policy uncertainty, Powell's nominated successor Kevin Warsh is set to take the chair on May 15, keeping bond markets on edge and suppressing duration appetite.",
+  "tweet": "Fed's historic 8-4 split and an imminent Powell-to-Warsh handover are rattling bonds, while pre-summit U.S.-China trade hopes keep stocks in greed territory despite thin breadth.",
   "scores": {
     "gold": {
-      "score": 35.9,
+      "score": 38.4,
       "label": "Fear"
     },
     "stocks": {
-      "score": 61.5,
+      "score": 60.3,
       "label": "Greed"
     },
     "crypto": {
-      "score": 62.4,
+      "score": 60.4,
       "label": "Greed"
     },
     "bonds": {
-      "score": 50.3,
-      "label": "Neutral"
+      "score": 45.2,
+      "label": "Fear"
     },
     "sentiment": {
-      "score": 52.5,
+      "score": 51.1,
       "label": "Neutral"
     }
   }
