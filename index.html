@@ -796,6 +796,7 @@
                         <button class="period-btn" data-period="90">90D</button>
                         <button class="period-btn" data-period="180">180D</button>
                         <button class="period-btn" data-period="365">1Y</button>
+                        <button class="period-btn" data-period="1825">5Y</button>
                     </div>
                 </div>
                 <div class="chart-canvas-box">
@@ -854,6 +855,7 @@
     <script src="shared.js"></script>
     <script>
         let gold, stocks, crypto, bonds;
+        let gold5y, stocks5y, crypto5y, bonds5y;
 
         async function loadData() {
             try {
@@ -879,6 +881,10 @@
                 try {
                     const h5y = await Promise.all([gold5yRes, stocks5yRes, crypto5yRes, bonds5yRes].map(r => r && r.ok ? r.json() : null));
                     if (h5y.every(d => d && d.history && d.history.length >= 100)) {
+                        gold5y = h5y[0];
+                        stocks5y = h5y[1];
+                        crypto5y = h5y[2];
+                        bonds5y = h5y[3];
                         const maps = h5y.map(d => Object.fromEntries(d.history.map(e => [e.date, e.score])));
                         const commonDates = Object.keys(maps[0]).filter(dt => maps.every(m => m[dt] != null));
                         if (commonDates.length >= 100) {
@@ -1324,106 +1330,23 @@
             return btn && btn.classList.contains('active');
         }
 
-        function detectEvents(dateMap, dates) {
-            const events = [];
-            const typeInfo = {
-                market_crisis:  { emoji: '\uD83D\uDD34', label: 'Market Crisis', priority: 0 },
-                market_euphoria:{ emoji: '\uD83D\uDFE2', label: 'Market Euphoria', priority: 1 },
-                fear_spike:     { emoji: '\u26A1',       label: 'Fear Spike', priority: 2 },
-                recovery:       { emoji: '\uD83D\uDCC8', label: 'Recovery Rally', priority: 3 }
-            };
-
-            for (let i = 0; i < dates.length; i++) {
-                const date = dates[i];
-                const d = dateMap[date];
-                if (d.sentiment == null) continue;
-
-                // Check crisis / euphoria (all 4 assets needed)
-                if (d.gold != null && d.bonds != null && d.stocks != null && d.crypto != null) {
-                    if (d.gold <= 40 && d.bonds <= 40 && d.stocks <= 40 && d.crypto <= 40) {
-                        events.push({ date, type: 'market_crisis', ...typeInfo.market_crisis, delta: null });
-                    }
-                    if (d.gold >= 61 && d.bonds >= 61 && d.stocks >= 61 && d.crypto >= 61) {
-                        events.push({ date, type: 'market_euphoria', ...typeInfo.market_euphoria, delta: null });
-                    }
-                }
-
-                // Check sentiment spike (lookback 1-3 days)
-                let bestDelta = 0;
-                for (let lb = 1; lb <= 3 && i - lb >= 0; lb++) {
-                    const prev = dateMap[dates[i - lb]]?.sentiment;
-                    if (prev == null) continue;
-                    const delta = d.sentiment - prev;
-                    if (Math.abs(delta) > Math.abs(bestDelta)) bestDelta = delta;
-                }
-                if (bestDelta <= -9) {
-                    events.push({ date, type: 'fear_spike', ...typeInfo.fear_spike, delta: Math.round(bestDelta) });
-                } else if (bestDelta >= 9) {
-                    events.push({ date, type: 'recovery', ...typeInfo.recovery, delta: Math.round(bestDelta) });
-                }
-            }
-            return events;
-        }
-
-        function deduplicateEvents(events) {
-            const priority = { market_crisis: 0, market_euphoria: 1, fear_spike: 2, recovery: 3 };
-
-            // Group by type
-            const byType = {};
-            events.forEach(e => {
-                if (!byType[e.type]) byType[e.type] = [];
-                byType[e.type].push(e);
-            });
-
-            // For each type, cluster events within 3 days and keep the peak
-            const kept = [];
-            Object.values(byType).forEach(group => {
-                group.sort((a, b) => a.date.localeCompare(b.date));
-                let cluster = [group[0]];
-                for (let i = 1; i < group.length; i++) {
-                    const prevDate = new Date(cluster[cluster.length - 1].date);
-                    const currDate = new Date(group[i].date);
-                    const gap = (currDate - prevDate) / (1000 * 60 * 60 * 24);
-                    if (gap <= 3) {
-                        cluster.push(group[i]);
-                    } else {
-                        kept.push(pickPeak(cluster));
-                        cluster = [group[i]];
-                    }
-                }
-                kept.push(pickPeak(cluster));
-            });
-
-            function pickPeak(cluster) {
-                if (cluster.length === 1) return cluster[0];
-                return cluster.reduce((best, e) => {
-                    const aDelta = Math.abs(e.delta || 0);
-                    const bDelta = Math.abs(best.delta || 0);
-                    return aDelta > bDelta ? e : best;
-                });
-            }
-
-            // If multiple events on the same date, keep highest priority
-            const byDate = {};
-            kept.forEach(e => {
-                if (!byDate[e.date] || priority[e.type] < priority[byDate[e.date].type]) {
-                    byDate[e.date] = e;
-                }
-            });
-
-            return Object.values(byDate).sort((a, b) => a.date.localeCompare(b.date));
-        }
-
         function prepareChartData(days) {
             const cutoff = new Date();
             cutoff.setDate(cutoff.getDate() - days);
             const cutoffStr = cutoff.toISOString().slice(0, 10);
             const filterByDate = (h) => [...(h || [])].sort((a, b) => new Date(a.date) - new Date(b.date)).filter(p => p.date >= cutoffStr);
 
-            const g = filterByDate(gold?.history);
-            const s = filterByDate(stocks?.history);
-            const c = filterByDate(crypto?.history);
-            const b = filterByDate(bonds?.history);
+            // For periods > 1Y, use 5Y datasets if available
+            const useLongRange = days > 365 && gold5y && stocks5y && crypto5y && bonds5y;
+            const goldSrc = useLongRange ? gold5y : gold;
+            const stocksSrc = useLongRange ? stocks5y : stocks;
+            const cryptoSrc = useLongRange ? crypto5y : crypto;
+            const bondsSrc = useLongRange ? bonds5y : bonds;
+
+            const g = filterByDate(goldSrc?.history);
+            const s = filterByDate(stocksSrc?.history);
+            const c = filterByDate(cryptoSrc?.history);
+            const b = filterByDate(bondsSrc?.history);
 
             // Build unified date map (date -> { gold, stocks, crypto, bonds })
             const dateMap = {};
@@ -1445,8 +1368,24 @@
                 }
             });
 
-            const events = deduplicateEvents(detectEvents(dateMap, dates));
-            chartData = { dateMap, dates, events };
+            // 5Y mode: 14-day trailing moving average to make 5+ years of daily data readable
+            if (useLongRange) {
+                const window = 14;
+                ['gold', 'stocks', 'crypto', 'bonds', 'sentiment'].forEach(name => {
+                    const values = dates.map(d => dateMap[d]?.[name]);
+                    const smoothed = new Array(dates.length).fill(null);
+                    for (let i = 0; i < dates.length; i++) {
+                        const start = Math.max(0, i - window + 1);
+                        const slice = values.slice(start, i + 1).filter(v => v != null);
+                        if (slice.length > 0) smoothed[i] = slice.reduce((a, b) => a + b, 0) / slice.length;
+                    }
+                    dates.forEach((d, i) => {
+                        if (smoothed[i] != null) dateMap[d][name] = smoothed[i];
+                    });
+                });
+            }
+
+            chartData = { dateMap, dates, longRange: useLongRange };
             return chartData;
         }
 
@@ -1527,32 +1466,20 @@
                 }
             });
 
-            // 6. Event markers (between plot area and date labels)
-            if (chartData.events && chartData.events.length > 0) {
-                ctx.font = '12px sans-serif';
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                const markerY = h - 20;
-                const total = data.dates.length;
-                chartData.events.forEach(event => {
-                    const idx = data.dates.indexOf(event.date);
-                    if (idx === -1) return;
-                    const x = indexToX(idx, total, pad, plotW);
-                    ctx.fillText(event.emoji, x, markerY);
-                });
-            }
-
-            // 7. Date labels (horizontal, clean)
+            // Date labels (horizontal, clean)
             if (data.dates && data.dates.length > 0) {
                 const total = data.dates.length;
                 const numLabels = Math.min(total, w < 500 ? 4 : 6);
                 ctx.fillStyle = '#555';
                 ctx.font = '10px -apple-system, sans-serif';
+                const labelOpts = data.longRange
+                    ? { month: 'short', year: '2-digit' }
+                    : { month: 'short', day: 'numeric' };
                 for (let i = 0; i < numLabels; i++) {
                     const idx = i === numLabels - 1 ? total - 1 : Math.round(i * (total - 1) / (numLabels - 1));
                     const x = indexToX(idx, total, pad, plotW);
                     const date = new Date(data.dates[idx]);
-                    const label = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                    const label = date.toLocaleDateString('en-US', labelOpts);
                     if (i === 0) ctx.textAlign = 'left';
                     else if (i === numLabels - 1) ctx.textAlign = 'right';
                     else ctx.textAlign = 'center';
@@ -1594,22 +1521,6 @@
                     <span class="chart-tooltip-val" style="color:${cfg.color}">${Math.round(score)}</span>
                 </div>`;
             });
-            const eventOnDate = chartData.events?.find(e => e.date === targetDate);
-            if (eventOnDate) {
-                rows += `<div class="chart-tooltip-row chart-tooltip-event">
-                    <span>${eventOnDate.emoji}</span>
-                    <span style="color:#fff;font-weight:600">${eventOnDate.label}</span>
-                </div>`;
-                if (eventOnDate.delta) {
-                    rows += `<div class="chart-tooltip-row">
-                        <span class="chart-tooltip-name" style="color:#888">Change</span>
-                        <span class="chart-tooltip-val" style="color:${eventOnDate.type === 'fear_spike' ? '#ef4444' : '#22c55e'}">
-                            ${eventOnDate.type === 'fear_spike' ? '' : '+'}${eventOnDate.delta} pts
-                        </span>
-                    </div>`;
-                }
-            }
-
             document.getElementById('tooltipRows').innerHTML = rows;
 
             // Position tooltip (flip side if near right edge)
