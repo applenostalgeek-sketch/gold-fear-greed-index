@@ -1,27 +1,27 @@
 {
-  "date": "2026-05-08",
-  "timestamp": "2026-05-08T04:54:51Z",
-  "summary": "A deeply divided Fed held rates steady last week, splitting 8-4 \u2014 the most dissent since 1992 \u2014 as policymakers clashed over whether rate cuts remain appropriate amid sticky inflation. Adding to policy uncertainty, Powell's nominated successor Kevin Warsh is set to take the chair on May 15, keeping bond markets on edge and suppressing duration appetite.",
-  "tweet": "Fed's historic 8-4 split and an imminent Powell-to-Warsh handover are rattling bonds, while pre-summit U.S.-China trade hopes keep stocks in greed territory despite thin breadth.",
+  "date": "2026-05-09",
+  "timestamp": "2026-05-09T05:24:02Z",
+  "summary": "A better-than-expected April jobs report and a tenuous U.S.-Iran ceasefire drove equities higher Friday, with the S&P 500 closing at a record 7,399. Surging gas prices tied to the Iran conflict sent consumer sentiment to a new low in early May, keeping energy costs elevated and suppressing gold's safe-haven bid even as stocks grind to new highs.",
+  "tweet": "A strong April jobs report and an Iran ceasefire holding at the margins pushed the S&P 500 to records \u2014 but surging gas prices have cratered consumer sentiment, splitting risk appetite across assets.",
   "scores": {
     "gold": {
-      "score": 38.4,
+      "score": 44.1,
       "label": "Fear"
     },
     "stocks": {
-      "score": 60.3,
+      "score": 61.5,
       "label": "Greed"
     },
     "crypto": {
-      "score": 60.4,
+      "score": 61.9,
       "label": "Greed"
     },
     "bonds": {
-      "score": 45.2,
-      "label": "Fear"
+      "score": 46.4,
+      "label": "Neutral"
     },
     "sentiment": {
-      "score": 51.1,
+      "score": 53.5,
       "label": "Neutral"
     }
   }
