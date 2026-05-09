@@ -508,10 +508,7 @@
                 const idx = i === numLabels - 1 ? total - 1 : Math.round(i * (total - 1) / (numLabels - 1));
                 const x = indexToX(idx, total, pad, plotW);
                 const date = new Date(chartHistory[idx].date);
-                const labelOpts = currentPeriod > 365
-                    ? { month: 'short', year: '2-digit' }
-                    : { month: 'short', day: 'numeric' };
-                const label = date.toLocaleDateString('en-US', labelOpts);
+                const label = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
                 if (i === 0) ctx.textAlign = 'left';
                 else if (i === numLabels - 1) ctx.textAlign = 'right';
                 else ctx.textAlign = 'center';
@@ -586,32 +583,7 @@
 
     function updateHistoryChart(days) {
         if (!assetData || !assetData.history) return;
-        const useLongRange = days > 365 && history5yData && history5yData.history && history5yData.history.length > 0;
-        const sourceHistory = useLongRange ? history5yData.history : assetData.history;
-        chartHistory = [...sourceHistory].sort((a, b) => new Date(a.date) - new Date(b.date)).slice(-days);
-
-        // 5Y mode: 14-day trailing MA on score and price for readability
-        if (useLongRange && chartHistory.length > 0) {
-            const window = 14;
-            const smooth = (key) => {
-                const values = chartHistory.map(p => p[key]);
-                const out = new Array(values.length).fill(null);
-                for (let i = 0; i < values.length; i++) {
-                    const start = Math.max(0, i - window + 1);
-                    const slice = values.slice(start, i + 1).filter(v => v != null);
-                    if (slice.length > 0) out[i] = slice.reduce((a, b) => a + b, 0) / slice.length;
-                }
-                return out;
-            };
-            const smoothedScores = smooth('score');
-            const smoothedPrices = smooth('price');
-            chartHistory = chartHistory.map((p, i) => ({
-                ...p,
-                score: smoothedScores[i] != null ? smoothedScores[i] : p.score,
-                price: smoothedPrices[i] != null ? smoothedPrices[i] : p.price
-            }));
-        }
-
+        chartHistory = [...assetData.history].sort((a, b) => new Date(a.date) - new Date(b.date)).slice(-days);
         drawChart();
     }
 

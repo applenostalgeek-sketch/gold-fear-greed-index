@@ -796,7 +796,6 @@
                         <button class="period-btn" data-period="90">90D</button>
                         <button class="period-btn" data-period="180">180D</button>
                         <button class="period-btn" data-period="365">1Y</button>
-                        <button class="period-btn" data-period="1825">5Y</button>
                     </div>
                 </div>
                 <div class="chart-canvas-box">
@@ -855,7 +854,6 @@
     <script src="shared.js"></script>
     <script>
         let gold, stocks, crypto, bonds;
-        let gold5y, stocks5y, crypto5y, bonds5y;
 
         async function loadData() {
             try {
@@ -881,10 +879,6 @@
                 try {
                     const h5y = await Promise.all([gold5yRes, stocks5yRes, crypto5yRes, bonds5yRes].map(r => r && r.ok ? r.json() : null));
                     if (h5y.every(d => d && d.history && d.history.length >= 100)) {
-                        gold5y = h5y[0];
-                        stocks5y = h5y[1];
-                        crypto5y = h5y[2];
-                        bonds5y = h5y[3];
                         const maps = h5y.map(d => Object.fromEntries(d.history.map(e => [e.date, e.score])));
                         const commonDates = Object.keys(maps[0]).filter(dt => maps.every(m => m[dt] != null));
                         if (commonDates.length >= 100) {
@@ -1336,17 +1330,10 @@
             const cutoffStr = cutoff.toISOString().slice(0, 10);
             const filterByDate = (h) => [...(h || [])].sort((a, b) => new Date(a.date) - new Date(b.date)).filter(p => p.date >= cutoffStr);
 
-            // For periods > 1Y, use 5Y datasets if available
-            const useLongRange = days > 365 && gold5y && stocks5y && crypto5y && bonds5y;
-            const goldSrc = useLongRange ? gold5y : gold;
-            const stocksSrc = useLongRange ? stocks5y : stocks;
-            const cryptoSrc = useLongRange ? crypto5y : crypto;
-            const bondsSrc = useLongRange ? bonds5y : bonds;
-
-            const g = filterByDate(goldSrc?.history);
-            const s = filterByDate(stocksSrc?.history);
-            const c = filterByDate(cryptoSrc?.history);
-            const b = filterByDate(bondsSrc?.history);
+            const g = filterByDate(gold?.history);
+            const s = filterByDate(stocks?.history);
+            const c = filterByDate(crypto?.history);
+            const b = filterByDate(bonds?.history);
 
             // Build unified date map (date -> { gold, stocks, crypto, bonds })
             const dateMap = {};
@@ -1368,24 +1355,7 @@
                 }
             });
 
-            // 5Y mode: 14-day trailing moving average to make 5+ years of daily data readable
-            if (useLongRange) {
-                const window = 14;
-                ['gold', 'stocks', 'crypto', 'bonds', 'sentiment'].forEach(name => {
-                    const values = dates.map(d => dateMap[d]?.[name]);
-                    const smoothed = new Array(dates.length).fill(null);
-                    for (let i = 0; i < dates.length; i++) {
-                        const start = Math.max(0, i - window + 1);
-                        const slice = values.slice(start, i + 1).filter(v => v != null);
-                        if (slice.length > 0) smoothed[i] = slice.reduce((a, b) => a + b, 0) / slice.length;
-                    }
-                    dates.forEach((d, i) => {
-                        if (smoothed[i] != null) dateMap[d][name] = smoothed[i];
-                    });
-                });
-            }
-
-            chartData = { dateMap, dates, longRange: useLongRange };
+            chartData = { dateMap, dates };
             return chartData;
         }
 
@@ -1472,14 +1442,11 @@
                 const numLabels = Math.min(total, w < 500 ? 4 : 6);
                 ctx.fillStyle = '#555';
                 ctx.font = '10px -apple-system, sans-serif';
-                const labelOpts = data.longRange
-                    ? { month: 'short', year: '2-digit' }
-                    : { month: 'short', day: 'numeric' };
                 for (let i = 0; i < numLabels; i++) {
                     const idx = i === numLabels - 1 ? total - 1 : Math.round(i * (total - 1) / (numLabels - 1));
                     const x = indexToX(idx, total, pad, plotW);
                     const date = new Date(data.dates[idx]);
-                    const label = date.toLocaleDateString('en-US', labelOpts);
+                    const label = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
                     if (i === 0) ctx.textAlign = 'left';
                     else if (i === numLabels - 1) ctx.textAlign = 'right';
                     else ctx.textAlign = 'center';
