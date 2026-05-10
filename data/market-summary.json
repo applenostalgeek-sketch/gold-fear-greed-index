@@ -1,11 +1,11 @@
 {
-  "date": "2026-05-09",
-  "timestamp": "2026-05-09T05:24:02Z",
-  "summary": "A better-than-expected April jobs report and a tenuous U.S.-Iran ceasefire drove equities higher Friday, with the S&P 500 closing at a record 7,399. Surging gas prices tied to the Iran conflict sent consumer sentiment to a new low in early May, keeping energy costs elevated and suppressing gold's safe-haven bid even as stocks grind to new highs.",
-  "tweet": "A strong April jobs report and an Iran ceasefire holding at the margins pushed the S&P 500 to records \u2014 but surging gas prices have cratered consumer sentiment, splitting risk appetite across assets.",
+  "date": "2026-05-10",
+  "timestamp": "2026-05-10T05:39:19Z",
+  "summary": "Progress toward a U.S.-Iran ceasefire sent equities to fresh records this week, with the S&P 500 advancing to 7,365, as oil prices retreated sharply on de-escalation hopes. April payrolls came in at 115,000, nearly double Wall Street's 60,000 estimate, marking back-to-back months of six-figure job growth and removing near-term pressure on the Fed to cut rates.",
+  "tweet": "Iran ceasefire hopes crushed oil prices while a blowout April jobs report kept the Fed on hold \u2014 stocks hit records but bonds and gold are caught in the crossfire.",
   "scores": {
     "gold": {
-      "score": 44.1,
+      "score": 44.3,
       "label": "Fear"
     },
     "stocks": {
@@ -13,7 +13,7 @@
       "label": "Greed"
     },
     "crypto": {
-      "score": 61.9,
+      "score": 61.0,
       "label": "Greed"
     },
     "bonds": {
@@ -21,7 +21,7 @@
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 53.5,
+      "score": 53.3,
       "label": "Neutral"
     }
   }
