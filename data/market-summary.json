@@ -1,27 +1,27 @@
 {
-  "date": "2026-05-11",
-  "timestamp": "2026-05-11T06:00:56Z",
-  "summary": "The S&P 500 topped 7,300 for the first time ever, capping a six-week winning streak driven by a furious AI and semiconductor surge. The Philadelphia Semiconductor Index traded higher for 18 straight trading days, rising 47%, as markets actively reward physical chip manufacturing capacity, treating semiconductor infrastructure as the defining asset of the cycle.",
-  "tweet": "The S&P 500 hit a record 7,300+ on a six-week streak, led by memory stocks \u2014 the Roundhill Memory ETF soared nearly 30% in one week \u2014 while the Trump-Xi summit puts Iran and trade squarely in the spotlight.",
+  "date": "2026-05-12",
+  "timestamp": "2026-05-12T05:40:24Z",
+  "summary": "April CPI dropped today, the single biggest market catalyst this week, landing as stocks trade at record highs with elevated momentum. Simultaneously, the U.S. rejected Iran's terms late Sunday, pushing crude oil up roughly 3% toward $100 per barrel, injecting fresh inflation risk into the print.",
+  "tweet": "April CPI hits today as crude nears $100 after U.S.-Iran talks collapse \u2014 inflation vs. momentum is the defining tension across every asset class right now.",
   "scores": {
     "gold": {
-      "score": 44.1,
+      "score": 44.4,
       "label": "Fear"
     },
     "stocks": {
-      "score": 61.5,
+      "score": 62.4,
       "label": "Greed"
     },
     "crypto": {
-      "score": 61.7,
+      "score": 62.6,
       "label": "Greed"
     },
     "bonds": {
-      "score": 48.0,
+      "score": 46.1,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 53.8,
+      "score": 53.9,
       "label": "Neutral"
     }
   }
