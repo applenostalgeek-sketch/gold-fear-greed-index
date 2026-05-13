@@ -1,27 +1,27 @@
 {
-  "date": "2026-05-12",
-  "timestamp": "2026-05-12T05:40:24Z",
-  "summary": "April CPI dropped today, the single biggest market catalyst this week, landing as stocks trade at record highs with elevated momentum. Simultaneously, the U.S. rejected Iran's terms late Sunday, pushing crude oil up roughly 3% toward $100 per barrel, injecting fresh inflation risk into the print.",
-  "tweet": "April CPI hits today as crude nears $100 after U.S.-Iran talks collapse \u2014 inflation vs. momentum is the defining tension across every asset class right now.",
+  "date": "2026-05-13",
+  "timestamp": "2026-05-13T05:51:07Z",
+  "summary": "April CPI came in at 3.8% year over year, topping the 3.7% consensus, reinforcing a Fed hold and markets pricing in a near-98% chance of no rate change in June, while the odds of a hike by December have risen to nearly 30%. Simultaneously, trade and tariffs are a major focus this week as the U.S.-China summit gets underway, keeping bond yields elevated and squeezing gold's safe-haven premium against surging equities.",
+  "tweet": "Hot April CPI cements a Fed hold through mid-year as a U.S.-China summit keeps tariff risk front and center, splitting stocks and bonds sharply.",
   "scores": {
     "gold": {
-      "score": 44.4,
+      "score": 44.2,
       "label": "Fear"
     },
     "stocks": {
-      "score": 62.4,
+      "score": 62.9,
       "label": "Greed"
     },
     "crypto": {
-      "score": 62.6,
+      "score": 60.3,
       "label": "Greed"
     },
     "bonds": {
-      "score": 46.1,
-      "label": "Neutral"
+      "score": 42.8,
+      "label": "Fear"
     },
     "sentiment": {
-      "score": 53.9,
+      "score": 52.5,
       "label": "Neutral"
     }
   }
