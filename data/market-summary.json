@@ -1,27 +1,27 @@
 {
-  "date": "2026-05-13",
-  "timestamp": "2026-05-13T05:51:07Z",
-  "summary": "April CPI came in at 3.8% year over year, topping the 3.7% consensus, reinforcing a Fed hold and markets pricing in a near-98% chance of no rate change in June, while the odds of a hike by December have risen to nearly 30%. Simultaneously, trade and tariffs are a major focus this week as the U.S.-China summit gets underway, keeping bond yields elevated and squeezing gold's safe-haven premium against surging equities.",
-  "tweet": "Hot April CPI cements a Fed hold through mid-year as a U.S.-China summit keeps tariff risk front and center, splitting stocks and bonds sharply.",
+  "date": "2026-05-14",
+  "timestamp": "2026-05-14T05:50:19Z",
+  "summary": "Trump arrived in Beijing on May 13 for two days of negotiations with Xi Jinping, lifting tech and equities as chip stocks rose on news that Nvidia's CEO joined Trump on the China visit. Meanwhile, wholesale prices surged in April with PPI rising 6% year-over-year, largely driven by higher energy costs from the Iran war, pushing long yields to new 2026 highs and pressuring bonds and gold.",
+  "tweet": "Trump-Xi summit in Beijing fueled a tech-led equity record, but a scorching April PPI print sent 10Y and 30Y yields to 2026 highs, keeping bonds and gold under pressure.",
   "scores": {
     "gold": {
-      "score": 44.2,
+      "score": 41.8,
       "label": "Fear"
     },
     "stocks": {
-      "score": 62.9,
+      "score": 63.4,
       "label": "Greed"
     },
     "crypto": {
-      "score": 60.3,
+      "score": 59.6,
       "label": "Greed"
     },
     "bonds": {
-      "score": 42.8,
+      "score": 44.3,
       "label": "Fear"
     },
     "sentiment": {
-      "score": 52.5,
+      "score": 52.3,
       "label": "Neutral"
     }
   }
