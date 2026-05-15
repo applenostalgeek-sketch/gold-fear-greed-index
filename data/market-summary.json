@@ -1,27 +1,27 @@
 {
-  "date": "2026-05-14",
-  "timestamp": "2026-05-14T05:50:19Z",
-  "summary": "Trump arrived in Beijing on May 13 for two days of negotiations with Xi Jinping, lifting tech and equities as chip stocks rose on news that Nvidia's CEO joined Trump on the China visit. Meanwhile, wholesale prices surged in April with PPI rising 6% year-over-year, largely driven by higher energy costs from the Iran war, pushing long yields to new 2026 highs and pressuring bonds and gold.",
-  "tweet": "Trump-Xi summit in Beijing fueled a tech-led equity record, but a scorching April PPI print sent 10Y and 30Y yields to 2026 highs, keeping bonds and gold under pressure.",
+  "date": "2026-05-15",
+  "timestamp": "2026-05-15T05:56:40Z",
+  "summary": "The Trump-Xi Beijing summit wraps up today after two days of meetings, with markets digesting a deal that appears limited in scope \u2014 stabilization over revitalization. Tech and AI stocks drove equities to fresh record highs on summit optimism, but poor breadth signals the rally is narrow and top-heavy. Elevated real rates and a hot PPI print keep bond duration under pressure and gold sidelined as a safe haven.",
+  "tweet": "Trump-Xi summit closes with a fragile trade truce \u2014 AI and tech carry stocks to records while the broad market lags, and hot inflation keeps bonds and gold in check.",
   "scores": {
     "gold": {
-      "score": 41.8,
+      "score": 38.6,
       "label": "Fear"
     },
     "stocks": {
-      "score": 63.4,
+      "score": 63.1,
       "label": "Greed"
     },
     "crypto": {
-      "score": 59.6,
+      "score": 59.0,
       "label": "Greed"
     },
     "bonds": {
-      "score": 44.3,
+      "score": 43.8,
       "label": "Fear"
     },
     "sentiment": {
-      "score": 52.3,
+      "score": 51.1,
       "label": "Neutral"
     }
   }
