@@ -1,27 +1,27 @@
 {
-  "date": "2026-05-15",
-  "timestamp": "2026-05-15T05:56:40Z",
-  "summary": "The Trump-Xi Beijing summit wraps up today after two days of meetings, with markets digesting a deal that appears limited in scope \u2014 stabilization over revitalization. Tech and AI stocks drove equities to fresh record highs on summit optimism, but poor breadth signals the rally is narrow and top-heavy. Elevated real rates and a hot PPI print keep bond duration under pressure and gold sidelined as a safe haven.",
-  "tweet": "Trump-Xi summit closes with a fragile trade truce \u2014 AI and tech carry stocks to records while the broad market lags, and hot inflation keeps bonds and gold in check.",
+  "date": "2026-05-16",
+  "timestamp": "2026-05-16T05:29:09Z",
+  "summary": "Trump and Xi appear to have maintained a fragile truce in the US-China trade war after their Beijing summit. The meeting concluded with few breakthroughs \u2014 China agreed to buy 200 Boeing jets, but key claims on farm goods went unconfirmed by Beijing. The limited scope of the deal is fueling stocks and tech while leaving bonds under pressure from elevated real rates and a Fed in no hurry to cut.",
+  "tweet": "The Beijing summit wrapped with a trade truce but no real deal \u2014 equities are buying the headline, bonds are not.",
   "scores": {
     "gold": {
-      "score": 38.6,
+      "score": 38.8,
       "label": "Fear"
     },
     "stocks": {
-      "score": 63.1,
+      "score": 62.9,
       "label": "Greed"
     },
     "crypto": {
-      "score": 59.0,
+      "score": 55.9,
       "label": "Greed"
     },
     "bonds": {
-      "score": 43.8,
+      "score": 38.9,
       "label": "Fear"
     },
     "sentiment": {
-      "score": 51.1,
+      "score": 49.1,
       "label": "Neutral"
     }
   }
