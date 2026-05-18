@@ -1,7 +1,7 @@
 {
   "score": 38.9,
   "label": "Fear",
-  "timestamp": "2026-05-17T05:50:31Z",
+  "timestamp": "2026-05-18T06:16:32Z",
   "components": {
     "yield_curve": {
       "score": 64.1,
@@ -35,6 +35,12 @@
     }
   },
   "history": [
+    {
+      "date": "2026-05-18",
+      "score": 38.9,
+      "label": "Fear",
+      "price": 83.66
+    },
     {
       "date": "2026-05-17",
       "score": 38.9,
@@ -2218,12 +2224,6 @@
       "score": 43.6,
       "label": "Fear",
       "price": 83.22
-    },
-    {
-      "date": "2025-05-18",
-      "score": 46.9,
-      "label": "Neutral",
-      "price": 83.47
     }
   ]
 }

@@ -1,11 +1,11 @@
 {
-  "date": "2026-05-17",
-  "timestamp": "2026-05-17T05:50:49Z",
-  "summary": "The Iran war's oil shock is stoking inflation fears and bond market pressure, with concerns the Fed may be behind the curve \u2014 while the three-day Trump-Xi Beijing summit closed without a meaningful breakthrough on the Strait of Hormuz standoff. US 10-year yields posted their biggest weekly jump since Trump's tariffs roiled markets in April 2025, hammering bonds and gold while leaving equities holding gains on trade truce optimism.",
-  "tweet": "Oil above $105 and a Trump-Xi summit that delivered no Iran breakthrough sent global bond yields to multi-year highs this week, splitting stocks from bonds and gold.",
+  "date": "2026-05-18",
+  "timestamp": "2026-05-18T06:16:59Z",
+  "summary": "A global bond rout \u2014 led by longer-dated Treasuries most vulnerable to accelerating inflation \u2014 carried over into this week as the Iran war's energy shock keeps rate-hike bets alive. The Trump-Xi Beijing summit ended without progress on reopening the Strait of Hormuz, leaving oil elevated and inflation pressure intact.",
+  "tweet": "Bond yields near multi-year highs after last week's global rout, as Iran's Strait of Hormuz standoff keeps oil hot and markets brace for the first Warsh-era FOMC minutes.",
   "scores": {
     "gold": {
-      "score": 38.9,
+      "score": 39.6,
       "label": "Fear"
     },
     "stocks": {
@@ -13,7 +13,7 @@
       "label": "Greed"
     },
     "crypto": {
-      "score": 52.9,
+      "score": 53.5,
       "label": "Neutral"
     },
     "bonds": {
@@ -21,7 +21,7 @@
       "label": "Fear"
     },
     "sentiment": {
-      "score": 48.4,
+      "score": 48.7,
       "label": "Neutral"
     }
   }
