@@ -1,27 +1,27 @@
 {
-  "date": "2026-05-18",
-  "timestamp": "2026-05-18T06:16:59Z",
-  "summary": "A global bond rout \u2014 led by longer-dated Treasuries most vulnerable to accelerating inflation \u2014 carried over into this week as the Iran war's energy shock keeps rate-hike bets alive. The Trump-Xi Beijing summit ended without progress on reopening the Strait of Hormuz, leaving oil elevated and inflation pressure intact.",
-  "tweet": "Bond yields near multi-year highs after last week's global rout, as Iran's Strait of Hormuz standoff keeps oil hot and markets brace for the first Warsh-era FOMC minutes.",
+  "date": "2026-05-19",
+  "timestamp": "2026-05-19T06:11:01Z",
+  "summary": "Iran war-driven energy inflation has markets repricing Fed policy under incoming chair Kevin Warsh, with traders now pricing nearly a two-thirds chance of a rate hike by December. That has hammered long-duration bonds, keeping real rates elevated and gold under pressure despite equity greed. U.S.-Iran peace talks remain stalled, with oil above $106, sustaining the inflation overhang across all asset classes.",
+  "tweet": "Iran talks deadlocked, oil above $106, and a rate-hike bet under new Fed chair Warsh is punishing bonds and gold while stocks hold greed on earnings momentum.",
   "scores": {
     "gold": {
-      "score": 39.6,
+      "score": 40.6,
       "label": "Fear"
     },
     "stocks": {
-      "score": 62.9,
+      "score": 63.3,
       "label": "Greed"
     },
     "crypto": {
-      "score": 53.5,
+      "score": 54.1,
       "label": "Neutral"
     },
     "bonds": {
-      "score": 38.9,
+      "score": 39.5,
       "label": "Fear"
     },
     "sentiment": {
-      "score": 48.7,
+      "score": 49.4,
       "label": "Neutral"
     }
   }

@@ -1,7 +1,7 @@
 {
-  "score": 53.5,
+  "score": 54.1,
   "label": "Neutral",
-  "timestamp": "2026-05-18T06:16:30Z",
+  "timestamp": "2026-05-19T06:10:47Z",
   "components": {
     "context": {
       "score": 57.0,
@@ -14,14 +14,14 @@
       "detail": "RSI: 40, Price vs MA200: -5.6%"
     },
     "dominance": {
-      "score": 34.2,
+      "score": 36.0,
       "weight": 0.2,
-      "detail": "BTC -5.0% vs ETH -10.2% (14d)"
+      "detail": "BTC -5.0% vs ETH -9.6% (14d)"
     },
     "volume": {
-      "score": 48.6,
+      "score": 50.0,
       "weight": 0.15,
-      "detail": "Vol 7d/30d: 0.95x, price down"
+      "detail": "Vol 7d/30d: 1.00x, price down"
     },
     "volatility": {
       "score": 95.8,
@@ -30,6 +30,11 @@
     }
   },
   "history": [
+    {
+      "date": "2026-05-19",
+      "score": 54.1,
+      "price": 76907.63
+    },
     {
       "date": "2026-05-18",
       "score": 53.5,
@@ -1849,11 +1854,6 @@
       "date": "2025-05-20",
       "score": 81.9,
       "price": 106791.09
-    },
-    {
-      "date": "2025-05-19",
-      "score": 83.4,
-      "price": 105606.18
     }
   ]
 }
