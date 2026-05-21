@@ -1,27 +1,27 @@
 {
-  "date": "2026-05-20",
-  "timestamp": "2026-05-20T06:10:27Z",
-  "summary": "Moody's downgraded the U.S. credit rating on May 16, making it the first time all three major agencies have stripped the U.S. of their top rating. The immediate reaction saw stocks sell off and the 30-year Treasury yield jump above 5%, hammering long-duration bonds and keeping real rates elevated. Separately, fraying U.S.-Iran ceasefire talks keep an oil risk premium embedded in markets, with WTI near $105.",
-  "tweet": "Moody's stripped the U.S. of its last triple-A rating as Iran tensions hold oil near $105 \u2014 long bonds are taking the hit across the board.",
+  "date": "2026-05-21",
+  "timestamp": "2026-05-21T06:12:46Z",
+  "summary": "The 30-year Treasury yield hit 5.2%, its highest since 2007, as unsustainable fiscal concerns and Iran war inflation fears drove a sustained bond rout. Markets caught a partial bid Wednesday after Trump claimed U.S.-Iran peace talks are in \"the final stages,\" pushing WTI nearly $10 lower to $98, but Iranian leadership has yet to signal any willingness to deal.",
+  "tweet": "Iran war oil shock has the 30-year yield at a 19-year high near 5.2% \u2014 partial ceasefire optimism offered bonds a brief reprieve Wednesday, but the inflation-rate-hike fear trade remains firmly in control.",
   "scores": {
     "gold": {
-      "score": 34.4,
+      "score": 37.7,
       "label": "Fear"
     },
     "stocks": {
-      "score": 59.6,
+      "score": 61.9,
       "label": "Greed"
     },
     "crypto": {
-      "score": 52.8,
+      "score": 52.9,
       "label": "Neutral"
     },
     "bonds": {
-      "score": 40.5,
+      "score": 40.8,
       "label": "Fear"
     },
     "sentiment": {
-      "score": 46.8,
+      "score": 48.3,
       "label": "Neutral"
     }
   }
