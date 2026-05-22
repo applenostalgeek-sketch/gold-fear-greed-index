@@ -1,27 +1,27 @@
 {
-  "date": "2026-05-21",
-  "timestamp": "2026-05-21T06:12:46Z",
-  "summary": "The 30-year Treasury yield hit 5.2%, its highest since 2007, as unsustainable fiscal concerns and Iran war inflation fears drove a sustained bond rout. Markets caught a partial bid Wednesday after Trump claimed U.S.-Iran peace talks are in \"the final stages,\" pushing WTI nearly $10 lower to $98, but Iranian leadership has yet to signal any willingness to deal.",
-  "tweet": "Iran war oil shock has the 30-year yield at a 19-year high near 5.2% \u2014 partial ceasefire optimism offered bonds a brief reprieve Wednesday, but the inflation-rate-hike fear trade remains firmly in control.",
+  "date": "2026-05-22",
+  "timestamp": "2026-05-22T06:09:50Z",
+  "summary": "Nvidia reported 129% year-over-year earnings growth this week, delivering the AI-trade validation markets needed, while easing bond yields provided an additional lift, with the 10-year Treasury pulling back to 4.57% from 4.67%.",
+  "tweet": "Nvidia's blowout quarter and a pullback in Treasury yields from multi-year highs are the week's twin drivers \u2014 lifting tech while bonds and gold stay under pressure from sticky inflation fears.",
   "scores": {
     "gold": {
-      "score": 37.7,
-      "label": "Fear"
-    },
-    "stocks": {
-      "score": 61.9,
-      "label": "Greed"
-    },
-    "crypto": {
-      "score": 52.9,
-      "label": "Neutral"
-    },
-    "bonds": {
       "score": 40.8,
       "label": "Fear"
     },
+    "stocks": {
+      "score": 62.4,
+      "label": "Greed"
+    },
+    "crypto": {
+      "score": 51.8,
+      "label": "Neutral"
+    },
+    "bonds": {
+      "score": 40.3,
+      "label": "Fear"
+    },
     "sentiment": {
-      "score": 48.3,
+      "score": 48.8,
       "label": "Neutral"
     }
   }
