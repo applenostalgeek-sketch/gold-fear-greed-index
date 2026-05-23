@@ -1,27 +1,27 @@
 {
-  "date": "2026-05-22",
-  "timestamp": "2026-05-22T06:09:50Z",
-  "summary": "Nvidia reported 129% year-over-year earnings growth this week, delivering the AI-trade validation markets needed, while easing bond yields provided an additional lift, with the 10-year Treasury pulling back to 4.57% from 4.67%.",
-  "tweet": "Nvidia's blowout quarter and a pullback in Treasury yields from multi-year highs are the week's twin drivers \u2014 lifting tech while bonds and gold stay under pressure from sticky inflation fears.",
+  "date": "2026-05-23",
+  "timestamp": "2026-05-23T05:40:59Z",
+  "summary": "The US-Iran standoff remains the dominant force, with the 10-year yield rising to 4.62% as Iran's Supreme Leader hardened Tehran's position on uranium enrichment, stoking fresh oil supply and inflation fears. Reinforcing the pressure, FOMC minutes revealed most policymakers see additional rate hikes as warranted if inflation stays above target \u2014 keeping real rates elevated, weighing on gold and bonds while equities hold their risk-on posture.",
+  "tweet": "Iran peace talks stall and FOMC minutes flag more hikes \u2014 the 10Y hit 4.62%, squeezing gold and bonds while stocks shrug it off.",
   "scores": {
     "gold": {
-      "score": 40.8,
+      "score": 38.2,
       "label": "Fear"
     },
     "stocks": {
-      "score": 62.4,
+      "score": 62.8,
       "label": "Greed"
     },
     "crypto": {
-      "score": 51.8,
+      "score": 46.9,
       "label": "Neutral"
     },
     "bonds": {
-      "score": 40.3,
-      "label": "Fear"
+      "score": 47.5,
+      "label": "Neutral"
     },
     "sentiment": {
-      "score": 48.8,
+      "score": 48.9,
       "label": "Neutral"
     }
   }
