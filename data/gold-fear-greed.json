@@ -1,7 +1,7 @@
 {
-  "score": 38.2,
+  "score": 38.3,
   "label": "Fear",
-  "timestamp": "2026-05-23T05:40:40Z",
+  "timestamp": "2026-05-24T06:03:24Z",
   "components": {
     "gld_price": {
       "score": 44.7,
@@ -9,7 +9,7 @@
       "detail": "GLD 14d: -1.1%"
     },
     "momentum": {
-      "score": 47.3,
+      "score": 47.5,
       "weight": 0.2,
       "detail": "RSI: 50, Price < MA50"
     },
@@ -35,6 +35,11 @@
     }
   },
   "history": [
+    {
+      "date": "2026-05-24",
+      "score": 38.3,
+      "price": 413.82
+    },
     {
       "date": "2026-05-23",
       "score": 38.2,
@@ -1851,11 +1856,6 @@
     },
     {
       "date": "2025-05-25",
-      "score": 45.9,
-      "price": 309.75
-    },
-    {
-      "date": "2025-05-24",
       "score": 45.9,
       "price": 309.75
     }

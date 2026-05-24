@@ -1,11 +1,11 @@
 {
-  "date": "2026-05-23",
-  "timestamp": "2026-05-23T05:40:59Z",
-  "summary": "The US-Iran standoff remains the dominant force, with the 10-year yield rising to 4.62% as Iran's Supreme Leader hardened Tehran's position on uranium enrichment, stoking fresh oil supply and inflation fears. Reinforcing the pressure, FOMC minutes revealed most policymakers see additional rate hikes as warranted if inflation stays above target \u2014 keeping real rates elevated, weighing on gold and bonds while equities hold their risk-on posture.",
-  "tweet": "Iran peace talks stall and FOMC minutes flag more hikes \u2014 the 10Y hit 4.62%, squeezing gold and bonds while stocks shrug it off.",
+  "date": "2026-05-24",
+  "timestamp": "2026-05-24T06:03:48Z",
+  "summary": "US-Iran peace talks remain fragile, with mixed signals on a deal keeping oil prices elevated and reigniting inflation concerns that drove the 10-year Treasury yield back to 4.62% mid-week.  \n \n<cite index=\"2-5,2-6\">Stocks bounced as oil and long-term yields eased late in the week, but the oil-yield link remains the key lever \u2014 higher oil lifts inflation fears, which lifts yields, which pressures equities.",
+  "tweet": "Iran deal uncertainty kept the 10-year near 4.57% as conflicting signals on Hormuz and uranium held inflation risk in focus, pressuring bonds and capping gold's safe-haven bid. --- SUMMARY: US-Iran peace talks remain...",
   "scores": {
     "gold": {
-      "score": 38.2,
+      "score": 38.3,
       "label": "Fear"
     },
     "stocks": {
@@ -13,7 +13,7 @@
       "label": "Greed"
     },
     "crypto": {
-      "score": 46.9,
+      "score": 50.5,
       "label": "Neutral"
     },
     "bonds": {
@@ -21,7 +21,7 @@
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 48.9,
+      "score": 49.8,
       "label": "Neutral"
     }
   }
