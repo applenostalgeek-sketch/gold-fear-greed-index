@@ -1,11 +1,11 @@
 {
-  "date": "2026-05-24",
-  "timestamp": "2026-05-24T06:03:48Z",
-  "summary": "US-Iran peace talks remain fragile, with mixed signals on a deal keeping oil prices elevated and reigniting inflation concerns that drove the 10-year Treasury yield back to 4.62% mid-week.  \n \n<cite index=\"2-5,2-6\">Stocks bounced as oil and long-term yields eased late in the week, but the oil-yield link remains the key lever \u2014 higher oil lifts inflation fears, which lifts yields, which pressures equities.",
-  "tweet": "Iran deal uncertainty kept the 10-year near 4.57% as conflicting signals on Hormuz and uranium held inflation risk in focus, pressuring bonds and capping gold's safe-haven bid. --- SUMMARY: US-Iran peace talks remain...",
+  "date": "2026-05-25",
+  "timestamp": "2026-05-25T06:37:37Z",
+  "summary": "Iran peace signals eased oil and yields into the weekend, with the 10-year settling near 4.57%, but FOMC minutes confirmed most Fed officials still see rate hikes as possible if inflation persists. A four-year high in Manufacturing PMI added to that pressure, with factory input prices surging \u2014 keeping real rates elevated and gold under pressure while stocks hold greed territory on falling VIX.",
+  "tweet": "Iran deal hopes cooled yields, but hawkish FOMC minutes and surging factory input prices keep rate-hike risk alive \u2014 stocks greed, gold in fear.",
   "scores": {
     "gold": {
-      "score": 38.3,
+      "score": 37.7,
       "label": "Fear"
     },
     "stocks": {
@@ -21,7 +21,7 @@
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 49.8,
+      "score": 49.6,
       "label": "Neutral"
     }
   }
