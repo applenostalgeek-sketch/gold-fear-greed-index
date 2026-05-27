@@ -1,27 +1,27 @@
 {
-  "date": "2026-05-26",
-  "timestamp": "2026-05-26T06:09:10Z",
-  "summary": "Iran peace negotiations remain the dominant macro force, with Trump declaring talks in their \"final stages\" \u2014 progress that has pulled oil back from near $110 and eased inflation pressure at the margin. But the oil shock has already rekindled inflation fears and driven a growing consensus that the Fed will not cut rates this year, with traders now pricing in a rate hike as more likely.",
-  "tweet": "Iran deal progress pulled oil off its highs, but FOMC minutes flagging possible hikes and a 40% December hike probability keep real rates elevated \u2014 stocks greed, gold and bonds squeezed.",
+  "date": "2026-05-27",
+  "timestamp": "2026-05-27T06:23:16Z",
+  "summary": "Iran ceasefire diplomacy is pulling equities to record highs but leaving bonds under pressure, with the 30-year Treasury yield having hit a 19-year high of 5.2% on war-driven inflation fears. Stocks are riding tech momentum and peace optimism while gold sells off as safe-haven demand fades and real rates stay elevated.",
+  "tweet": "Iran deal hopes lift stocks to records, but bond yields at 19-year highs and sticky inflation are keeping gold in the red and rate cuts off the table.",
   "scores": {
     "gold": {
-      "score": 37.7,
+      "score": 31.3,
       "label": "Fear"
     },
     "stocks": {
-      "score": 62.9,
+      "score": 63.0,
       "label": "Greed"
     },
     "crypto": {
-      "score": 48.4,
+      "score": 48.0,
       "label": "Neutral"
     },
     "bonds": {
-      "score": 47.5,
+      "score": 48.1,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 49.1,
+      "score": 47.6,
       "label": "Neutral"
     }
   }
