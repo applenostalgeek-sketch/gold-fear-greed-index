@@ -1,27 +1,27 @@
 {
-  "date": "2026-05-27",
-  "timestamp": "2026-05-27T06:23:16Z",
-  "summary": "Iran ceasefire diplomacy is pulling equities to record highs but leaving bonds under pressure, with the 30-year Treasury yield having hit a 19-year high of 5.2% on war-driven inflation fears. Stocks are riding tech momentum and peace optimism while gold sells off as safe-haven demand fades and real rates stay elevated.",
-  "tweet": "Iran deal hopes lift stocks to records, but bond yields at 19-year highs and sticky inflation are keeping gold in the red and rate cuts off the table.",
+  "date": "2026-05-28",
+  "timestamp": "2026-05-28T06:15:05Z",
+  "summary": "Iran ceasefire progress drove a partial bond market recovery this week, with the 10-year yield retreating to its lowest in two weeks as peace talk optimism offset sticky inflation fears. Stocks held greed territory on low VIX and tech momentum, while gold sold off sharply as rate-hike bets hardened and safe-haven demand unwound.",
+  "tweet": "Iran peace progress eased bonds off their",
   "scores": {
     "gold": {
-      "score": 31.3,
+      "score": 25.8,
       "label": "Fear"
     },
     "stocks": {
-      "score": 63.0,
+      "score": 62.3,
       "label": "Greed"
     },
     "crypto": {
-      "score": 48.0,
+      "score": 45.7,
       "label": "Neutral"
     },
     "bonds": {
-      "score": 48.1,
+      "score": 50.2,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 47.6,
+      "score": 46.0,
       "label": "Neutral"
     }
   }
