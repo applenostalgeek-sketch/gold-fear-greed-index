@@ -1,10 +1,10 @@
 {
   "asset": "bonds",
-  "generated": "2026-05-28T06:14:48Z",
-  "total_days": 1273,
+  "generated": "2026-05-29T06:15:52Z",
+  "total_days": 1274,
   "date_range": {
     "start": "2021-06-01",
-    "end": "2026-05-28"
+    "end": "2026-05-29"
   },
   "score_stats": {
     "min": 27.9,
@@ -7649,6 +7649,12 @@
       "score": 50.2,
       "label": "Neutral",
       "price": 85.3
+    },
+    {
+      "date": "2026-05-29",
+      "score": 54.9,
+      "label": "Neutral",
+      "price": 85.74
     }
   ]
 }

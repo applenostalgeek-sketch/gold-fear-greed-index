@@ -1,27 +1,27 @@
 {
-  "date": "2026-05-28",
-  "timestamp": "2026-05-28T06:15:05Z",
-  "summary": "Iran ceasefire progress drove a partial bond market recovery this week, with the 10-year yield retreating to its lowest in two weeks as peace talk optimism offset sticky inflation fears. Stocks held greed territory on low VIX and tech momentum, while gold sold off sharply as rate-hike bets hardened and safe-haven demand unwound.",
-  "tweet": "Iran peace progress eased bonds off their",
+  "date": "2026-05-29",
+  "timestamp": "2026-05-29T06:16:03Z",
+  "summary": "A US-Iran deal to extend the ceasefire and gradually restore Persian Gulf energy exports pulled oil prices lower and eased bond yields, even as PCE inflation rose to a three-year high and consumer spending stayed robust. Long-dated Treasuries have faced sustained pressure since the war's outbreak, with the 30-year yield spiking above 5% this month before attracting buyers, keeping real rates elevated and gold on the back foot.",
+  "tweet": "A US-Iran ceasefire extension is easing oil and bond yields, but PCE at a 3-year high keeps rate-cut hopes in check \u2014 stocks greed, gold fear, bonds neutral.",
   "scores": {
     "gold": {
-      "score": 25.8,
+      "score": 30.0,
       "label": "Fear"
     },
     "stocks": {
-      "score": 62.3,
+      "score": 62.7,
       "label": "Greed"
     },
     "crypto": {
-      "score": 45.7,
+      "score": 48.1,
       "label": "Neutral"
     },
     "bonds": {
-      "score": 50.2,
+      "score": 54.9,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 46.0,
+      "score": 48.9,
       "label": "Neutral"
     }
   }
