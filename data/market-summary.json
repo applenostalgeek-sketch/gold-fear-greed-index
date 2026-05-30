@@ -1,11 +1,11 @@
 {
-  "date": "2026-05-29",
-  "timestamp": "2026-05-29T06:16:03Z",
-  "summary": "A US-Iran deal to extend the ceasefire and gradually restore Persian Gulf energy exports pulled oil prices lower and eased bond yields, even as PCE inflation rose to a three-year high and consumer spending stayed robust. Long-dated Treasuries have faced sustained pressure since the war's outbreak, with the 30-year yield spiking above 5% this month before attracting buyers, keeping real rates elevated and gold on the back foot.",
-  "tweet": "A US-Iran ceasefire extension is easing oil and bond yields, but PCE at a 3-year high keeps rate-cut hopes in check \u2014 stocks greed, gold fear, bonds neutral.",
+  "date": "2026-05-30",
+  "timestamp": "2026-05-30T05:50:03Z",
+  "summary": "Iran ceasefire optimism pulled oil lower and trimmed rate-hike bets this week, lifting equities to all-time highs and crushing VIX even as core PCE held at 3.3% annually. The Trump-Xi summit trade deals added a second tailwind for stocks, but stubbornly high real rates and a firming dollar continue to weigh on gold and keep crypto without a macro catalyst.",
+  "tweet": "Iran peace hopes and Trump-Xi trade deals pushed stocks to all-time highs this week, but 3.3% core PCE and elevated real rates keep gold pinned and crypto sidelined.",
   "scores": {
     "gold": {
-      "score": 30.0,
+      "score": 31.7,
       "label": "Fear"
     },
     "stocks": {
@@ -13,15 +13,15 @@
       "label": "Greed"
     },
     "crypto": {
-      "score": 48.1,
+      "score": 49.0,
       "label": "Neutral"
     },
     "bonds": {
-      "score": 54.9,
+      "score": 52.5,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 48.9,
+      "score": 49.0,
       "label": "Neutral"
     }
   }
