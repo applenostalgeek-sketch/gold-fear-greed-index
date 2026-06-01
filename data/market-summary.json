@@ -1,11 +1,11 @@
 {
-  "date": "2026-05-31",
-  "timestamp": "2026-05-31T06:21:01Z",
-  "summary": "A draft US-Iran peace agreement circulated through diplomatic channels this week, lifting equities to record highs as investors looked past macro warning signs. At the same time, Dell's blowout AI server earnings drove a tech-led surge, with the S&P 500 logging its ninth straight winning week.",
-  "tweet": "A US-Iran peace draft and Dell's AI earnings blowout pushed stocks to all-time highs, while oil fell ~5% on ceasefire hopes \u2014 but sticky energy-driven inflation keeps bonds and gold on the back foot. --- Final output...",
+  "date": "2026-06-01",
+  "timestamp": "2026-06-01T06:59:38Z",
+  "summary": "The US-Iran ceasefire extension lifted stocks to record highs while dragging gold sharply lower as safe-haven demand evaporated. Oil's retreat eased inflation fears and compressed bond yields, explaining bonds' week-long recovery. Friday's May jobs report now takes center stage as the key read on Fed policy direction.",
+  "tweet": "US-Iran ceasefire extension sent stocks to records and crushed gold's safe-haven bid. Now all eyes shift to Friday's May jobs report for the next Fed signal.",
   "scores": {
     "gold": {
-      "score": 32.4,
+      "score": 31.7,
       "label": "Fear"
     },
     "stocks": {
@@ -13,7 +13,7 @@
       "label": "Greed"
     },
     "crypto": {
-      "score": 49.4,
+      "score": 48.2,
       "label": "Neutral"
     },
     "bonds": {
@@ -21,7 +21,7 @@
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 49.3,
+      "score": 48.9,
       "label": "Neutral"
     }
   }
