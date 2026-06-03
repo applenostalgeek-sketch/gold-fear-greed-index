@@ -1,27 +1,27 @@
 {
-  "date": "2026-06-02",
-  "timestamp": "2026-06-02T06:43:54Z",
-  "summary": "US-Iran peace talks remain unresolved, with fresh military exchanges pushing oil sharply higher and keeping geopolitical risk alive across assets \u2014 even as AI-driven equity momentum carried stocks to new records Monday, led by Nvidia's RTX Spark Superchip launch.",
-  "tweet": "Iran halted US talks after new strikes while Nvidia's Superchip surge lifted stocks to records \u2014 now JOLTS today and Friday's jobs report will decide whether the Fed stays patient or markets reprice.",
+  "date": "2026-06-03",
+  "timestamp": "2026-06-03T06:54:45Z",
+  "summary": "Bitcoin tumbled to a low near $65,372 on June 3, shedding over 12% for the week as spot BTC ETFs logged 11 consecutive days of net outflows, with $519 million exiting on June 2 alone \u2014 a crypto crash running entirely counter to equity strength. Meanwhile, the US-Iran ceasefire remains fragile, with sporadic hostilities continuing even as bond yields pulled back and stocks rallied on peace hopes, keeping cross-asset sentiment deeply split.",
+  "tweet": "Bitcoin shed 12% on the week amid mass ETF outflows and liquidations, while traditional markets stayed resilient \u2014 the sharpest crypto-equity divergence of 2026.",
   "scores": {
     "gold": {
-      "score": 31.7,
+      "score": 31.4,
       "label": "Fear"
     },
     "stocks": {
-      "score": 62.6,
+      "score": 63.5,
       "label": "Greed"
     },
     "crypto": {
-      "score": 46.5,
-      "label": "Neutral"
+      "score": 37.8,
+      "label": "Fear"
     },
     "bonds": {
-      "score": 54.8,
-      "label": "Neutral"
+      "score": 57.9,
+      "label": "Greed"
     },
     "sentiment": {
-      "score": 48.9,
+      "score": 47.6,
       "label": "Neutral"
     }
   }
