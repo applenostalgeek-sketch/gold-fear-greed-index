@@ -31,8 +31,14 @@ ASSETS = {
 PREVIOUS_LABELS_FILE = 'data/previous-labels.json'
 PREVIOUS_SCORES_FILE = 'data/previous-scores.json'
 
-# Delta thresholds: minimum score change required (in addition to zone change)
-DELTA_THRESHOLD_ASSET = 10     # for gold, bonds, stocks, crypto
+# Delta thresholds: minimum score change required (in addition to zone change).
+# Calibrated per asset from each index's own daily volatility + signal value:
+#   gold   = noisy / no edge        -> strict (11)
+#   stocks = real contrarian signal -> sensitive (8)
+#   crypto = above its own jitter   -> 8 (catches multi-day slides into a new zone)
+#   bonds  = low-vol, rarely > ~8   -> 7 (else it never alerts)
+DELTA_THRESHOLDS_ASSET = {'gold': 11, 'stocks': 8, 'crypto': 8, 'bonds': 7}
+DELTA_THRESHOLD_ASSET_DEFAULT = 10  # fallback for any unlisted asset key
 DELTA_THRESHOLD_SENTIMENT = 7  # for market sentiment
 
 ZONE_STYLES = {
@@ -162,7 +168,7 @@ def find_changes(current, previous_labels, previous_scores):
             continue
 
         # Must exceed delta threshold
-        threshold = DELTA_THRESHOLD_SENTIMENT if key == 'sentiment' else DELTA_THRESHOLD_ASSET
+        threshold = DELTA_THRESHOLD_SENTIMENT if key == 'sentiment' else DELTA_THRESHOLDS_ASSET.get(key, DELTA_THRESHOLD_ASSET_DEFAULT)
         if prev_score is not None:
             delta = abs(curr_score - prev_score)
             if delta < threshold:
