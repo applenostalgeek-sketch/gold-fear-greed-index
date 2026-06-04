@@ -1,27 +1,27 @@
 {
-  "date": "2026-06-03",
-  "timestamp": "2026-06-03T06:54:45Z",
-  "summary": "Bitcoin tumbled to a low near $65,372 on June 3, shedding over 12% for the week as spot BTC ETFs logged 11 consecutive days of net outflows, with $519 million exiting on June 2 alone \u2014 a crypto crash running entirely counter to equity strength. Meanwhile, the US-Iran ceasefire remains fragile, with sporadic hostilities continuing even as bond yields pulled back and stocks rallied on peace hopes, keeping cross-asset sentiment deeply split.",
-  "tweet": "Bitcoin shed 12% on the week amid mass ETF outflows and liquidations, while traditional markets stayed resilient \u2014 the sharpest crypto-equity divergence of 2026.",
+  "date": "2026-06-04",
+  "timestamp": "2026-06-04T06:44:36Z",
+  "summary": "Bitcoin's freefall below $68,000 \u2014 triggered by over $1.23 billion in crypto liquidations \u2014 deepened this week as spot BTC ETFs logged 11 consecutive days of net outflows, with analysts flagging capital rotation into AI-related equities as a key driver, a dynamic that highlights Bitcoin's growing divergence from tech stocks.",
+  "tweet": "BTC below $68K and $1.23B in liquidations as ETF money rotates into AI stocks \u2014 inflation at 3.8% keeps real rates high and the cross-asset split wide open.",
   "scores": {
     "gold": {
-      "score": 31.4,
+      "score": 33.2,
       "label": "Fear"
     },
     "stocks": {
-      "score": 63.5,
+      "score": 61.4,
       "label": "Greed"
     },
     "crypto": {
-      "score": 37.8,
+      "score": 35.0,
       "label": "Fear"
     },
     "bonds": {
-      "score": 57.9,
+      "score": 55.9,
       "label": "Greed"
     },
     "sentiment": {
-      "score": 47.6,
+      "score": 46.4,
       "label": "Neutral"
     }
   }
