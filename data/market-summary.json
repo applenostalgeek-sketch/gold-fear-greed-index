@@ -1,28 +1,28 @@
 {
-  "date": "2026-06-05",
-  "timestamp": "2026-06-05T06:25:36Z",
-  "summary": "Bitcoin has been in freefall since June 2, sliding to $61,655 by June 4 \u2014 its lowest level in months \u2014 wiping out roughly $1.8 billion in leveraged positions. The crash was triggered by a confluence of events: Strategy disclosed its first net Bitcoin sale since December 2022, and while the 32 BTC sold was negligible in size, the symbolic breach of its \"never sell\" narrative shook investor confidence.",
-  "tweet": "Strategy's first BTC sale in years sparked $1.8B in crypto liquidations as Iran tensions and sticky inflation push yields higher \u2014 crypto craters while stocks hold on AI momentum.",
+  "date": "2026-06-06",
+  "timestamp": "2026-06-06T05:57:08Z",
+  "summary": "Friday's stronger-than-expected jobs report triggered a broad tech selloff, pushing the Nasdaq down over 4% as fresh inflation fears sent 20Y and 30Y Treasury yields back above 5%, lifting bonds while pressuring equities. Crypto deepened its collapse, with Bitcoin extending its freefall toward $60K amid a record 11-day streak of spot ETF outflows and capital rotating aggressively into AI infrastructure plays.",
+  "tweet": "Hot jobs data spiked yields and crushed tech; Bitcoin's record ETF outflow streak and AI rotation are compounding a brutal week for risk.",
   "scores": {
     "gold": {
-      "score": 37.9,
+      "score": 35.0,
       "label": "Fear"
     },
     "stocks": {
-      "score": 61.9,
-      "label": "Greed"
+      "score": 52.6,
+      "label": "Neutral"
     },
     "crypto": {
-      "score": 30.5,
+      "score": 27.3,
       "label": "Fear"
     },
     "bonds": {
-      "score": 57.1,
+      "score": 60.6,
       "label": "Greed"
     },
     "sentiment": {
-      "score": 46.9,
-      "label": "Neutral"
+      "score": 43.9,
+      "label": "Fear"
     }
   }
 }

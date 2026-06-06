@@ -16,7 +16,7 @@
     <link rel="canonical" href="https://onoff.markets/">
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Market sentiment is 47 (neutral). Gold 38, Bonds 57, Stocks 62, Crypto 30. Track real-time Fear &amp; Greed across 4 asset classes. Updated daily.">
+    <meta name="description" content="Market sentiment is 44 (fear). Gold 35, Bonds 61, Stocks 53, Crypto 27. Track real-time Fear &amp; Greed across 4 asset classes. Updated daily.">
     <meta name="keywords" content="market sentiment, fear and greed index, gold sentiment, bonds sentiment, crypto fear greed, stock market sentiment, market fear greed">
     <meta name="author" content="OnOff.Markets">
 
@@ -41,10 +41,10 @@
         "@type": "WebApplication",
         "name": "OnOff.Markets — Fear & Greed Index",
         "url": "https://onoff.markets",
-        "description": "Market sentiment is 47 (neutral). Gold 38, Bonds 57, Stocks 62, Crypto 30. Track real-time Fear & Greed across 4 asset classes. Updated daily.",
+        "description": "Market sentiment is 44 (fear). Gold 35, Bonds 61, Stocks 53, Crypto 27. Track real-time Fear & Greed across 4 asset classes. Updated daily.",
         "applicationCategory": "FinanceApplication",
         "operatingSystem": "All",
-        "dateModified": "2026-06-05",
+        "dateModified": "2026-06-06",
         "offers": {
                 "@type": "Offer",
                 "price": "0",
@@ -583,7 +583,7 @@
         <div class="header">
             <h1>Market Sentiment</h1>
             <div class="tagline">Are investors fearful or greedy today?</div>
-            <div class="updated" id="updated">Updated: June 05, 2026</div>
+            <div class="updated" id="updated">Updated: June 06, 2026</div>
         </div>
 
         <!-- Hero Score: Circle Gauge -->
@@ -607,10 +607,10 @@
                         <rect id="water-fill" x="0" y="200" width="200" height="200" fill="url(#fill-gradient)" />
                         <path id="wave" d="" fill="url(#fill-gradient)" opacity="0.6" />
                     </g>
-                    <text x="100" y="82" class="circle-score-text" id="score" text-anchor="middle" dominant-baseline="central">47</text>
+                    <text x="100" y="82" class="circle-score-text" id="score" text-anchor="middle" dominant-baseline="central">44</text>
                     <text id="sentimentArrow" class="circle-arrow" x="138" y="82" text-anchor="start" dominant-baseline="central"></text>
                     <text x="100" y="107" class="circle-suffix" text-anchor="middle" dominant-baseline="central">/100</text>
-                    <text x="100" y="155" class="circle-label" id="label" text-anchor="middle" dominant-baseline="central">NEUTRAL</text>
+                    <text x="100" y="155" class="circle-label" id="label" text-anchor="middle" dominant-baseline="central">FEAR</text>
                 </svg>
             </div>
         </div>
@@ -621,7 +621,7 @@
                 <span class="insight-icon">💡</span>
                 <h2 class="insight-title">What's happening</h2>
             </div>
-            <div class="insight-text" id="insight">Bitcoin has been in freefall since June 2, sliding to $61,655 by June 4 — its lowest level in months — wiping out roughly $1.8 billion in leveraged positions. The crash was triggered by a confluence of events: Strategy disclosed its first net Bitcoin sale since December 2022, and while the 32 BTC sold was negligible in size, the symbolic breach of its &quot;never sell&quot; narrative shook investor confidence.</div>
+            <div class="insight-text" id="insight">Friday&#x27;s stronger-than-expected jobs report triggered a broad tech selloff, pushing the Nasdaq down over 4% as fresh inflation fears sent 20Y and 30Y Treasury yields back above 5%, lifting bonds while pressuring equities. Crypto deepened its collapse, with Bitcoin extending its freefall toward $60K amid a record 11-day streak of spot ETF outflows and capital rotating aggressively into AI infrastructure plays.</div>
             <div class="context-section" id="contextBox" style="display:none;">
                 <div class="context-label">Context <span class="beta-tag">Beta</span></div>
                 <div class="context-text" id="contextText"></div>
@@ -659,7 +659,7 @@
                             <rect id="goldFill" x="0" y="100" width="100" height="100" fill="url(#mini-grad-gold)"/>
                             <path id="goldWave" d="" fill="url(#mini-grad-gold)" opacity="0.5"/>
                         </g>
-                        <text x="50" y="50" class="mini-score-text" id="goldValue" text-anchor="middle" dominant-baseline="central">38</text>
+                        <text x="50" y="50" class="mini-score-text" id="goldValue" text-anchor="middle" dominant-baseline="central">35</text>
                     </svg>
                 </div>
                 <div class="asset-trend" id="goldTrend"></div>
@@ -687,7 +687,7 @@
                             <rect id="bondsFill" x="0" y="100" width="100" height="100" fill="url(#mini-grad-bonds)"/>
                             <path id="bondsWave" d="" fill="url(#mini-grad-bonds)" opacity="0.5"/>
                         </g>
-                        <text x="50" y="50" class="mini-score-text" id="bondsValue" text-anchor="middle" dominant-baseline="central">57</text>
+                        <text x="50" y="50" class="mini-score-text" id="bondsValue" text-anchor="middle" dominant-baseline="central">61</text>
                     </svg>
                 </div>
                 <div class="asset-trend" id="bondsTrend"></div>
@@ -715,7 +715,7 @@
                             <rect id="stocksFill" x="0" y="100" width="100" height="100" fill="url(#mini-grad-stocks)"/>
                             <path id="stocksWave" d="" fill="url(#mini-grad-stocks)" opacity="0.5"/>
                         </g>
-                        <text x="50" y="50" class="mini-score-text" id="stocksValue" text-anchor="middle" dominant-baseline="central">62</text>
+                        <text x="50" y="50" class="mini-score-text" id="stocksValue" text-anchor="middle" dominant-baseline="central">53</text>
                     </svg>
                 </div>
                 <div class="asset-trend" id="stocksTrend"></div>
@@ -743,7 +743,7 @@
                             <rect id="cryptoFill" x="0" y="100" width="100" height="100" fill="url(#mini-grad-crypto)"/>
                             <path id="cryptoWave" d="" fill="url(#mini-grad-crypto)" opacity="0.5"/>
                         </g>
-                        <text x="50" y="50" class="mini-score-text" id="cryptoValue" text-anchor="middle" dominant-baseline="central">30</text>
+                        <text x="50" y="50" class="mini-score-text" id="cryptoValue" text-anchor="middle" dominant-baseline="central">27</text>
                     </svg>
                 </div>
                 <div class="asset-trend" id="cryptoTrend"></div>
