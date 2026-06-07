@@ -1,11 +1,11 @@
 {
-  "date": "2026-06-06",
-  "timestamp": "2026-06-06T05:57:08Z",
-  "summary": "Friday's stronger-than-expected jobs report triggered a broad tech selloff, pushing the Nasdaq down over 4% as fresh inflation fears sent 20Y and 30Y Treasury yields back above 5%, lifting bonds while pressuring equities. Crypto deepened its collapse, with Bitcoin extending its freefall toward $60K amid a record 11-day streak of spot ETF outflows and capital rotating aggressively into AI infrastructure plays.",
-  "tweet": "Hot jobs data spiked yields and crushed tech; Bitcoin's record ETF outflow streak and AI rotation are compounding a brutal week for risk.",
+  "date": "2026-06-07",
+  "timestamp": "2026-06-07T06:26:48Z",
+  "summary": "May's nonfarm payrolls came in at 172,000 \u2014 double consensus estimates \u2014 making it easy for the Fed to focus on inflation, and markets are now pricing a full 25bp rate hike this year. Broadcom's lackluster AI chip guidance sent the stock down 20%, rattling the AI trade and helping trigger the week's sharp tech selloff.",
+  "tweet": "A blowout jobs print doubled estimates and pushed markets to price a full Fed rate hike, while Broadcom's AI miss and record Bitcoin ETF outflows deepened the cross-asset selloff.",
   "scores": {
     "gold": {
-      "score": 35.0,
+      "score": 35.4,
       "label": "Fear"
     },
     "stocks": {
@@ -13,7 +13,7 @@
       "label": "Neutral"
     },
     "crypto": {
-      "score": 27.3,
+      "score": 27.7,
       "label": "Fear"
     },
     "bonds": {
@@ -21,7 +21,7 @@
       "label": "Greed"
     },
     "sentiment": {
-      "score": 43.9,
+      "score": 44.1,
       "label": "Fear"
     }
   }
