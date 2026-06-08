@@ -56,6 +56,9 @@
                 msg.textContent = "You're in! You'll be alerted when " + (cfg.name || asset) + " sentiment shifts.";
                 msg.className = 'cta-msg success';
                 document.getElementById('ctaEmail').value = '';
+                if (typeof gtag === 'function') {
+                    gtag('event', 'alert_subscribe', { event_category: 'alerts', event_label: asset, source: 'asset_cta' });
+                }
             } else {
                 var data = await res.json();
                 msg.textContent = (data && data.error) || 'Something went wrong. Please try again.';

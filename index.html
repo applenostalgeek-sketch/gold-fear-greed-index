@@ -199,15 +199,6 @@
             display: flex; justify-content: space-between; align-items: center;
             margin-top: 8px; font-size: 0.68rem; color: #444;
         }
-        .context-vote { display: flex; gap: 6px; }
-        .vote-btn {
-            background: none; border: 1px solid #333; border-radius: 4px;
-            padding: 2px 8px; cursor: pointer; font-size: 0.8rem;
-            transition: border-color 0.2s;
-        }
-        .vote-btn:hover { border-color: #8b5cf6; }
-        .vote-btn.voted { border-color: #8b5cf6; background: rgba(139, 92, 246, 0.15); }
-        .vote-thanks { color: #8b5cf6; font-size: 0.75rem; margin-left: 4px; }
 
         /* === ASSET CARDS === */
         .assets {
@@ -627,11 +618,6 @@
                 <div class="context-text" id="contextText"></div>
                 <div class="context-footer">
                     <span class="context-disclaimer">AI-generated daily context. May contain inaccuracies.</span>
-                    <div class="context-vote">
-                        <button class="vote-btn" data-vote="useful" title="Useful">👍</button>
-                        <button class="vote-btn" data-vote="not-useful" title="Not useful">👎</button>
-                        <span class="vote-thanks" id="voteThanks" style="display:none;">Thanks!</span>
-                    </div>
                 </div>
             </div>
         </div>
@@ -1169,42 +1155,6 @@
                 })
                 .catch(() => {}); // Silent fail — context is optional
 
-            // Vote buttons (GA events) — one vote per day
-            const todayKey = 'context_vote_' + new Date().toISOString().slice(0,10);
-            const existingVote = localStorage.getItem(todayKey);
-            if (existingVote) {
-                document.querySelectorAll('.vote-btn').forEach(b => {
-                    if (b.dataset.vote === existingVote) { b.classList.add('voted'); b.style.opacity = '1'; }
-                    else { b.style.opacity = '0.5'; }
-                    b.disabled = true;
-                    b.style.cursor = 'default';
-                });
-                document.getElementById('voteThanks').style.display = 'inline';
-            }
-            document.querySelectorAll('.vote-btn').forEach(btn => {
-                btn.addEventListener('click', function() {
-                    if (localStorage.getItem(todayKey)) return;
-                    const vote = this.dataset.vote;
-                    if (typeof gtag === 'function') {
-                        gtag('event', 'context_vote', {
-                            event_category: 'ai_context',
-                            event_label: vote,
-                            value: vote === 'useful' ? 1 : 0
-                        });
-                    }
-                    document.querySelectorAll('.vote-btn').forEach(b => {
-                        b.classList.remove('voted');
-                        b.disabled = true;
-                        b.style.opacity = '0.5';
-                        b.style.cursor = 'default';
-                    });
-                    this.classList.add('voted');
-                    this.style.opacity = '1';
-                    localStorage.setItem(todayKey, vote);
-                    document.getElementById('voteThanks').style.display = 'inline';
-                });
-            });
-
             // Update asset cards with mini circles
             function updateCard(prefix, assetData, assetKey) {
                 const score = Math.round(assetData.score);
@@ -1573,6 +1523,7 @@
                     msg.textContent = "You're in! You'll receive alerts when sentiment zones change.";
                     msg.className = 'cta-msg success';
                     document.getElementById('ctaEmail').value = '';
+                    if (typeof gtag === 'function') gtag('event', 'alert_subscribe', { event_category: 'alerts', event_label: 'all', source: 'home_cta' });
                 } else {
                     const data = await res.json();
                     msg.textContent = data.error || 'Something went wrong. Please try again.';
