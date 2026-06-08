@@ -1,11 +1,11 @@
 {
-  "date": "2026-06-07",
-  "timestamp": "2026-06-07T06:26:48Z",
-  "summary": "May's nonfarm payrolls came in at 172,000 \u2014 double consensus estimates \u2014 making it easy for the Fed to focus on inflation, and markets are now pricing a full 25bp rate hike this year. Broadcom's lackluster AI chip guidance sent the stock down 20%, rattling the AI trade and helping trigger the week's sharp tech selloff.",
-  "tweet": "A blowout jobs print doubled estimates and pushed markets to price a full Fed rate hike, while Broadcom's AI miss and record Bitcoin ETF outflows deepened the cross-asset selloff.",
+  "date": "2026-06-08",
+  "timestamp": "2026-06-08T06:45:34Z",
+  "summary": "Friday's blowout jobs report sent a \"good news is bad news\" shock through markets, pushing the 10-year yield to 4.54% as traders reassessed the Fed's room to cut.",
+  "tweet": "Strong payrolls kept the Fed hawkish while crypto imploded \u2014 BTC hit February lows amid a record ETF outflow streak and Strategy's first BTC sale in years.",
   "scores": {
     "gold": {
-      "score": 35.4,
+      "score": 35.3,
       "label": "Fear"
     },
     "stocks": {
@@ -13,7 +13,7 @@
       "label": "Neutral"
     },
     "crypto": {
-      "score": 27.7,
+      "score": 27.8,
       "label": "Fear"
     },
     "bonds": {
