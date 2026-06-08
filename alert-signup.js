@@ -59,7 +59,18 @@
         unsubView.style.display = 'none';
         msg.textContent = '';
         msg.className = 'alert-message';
+        // Context-aware pre-check: on an asset page, window.ALERT_CONTEXT = ['gold']
+        // pre-checks only that asset. Undefined (homepage) leaves all checked.
+        var ctx = window.ALERT_CONTEXT;
+        if (Array.isArray(ctx)) {
+            formView.querySelectorAll('input[type="checkbox"]').forEach(function (cb) {
+                cb.checked = ctx.indexOf(cb.name) !== -1;
+            });
+        }
     }
+
+    // Expose so inline CTAs (cta-asset.js) can open the same modal
+    window.openAlertPopup = openPopup;
 
     // Close popup
     function closePopup() {

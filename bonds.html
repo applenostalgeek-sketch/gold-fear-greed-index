@@ -186,6 +186,22 @@
             <a href="index.html">← Back to Market Overview</a>
         </div>
 
+        <!-- Inline Alert CTA -->
+        <section class="cta-section" id="ctaSection">
+            <div class="cta-box">
+                <div class="cta-text">
+                    <div class="cta-title">Get notified when bond market sentiment shifts</div>
+                    <div class="cta-sub">Only when bonds cross into a new sentiment zone. A few emails per month, never spam.</div>
+                </div>
+                <form class="cta-form" id="ctaForm">
+                    <input type="email" id="ctaEmail" placeholder="your@email.com" autocomplete="email" required>
+                    <button type="submit" id="ctaSubmit">Subscribe</button>
+                </form>
+                <div class="cta-msg" id="ctaMsg"></div>
+                <button class="cta-customize-btn" id="ctaCustomize">Customize your alerts</button>
+            </div>
+        </section>
+
         <section class="history-section">
             <h2>Historical Trend</h2>
             <div class="chart-wrapper">
@@ -336,5 +352,6 @@
     <script src="shared.js"></script>
     <script src="asset-chart.js?v=4"></script>
     <script src="alert-signup.js"></script>
+    <script src="cta-asset.js"></script>
 </body>
 </html>
