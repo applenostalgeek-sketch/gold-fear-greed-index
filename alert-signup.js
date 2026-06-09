@@ -131,6 +131,10 @@
                 msg.textContent = 'You\'re subscribed! You\'ll receive alerts when sentiment shifts.';
                 msg.className = 'alert-message success';
                 emailInput.value = '';
+                if (typeof gtag === 'function') {
+                    var selected = Object.keys(prefs).filter(function (k) { return prefs[k]; });
+                    gtag('event', 'alert_subscribe', { event_category: 'alerts', event_label: selected.join(',') || 'none', source: 'modal' });
+                }
             } else {
                 msg.textContent = data.error || 'Something went wrong. Please try again.';
                 msg.className = 'alert-message error';
