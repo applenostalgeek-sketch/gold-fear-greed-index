@@ -1,27 +1,27 @@
 {
-  "date": "2026-06-09",
-  "timestamp": "2026-06-09T06:11:41Z",
-  "summary": "Surging U.S. payrolls \u2014 with the three-month private payroll gain hitting a three-year high \u2014 have killed rate-cut hopes and shifted market pricing toward Fed hikes, pressuring bonds and risk assets. Crypto deepened its rout on a separate set of shocks: Strategy's first disclosed bitcoin sale, over $3.2 billion in spot ETF outflows, and a large Mt. Gox wallet transfer rattled an already fragile market.",
-  "tweet": "Half a million jobs in five months has risks to inflation replacing rate-cut hopes \u2014 while crypto's historic ETF exodus and forced liquidations keep digital assets deep in fear.",
+  "date": "2026-06-10",
+  "timestamp": "2026-06-10T06:26:20Z",
+  "summary": "A blowout May jobs report drove Fed rate-hike bets sharply higher, with markets now under new Fed Chair Kevin Warsh pricing in tighter policy rather than cuts. The dollar and Treasury yields rallied in response, keeping gold pinned near multi-month lows, with traders pricing roughly a 70% chance of a December rate increase.",
+  "tweet": "A blowout jobs report crushed rate-cut hopes and sent gold to its lowest London fix of the year, while an Iran-Israel ceasefire stripped the last geopolitical premium from safe havens.",
   "scores": {
     "gold": {
-      "score": 37.9,
+      "score": 29.4,
       "label": "Fear"
     },
     "stocks": {
-      "score": 53.9,
+      "score": 54.8,
       "label": "Neutral"
     },
     "crypto": {
-      "score": 28.4,
+      "score": 27.9,
       "label": "Fear"
     },
     "bonds": {
-      "score": 57.8,
+      "score": 59.7,
       "label": "Greed"
     },
     "sentiment": {
-      "score": 44.5,
+      "score": 43.0,
       "label": "Fear"
     }
   }

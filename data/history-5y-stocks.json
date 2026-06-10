@@ -1,10 +1,10 @@
 {
   "asset": "stocks",
-  "generated": "2026-06-09T06:11:29Z",
+  "generated": "2026-06-10T06:26:07Z",
   "total_days": 1278,
   "date_range": {
-    "start": "2021-06-10",
-    "end": "2026-06-09"
+    "start": "2021-06-11",
+    "end": "2026-06-10"
   },
   "score_stats": {
     "min": 16.2,
@@ -12,12 +12,6 @@
     "avg": 55.1
   },
   "history": [
-    {
-      "date": "2021-06-10",
-      "score": 54.8,
-      "label": "Neutral",
-      "price": 395.64
-    },
     {
       "date": "2021-06-11",
       "score": 56.8,
@@ -7679,6 +7673,12 @@
       "score": 53.9,
       "label": "Neutral",
       "price": 739.22
+    },
+    {
+      "date": "2026-06-10",
+      "score": 54.8,
+      "label": "Neutral",
+      "price": 737.05
     }
   ]
 }

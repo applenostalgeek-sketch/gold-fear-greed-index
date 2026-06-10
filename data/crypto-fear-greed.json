@@ -1,35 +1,40 @@
 {
-  "score": 28.4,
+  "score": 27.9,
   "label": "Fear",
-  "timestamp": "2026-06-09T06:11:27Z",
+  "timestamp": "2026-06-10T06:26:04Z",
   "components": {
     "context": {
-      "score": 11.1,
+      "score": 7.5,
       "weight": 0.3,
-      "detail": "30-day change: -22.9%"
+      "detail": "30-day change: -25.0%"
     },
     "momentum": {
-      "score": 16.7,
+      "score": 16.2,
       "weight": 0.2,
-      "detail": "RSI: 15, Price vs MA200: -19.2%"
+      "detail": "RSI: 14, Price vs MA200: -21.7%"
     },
     "dominance": {
-      "score": 44.0,
+      "score": 44.2,
       "weight": 0.2,
-      "detail": "BTC -16.5% vs ETH -18.5% (14d)"
+      "detail": "BTC -17.6% vs ETH -19.5% (14d)"
     },
     "volume": {
-      "score": 30.0,
+      "score": 34.5,
       "weight": 0.15,
-      "detail": "Vol 7d/30d: 1.40x, price down"
+      "detail": "Vol 7d/30d: 1.31x, price down"
     },
     "volatility": {
-      "score": 56.3,
+      "score": 56.0,
       "weight": 0.15,
-      "detail": "Vol 14d: 49.0% annualized"
+      "detail": "Vol 14d: 49.2% annualized"
     }
   },
   "history": [
+    {
+      "date": "2026-06-10",
+      "score": 27.9,
+      "price": 61289.77
+    },
     {
       "date": "2026-06-09",
       "score": 28.4,
@@ -1849,11 +1854,6 @@
       "date": "2025-06-11",
       "score": 60.7,
       "price": 108686.62
-    },
-    {
-      "date": "2025-06-10",
-      "score": 62.3,
-      "price": 110257.23
     }
   ]
 }
