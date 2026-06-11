@@ -1,27 +1,27 @@
 {
-  "date": "2026-06-10",
-  "timestamp": "2026-06-10T06:26:20Z",
-  "summary": "A blowout May jobs report drove Fed rate-hike bets sharply higher, with markets now under new Fed Chair Kevin Warsh pricing in tighter policy rather than cuts. The dollar and Treasury yields rallied in response, keeping gold pinned near multi-month lows, with traders pricing roughly a 70% chance of a December rate increase.",
-  "tweet": "A blowout jobs report crushed rate-cut hopes and sent gold to its lowest London fix of the year, while an Iran-Israel ceasefire stripped the last geopolitical premium from safe havens.",
+  "date": "2026-06-11",
+  "timestamp": "2026-06-11T06:51:35Z",
+  "summary": "A hotter-than-expected May CPI print of 4.2% year-over-year, fueled largely by Iran-driven energy costs, has reinforced higher-for-longer Fed bets and pressured risk assets. Escalating U.S.-Iran strikes near the Strait of Hormuz keep oil elevated and sentiment fragile across equities, gold, and crypto.",
+  "tweet": "May CPI hit 4.2% YoY as Iran conflict-driven energy costs surge \u2014 higher-for-longer Fed bets and Strait of Horm",
   "scores": {
     "gold": {
-      "score": 29.4,
-      "label": "Fear"
+      "score": 23.7,
+      "label": "Extreme Fear"
     },
     "stocks": {
-      "score": 54.8,
+      "score": 49.2,
       "label": "Neutral"
     },
     "crypto": {
-      "score": 27.9,
+      "score": 32.5,
       "label": "Fear"
     },
     "bonds": {
-      "score": 59.7,
+      "score": 56.0,
       "label": "Greed"
     },
     "sentiment": {
-      "score": 43.0,
+      "score": 40.4,
       "label": "Fear"
     }
   }
