@@ -1,10 +1,10 @@
 {
   "asset": "bonds",
-  "generated": "2026-06-11T06:51:20Z",
-  "total_days": 1278,
+  "generated": "2026-06-12T06:44:03Z",
+  "total_days": 1279,
   "date_range": {
     "start": "2021-06-14",
-    "end": "2026-06-11"
+    "end": "2026-06-12"
   },
   "score_stats": {
     "min": 27.9,
@@ -7679,6 +7679,12 @@
       "score": 56.0,
       "label": "Greed",
       "price": 84.88
+    },
+    {
+      "date": "2026-06-12",
+      "score": 56.0,
+      "label": "Greed",
+      "price": 85.98
     }
   ]
 }

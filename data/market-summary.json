@@ -1,19 +1,19 @@
 {
-  "date": "2026-06-11",
-  "timestamp": "2026-06-11T06:51:35Z",
-  "summary": "A hotter-than-expected May CPI print of 4.2% year-over-year, fueled largely by Iran-driven energy costs, has reinforced higher-for-longer Fed bets and pressured risk assets. Escalating U.S.-Iran strikes near the Strait of Hormuz keep oil elevated and sentiment fragile across equities, gold, and crypto.",
-  "tweet": "May CPI hit 4.2% YoY as Iran conflict-driven energy costs surge \u2014 higher-for-longer Fed bets and Strait of Horm",
+  "date": "2026-06-12",
+  "timestamp": "2026-06-12T06:44:17Z",
+  "summary": "Stocks extended gains and oil fell after President Trump said the U.S. was nearing an agreement with Iran, raising expectations for a diplomatic end to the conflict that has triggered price swings across markets for more than 100 days.",
+  "tweet": "Trump signaling a U.S.-Iran peace deal this weekend is crashing oil and lifting stocks, but wholesale prices at their fastest pace since 2022 keeps the Fed frozen and sentiment split across assets.",
   "scores": {
     "gold": {
-      "score": 23.7,
-      "label": "Extreme Fear"
+      "score": 30.3,
+      "label": "Fear"
     },
     "stocks": {
-      "score": 49.2,
+      "score": 51.8,
       "label": "Neutral"
     },
     "crypto": {
-      "score": 32.5,
+      "score": 30.1,
       "label": "Fear"
     },
     "bonds": {
@@ -21,7 +21,7 @@
       "label": "Greed"
     },
     "sentiment": {
-      "score": 40.4,
+      "score": 42.0,
       "label": "Fear"
     }
   }
