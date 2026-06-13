@@ -1,27 +1,27 @@
 {
-  "date": "2026-06-12",
-  "timestamp": "2026-06-12T06:44:17Z",
-  "summary": "Stocks extended gains and oil fell after President Trump said the U.S. was nearing an agreement with Iran, raising expectations for a diplomatic end to the conflict that has triggered price swings across markets for more than 100 days.",
-  "tweet": "Trump signaling a U.S.-Iran peace deal this weekend is crashing oil and lifting stocks, but wholesale prices at their fastest pace since 2022 keeps the Fed frozen and sentiment split across assets.",
+  "date": "2026-06-13",
+  "timestamp": "2026-06-13T06:18:53Z",
+  "summary": "A potential U.S.-Iran peace deal drove a Friday equity rally, though markets wavered amid conflicting reports on timing. A deal to reopen the Strait of Hormuz \u2014 possibly signed at the G7 in France this weekend \u2014 pushed WTI crude down to $84, pressuring gold and energy while lifting stocks.",
+  "tweet": "Iran peace deal hopes drove stocks higher and oil lower, but the FOMC kicking off Monday keeps real rates and bond vol pinned \u2014 cross-asset sentiment stays split between relief and caution.",
   "scores": {
     "gold": {
-      "score": 30.3,
+      "score": 28.9,
       "label": "Fear"
     },
     "stocks": {
-      "score": 51.8,
+      "score": 53.6,
       "label": "Neutral"
     },
     "crypto": {
-      "score": 30.1,
+      "score": 30.3,
       "label": "Fear"
     },
     "bonds": {
-      "score": 56.0,
-      "label": "Greed"
+      "score": 54.2,
+      "label": "Neutral"
     },
     "sentiment": {
-      "score": 42.0,
+      "score": 41.8,
       "label": "Fear"
     }
   }
