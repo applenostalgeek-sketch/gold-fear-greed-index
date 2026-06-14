@@ -1,11 +1,11 @@
 {
-  "date": "2026-06-13",
-  "timestamp": "2026-06-13T06:18:53Z",
-  "summary": "A potential U.S.-Iran peace deal drove a Friday equity rally, though markets wavered amid conflicting reports on timing. A deal to reopen the Strait of Hormuz \u2014 possibly signed at the G7 in France this weekend \u2014 pushed WTI crude down to $84, pressuring gold and energy while lifting stocks.",
-  "tweet": "Iran peace deal hopes drove stocks higher and oil lower, but the FOMC kicking off Monday keeps real rates and bond vol pinned \u2014 cross-asset sentiment stays split between relief and caution.",
+  "date": "2026-06-14",
+  "timestamp": "2026-06-14T06:43:26Z",
+  "summary": "The FOMC decision lands Tuesday, with new Fed Chair Kevin Warsh holding rates at 3.50\u20133.75% \u2014 but fed funds futures now price a hike, not a cut, as the more likely year-end move. Markets are bracing for Warsh's tone and whether he scraps the dot plot. April CPI already printed at 3.8% year-over-year \u2014 the highest since May 2023 \u2014 keeping real rates elevated and weighing on gold and crypto.",
+  "tweet": "Warsh's first FOMC presser as Fed chair lands Wednesday \u2014 a hold is priced in, but traders will parse every word for signals on hikes vs. cuts.",
   "scores": {
     "gold": {
-      "score": 28.9,
+      "score": 29.2,
       "label": "Fear"
     },
     "stocks": {
