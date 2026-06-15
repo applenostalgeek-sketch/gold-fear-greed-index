@@ -1,11 +1,11 @@
 {
-  "date": "2026-06-14",
-  "timestamp": "2026-06-14T06:43:26Z",
-  "summary": "The FOMC decision lands Tuesday, with new Fed Chair Kevin Warsh holding rates at 3.50\u20133.75% \u2014 but fed funds futures now price a hike, not a cut, as the more likely year-end move. Markets are bracing for Warsh's tone and whether he scraps the dot plot. April CPI already printed at 3.8% year-over-year \u2014 the highest since May 2023 \u2014 keeping real rates elevated and weighing on gold and crypto.",
-  "tweet": "Warsh's first FOMC presser as Fed chair lands Wednesday \u2014 a hold is priced in, but traders will parse every word for signals on hikes vs. cuts.",
+  "date": "2026-06-15",
+  "timestamp": "2026-06-15T07:23:15Z",
+  "summary": "The Fed's hawkish hold at 3.50\u20133.75% this week, paired with a revised dot plot projecting just one cut for all of 2026, is the dominant macro force \u2014 lifting real rates, punishing gold and crypto, and keeping bond volatility elevated. Progress toward a U.S.-Iran deal and the potential reopening of the Strait of Hormuz provided the week's offsetting lift, supporting equities and",
+  "tweet": null,
   "scores": {
     "gold": {
-      "score": 29.2,
+      "score": 31.4,
       "label": "Fear"
     },
     "stocks": {
@@ -13,7 +13,7 @@
       "label": "Neutral"
     },
     "crypto": {
-      "score": 30.3,
+      "score": 31.4,
       "label": "Fear"
     },
     "bonds": {
@@ -21,7 +21,7 @@
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 41.8,
+      "score": 42.7,
       "label": "Fear"
     }
   }
