@@ -1,28 +1,28 @@
 {
-  "date": "2026-06-15",
-  "timestamp": "2026-06-15T07:23:15Z",
-  "summary": "The Fed's hawkish hold at 3.50\u20133.75% this week, paired with a revised dot plot projecting just one cut for all of 2026, is the dominant macro force \u2014 lifting real rates, punishing gold and crypto, and keeping bond volatility elevated. Progress toward a U.S.-Iran deal and the potential reopening of the Strait of Hormuz provided the week's offsetting lift, supporting equities and",
-  "tweet": null,
+  "date": "2026-06-16",
+  "timestamp": "2026-06-16T07:29:19Z",
+  "summary": "New Fed Chair Warsh's first dot plot lands today, with markets now pricing in roughly one rate hike by early 2027 amid persistent inflation pressure \u2014 keeping real rates elevated and weighing on gold and crypto.",
+  "tweet": "Warsh's debut dot plot signals hikes, not cuts, while a U.S.-Iran ceasefire lifts equities \u2014 stocks greed, gold and crypto fear, bonds stuck in the middle.",
   "scores": {
     "gold": {
-      "score": 31.4,
+      "score": 37.2,
       "label": "Fear"
     },
     "stocks": {
-      "score": 53.6,
-      "label": "Neutral"
+      "score": 57.5,
+      "label": "Greed"
     },
     "crypto": {
-      "score": 31.4,
+      "score": 37.7,
       "label": "Fear"
     },
     "bonds": {
-      "score": 54.2,
+      "score": 52.9,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 42.7,
-      "label": "Fear"
+      "score": 46.3,
+      "label": "Neutral"
     }
   }
 }
