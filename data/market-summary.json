@@ -1,28 +1,28 @@
 {
-  "date": "2026-06-17",
-  "timestamp": "2026-06-17T07:12:14Z",
-  "summary": "The Fed's June 17 decision is live today, with rates widely expected to hold at 3.50%-3.75% \u2014 but the real focus is Chair Warsh's inaugural dot plot and press conference, which could signal a hawkish shift away from prior easing guidance. Monday's U.S.-Iran ceasefire deal reopened the Strait of Hormuz and sent oil prices down 4% to near $80, easing inflation pressure and lifting equities and bonds, but undercutting gold's safe-haven bid.",
-  "tweet": "Warsh's first FOMC lands today with May CPI at 4.2% and no cut expected \u2014 the Iran ceasefire already eased oil and lifted stocks, leaving gold and crypto exposed to a hawkish dot plot.",
+  "date": "2026-06-18",
+  "timestamp": "2026-06-18T06:54:35Z",
+  "summary": "Warsh's Fed held rates at 3.50%-3.75% Wednesday but stripped easing-bias language from its statement and delivered a dot plot with a median year-end rate of 3.8%, signaling a hike is now the committee's central lean.   Stocks sold off into the close \u2014 the S&P 500 down 1.1%, the Dow off 410 points \u2014 while 2-year Treasury yields jumped 14 basis points to their highest in over a year.",
+  "tweet": "Fed's dot plot now shows 9 members favoring a 2026 hike; stocks dropped, 2Y yields surged, and gold fell \u2014 before an Iran ceasefire deal lifted futures overnight.",
   "scores": {
     "gold": {
-      "score": 34.8,
+      "score": 31.0,
       "label": "Fear"
     },
     "stocks": {
-      "score": 55.7,
-      "label": "Greed"
+      "score": 49.8,
+      "label": "Neutral"
     },
     "crypto": {
-      "score": 42.0,
+      "score": 43.4,
       "label": "Fear"
     },
     "bonds": {
-      "score": 54.7,
+      "score": 55.0,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 46.8,
-      "label": "Neutral"
+      "score": 44.8,
+      "label": "Fear"
     }
   }
 }
