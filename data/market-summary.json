@@ -1,27 +1,27 @@
 {
-  "date": "2026-06-18",
-  "timestamp": "2026-06-18T06:54:35Z",
-  "summary": "Warsh's Fed held rates at 3.50%-3.75% Wednesday but stripped easing-bias language from its statement and delivered a dot plot with a median year-end rate of 3.8%, signaling a hike is now the committee's central lean.   Stocks sold off into the close \u2014 the S&P 500 down 1.1%, the Dow off 410 points \u2014 while 2-year Treasury yields jumped 14 basis points to their highest in over a year.",
-  "tweet": "Fed's dot plot now shows 9 members favoring a 2026 hike; stocks dropped, 2Y yields surged, and gold fell \u2014 before an Iran ceasefire deal lifted futures overnight.",
+  "date": "2026-06-19",
+  "timestamp": "2026-06-19T07:08:42Z",
+  "summary": "The U.S.-Iran deal to reopen the Strait of Hormuz drained safe-haven demand, pulling gold sharply lower while hawkish Fed signals \u2014 with a December rate hike now priced near 42% odds \u2014 have bolstered real yields and the dollar, adding a second headwind.",
+  "tweet": "Iran ceasefire drains gold's war premium while a hawkish Fed keeps real yields and the dollar elevated \u2014 two simultaneous headwinds holding gold deep in Fear even as stocks find their footing.",
   "scores": {
     "gold": {
-      "score": 31.0,
+      "score": 27.4,
       "label": "Fear"
     },
     "stocks": {
-      "score": 49.8,
+      "score": 52.0,
       "label": "Neutral"
     },
     "crypto": {
-      "score": 43.4,
+      "score": 40.8,
       "label": "Fear"
     },
     "bonds": {
-      "score": 55.0,
-      "label": "Neutral"
+      "score": 58.7,
+      "label": "Greed"
     },
     "sentiment": {
-      "score": 44.8,
+      "score": 44.7,
       "label": "Fear"
     }
   }
