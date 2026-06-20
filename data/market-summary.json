@@ -1,11 +1,11 @@
 {
-  "date": "2026-06-19",
-  "timestamp": "2026-06-19T07:08:42Z",
-  "summary": "The U.S.-Iran deal to reopen the Strait of Hormuz drained safe-haven demand, pulling gold sharply lower while hawkish Fed signals \u2014 with a December rate hike now priced near 42% odds \u2014 have bolstered real yields and the dollar, adding a second headwind.",
-  "tweet": "Iran ceasefire drains gold's war premium while a hawkish Fed keeps real yields and the dollar elevated \u2014 two simultaneous headwinds holding gold deep in Fear even as stocks find their footing.",
+  "date": "2026-06-20",
+  "timestamp": "2026-06-20T06:23:21Z",
+  "summary": "The Fed held rates steady on June 17 but the dot plot told a hawkish story, with the median policymaker now projecting rates to end 2026 higher than today \u2014 a flip from March when the median still implied a cut. In the wake of Chair Warsh's remarks, traders moved to price a hike as early as October, lifting real yields and the dollar while pressuring gold and credit. Meanwhile, on June 17 the U.S.",
+  "tweet": "Hawkish Fed dot-plot flip pricing an October hike, plus a U.S.-Iran peace MOU signed June 17, are pulling safe-haven demand and lifting the dollar \u2014 bonds hold up while gold and crypto stay under pressure.",
   "scores": {
     "gold": {
-      "score": 27.4,
+      "score": 27.6,
       "label": "Fear"
     },
     "stocks": {
@@ -13,7 +13,7 @@
       "label": "Neutral"
     },
     "crypto": {
-      "score": 40.8,
+      "score": 41.7,
       "label": "Fear"
     },
     "bonds": {
@@ -21,8 +21,8 @@
       "label": "Greed"
     },
     "sentiment": {
-      "score": 44.7,
-      "label": "Fear"
+      "score": 45.0,
+      "label": "Neutral"
     }
   }
 }
