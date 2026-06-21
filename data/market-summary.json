@@ -1,27 +1,27 @@
 {
-  "date": "2026-06-20",
-  "timestamp": "2026-06-20T06:23:21Z",
-  "summary": "The Fed held rates steady on June 17 but the dot plot told a hawkish story, with the median policymaker now projecting rates to end 2026 higher than today \u2014 a flip from March when the median still implied a cut. In the wake of Chair Warsh's remarks, traders moved to price a hike as early as October, lifting real yields and the dollar while pressuring gold and credit. Meanwhile, on June 17 the U.S.",
-  "tweet": "Hawkish Fed dot-plot flip pricing an October hike, plus a U.S.-Iran peace MOU signed June 17, are pulling safe-haven demand and lifting the dollar \u2014 bonds hold up while gold and crypto stay under pressure.",
+  "date": "2026-06-21",
+  "timestamp": "2026-06-21T06:53:34Z",
+  "summary": "The Fed's June meeting concluded with Chair Warsh holding rates steady at 3.50\u20133.75%, the vote unanimous at 12-0. The hawkish shift was the story: nine of 18 policymakers now project at least one rate hike by end-2026, driving bond yields higher, with the 2-year rising sharply to 4.21% as front-end rates bore the brunt of repricing.",
+  "tweet": "Warsh's Fed flagged possible hikes \u2014 9 of 18 officials projected at least one in 2026 \u2014 lifting front-end yields and pressuring risk assets across the board.",
   "scores": {
     "gold": {
-      "score": 27.6,
+      "score": 30.6,
       "label": "Fear"
     },
     "stocks": {
-      "score": 52.0,
+      "score": 50.7,
       "label": "Neutral"
     },
     "crypto": {
-      "score": 41.7,
-      "label": "Fear"
+      "score": 45.9,
+      "label": "Neutral"
     },
     "bonds": {
       "score": 58.7,
       "label": "Greed"
     },
     "sentiment": {
-      "score": 45.0,
+      "score": 46.5,
       "label": "Neutral"
     }
   }
