@@ -1,27 +1,27 @@
 {
-  "date": "2026-06-21",
-  "timestamp": "2026-06-21T06:53:34Z",
-  "summary": "The Fed's June meeting concluded with Chair Warsh holding rates steady at 3.50\u20133.75%, the vote unanimous at 12-0. The hawkish shift was the story: nine of 18 policymakers now project at least one rate hike by end-2026, driving bond yields higher, with the 2-year rising sharply to 4.21% as front-end rates bore the brunt of repricing.",
-  "tweet": "Warsh's Fed flagged possible hikes \u2014 9 of 18 officials projected at least one in 2026 \u2014 lifting front-end yields and pressuring risk assets across the board.",
+  "date": "2026-06-22",
+  "timestamp": "2026-06-22T07:26:36Z",
+  "summary": "The Fed's hawkish pivot \u2014 Warsh's first meeting projections leaning toward tightening, a sharp reversal from March's rate-cut path \u2014 has been the week's dominant force, lifting short-term yields and pressuring risk assets. Gold is on track for a third consecutive weekly decline, hit by a stronger dollar at a one-year high and rising odds of a Fed rate hike, with markets pricing roughly a 70% probability of an increase by September.",
+  "tweet": "A dollar at one-year highs and a hawkish Fed tilt are driving gold's third straight weekly loss while stocks claw back from last week's FOMC sell-off.",
   "scores": {
     "gold": {
-      "score": 30.6,
+      "score": 28.3,
       "label": "Fear"
     },
     "stocks": {
-      "score": 50.7,
+      "score": 52.0,
       "label": "Neutral"
     },
     "crypto": {
-      "score": 45.9,
-      "label": "Neutral"
+      "score": 45.0,
+      "label": "Fear"
     },
     "bonds": {
       "score": 58.7,
       "label": "Greed"
     },
     "sentiment": {
-      "score": 46.5,
+      "score": 46.0,
       "label": "Neutral"
     }
   }
