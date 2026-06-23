@@ -1,28 +1,28 @@
 {
-  "date": "2026-06-22",
-  "timestamp": "2026-06-22T07:26:36Z",
-  "summary": "The Fed's hawkish pivot \u2014 Warsh's first meeting projections leaning toward tightening, a sharp reversal from March's rate-cut path \u2014 has been the week's dominant force, lifting short-term yields and pressuring risk assets. Gold is on track for a third consecutive weekly decline, hit by a stronger dollar at a one-year high and rising odds of a Fed rate hike, with markets pricing roughly a 70% probability of an increase by September.",
-  "tweet": "A dollar at one-year highs and a hawkish Fed tilt are driving gold's third straight weekly loss while stocks claw back from last week's FOMC sell-off.",
+  "date": "2026-06-23",
+  "timestamp": "2026-06-23T06:09:27Z",
+  "summary": "The hawkish FOMC outcome \u2014 nine officials now projecting rate hikes in 2026, a sharp reversal from March's cut path \u2014 continues to anchor elevated yields and suppress risk appetite across assets. Simultaneously, the US-Iran peace memorandum has dismantled gold's geopolitical war premium, sending it into deep fear territory even as stocks hold near neutral.",
+  "tweet": "Warsh's haw",
   "scores": {
     "gold": {
-      "score": 28.3,
+      "score": 27.4,
       "label": "Fear"
     },
     "stocks": {
-      "score": 52.0,
+      "score": 52.4,
       "label": "Neutral"
     },
     "crypto": {
-      "score": 45.0,
+      "score": 43.6,
       "label": "Fear"
     },
     "bonds": {
-      "score": 58.7,
-      "label": "Greed"
+      "score": 54.7,
+      "label": "Neutral"
     },
     "sentiment": {
-      "score": 46.0,
-      "label": "Neutral"
+      "score": 44.5,
+      "label": "Fear"
     }
   }
 }
