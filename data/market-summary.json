@@ -1,15 +1,15 @@
 {
-  "date": "2026-06-23",
-  "timestamp": "2026-06-23T06:09:27Z",
-  "summary": "The hawkish FOMC outcome \u2014 nine officials now projecting rate hikes in 2026, a sharp reversal from March's cut path \u2014 continues to anchor elevated yields and suppress risk appetite across assets. Simultaneously, the US-Iran peace memorandum has dismantled gold's geopolitical war premium, sending it into deep fear territory even as stocks hold near neutral.",
-  "tweet": "Warsh's haw",
+  "date": "2026-06-24",
+  "timestamp": "2026-06-24T06:09:02Z",
+  "summary": "A tech-led selloff that originated in Asia and hit semiconductor stocks hard on Tuesday has repriced risk across equities, with memory chip names leading the drawdown as a crowded leadership group faces its first real stress test.",
+  "tweet": "A semis rout from Seoul to Wall Street has tech in retreat, while the looming July 24 expiry of the Section 122 tariff surcharge forces a trade-policy reset that keeps the dollar bid and rate-cut hopes capped.",
   "scores": {
     "gold": {
-      "score": 27.4,
+      "score": 28.0,
       "label": "Fear"
     },
     "stocks": {
-      "score": 52.4,
+      "score": 48.3,
       "label": "Neutral"
     },
     "crypto": {
@@ -17,11 +17,11 @@
       "label": "Fear"
     },
     "bonds": {
-      "score": 54.7,
+      "score": 53.6,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 44.5,
+      "score": 43.4,
       "label": "Fear"
     }
   }
