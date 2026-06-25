@@ -1,27 +1,27 @@
 {
-  "date": "2026-06-24",
-  "timestamp": "2026-06-24T06:09:02Z",
-  "summary": "A tech-led selloff that originated in Asia and hit semiconductor stocks hard on Tuesday has repriced risk across equities, with memory chip names leading the drawdown as a crowded leadership group faces its first real stress test.",
-  "tweet": "A semis rout from Seoul to Wall Street has tech in retreat, while the looming July 24 expiry of the Section 122 tariff surcharge forces a trade-policy reset that keeps the dollar bid and rate-cut hopes capped.",
+  "date": "2026-06-25",
+  "timestamp": "2026-06-25T06:09:29Z",
+  "summary": "The hawkish June Fed meeting \u2014 where the FOMC held rates at 3.50\u20133.75% but revised its median 2026 policy rate up to 3.8% and PCE inflation forecast to 3.6% \u2014 has been the dominant catalyst this week, rapidly repricing rate-hike risk across assets.",
+  "tweet": "The market has shifted from \"higher for longer\" to pricing outright hike risk after the Fed's hawkish June meeting \u2014 gold is breaking, bonds are rallying, and rate sensitivity is the trade of the week.",
   "scores": {
     "gold": {
-      "score": 28.0,
-      "label": "Fear"
+      "score": 22.3,
+      "label": "Extreme Fear"
     },
     "stocks": {
-      "score": 48.3,
+      "score": 46.4,
       "label": "Neutral"
     },
     "crypto": {
-      "score": 43.6,
+      "score": 43.0,
       "label": "Fear"
     },
     "bonds": {
-      "score": 53.6,
-      "label": "Neutral"
+      "score": 56.9,
+      "label": "Greed"
     },
     "sentiment": {
-      "score": 43.4,
+      "score": 42.1,
       "label": "Fear"
     }
   }
