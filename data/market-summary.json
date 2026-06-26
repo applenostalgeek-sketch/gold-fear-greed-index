@@ -1,27 +1,27 @@
 {
-  "date": "2026-06-25",
-  "timestamp": "2026-06-25T06:09:29Z",
-  "summary": "The hawkish June Fed meeting \u2014 where the FOMC held rates at 3.50\u20133.75% but revised its median 2026 policy rate up to 3.8% and PCE inflation forecast to 3.6% \u2014 has been the dominant catalyst this week, rapidly repricing rate-hike risk across assets.",
-  "tweet": "The market has shifted from \"higher for longer\" to pricing outright hike risk after the Fed's hawkish June meeting \u2014 gold is breaking, bonds are rallying, and rate sensitivity is the trade of the week.",
+  "date": "2026-06-26",
+  "timestamp": "2026-06-26T06:13:07Z",
+  "summary": "The hawkish Fed under Chair Kevin Warsh \u2014 which signaled growing support for rate hikes, with markets now pricing an 80% chance of a December increase \u2014 continues to crush gold and crypto while pushing bonds higher on flight-to-safety flows. Progress in US-Iran peace negotiations has drained gold's geopolitical premium, with oil retreating to pre-conflict levels and safe-haven demand fading just as rate-hike risk rises.",
+  "tweet": "Hawkish Fed rate-hike odds and a fading US-Iran war premium are hammering gold and crypto while bonds catch a bid.",
   "scores": {
     "gold": {
-      "score": 22.3,
-      "label": "Extreme Fear"
+      "score": 28.6,
+      "label": "Fear"
     },
     "stocks": {
-      "score": 46.4,
+      "score": 51.6,
       "label": "Neutral"
     },
     "crypto": {
-      "score": 43.0,
+      "score": 40.1,
       "label": "Fear"
     },
     "bonds": {
-      "score": 56.9,
+      "score": 55.5,
       "label": "Greed"
     },
     "sentiment": {
-      "score": 42.1,
+      "score": 44.0,
       "label": "Fear"
     }
   }
