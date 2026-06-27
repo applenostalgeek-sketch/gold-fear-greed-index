@@ -1,27 +1,27 @@
 {
-  "date": "2026-06-26",
-  "timestamp": "2026-06-26T06:13:07Z",
-  "summary": "The hawkish Fed under Chair Kevin Warsh \u2014 which signaled growing support for rate hikes, with markets now pricing an 80% chance of a December increase \u2014 continues to crush gold and crypto while pushing bonds higher on flight-to-safety flows. Progress in US-Iran peace negotiations has drained gold's geopolitical premium, with oil retreating to pre-conflict levels and safe-haven demand fading just as rate-hike risk rises.",
-  "tweet": "Hawkish Fed rate-hike odds and a fading US-Iran war premium are hammering gold and crypto while bonds catch a bid.",
+  "date": "2026-06-27",
+  "timestamp": "2026-06-27T05:55:15Z",
+  "summary": "The hawkish June FOMC \u2014 where Chair Warsh's first press conference was widely interpreted as leaning hawkish and the updated projections showed the median policymaker expecting modest tightening by year-end \u2014 continues to anchor the week's tone.",
+  "tweet": "Warsh's hawkish FOMC debut keeps rate-hike risk elevated while AI cost fears drag tech lower, splitting markets between defensive rotation and risk-off pressure across crypto and gold.",
   "scores": {
     "gold": {
-      "score": 28.6,
+      "score": 30.7,
       "label": "Fear"
     },
     "stocks": {
-      "score": 51.6,
+      "score": 47.6,
       "label": "Neutral"
     },
     "crypto": {
-      "score": 40.1,
+      "score": 42.2,
       "label": "Fear"
     },
     "bonds": {
-      "score": 55.5,
+      "score": 56.4,
       "label": "Greed"
     },
     "sentiment": {
-      "score": 44.0,
+      "score": 44.2,
       "label": "Fear"
     }
   }
