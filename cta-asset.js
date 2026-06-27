@@ -57,7 +57,7 @@
                 msg.className = 'cta-msg success';
                 document.getElementById('ctaEmail').value = '';
                 if (typeof gtag === 'function') {
-                    gtag('event', 'alert_subscribe', { event_category: 'alerts', event_label: asset, source: 'asset_cta' });
+                    gtag('event', 'alert_subscribe', { event_category: 'alerts', event_label: asset, signup_location: 'asset_cta' });
                 }
             } else {
                 var data = await res.json();

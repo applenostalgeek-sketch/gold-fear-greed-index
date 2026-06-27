@@ -1523,7 +1523,7 @@
                     msg.textContent = "You're in! You'll receive alerts when sentiment zones change.";
                     msg.className = 'cta-msg success';
                     document.getElementById('ctaEmail').value = '';
-                    if (typeof gtag === 'function') gtag('event', 'alert_subscribe', { event_category: 'alerts', event_label: 'all', source: 'home_cta' });
+                    if (typeof gtag === 'function') gtag('event', 'alert_subscribe', { event_category: 'alerts', event_label: 'all', signup_location: 'home_cta' });
                 } else {
                     const data = await res.json();
                     msg.textContent = data.error || 'Something went wrong. Please try again.';

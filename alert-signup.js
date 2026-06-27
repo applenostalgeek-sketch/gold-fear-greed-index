@@ -133,7 +133,7 @@
                 emailInput.value = '';
                 if (typeof gtag === 'function') {
                     var selected = Object.keys(prefs).filter(function (k) { return prefs[k]; });
-                    gtag('event', 'alert_subscribe', { event_category: 'alerts', event_label: selected.join(',') || 'none', source: 'modal' });
+                    gtag('event', 'alert_subscribe', { event_category: 'alerts', event_label: selected.join(',') || 'none', signup_location: 'modal' });
                 }
             } else {
                 msg.textContent = data.error || 'Something went wrong. Please try again.';
