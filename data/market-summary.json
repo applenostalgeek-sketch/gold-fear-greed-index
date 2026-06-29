@@ -1,11 +1,11 @@
 {
-  "date": "2026-06-28",
-  "timestamp": "2026-06-28T06:20:26Z",
-  "summary": "A sharp tech-led rotation is splitting markets: equal-weight indexes are holding near flat while cap-weighted SPY and Nasdaq track for weekly losses, as money exits mega-caps and flows into broader sectors. A hawkish Fed has driven the dollar to a new 2026 high, pressuring gold and commodity prices.",
-  "tweet": "Tech rout splits the tape \u2014 Nasdaq and SPY down on the week while equal-weight holds as a hawkish Fed-fueled dollar hits 2026 highs and crypto bleeds from ETF outflows.",
+  "date": "2026-06-29",
+  "timestamp": "2026-06-29T06:50:34Z",
+  "summary": "PCE inflation came in hotter than expected at a three-year high, pushing the interest rate market to price in a 30% chance of a Fed rate hike next month, with a full hike priced for October.",
+  "tweet": "Hot inflation data, a firmer dollar, and rising Fed rate-hike expectations are slamming gold and crypto into Fear while an AI selloff drags cap-weighted stocks \u2014 bonds alone catching a safe-haven bid.",
   "scores": {
     "gold": {
-      "score": 31.0,
+      "score": 30.7,
       "label": "Fear"
     },
     "stocks": {
@@ -13,7 +13,7 @@
       "label": "Neutral"
     },
     "crypto": {
-      "score": 41.5,
+      "score": 39.6,
       "label": "Fear"
     },
     "bonds": {
@@ -21,7 +21,7 @@
       "label": "Greed"
     },
     "sentiment": {
-      "score": 44.1,
+      "score": 43.6,
       "label": "Fear"
     }
   }
