@@ -1,28 +1,28 @@
 {
-  "date": "2026-06-29",
-  "timestamp": "2026-06-29T06:50:34Z",
-  "summary": "PCE inflation came in hotter than expected at a three-year high, pushing the interest rate market to price in a 30% chance of a Fed rate hike next month, with a full hike priced for October.",
-  "tweet": "Hot inflation data, a firmer dollar, and rising Fed rate-hike expectations are slamming gold and crypto into Fear while an AI selloff drags cap-weighted stocks \u2014 bonds alone catching a safe-haven bid.",
+  "date": "2026-06-30",
+  "timestamp": "2026-06-30T06:14:16Z",
+  "summary": "Geopolitical uncertainty around the US-Iran standoff and a hawkish Fed are the twin anchors weighing on risk sentiment. Bonds are catching a safe-haven bid as TLT rallies, while crypto remains deep in fear \u2014 down roughly 50% from its October 2025 peak \u2014 battered by ETF outflows and fading rate-cut expectations. Quarter-end rebalancing is adding noise to equity breadth, which is holding up even as gold slides.",
+  "tweet": "US-Iran tensions and a Fed locked into a hawkish hold are splitting markets: bonds rally, crypto stays crushed, stocks rotate under the surface as payrolls loom Thursday.",
   "scores": {
     "gold": {
-      "score": 30.7,
+      "score": 28.6,
       "label": "Fear"
     },
     "stocks": {
-      "score": 47.6,
+      "score": 53.8,
       "label": "Neutral"
     },
     "crypto": {
-      "score": 39.6,
+      "score": 40.1,
       "label": "Fear"
     },
     "bonds": {
-      "score": 56.4,
+      "score": 59.4,
       "label": "Greed"
     },
     "sentiment": {
-      "score": 43.6,
-      "label": "Fear"
+      "score": 45.5,
+      "label": "Neutral"
     }
   }
 }
