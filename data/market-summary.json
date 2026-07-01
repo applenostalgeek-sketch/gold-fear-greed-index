@@ -1,27 +1,27 @@
 {
-  "date": "2026-06-30",
-  "timestamp": "2026-06-30T06:14:16Z",
-  "summary": "Geopolitical uncertainty around the US-Iran standoff and a hawkish Fed are the twin anchors weighing on risk sentiment. Bonds are catching a safe-haven bid as TLT rallies, while crypto remains deep in fear \u2014 down roughly 50% from its October 2025 peak \u2014 battered by ETF outflows and fading rate-cut expectations. Quarter-end rebalancing is adding noise to equity breadth, which is holding up even as gold slides.",
-  "tweet": "US-Iran tensions and a Fed locked into a hawkish hold are splitting markets: bonds rally, crypto stays crushed, stocks rotate under the surface as payrolls loom Thursday.",
+  "date": "2026-07-01",
+  "timestamp": "2026-07-01T06:36:47Z",
+  "summary": "Jobs data is the dominant macro focus this week, with JOLTS out today and nonfarm payrolls due Thursday \u2014 both carrying direct implications for the Fed's policy stance. Meanwhile, the 10% global baseline tariff is set to expire July 24 with potential rate hikes to 15% thereafter, keeping trade policy risk alive and helping explain the tech-led equity greed signal against persistent gold and crypto fear.",
+  "tweet": "Jobs week meets a tariff deadline: NFP Thursday and the 10% global tariff expiry looming July 24 are the twin pins stocks are threading right now.",
   "scores": {
     "gold": {
-      "score": 28.6,
+      "score": 33.2,
       "label": "Fear"
     },
     "stocks": {
-      "score": 53.8,
-      "label": "Neutral"
+      "score": 61.0,
+      "label": "Greed"
     },
     "crypto": {
-      "score": 40.1,
+      "score": 43.9,
       "label": "Fear"
     },
     "bonds": {
-      "score": 59.4,
-      "label": "Greed"
+      "score": 51.0,
+      "label": "Neutral"
     },
     "sentiment": {
-      "score": 45.5,
+      "score": 47.3,
       "label": "Neutral"
     }
   }
