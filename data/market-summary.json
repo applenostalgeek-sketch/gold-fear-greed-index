@@ -1,27 +1,27 @@
 {
-  "date": "2026-07-01",
-  "timestamp": "2026-07-01T06:36:47Z",
-  "summary": "Jobs data is the dominant macro focus this week, with JOLTS out today and nonfarm payrolls due Thursday \u2014 both carrying direct implications for the Fed's policy stance. Meanwhile, the 10% global baseline tariff is set to expire July 24 with potential rate hikes to 15% thereafter, keeping trade policy risk alive and helping explain the tech-led equity greed signal against persistent gold and crypto fear.",
-  "tweet": "Jobs week meets a tariff deadline: NFP Thursday and the 10% global tariff expiry looming July 24 are the twin pins stocks are threading right now.",
+  "date": "2026-07-02",
+  "timestamp": "2026-07-02T06:01:34Z",
+  "summary": "June nonfarm payrolls dropped today, released at 8:30 a.m. \u2014 the week's defining macro print. Following a hawkish reaction to the Fed's last meeting, investors are watching the report closely for clues on economic strength and whether conditions could support a rate hike this year.",
+  "tweet": "June payrolls landed today in a holiday-shortened week, with soft ADP and a hawkish Fed framing \u2014 equities holding greed while gold and crypto stay in fear.",
   "scores": {
     "gold": {
-      "score": 33.2,
+      "score": 31.1,
       "label": "Fear"
     },
     "stocks": {
-      "score": 61.0,
+      "score": 60.7,
       "label": "Greed"
     },
     "crypto": {
-      "score": 43.9,
+      "score": 45.0,
       "label": "Fear"
     },
     "bonds": {
-      "score": 51.0,
+      "score": 53.3,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 47.3,
+      "score": 47.5,
       "label": "Neutral"
     }
   }
