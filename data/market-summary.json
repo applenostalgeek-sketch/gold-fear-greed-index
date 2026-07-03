@@ -1,27 +1,27 @@
 {
-  "date": "2026-07-02",
-  "timestamp": "2026-07-02T06:01:34Z",
-  "summary": "June nonfarm payrolls dropped today, released at 8:30 a.m. \u2014 the week's defining macro print. Following a hawkish reaction to the Fed's last meeting, investors are watching the report closely for clues on economic strength and whether conditions could support a rate hike this year.",
-  "tweet": "June payrolls landed today in a holiday-shortened week, with soft ADP and a hawkish Fed framing \u2014 equities holding greed while gold and crypto stay in fear.",
+  "date": "2026-07-03",
+  "timestamp": "2026-07-03T05:55:37Z",
+  "summary": "June nonfarm payrolls came in at just 57,000, well below the 115,000 consensus, snapping a three-month run of stronger prints. Stock futures rose on the miss as traders eased rate-hike expectations, with the 2-year Treasury yield falling 3.5 basis points. Meanwhile, Fed Chair Warsh cited easing inflation risks tied to U.S.-Iran de-escalation talks, with WTI crude sliding to $67.59 as diplomatic progress continued.",
+  "tweet": "June payrolls missed badly at 57K, cooling Fed hike bets and lifting equities \u2014 while U.S.-Iran talks kept oil falling and gold on the back foot heading into the holiday weekend.",
   "scores": {
     "gold": {
-      "score": 31.1,
+      "score": 35.6,
       "label": "Fear"
     },
     "stocks": {
-      "score": 60.7,
+      "score": 58.6,
       "label": "Greed"
     },
     "crypto": {
-      "score": 45.0,
-      "label": "Fear"
+      "score": 51.5,
+      "label": "Neutral"
     },
     "bonds": {
-      "score": 53.3,
+      "score": 49.5,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 47.5,
+      "score": 48.8,
       "label": "Neutral"
     }
   }
