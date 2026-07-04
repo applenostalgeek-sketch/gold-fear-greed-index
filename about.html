@@ -45,7 +45,7 @@
                 "name": "How accurate is the Fear and Greed Index?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Our indices use multi-component quantitative models designed to capture market sentiment shifts. Extreme readings (below 25 or above 75) tend to be more reliable as contrarian signals. These are analytical tools designed to complement, not replace, fundamental analysis."
+                    "text": "Very accurate at what it's designed for: measuring current market sentiment from real market data, with every component and weight published. What it does not do is predict what happens next — sentiment describes the present, not the future. These are analytical tools designed to complement, not replace, fundamental analysis."
                 }
             },
             {
@@ -82,10 +82,10 @@
             },
             {
                 "@type": "Question",
-                "name": "Can I use this for automated trading?",
+                "name": "Can I use this data in my own tools?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Yes. Common use cases include contrarian entry signals (buying when index is below 25), risk scaling based on sentiment extremes, and cross-asset analysis via the Market Sentiment Indicator. Always backtest thoroughly before deploying in production."
+                    "text": "Yes — all data is open via public JSON endpoints, updated daily. Common use cases: live dashboards, research and backtesting on 365 days of history, and monitoring sentiment zone changes across four asset classes. Note: these indices measure sentiment — they don't tell you when to buy or sell."
                 }
             }
         ]
@@ -346,14 +346,14 @@
                 Our indices quantify this psychology across four asset classes—Gold (safe haven), Bonds (risk-off), Stocks (growth), and Crypto (speculation)—by analyzing multiple technical and sentiment indicators. Each index scores from 0 to 100:
             </p>
             <ul>
-                <li><strong>0-25 (Extreme Fear):</strong> Panic selling, potential bottoms</li>
+                <li><strong>0-25 (Extreme Fear):</strong> Panic selling, deeply pessimistic positioning</li>
                 <li><strong>26-45 (Fear):</strong> Cautious sentiment, defensive positioning</li>
                 <li><strong>46-55 (Neutral):</strong> Balanced market, no extreme bias</li>
                 <li><strong>56-75 (Greed):</strong> Optimistic sentiment, risk appetite rising</li>
-                <li><strong>76-100 (Extreme Greed):</strong> Euphoria, FOMO, potential tops</li>
+                <li><strong>76-100 (Extreme Greed):</strong> Euphoria, FOMO, stretched optimism</li>
             </ul>
             <p>
-                <strong>Key insight:</strong> Extreme readings are contrarian signals. When everyone is fearful, it's often the best time to buy. When everyone is greedy, caution is warranted.
+                <strong>Key insight:</strong> Extreme readings are rare — most days, markets sit somewhere in the middle. When an index reaches Extreme Fear or Extreme Greed, it tells you the current mood is unusual by historical standards, and unusual conditions deserve your attention. What happens next varies by asset and by cycle — which is exactly why we built this as a <strong>thermometer of market emotion</strong>, not a buy/sell signal. Knowing the temperature is the point.
             </p>
         </div>
 
@@ -362,9 +362,9 @@
             <h2>How Traders Use This</h2>
 
             <div class="component-box gold">
-                <h4>⏱️ Timing Entries & Exits</h4>
+                <h4>🌡️ Reading Extreme Zones</h4>
                 <p>
-                    <strong>Contrarian strategy:</strong> Extreme Fear often marks capitulation bottoms where panic selling creates opportunities. Extreme Greed signals overheated markets vulnerable to pullbacks. Extreme readings (< 25 or > 75) are commonly used as contrarian signals by traders, though past performance does not guarantee future results.
+                    <strong>Spotting unusual conditions:</strong> Extreme zones flag abnormal crowd behavior — capitulation-style selling in Extreme Fear, euphoric chasing in Extreme Greed. Many investors use these readings as a prompt to slow down and re-examine their assumptions: when everyone leans the same way, conditions are rarely "normal". How markets resolve from extremes differs by asset and by cycle, so treat the reading as context for your decisions, not as an instruction.
                 </p>
             </div>
 
@@ -374,8 +374,8 @@
                     <strong>Cross-asset monitoring:</strong> Track sentiment across Gold, Bonds, Stocks, and Crypto to identify broader market regime shifts.
                 </p>
                 <p>
-                    <strong>Risk-off signal:</strong> Gold rising + Stocks/Crypto falling = defensive rotation.<br>
-                    <strong>Risk-on signal:</strong> Crypto/Stocks rising + Gold falling = risk appetite returning.
+                    <strong>Risk-off pattern:</strong> Gold rising + Stocks/Crypto falling = defensive rotation.<br>
+                    <strong>Risk-on pattern:</strong> Crypto/Stocks rising + Gold falling = risk appetite returning.
                 </p>
                 <p>
                     Compare the four asset cards side by side to spot these flows in real-time.
@@ -457,7 +457,7 @@
 
             <h3>How accurate is the Fear and Greed Index?</h3>
             <p>
-                Our indices use multi-component quantitative models designed to capture market sentiment shifts. Extreme readings (< 25 or > 75) tend to be more reliable as contrarian signals, while mid-range values reflect genuine market uncertainty. These are analytical tools designed to complement—not replace—fundamental analysis and risk management. <strong>No sentiment indicator is perfectly predictive,</strong> and past patterns may not repeat in future market conditions.
+                Very accurate at what it's designed for: <strong>measuring current market sentiment from real market data.</strong> Each index tracks its underlying market closely, every component is published, and every weight is documented — you can verify the whole calculation yourself. What these indices do <em>not</em> do is predict what happens next: sentiment describes the present, not the future. They are analytical tools designed to complement—not replace—fundamental analysis and risk management.
             </p>
 
             <h3>Why does the index sometimes react slowly to major news?</h3>
@@ -492,17 +492,17 @@
                 More components doesn't mean better—it means more relevant. Each index is optimized for its specific market.
             </p>
 
-            <h3>Can I use this for automated trading?</h3>
+            <h3>Can I use this data in my own tools?</h3>
             <p>
-                Yes. Common use cases include:
+                Absolutely — all data is open. Common use cases include:
             </p>
             <ul>
-                <li><strong>Contrarian entry signals:</strong> Consider buying when index < 25, reducing exposure when > 75</li>
-                <li><strong>Risk scaling:</strong> Adjust position sizes based on sentiment extremes</li>
-                <li><strong>Cross-asset analysis:</strong> Monitor sentiment shifts via the Market Sentiment Indicator</li>
+                <li><strong>Live dashboards:</strong> Embed current scores via the public JSON endpoints</li>
+                <li><strong>Research &amp; backtesting:</strong> 365 days of daily history per index, component breakdowns included</li>
+                <li><strong>Alerting &amp; monitoring:</strong> Track sentiment zone changes across four asset classes</li>
             </ul>
             <p>
-                Current data is accessible via JSON endpoints (e.g., <code>/data/bonds-fear-greed.json</code>), updated daily at 02:00 UTC. Programmatic API access may be available in the future—contact us for details. Always backtest thoroughly before deploying in production.
+                Data is accessible via JSON endpoints (e.g., <code>/data/bonds-fear-greed.json</code>), updated daily at 02:00 UTC. One honest note: these indices measure sentiment — they don't tell you when to buy or sell. If you build a strategy on top of them, backtest it thoroughly, and keep in mind that sentiment behaves differently on each asset class.
             </p>
         </div>
 
