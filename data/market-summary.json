@@ -1,11 +1,11 @@
 {
-  "date": "2026-07-03",
-  "timestamp": "2026-07-03T05:55:37Z",
-  "summary": "June nonfarm payrolls came in at just 57,000, well below the 115,000 consensus, snapping a three-month run of stronger prints. Stock futures rose on the miss as traders eased rate-hike expectations, with the 2-year Treasury yield falling 3.5 basis points. Meanwhile, Fed Chair Warsh cited easing inflation risks tied to U.S.-Iran de-escalation talks, with WTI crude sliding to $67.59 as diplomatic progress continued.",
-  "tweet": "June payrolls missed badly at 57K, cooling Fed hike bets and lifting equities \u2014 while U.S.-Iran talks kept oil falling and gold on the back foot heading into the holiday weekend.",
+  "date": "2026-07-04",
+  "timestamp": "2026-07-04T05:47:54Z",
+  "summary": "June nonfarm payrolls came in at just 57,000 \u2014 roughly half of expectations \u2014 lifting stocks as traders dialed back Fed rate-hike bets. Market expectations for a July FOMC rate hike have since pulled back to 20% from 30% last week. Meanwhile, the Trump administration chose not to extend the USMCA trade deal, leaving North American trade terms in limbo and sustaining a cloud over risk assets even as equities grind higher.",
+  "tweet": "Weak jobs print (57K vs. ~115K est.) has cooled July rate-hike odds to 20%, while USMCA expiry adds a fresh trade uncertainty overhang across assets.",
   "scores": {
     "gold": {
-      "score": 35.6,
+      "score": 35.3,
       "label": "Fear"
     },
     "stocks": {
@@ -13,7 +13,7 @@
       "label": "Greed"
     },
     "crypto": {
-      "score": 51.5,
+      "score": 52.6,
       "label": "Neutral"
     },
     "bonds": {
@@ -21,7 +21,7 @@
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 48.8,
+      "score": 49.0,
       "label": "Neutral"
     }
   }
