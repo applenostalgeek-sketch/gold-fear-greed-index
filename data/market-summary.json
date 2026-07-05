@@ -1,11 +1,11 @@
 {
-  "date": "2026-07-04",
-  "timestamp": "2026-07-04T05:47:54Z",
-  "summary": "June nonfarm payrolls came in at just 57,000 \u2014 roughly half of expectations \u2014 lifting stocks as traders dialed back Fed rate-hike bets. Market expectations for a July FOMC rate hike have since pulled back to 20% from 30% last week. Meanwhile, the Trump administration chose not to extend the USMCA trade deal, leaving North American trade terms in limbo and sustaining a cloud over risk assets even as equities grind higher.",
-  "tweet": "Weak jobs print (57K vs. ~115K est.) has cooled July rate-hike odds to 20%, while USMCA expiry adds a fresh trade uncertainty overhang across assets.",
+  "date": "2026-07-05",
+  "timestamp": "2026-07-05T06:06:45Z",
+  "summary": "June payrolls came in at just 57K, the weakest print in four months and well below forecasts of 110K. The Fed is now expected to take a patient approach rather than rush a rate hike decision, watching whether falling energy prices ease inflation. Separately, tariff uncertainty lingers as the temporary 10% blanket Section 122 surcharge faces a scheduled expiry on July 24, keeping corporate supply chain risk elevated.",
+  "tweet": "Soft June payrolls (57K vs. 110K expected) have the Fed on hold watch, while a July 24 tariff cliff keeps supply chain risk alive \u2014 stocks greed, gold fear.",
   "scores": {
     "gold": {
-      "score": 35.3,
+      "score": 35.5,
       "label": "Fear"
     },
     "stocks": {
@@ -13,15 +13,15 @@
       "label": "Greed"
     },
     "crypto": {
-      "score": 52.6,
-      "label": "Neutral"
+      "score": 55.6,
+      "label": "Greed"
     },
     "bonds": {
       "score": 49.5,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 49.0,
+      "score": 49.8,
       "label": "Neutral"
     }
   }

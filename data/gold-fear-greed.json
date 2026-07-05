@@ -1,7 +1,7 @@
 {
-  "score": 35.3,
+  "score": 35.5,
   "label": "Fear",
-  "timestamp": "2026-07-04T05:47:37Z",
+  "timestamp": "2026-07-05T06:06:29Z",
   "components": {
     "gld_price": {
       "score": 39.1,
@@ -19,9 +19,9 @@
       "detail": "GLD -2.2% vs SPY +0.7% (14d)"
     },
     "dollar_index": {
-      "score": 31.5,
+      "score": 33.3,
       "weight": 0.1,
-      "detail": "DXY: 100.86 (+1.2% 14d, MA30: 100.14)"
+      "detail": "DXY: 100.86 (+1.1% 14d, MA30: 100.08)"
     },
     "real_rates": {
       "score": 32.8,
@@ -35,6 +35,11 @@
     }
   },
   "history": [
+    {
+      "date": "2026-07-05",
+      "score": 35.5,
+      "price": 378.13
+    },
     {
       "date": "2026-07-04",
       "score": 35.3,
@@ -1851,11 +1856,6 @@
     },
     {
       "date": "2025-07-06",
-      "score": 40.3,
-      "price": 307.14
-    },
-    {
-      "date": "2025-07-05",
       "score": 40.3,
       "price": 307.14
     }
