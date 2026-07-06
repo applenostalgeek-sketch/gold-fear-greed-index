@@ -1,11 +1,11 @@
 {
-  "date": "2026-07-05",
-  "timestamp": "2026-07-05T06:06:45Z",
-  "summary": "June payrolls came in at just 57K, the weakest print in four months and well below forecasts of 110K. The Fed is now expected to take a patient approach rather than rush a rate hike decision, watching whether falling energy prices ease inflation. Separately, tariff uncertainty lingers as the temporary 10% blanket Section 122 surcharge faces a scheduled expiry on July 24, keeping corporate supply chain risk elevated.",
-  "tweet": "Soft June payrolls (57K vs. 110K expected) have the Fed on hold watch, while a July 24 tariff cliff keeps supply chain risk alive \u2014 stocks greed, gold fear.",
+  "date": "2026-07-06",
+  "timestamp": "2026-07-06T06:38:24Z",
+  "summary": "Rate hike expectations eased this week after the soft June payrolls print, with the probability of a July FOMC hike falling to 20% from 30% \u2014 keeping equities bid and VIX contained while pressuring gold and real rates. Separately, the US refused to extend the USMCA by its July 1 deadline, with the Section 122 blanket 10% tariff now set to expire July 24, leaving North American trade policy in limbo and corporate supply chain risk elevated.",
+  "tweet": "Fading Fed hike odds after weak jobs data are lifting stocks and suppressing VIX, but USMCA non-renewal and the Section 122 tariff cliff on July 24 keep trade risk squarely on the table.",
   "scores": {
     "gold": {
-      "score": 35.5,
+      "score": 34.8,
       "label": "Fear"
     },
     "stocks": {
@@ -13,15 +13,15 @@
       "label": "Greed"
     },
     "crypto": {
-      "score": 55.6,
-      "label": "Greed"
+      "score": 55.4,
+      "label": "Neutral"
     },
     "bonds": {
       "score": 49.5,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 49.8,
+      "score": 49.6,
       "label": "Neutral"
     }
   }
