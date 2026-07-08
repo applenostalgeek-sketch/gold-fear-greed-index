@@ -1,27 +1,27 @@
 {
-  "date": "2026-07-07",
-  "timestamp": "2026-07-07T06:10:53Z",
-  "summary": "A hawkish Fed repricing and a stronger dollar have weighed heavily on gold through Q2, with rising real yields and renewed enthusiasm for tech stocks pulling capital away from the metal. Stocks rebounded to start the week as oil prices fell and tech led a broad return from the holiday weekend, with the Nasdaq and S&P 500 gaining on the back of tech, financials, and industrials.",
-  "tweet": "Tech stocks staged a fresh rally as investors rotated back into growth from defensive assets, while a 57K June payrolls miss slashed September hike odds and kept VIX contained.",
+  "date": "2026-07-08",
+  "timestamp": "2026-07-08T05:23:22Z",
+  "summary": "June nonfarm payrolls came in at just 57,000, well below expectations, while the unemployment rate ticked down to 4.2%. That soft jobs report has pulled back market expectations for a Fed rate hike, with the probability of a July FOMC hike dropping to 20% from 30% the prior week. Meanwhile, Trump announced a 50% tariff on copper today, rattling commodities and adding fresh trade uncertainty across asset classes.",
+  "tweet": "A 57K jobs miss cut Fed hike odds and lifted stocks, but a surprise 50% copper tariff landed today \u2014 trade risk is back on the table.",
   "scores": {
     "gold": {
-      "score": 30.6,
+      "score": 29.1,
       "label": "Fear"
     },
     "stocks": {
-      "score": 58.0,
+      "score": 59.4,
       "label": "Greed"
     },
     "crypto": {
-      "score": 55.7,
+      "score": 56.0,
       "label": "Greed"
     },
     "bonds": {
-      "score": 50.6,
+      "score": 49.7,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 48.7,
+      "score": 48.5,
       "label": "Neutral"
     }
   }
