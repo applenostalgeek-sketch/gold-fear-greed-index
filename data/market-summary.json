@@ -1,27 +1,27 @@
 {
-  "date": "2026-07-08",
-  "timestamp": "2026-07-08T05:23:22Z",
-  "summary": "June nonfarm payrolls came in at just 57,000, well below expectations, while the unemployment rate ticked down to 4.2%. That soft jobs report has pulled back market expectations for a Fed rate hike, with the probability of a July FOMC hike dropping to 20% from 30% the prior week. Meanwhile, Trump announced a 50% tariff on copper today, rattling commodities and adding fresh trade uncertainty across asset classes.",
-  "tweet": "A 57K jobs miss cut Fed hike odds and lifted stocks, but a surprise 50% copper tariff landed today \u2014 trade risk is back on the table.",
+  "date": "2026-07-09",
+  "timestamp": "2026-07-09T06:07:19Z",
+  "summary": "The Iran ceasefire collapsed this week after U.S. strikes on Iranian targets, sending crude oil sharply higher and rattling bonds via renewed inflation risk. Stocks held up through rotation into energy and defensives, but duration assets sold off. Fed Chair Warsh's data-dependent stance with no forward guidance keeps real rates elevated, weighing on gold and bonds.",
+  "tweet": "Iran ceasefire over, crude surging, bonds selling off \u2014 stocks hold via rotation but Warsh's no-guidance Fed keeps real rates high and gold on defense.",
   "scores": {
     "gold": {
-      "score": 29.1,
+      "score": 33.6,
       "label": "Fear"
     },
     "stocks": {
-      "score": 59.4,
+      "score": 60.4,
       "label": "Greed"
     },
     "crypto": {
-      "score": 56.0,
+      "score": 59.5,
       "label": "Greed"
     },
     "bonds": {
-      "score": 49.7,
+      "score": 48.2,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 48.5,
+      "score": 50.4,
       "label": "Neutral"
     }
   }
