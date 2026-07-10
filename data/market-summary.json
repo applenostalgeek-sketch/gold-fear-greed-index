@@ -1,27 +1,27 @@
 {
-  "date": "2026-07-09",
-  "timestamp": "2026-07-09T06:07:19Z",
-  "summary": "The Iran ceasefire collapsed this week after U.S. strikes on Iranian targets, sending crude oil sharply higher and rattling bonds via renewed inflation risk. Stocks held up through rotation into energy and defensives, but duration assets sold off. Fed Chair Warsh's data-dependent stance with no forward guidance keeps real rates elevated, weighing on gold and bonds.",
-  "tweet": "Iran ceasefire over, crude surging, bonds selling off \u2014 stocks hold via rotation but Warsh's no-guidance Fed keeps real rates high and gold on defense.",
+  "date": "2026-07-10",
+  "timestamp": "2026-07-10T06:06:03Z",
+  "summary": "A weak June jobs report and Trump's new 50% copper tariff are the week's twin drivers. Soft payrolls ease near-term rate-hike odds and support equities and crypto, but the copper levy adds a cost-push inflation signal that keeps real rates elevated and bonds under pressure.",
+  "tweet": "Soft jobs + a 50% copper tariff: stocks and crypto stay bid on rate relief, but bonds and gold stay pinned as inflation risk refuses to fade.",
   "scores": {
     "gold": {
-      "score": 33.6,
+      "score": 35.4,
       "label": "Fear"
     },
     "stocks": {
-      "score": 60.4,
+      "score": 62.9,
       "label": "Greed"
     },
     "crypto": {
-      "score": 59.5,
+      "score": 61.2,
       "label": "Greed"
     },
     "bonds": {
-      "score": 48.2,
+      "score": 47.4,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 50.4,
+      "score": 51.7,
       "label": "Neutral"
     }
   }
