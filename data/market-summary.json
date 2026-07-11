@@ -1,27 +1,27 @@
 {
-  "date": "2026-07-10",
-  "timestamp": "2026-07-10T06:06:03Z",
-  "summary": "A weak June jobs report and Trump's new 50% copper tariff are the week's twin drivers. Soft payrolls ease near-term rate-hike odds and support equities and crypto, but the copper levy adds a cost-push inflation signal that keeps real rates elevated and bonds under pressure.",
-  "tweet": "Soft jobs + a 50% copper tariff: stocks and crypto stay bid on rate relief, but bonds and gold stay pinned as inflation risk refuses to fade.",
+  "date": "2026-07-11",
+  "timestamp": "2026-07-11T05:15:39Z",
+  "summary": "Strait of Hormuz attacks continued rocking shipping lanes this week, keeping energy markets on edge even as oil stayed relatively contained amid doubts over a full-scale return to conflict. Meanwhile, the tariff clock is ticking: the Section 122 global surcharge expires July 24 unless Congress extends it, and the USTR faces a July 20 completion deadline for Section 301 replacement duties on 46 countries.",
+  "tweet": "Hormuz shipping disruptions and a ticking tariff deadline \u2014 Section 122 expires July 24 \u2014 are the twin live wires keeping bonds under pressure and gold's safe-haven bid muted this week.",
   "scores": {
     "gold": {
-      "score": 35.4,
+      "score": 34.1,
       "label": "Fear"
     },
     "stocks": {
-      "score": 62.9,
+      "score": 61.8,
       "label": "Greed"
     },
     "crypto": {
-      "score": 61.2,
+      "score": 60.6,
       "label": "Greed"
     },
     "bonds": {
-      "score": 47.4,
+      "score": 46.2,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 51.7,
+      "score": 50.7,
       "label": "Neutral"
     }
   }
