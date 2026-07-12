@@ -1,11 +1,11 @@
 {
-  "date": "2026-07-11",
-  "timestamp": "2026-07-11T05:15:39Z",
-  "summary": "Strait of Hormuz attacks continued rocking shipping lanes this week, keeping energy markets on edge even as oil stayed relatively contained amid doubts over a full-scale return to conflict. Meanwhile, the tariff clock is ticking: the Section 122 global surcharge expires July 24 unless Congress extends it, and the USTR faces a July 20 completion deadline for Section 301 replacement duties on 46 countries.",
-  "tweet": "Hormuz shipping disruptions and a ticking tariff deadline \u2014 Section 122 expires July 24 \u2014 are the twin live wires keeping bonds under pressure and gold's safe-haven bid muted this week.",
+  "date": "2026-07-12",
+  "timestamp": "2026-07-12T05:30:42Z",
+  "summary": "June payrolls came in at just 57,000 \u2014 well below expectations \u2014 but with inflation running hot, all eyes are now on Tuesday's June CPI print, the last major inflation read before the July 29 FOMC decision.",
+  "tweet": "June CPI \u2014 the last major inflation read before the July 29 FOMC decision \u2014 lands Tuesday July 14, with rate hike odds surging; big bank earnings open the same morning, pulling sentiment in two directions.",
   "scores": {
     "gold": {
-      "score": 34.1,
+      "score": 34.3,
       "label": "Fear"
     },
     "stocks": {
@@ -13,7 +13,7 @@
       "label": "Greed"
     },
     "crypto": {
-      "score": 60.6,
+      "score": 60.4,
       "label": "Greed"
     },
     "bonds": {
