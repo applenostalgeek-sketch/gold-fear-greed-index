@@ -1,11 +1,11 @@
 {
-  "date": "2026-07-12",
-  "timestamp": "2026-07-12T05:30:42Z",
-  "summary": "June payrolls came in at just 57,000 \u2014 well below expectations \u2014 but with inflation running hot, all eyes are now on Tuesday's June CPI print, the last major inflation read before the July 29 FOMC decision.",
-  "tweet": "June CPI \u2014 the last major inflation read before the July 29 FOMC decision \u2014 lands Tuesday July 14, with rate hike odds surging; big bank earnings open the same morning, pulling sentiment in two directions.",
+  "date": "2026-07-13",
+  "timestamp": "2026-07-13T05:39:36Z",
+  "summary": "Here is the market context based on confirmed, sourced events: --- Catalyst 1 \u2014 U.S.-Iran conflict escalation: Fresh U.S.-Iran strikes sent oil jumping, with Brent rising toward $79 a barrel, as Iran declared the Strait of Hormuz closed \"until further notice\" \u2014 a claim denied by U.S. Central Command.",
+  "tweet": null,
   "scores": {
     "gold": {
-      "score": 34.3,
+      "score": 34.2,
       "label": "Fear"
     },
     "stocks": {
@@ -13,7 +13,7 @@
       "label": "Greed"
     },
     "crypto": {
-      "score": 60.4,
+      "score": 57.4,
       "label": "Greed"
     },
     "bonds": {
@@ -21,7 +21,7 @@
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 50.7,
+      "score": 49.9,
       "label": "Neutral"
     }
   }
