@@ -1,27 +1,27 @@
 {
-  "date": "2026-07-13",
-  "timestamp": "2026-07-13T05:39:36Z",
-  "summary": "Here is the market context based on confirmed, sourced events: --- Catalyst 1 \u2014 U.S.-Iran conflict escalation: Fresh U.S.-Iran strikes sent oil jumping, with Brent rising toward $79 a barrel, as Iran declared the Strait of Hormuz closed \"until further notice\" \u2014 a claim denied by U.S. Central Command.",
+  "date": "2026-07-14",
+  "timestamp": "2026-07-14T04:53:16Z",
+  "summary": "Here is the sourced market context for today: --- Catalyst 1 \u2014 U.S.-Iran blockade reinstatement & big bank earnings: Stocks fell Monday after President Trump announced he was reinstating a blockade on Iranian shipping through the Strait of Hormuz, sending oil prices higher. Brent crude futures jumped 7% to above $77 a barrel this week, while West Texas Intermediate crude climbed 6% to top $72 a barrel.",
   "tweet": null,
   "scores": {
     "gold": {
-      "score": 34.2,
+      "score": 37.4,
       "label": "Fear"
     },
     "stocks": {
-      "score": 61.8,
+      "score": 62.6,
       "label": "Greed"
     },
     "crypto": {
-      "score": 57.4,
+      "score": 59.2,
       "label": "Greed"
     },
     "bonds": {
-      "score": 46.2,
+      "score": 46.9,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 49.9,
+      "score": 51.5,
       "label": "Neutral"
     }
   }
