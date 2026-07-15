@@ -1,28 +1,28 @@
 {
-  "date": "2026-07-14",
-  "timestamp": "2026-07-14T04:53:16Z",
-  "summary": "Here is the sourced market context for today: --- Catalyst 1 \u2014 U.S.-Iran blockade reinstatement & big bank earnings: Stocks fell Monday after President Trump announced he was reinstating a blockade on Iranian shipping through the Strait of Hormuz, sending oil prices higher. Brent crude futures jumped 7% to above $77 a barrel this week, while West Texas Intermediate crude climbed 6% to top $72 a barrel.",
-  "tweet": null,
+  "date": "2026-07-15",
+  "timestamp": "2026-07-15T04:53:30Z",
+  "summary": "June CPI came in weaker than expected, lifting stocks and pushing bonds lower as markets repriced Fed rate-hike odds \u2014 consistent with equities in Greed while bonds and gold lag. Oil eased off highs after Trump abandoned his demand for ships to pay a transit fee through the Strait of Hormuz, but geopolitical risk persists.",
+  "tweet": "Softer CPI fueled a tech-led equity rally, but 30Y yields near 5.1% and Strait of Hormuz uncertainty keep bonds under pressure and gold in Fear territory.",
   "scores": {
     "gold": {
-      "score": 37.4,
+      "score": 44.6,
       "label": "Fear"
     },
     "stocks": {
-      "score": 62.6,
+      "score": 66.2,
       "label": "Greed"
     },
     "crypto": {
-      "score": 59.2,
+      "score": 60.9,
       "label": "Greed"
     },
     "bonds": {
-      "score": 46.9,
+      "score": 48.7,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 51.5,
-      "label": "Neutral"
+      "score": 55.1,
+      "label": "Greed"
     }
   }
 }
