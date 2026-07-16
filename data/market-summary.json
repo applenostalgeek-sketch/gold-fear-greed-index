@@ -1,28 +1,28 @@
 {
-  "date": "2026-07-15",
-  "timestamp": "2026-07-15T04:53:30Z",
-  "summary": "June CPI came in weaker than expected, lifting stocks and pushing bonds lower as markets repriced Fed rate-hike odds \u2014 consistent with equities in Greed while bonds and gold lag. Oil eased off highs after Trump abandoned his demand for ships to pay a transit fee through the Strait of Hormuz, but geopolitical risk persists.",
-  "tweet": "Softer CPI fueled a tech-led equity rally, but 30Y yields near 5.1% and Strait of Hormuz uncertainty keep bonds under pressure and gold in Fear territory.",
+  "date": "2026-07-16",
+  "timestamp": "2026-07-16T05:12:29Z",
+  "summary": "Ongoing U.S.-Iran military strikes pushed oil above $80 and kept Treasury yields elevated near multi-month highs, hammering bonds while equities held firm on back-to-back soft inflation prints. Fed Chair Warsh's debut congressional testimony reinforced a data-dependent, hawkish-hold stance, keeping rate-hike risk alive and real rates firmly above average.",
+  "tweet": "U.S.-Iran strikes lift oil, yields, and rate-hike odds \u2014 bonds take the hit while stocks shrug on cooling CPI and PPI.",
   "scores": {
     "gold": {
-      "score": 44.6,
+      "score": 41.0,
       "label": "Fear"
     },
     "stocks": {
-      "score": 66.2,
+      "score": 64.9,
       "label": "Greed"
     },
     "crypto": {
-      "score": 60.9,
+      "score": 60.2,
       "label": "Greed"
     },
     "bonds": {
-      "score": 48.7,
-      "label": "Neutral"
+      "score": 45.3,
+      "label": "Fear"
     },
     "sentiment": {
-      "score": 55.1,
-      "label": "Greed"
+      "score": 52.9,
+      "label": "Neutral"
     }
   }
 }
