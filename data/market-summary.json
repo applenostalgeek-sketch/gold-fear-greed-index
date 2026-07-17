@@ -1,27 +1,27 @@
 {
-  "date": "2026-07-16",
-  "timestamp": "2026-07-16T05:12:29Z",
-  "summary": "Ongoing U.S.-Iran military strikes pushed oil above $80 and kept Treasury yields elevated near multi-month highs, hammering bonds while equities held firm on back-to-back soft inflation prints. Fed Chair Warsh's debut congressional testimony reinforced a data-dependent, hawkish-hold stance, keeping rate-hike risk alive and real rates firmly above average.",
-  "tweet": "U.S.-Iran strikes lift oil, yields, and rate-hike odds \u2014 bonds take the hit while stocks shrug on cooling CPI and PPI.",
+  "date": "2026-07-17",
+  "timestamp": "2026-07-17T05:15:24Z",
+  "summary": "The U.S.-Iran ceasefire collapse sent oil prices higher this week, keeping rate-hike expectations elevated \u2014 market expectations for a Fed hike at the July FOMC jumped to 31% from 17%, and September probability surged to 84% from 61% week-over-week. A below-consensus PPI report Wednesday briefly pulled Treasury yields lower, with the 10-year settling near 4.55%, easing immediate tightening fears.",
+  "tweet": "Iran conflict reigniting rate-hike bets \u2014 July FOMC hike probability doubled this week \u2014 while blowout Q2 earnings keep stocks in greed and bonds under pressure.",
   "scores": {
     "gold": {
-      "score": 41.0,
+      "score": 36.2,
       "label": "Fear"
     },
     "stocks": {
-      "score": 64.9,
+      "score": 65.8,
       "label": "Greed"
     },
     "crypto": {
-      "score": 60.2,
-      "label": "Greed"
+      "score": 54.7,
+      "label": "Neutral"
     },
     "bonds": {
-      "score": 45.3,
-      "label": "Fear"
+      "score": 46.3,
+      "label": "Neutral"
     },
     "sentiment": {
-      "score": 52.9,
+      "score": 50.8,
       "label": "Neutral"
     }
   }
