@@ -393,3 +393,12 @@
     .cta-form { flex-direction: column; }
     .cta-customize-btn { margin-top: 8px; font-size: 0.7rem; }
 }
+
+/* === FAQ section === */
+.faq-section { margin: 56px 0; }
+.faq-section h2 { font-size: 1.3rem; font-weight: 600; margin-bottom: 20px; color: #fff; }
+.faq-section h3 { font-size: 1rem; font-weight: 600; margin: 24px 0 8px; color: #ddd; }
+.faq-section p { font-size: 0.9rem; color: #999; line-height: 1.8; }
+
+@media (max-width: 768px) {
+}

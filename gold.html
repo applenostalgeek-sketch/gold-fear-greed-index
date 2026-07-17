@@ -16,7 +16,7 @@
     <link rel="canonical" href="https://onoff.markets/gold.html">
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Real-time Gold Fear & Greed Index based on price momentum, safe-haven flows, dollar strength, real rates and VIX. Track gold market sentiment daily.">
+    <meta name="description" content="Real-time Gold Fear & Greed Index based on price momentum, safe-haven flows, dollar strength, real rates and VIX. Track gold market sentiment today — updated daily, 5 years of history.">
     <meta name="keywords" content="gold fear greed, gold sentiment, gold index, gold market sentiment, gold trading indicator, gold volatility">
     <meta name="author" content="OnOff.Markets">
 
@@ -57,18 +57,26 @@
         "mainEntity": [
             {
                 "@type": "Question",
-                "name": "What drives the Gold Fear & Greed Index?",
+                "name": "Can the index show Fear while the gold price is rising?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "The Gold Fear & Greed Index uses 6 components: GLD Price Momentum (25%), RSI & Moving Averages (20%), Gold vs S&P500 (20%), Dollar Index (10%), Real Rates (10%), and VIX (15%). It measures sentiment TOWARDS gold — whether investors are buying or selling the safe haven asset."
+                    "text": "Yes. The index measures sentiment — momentum, positioning, flows — not the price level. Gold can trade near its highs while its momentum cools, the dollar strengthens, or investors rotate toward stocks: the index reads that as Fear. A low score doesn't mean gold is cheap; it means recent behavior around gold is cautious."
                 }
             },
             {
                 "@type": "Question",
-                "name": "How does the US dollar affect gold sentiment?",
+                "name": "How is this different from CNN's Fear & Greed Index?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Gold and the dollar typically move inversely. A weakening dollar makes gold cheaper for foreign buyers, increasing demand and pushing the index higher. The Dollar Index component tracks 14-day DXY changes with a x15 multiplier, contributing 10% to the overall score."
+                    "text": "CNN's index covers US stocks only — there is no CNN index for gold. This is a dedicated gold sentiment index with six published components and verifiable weights, alongside Stocks, Bonds and Crypto indices for cross-asset comparison. CNN's methodology is proprietary; ours is fully documented."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What makes gold sentiment move?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Mostly the dollar (they move inversely) and real interest rates — and less than expected by panic: in five years of data, gold barely reacts on high-stress market days. It's a slow diversifier, not an intraday hedge. Its biggest sentiment swings have come from its own momentum: sharp corrections after strong runs."
                 }
             },
             {
@@ -76,7 +84,15 @@
                 "name": "Is gold a good buy when the index shows Extreme Fear?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Extreme Fear readings (below 25) indicate heavy selling pressure and pessimistic sentiment towards gold. Historically, extreme sentiment readings tend to be contrarian signals — but past patterns do not guarantee future results. These indices are analytical tools, not financial advice."
+                    "text": "The index measures sentiment, not value — it won't answer that. In our own backtests, Extreme Fear has not been a reliable buy signal for gold. Treat extreme readings as context about the crowd's mood, not as an instruction. Not financial advice."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "How often is the Gold Fear & Greed Index updated?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Daily, shortly after the US market close. All data is free and public: current score, all six components, one year of daily history, plus five years of aligned score-and-price history in open JSON — no key, no signup."
                 }
             }
         ]
@@ -99,7 +115,7 @@
     <!-- Shared Styles -->
     <link rel="stylesheet" href="shared.css">
     <link rel="stylesheet" href="chart.css">
-    <link rel="stylesheet" href="asset.css?v=3">
+    <link rel="stylesheet" href="asset.css?v=4">
     <link rel="stylesheet" href="gauge.css?v=1">
     <style>
         :root { --asset-color: #FFD700; }
@@ -142,7 +158,7 @@
             <h1><span class="h1-asset">Gold</span> Fear & Greed Index</h1>
             <div class="updated" id="updated">Updated: Loading...</div>
         </div>
-        <p class="seo-intro">Track real-time gold market sentiment. Our Gold Fear & Greed Index combines price momentum, dollar strength, real interest rates and volatility into a single 0-100 score, updated daily.</p>
+        <p class="seo-intro">What is gold market sentiment today? Our fear and greed index for gold combines price momentum, dollar strength, real interest rates and volatility into a single 0-100 score — updated daily, with 5 years of free public history.</p>
 
         <!-- Hero Score: Circle Gauge -->
         <div class="hero">
@@ -244,7 +260,7 @@
             <div class="explanation-grid">
                 <div class="explanation-item extreme-fear-bg">
                     <strong>0-25: Extreme Fear</strong>
-                    <p>Very pessimistic sentiment. Potential buying opportunity.</p>
+                    <p>Very pessimistic sentiment. Panic-level selling pressure.</p>
                 </div>
                 <div class="explanation-item fear-bg">
                     <strong>26-45: Fear</strong>
@@ -260,7 +276,7 @@
                 </div>
                 <div class="explanation-item extreme-greed-bg">
                     <strong>76-100: Extreme Greed</strong>
-                    <p>Market euphoria. Potential correction ahead.</p>
+                    <p>Market euphoria. Stretched, one-sided optimism.</p>
                 </div>
             </div>
         </section>
@@ -337,6 +353,36 @@
 
             <p style="margin-top: 24px; font-size: 0.9rem; color: #666;">
                 Full cross-asset methodology and data sources available on the <a href="about.html" style="color: #FFD700;">About page</a>.
+            </p>
+        </section>
+
+        <!-- FAQ -->
+        <section class="faq-section" id="faq">
+            <h2>Frequently Asked Questions</h2>
+
+            <h3>Can the index show Fear while the gold price is rising?</h3>
+            <p>
+                Yes — and it's the most common confusion with sentiment indices. The index measures sentiment: momentum, positioning, flows — not the price level. Gold can trade near its highs while its momentum cools, the dollar strengthens, or investors rotate toward stocks: the index reads that as Fear. A low score doesn't mean gold is cheap; it means recent behavior around gold is cautious.
+            </p>
+
+            <h3>How is this different from CNN's Fear &amp; Greed Index?</h3>
+            <p>
+                CNN's index covers US stocks only — there is no CNN index for gold. This is a dedicated gold sentiment index, with six published components and weights you can verify, alongside our Stocks, Bonds and Crypto indices for cross-asset comparison. CNN's methodology is proprietary; ours is fully documented.
+            </p>
+
+            <h3>What makes gold sentiment move?</h3>
+            <p>
+                Mostly the dollar (they move inversely) and real interest rates — and less than you'd think by panic: in five years of our data, gold barely reacts on high-stress market days. It's a slow diversifier, not an intraday hedge. Its biggest sentiment swings have come from its own momentum: sharp corrections after strong runs.
+            </p>
+
+            <h3>Is gold a good buy when the index shows Extreme Fear?</h3>
+            <p>
+                The index measures sentiment, not value — it won't answer that. In our own backtests, Extreme Fear has <em>not</em> been a reliable buy signal for gold. Treat extreme readings as context about the crowd's mood: rare conditions worth your attention, not an instruction.
+            </p>
+
+            <h3>How often is it updated — and can I download the history?</h3>
+            <p>
+                Daily, shortly after the US market close. The full data is free and public: current score, all six components, one year of daily history — plus five years of aligned score-and-price history in open JSON. No key, no signup.
             </p>
         </section>
 
