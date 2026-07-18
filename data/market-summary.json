@@ -1,27 +1,27 @@
 {
-  "date": "2026-07-17",
-  "timestamp": "2026-07-17T05:15:24Z",
-  "summary": "The U.S.-Iran ceasefire collapse sent oil prices higher this week, keeping rate-hike expectations elevated \u2014 market expectations for a Fed hike at the July FOMC jumped to 31% from 17%, and September probability surged to 84% from 61% week-over-week. A below-consensus PPI report Wednesday briefly pulled Treasury yields lower, with the 10-year settling near 4.55%, easing immediate tightening fears.",
-  "tweet": "Iran conflict reigniting rate-hike bets \u2014 July FOMC hike probability doubled this week \u2014 while blowout Q2 earnings keep stocks in greed and bonds under pressure.",
+  "date": "2026-07-18",
+  "timestamp": "2026-07-18T04:52:21Z",
+  "summary": "A semiconductor selloff extended into Friday, with the PHLX Semiconductor Index tracking toward 20% declines from recent highs as investors rotated out of crowded AI hardware names amid growing uncertainty over AI economics. New AI model compression technology raised fears of a sooner-than-expected memory price collapse, hitting U.S. memory stocks hard \u2014 Micron on track for -10% and SandDisk -24% on the week.",
+  "tweet": "Semis in freefall on AI valuation reset and oil-driven rate fears are dragging stocks lower, keeping the week's sentiment split between tech wreckage and resilient credit spreads.",
   "scores": {
     "gold": {
-      "score": 36.2,
-      "label": "Fear"
+      "score": 48.8,
+      "label": "Neutral"
     },
     "stocks": {
-      "score": 65.8,
+      "score": 58.8,
       "label": "Greed"
     },
     "crypto": {
-      "score": 54.7,
-      "label": "Neutral"
+      "score": 57.3,
+      "label": "Greed"
     },
     "bonds": {
       "score": 46.3,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 50.8,
+      "score": 52.8,
       "label": "Neutral"
     }
   }
