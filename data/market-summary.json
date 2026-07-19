@@ -1,11 +1,11 @@
 {
-  "date": "2026-07-18",
-  "timestamp": "2026-07-18T04:52:21Z",
-  "summary": "A semiconductor selloff extended into Friday, with the PHLX Semiconductor Index tracking toward 20% declines from recent highs as investors rotated out of crowded AI hardware names amid growing uncertainty over AI economics. New AI model compression technology raised fears of a sooner-than-expected memory price collapse, hitting U.S. memory stocks hard \u2014 Micron on track for -10% and SandDisk -24% on the week.",
-  "tweet": "Semis in freefall on AI valuation reset and oil-driven rate fears are dragging stocks lower, keeping the week's sentiment split between tech wreckage and resilient credit spreads.",
+  "date": "2026-07-19",
+  "timestamp": "2026-07-19T05:23:55Z",
+  "summary": "The US-Iran conflict intensified this week as the US carried out a fifth consecutive day of strikes, with Iran responding by attacking US bases in Kuwait, Jordan, and Bahrain. Brent crude climbed back above $85 a barrel as energy flows through the Strait of Hormuz continued to slow, reviving concerns about tighter global markets.",
+  "tweet": "Middle East escalation is spiking oil and rattling long bonds, while a cooler June CPI print slashed July Fed hike odds to 17% \u2014 leaving markets torn between inflation risk and policy relief.",
   "scores": {
     "gold": {
-      "score": 48.8,
+      "score": 48.9,
       "label": "Neutral"
     },
     "stocks": {
@@ -13,7 +13,7 @@
       "label": "Greed"
     },
     "crypto": {
-      "score": 57.3,
+      "score": 58.0,
       "label": "Greed"
     },
     "bonds": {
@@ -21,7 +21,7 @@
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 52.8,
+      "score": 53.0,
       "label": "Neutral"
     }
   }
