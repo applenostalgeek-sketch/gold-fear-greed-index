@@ -1,11 +1,11 @@
 {
-  "date": "2026-07-19",
-  "timestamp": "2026-07-19T05:23:55Z",
-  "summary": "The US-Iran conflict intensified this week as the US carried out a fifth consecutive day of strikes, with Iran responding by attacking US bases in Kuwait, Jordan, and Bahrain. Brent crude climbed back above $85 a barrel as energy flows through the Strait of Hormuz continued to slow, reviving concerns about tighter global markets.",
-  "tweet": "Middle East escalation is spiking oil and rattling long bonds, while a cooler June CPI print slashed July Fed hike odds to 17% \u2014 leaving markets torn between inflation risk and policy relief.",
+  "date": "2026-07-20",
+  "timestamp": "2026-07-20T05:41:33Z",
+  "summary": "Stocks are on track for weekly losses, particularly in tech, as a sharp rise in oil prices and uncertainty around AI economics weigh on sentiment. The retreat has been sharpest in the Nasdaq, with semiconductor ETFs tumbling more than 10% on the week as anxieties around AI spending came to the fore. Meanwhile, trade policy adds a second pressure point, with the temporary 10% blanket Section 122 tariff facing a scheduled expiry on July 24.",
+  "tweet": "A chip selloff and AI spending doubts are dragging tech lower, while a tariff cliff on July 24 keeps cross-asset sentiment stuck in neutral.",
   "scores": {
     "gold": {
-      "score": 48.9,
+      "score": 49.6,
       "label": "Neutral"
     },
     "stocks": {
@@ -13,7 +13,7 @@
       "label": "Greed"
     },
     "crypto": {
-      "score": 58.0,
+      "score": 56.5,
       "label": "Greed"
     },
     "bonds": {
@@ -21,7 +21,7 @@
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 53.0,
+      "score": 52.8,
       "label": "Neutral"
     }
   }
