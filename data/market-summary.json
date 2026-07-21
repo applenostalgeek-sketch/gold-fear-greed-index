@@ -1,27 +1,27 @@
 {
-  "date": "2026-07-20",
-  "timestamp": "2026-07-20T05:41:33Z",
-  "summary": "Stocks are on track for weekly losses, particularly in tech, as a sharp rise in oil prices and uncertainty around AI economics weigh on sentiment. The retreat has been sharpest in the Nasdaq, with semiconductor ETFs tumbling more than 10% on the week as anxieties around AI spending came to the fore. Meanwhile, trade policy adds a second pressure point, with the temporary 10% blanket Section 122 tariff facing a scheduled expiry on July 24.",
-  "tweet": "A chip selloff and AI spending doubts are dragging tech lower, while a tariff cliff on July 24 keeps cross-asset sentiment stuck in neutral.",
+  "date": "2026-07-21",
+  "timestamp": "2026-07-21T05:22:36Z",
+  "summary": "The U.S.-Iran conflict entered its ninth straight day of airstrikes, pushing oil higher and sending long-term Treasury yields up on inflation fears \u2014 hammering bonds and weighing on traditional equity sectors. Megacap tech earnings, led by Alphabet, are now the market's swing factor as investors weigh whether AI capex holds or cracks.",
+  "tweet": "Nine straight days of U.",
   "scores": {
     "gold": {
-      "score": 49.6,
+      "score": 50.2,
       "label": "Neutral"
     },
     "stocks": {
-      "score": 58.8,
-      "label": "Greed"
+      "score": 54.2,
+      "label": "Neutral"
     },
     "crypto": {
-      "score": 56.5,
+      "score": 59.8,
       "label": "Greed"
     },
     "bonds": {
-      "score": 46.3,
-      "label": "Neutral"
+      "score": 44.5,
+      "label": "Fear"
     },
     "sentiment": {
-      "score": 52.8,
+      "score": 52.2,
       "label": "Neutral"
     }
   }
