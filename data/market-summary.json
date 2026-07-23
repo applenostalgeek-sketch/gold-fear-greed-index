@@ -1,27 +1,27 @@
 {
-  "date": "2026-07-22",
-  "timestamp": "2026-07-22T05:21:18Z",
-  "summary": "Megacap earnings are the dominant force this week, with Alphabet and Tesla both reporting today amid a broad tech-led equity rally. Tesla's record Q2 deliveries, up 25% year-over-year and well above estimates, are reinforcing risk appetite even as long-term bonds stay under pressure from lingering Iran conflict inflation fears.",
-  "tweet": "Alphabet and Tesla headlining today's earnings wave \u2014 Tesla's record Q2 deliveries are driving the risk-on tone even as bonds price in Iran-linked inflation risk.",
+  "date": "2026-07-23",
+  "timestamp": "2026-07-23T05:27:12Z",
+  "summary": "Trump's surprise 50% tariff on a broad range of Canadian goods, signed July 20 and effective August 19, is rattling trade sentiment and keeping bonds under pressure. The ECB announced its rate decision today, holding steady as expected, with markets pivoting to Lagarde's tone on inflation and the global trade environment for clues on September.",
+  "tweet": "Trump's new 50% Canada tariff and today's ECB hold are the week's twin pressure points \u2014 trade risk weighing on bonds while Lagarde's words set the tone for rate bets through Q3.",
   "scores": {
     "gold": {
-      "score": 46.6,
-      "label": "Neutral"
+      "score": 43.6,
+      "label": "Fear"
     },
     "stocks": {
-      "score": 57.4,
+      "score": 57.6,
       "label": "Greed"
     },
     "crypto": {
-      "score": 59.9,
+      "score": 62.1,
       "label": "Greed"
     },
     "bonds": {
-      "score": 46.9,
+      "score": 47.8,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 52.7,
+      "score": 52.8,
       "label": "Neutral"
     }
   }
