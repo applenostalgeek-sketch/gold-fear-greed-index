@@ -438,18 +438,16 @@ a.mrow:hover { background: rgba(255, 255, 255, 0.03); }
 .mrow-trackwrap { position: relative; }
 .mrow-track {
     position: relative; height: clamp(5px, 1vw, 7px); border-radius: 4px; overflow: hidden;
-    background: linear-gradient(90deg,
-        rgba(239, 68, 68, 0.14) 0 25%, rgba(245, 158, 11, 0.14) 25% 45%,
-        rgba(255, 255, 255, 0.10) 45% 55%,
-        rgba(34, 197, 94, 0.14) 55% 75%, rgba(6, 182, 212, 0.14) 75% 100%);
-}
-.mrow-fill {
-    position: absolute; inset: 0; width: 0;
+    /* Full zone scale, always mapped to 0-100 of the bar width */
     background: linear-gradient(90deg,
         #ef4444 0 25%, #f59e0b 25% 45%, #e8e8e8 45% 55%, #22c55e 55% 75%, #06b6d4 75% 100%);
-    background-size: var(--trackw) 100%;
-    transition: width 0.8s cubic-bezier(0.25, 0.9, 0.3, 1);
-    border-radius: 4px;
+}
+.mrow-fill {
+    /* Dims the part of the bar beyond the score (from score% to 100%) */
+    position: absolute; top: 0; bottom: 0; right: 0;
+    left: var(--score, 0%);
+    background: rgba(10, 10, 16, 0.66);
+    transition: left 0.8s cubic-bezier(0.25, 0.9, 0.3, 1);
 }
 .mrow-dot {
     position: absolute; top: 50%; transform: translate(-50%, -50%);
