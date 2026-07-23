@@ -115,7 +115,7 @@
     <!-- Shared Styles -->
     <link rel="stylesheet" href="shared.css">
     <link rel="stylesheet" href="chart.css">
-    <link rel="stylesheet" href="asset.css?v=4">
+    <link rel="stylesheet" href="asset.css?v=8">
     <link rel="stylesheet" href="gauge.css?v=1">
     <style>
         :root { --asset-color: #FFD700; }
@@ -202,11 +202,6 @@
             <div class="components-grid" id="componentsGrid"></div>
         </section>
 
-        <!-- Back to Overview -->
-        <div class="back-link">
-            <a href="index.html">← Back to Market Overview</a>
-        </div>
-
         <!-- Inline Alert CTA -->
         <section class="cta-section" id="ctaSection">
             <div class="cta-box">
@@ -220,6 +215,26 @@
                 </form>
                 <div class="cta-msg" id="ctaMsg"></div>
                 <button class="cta-customize-btn" id="ctaCustomize">Customize your alerts</button>
+            </div>
+        </section>
+
+        <!-- Across all markets: static skeleton (crawlable links), hydrated by JS -->
+        <section class="mrows-section" id="marketRowsSection">
+            <h2>Across All Markets</h2>
+            <div class="mrows" id="marketRows">
+                <div class="mrow active" data-market="gold">
+                    <div class="mrow-top"><span class="mrow-name">Gold</span><span class="mrow-here">You are here</span><span class="mrow-spacer"></span><span class="mrow-score" style="color:#555">&ndash;</span><span class="mrow-badge" style="display:none"></span></div>
+                    <div class="mrow-trackwrap"><div class="mrow-track"><div class="mrow-fill"></div></div><span class="mrow-dot" style="visibility:hidden"></span></div>
+                </div>
+                <a class="mrow" href="bonds.html" data-market="bonds" data-dest="bonds"><div class="mrow-top"><span class="mrow-name">Bonds<span class="sr-only"> Fear &amp; Greed Index</span></span><span class="mrow-spacer"></span><span class="mrow-score" style="color:#555">&ndash;</span><span class="mrow-badge" style="display:none"></span><span class="mrow-chev">&rsaquo;</span></div><div class="mrow-trackwrap"><div class="mrow-track"><div class="mrow-fill"></div></div><span class="mrow-dot" style="visibility:hidden"></span></div></a>
+                <a class="mrow" href="stocks.html" data-market="stocks" data-dest="stocks"><div class="mrow-top"><span class="mrow-name">Stocks<span class="sr-only"> Fear &amp; Greed Index</span></span><span class="mrow-spacer"></span><span class="mrow-score" style="color:#555">&ndash;</span><span class="mrow-badge" style="display:none"></span><span class="mrow-chev">&rsaquo;</span></div><div class="mrow-trackwrap"><div class="mrow-track"><div class="mrow-fill"></div></div><span class="mrow-dot" style="visibility:hidden"></span></div></a>
+                <a class="mrow" href="crypto.html" data-market="crypto" data-dest="crypto"><div class="mrow-top"><span class="mrow-name">Crypto<span class="sr-only"> Fear &amp; Greed Index</span></span><span class="mrow-spacer"></span><span class="mrow-score" style="color:#555">&ndash;</span><span class="mrow-badge" style="display:none"></span><span class="mrow-chev">&rsaquo;</span></div><div class="mrow-trackwrap"><div class="mrow-track"><div class="mrow-fill"></div></div><span class="mrow-dot" style="visibility:hidden"></span></div></a>
+                <a class="mrows-foot" href="index.html" data-dest="overview">
+                    <span class="logo-dots2"><i style="background:#555"></i><i style="background:#555"></i></span>
+                    <span class="foot-name">Market Sentiment<span class="sr-only"> &mdash; Fear &amp; Greed overview across gold, stocks, bonds and crypto</span></span>
+                    <span class="foot-sub">all four combined</span><span class="foot-spacer"></span>
+                    <span class="foot-val" style="color:#555">&ndash;</span><span class="foot-zone"></span><span class="foot-arr">&rarr;</span>
+                </a>
             </div>
         </section>
 
@@ -418,5 +433,48 @@
     <script src="asset-chart.js?v=4"></script>
     <script src="alert-signup.js"></script>
     <script src="cta-asset.js"></script>
+    <script>
+    // "Across all markets": hydrate the static skeleton with live scores (links work without JS)
+    (function () {
+        function zn(s) { if (s <= 25) return 'Extreme Fear'; if (s <= 45) return 'Fear'; if (s <= 55) return 'Neutral'; if (s <= 75) return 'Greed'; return 'Extreme Greed'; }
+        var root = document.getElementById('marketRows');
+        if (!root) return;
+        root.querySelectorAll('[data-dest]').forEach(function (el) {
+            el.addEventListener('click', function () {
+                if (typeof gtag === 'function') {
+                    gtag('event', 'market_rows_click', { event_category: 'market_rows', event_label: el.dataset.dest, from_page: 'gold' });
+                }
+            });
+        });
+        var files = { gold: 'data/gold-fear-greed.json', stocks: 'data/stocks-fear-greed.json', bonds: 'data/bonds-fear-greed.json', crypto: 'data/crypto-fear-greed.json' };
+        Promise.all(Object.keys(files).map(function (k) {
+            return fetch(files[k]).then(function (r) { return r.json(); }).then(function (d) { return [k, Math.round(d.score)]; });
+        })).then(function (entries) {
+            var s = {};
+            entries.forEach(function (e) { s[e[0]] = e[1]; });
+            function hydrate(key, v) {
+                var row = root.querySelector('[data-market="' + key + '"]');
+                if (!row) return;
+                var c = getColor(v);
+                var score = row.querySelector('.mrow-score');
+                score.textContent = v; score.style.color = c;
+                var badge = row.querySelector('.mrow-badge');
+                badge.textContent = zn(v); badge.style.color = c; badge.style.background = c + '1f'; badge.style.display = '';
+                var dot = row.querySelector('.mrow-dot');
+                dot.style.background = c; dot.style.visibility = '';
+                var fill = row.querySelector('.mrow-fill');
+                fill.style.setProperty('--trackw', fill.parentElement.getBoundingClientRect().width + 'px');
+                requestAnimationFrame(function () { fill.style.width = v + '%'; dot.style.left = v + '%'; });
+            }
+            ['gold', 'stocks', 'bonds', 'crypto'].forEach(function (k) { hydrate(k, s[k]); });
+            var comp = Math.round((s.gold + s.stocks + s.bonds + s.crypto) / 4), cc = getColor(comp);
+            var foot = root.querySelector('.mrows-foot');
+            var fv = foot.querySelector('.foot-val'), fz = foot.querySelector('.foot-zone');
+            fv.textContent = comp; fv.style.color = cc;
+            fz.textContent = zn(comp); fz.style.color = cc;
+            foot.querySelectorAll('.logo-dots2 i').forEach(function (i) { i.style.background = cc; });
+        }).catch(function () { /* skeleton stays: links keep working without data */ });
+    })();
+    </script>
 </body>
 </html>
