@@ -1,27 +1,27 @@
 {
-  "date": "2026-07-23",
-  "timestamp": "2026-07-23T05:27:12Z",
-  "summary": "Trump's surprise 50% tariff on a broad range of Canadian goods, signed July 20 and effective August 19, is rattling trade sentiment and keeping bonds under pressure. The ECB announced its rate decision today, holding steady as expected, with markets pivoting to Lagarde's tone on inflation and the global trade environment for clues on September.",
-  "tweet": "Trump's new 50% Canada tariff and today's ECB hold are the week's twin pressure points \u2014 trade risk weighing on bonds while Lagarde's words set the tone for rate bets through Q3.",
+  "date": "2026-07-24",
+  "timestamp": "2026-07-24T05:22:08Z",
+  "summary": "Houthi militants attacked two Saudi oil tankers in the Red Sea, pushing Brent crude above $100 a barrel for the first time in two months, driving inflation fears that hammered equities and pressured bonds. Separately, the U.S. trade representative unveiled a new wave of tariffs on 60 trading partners to replace the temporary 10% global surcharge that expired today, with rates of 10% to 12.5% now locked in.",
+  "tweet": "Brent topping $100 on Houthi Red Sea attacks and a fresh wave of U.S. tariffs hitting 60 countries are the twin shocks dragging stocks lower and keeping bonds under pressure today.",
   "scores": {
     "gold": {
-      "score": 43.6,
+      "score": 44.3,
       "label": "Fear"
     },
     "stocks": {
-      "score": 57.6,
-      "label": "Greed"
+      "score": 52.2,
+      "label": "Neutral"
     },
     "crypto": {
-      "score": 62.1,
+      "score": 60.6,
       "label": "Greed"
     },
     "bonds": {
-      "score": 47.8,
+      "score": 47.0,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 52.8,
+      "score": 51.0,
       "label": "Neutral"
     }
   }
