@@ -519,6 +519,10 @@ a.mrow:hover .mrow-chev { color: #fff; transform: translateX(3px); }
 .components-details[open] .comp-summary .ind svg { transform: rotate(180deg); }
 
 @media (max-width: 480px) {
-    .comp-summary h2 { font-size: 1.25rem; }
+    /* Unify all section titles on mobile (match accordion titles) */
+    .comp-summary h2,
+    .history-section h2,
+    .explanation-section h2,
+    .mrows-section h2 { font-size: 1.25rem; }
     .comp-sub { font-size: 0.68rem; }
 }
