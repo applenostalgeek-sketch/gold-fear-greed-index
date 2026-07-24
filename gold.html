@@ -115,7 +115,7 @@
     <!-- Shared Styles -->
     <link rel="stylesheet" href="shared.css">
     <link rel="stylesheet" href="chart.css">
-    <link rel="stylesheet" href="asset.css?v=11">
+    <link rel="stylesheet" href="asset.css?v=12">
     <link rel="stylesheet" href="gauge.css?v=1">
     <style>
         :root { --asset-color: #FFD700; }
@@ -187,26 +187,6 @@
             </div>
         </div>
 
-        <!-- Components Breakdown (collapsed accordion, before What's happening) -->
-        <section class="components-section">
-            <details class="components-details" id="componentsDetails">
-                <summary class="comp-summary">
-                    <span class="comp-title"><h2>Index Components</h2><span class="comp-sub">6 components &amp; weights</span></span>
-                    <span class="ind ind-chev" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
-                </summary>
-                <div class="components-grid" id="componentsGrid"></div>
-            </details>
-        </section>
-
-        <!-- Insight Box -->
-        <div class="insight-box">
-            <div class="insight-header">
-                <span class="insight-icon">💡</span>
-                <span class="insight-title">What's happening</span>
-            </div>
-            <div class="insight-text" id="insight">Loading...</div>
-        </div>
-
         <!-- Inline Alert CTA -->
         <section class="cta-section" id="ctaSection">
             <div class="cta-box">
@@ -222,6 +202,15 @@
                 <button class="cta-customize-btn" id="ctaCustomize">Customize your alerts</button>
             </div>
         </section>
+
+        <!-- Insight Box -->
+        <div class="insight-box">
+            <div class="insight-header">
+                <span class="insight-icon">💡</span>
+                <span class="insight-title">What's happening</span>
+            </div>
+            <div class="insight-text" id="insight">Loading...</div>
+        </div>
 
         <!-- Across all markets: static skeleton (crawlable links), hydrated by JS -->
         <section class="mrows-section" id="marketRowsSection">
@@ -301,9 +290,25 @@
             </div>
         </section>
 
-        <!-- Methodology -->
+        <!-- Components Breakdown (collapsed accordion) -->
+        <section class="components-section">
+            <details class="components-details" id="componentsDetails">
+                <summary class="comp-summary">
+                    <span class="comp-title"><h2>Index Components</h2><span class="comp-sub">6 components &amp; weights</span></span>
+                    <span class="ind ind-chev" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+                </summary>
+                <div class="components-grid" id="componentsGrid"></div>
+            </details>
+        </section>
+
+        <!-- Methodology (collapsed accordion) -->
         <section class="methodology-section">
-            <h2>How This Index is Calculated</h2>
+            <details class="components-details">
+                <summary class="comp-summary">
+                    <span class="comp-title"><h2>How This Index is Calculated</h2></span>
+                    <span class="ind ind-chev" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+                </summary>
+                <div class="methodology-body">
             <p>
                 The Gold Index measures <strong>sentiment TOWARDS gold</strong> using <strong>6 components</strong>. We measure whether investors are buying or selling gold and whether they are allocating to it as a safe haven, regardless of the underlying macro reason. All scores from 0-100:
             </p>
@@ -374,11 +379,18 @@
             <p style="margin-top: 24px; font-size: 0.9rem; color: #666;">
                 Full cross-asset methodology and data sources available on the <a href="about.html" style="color: #FFD700;">About page</a>.
             </p>
+                </div>
+            </details>
         </section>
 
-        <!-- FAQ -->
+        <!-- FAQ (collapsed accordion) -->
         <section class="faq-section" id="faq">
-            <h2>Frequently Asked Questions</h2>
+            <details class="components-details">
+                <summary class="comp-summary">
+                    <span class="comp-title"><h2>Frequently Asked Questions</h2></span>
+                    <span class="ind ind-chev" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+                </summary>
+                <div class="faq-body">
 
             <h3>Can the index show Fear while the gold price is rising?</h3>
             <p>
@@ -404,6 +416,8 @@
             <p>
                 Daily, shortly after the US market close. The full data is free and public: current score, all six components, one year of daily history — plus five years of aligned score-and-price history in open JSON. No key, no signup.
             </p>
+                </div>
+            </details>
         </section>
 
         <!-- Footer -->

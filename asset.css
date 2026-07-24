@@ -505,6 +505,8 @@ a.mrow:hover .mrow-chev { color: #fff; transform: translateX(3px); }
 .components-details summary { list-style: none; cursor: pointer; outline: none; }
 .components-details summary::-webkit-details-marker { display: none; }
 .components-details[open] .components-grid { margin-top: 20px; }
+.components-details[open] .methodology-body,
+.components-details[open] .faq-body { margin-top: 24px; }
 
 .comp-summary { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
 .comp-title { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
