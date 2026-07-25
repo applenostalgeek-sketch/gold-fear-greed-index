@@ -509,8 +509,8 @@ a.mrow:hover .mrow-chev { color: #fff; transform: translateX(3px); }
 .components-details[open] .faq-body { margin-top: 24px; }
 
 .comp-summary { display: flex; align-items: center; justify-content: space-between; gap: 14px; }
-.comp-title { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
-.comp-summary h2 { font-size: 1.5rem; font-weight: 600; color: #fff; margin: 0; }
+/* h2 sits directly in <summary> (valid HTML) and carries the title/sub-label layout */
+.comp-summary h2 { font-size: 1.5rem; font-weight: 600; color: #fff; margin: 0; display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap; }
 .comp-sub { font-size: 0.72rem; color: #666; font-weight: 400; }
 .comp-summary .ind { flex: 0 0 auto; color: #777; display: flex; align-items: center; transition: color .2s; }
 .comp-summary:hover .ind { color: #fff; }
