@@ -590,7 +590,10 @@ class GoldFearGreedIndex:
 
             # Fetch historical data up to target date
             end_date = target_date
-            start_date = target_date - timedelta(days=250)  # Extended for MA200
+            # 400 calendar days ≈ 275 trading days: MA200 needs 200 rows, and a
+            # 250-day window only yielded ~172, which silently fell back to a
+            # neutral momentum score of 50 for every rebuilt date.
+            start_date = target_date - timedelta(days=400)
 
             # Get historical data for ALL components
             gold = yf.Ticker("GC=F")
@@ -710,8 +713,11 @@ class GoldFearGreedIndex:
             # 6. VIX (15% weight) - Z-score with tanh normalization (no hard saturation)
             if len(vix_hist) > 10:
                 current_vix = vix_hist['Close'].iloc[-1]
-                avg_vix = vix_hist['Close'].mean()
-                std_vix = vix_hist['Close'].std()
+                # Baseline must match the live path (period="3mo" ≈ 63 sessions).
+                # Averaging the whole fetch window compared VIX to a much longer
+                # baseline and produced a different z-score than the daily run.
+                avg_vix = vix_hist['Close'].tail(63).mean()
+                std_vix = vix_hist['Close'].tail(63).std()
                 if std_vix > 0:
                     z_score = (current_vix - avg_vix) / std_vix
                 else:
