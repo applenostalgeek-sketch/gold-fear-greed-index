@@ -99,7 +99,7 @@
     <!-- Shared Styles -->
     <link rel="stylesheet" href="shared.css">
     <link rel="stylesheet" href="chart.css">
-    <link rel="stylesheet" href="asset.css?v=3">
+    <link rel="stylesheet" href="asset.css?v=14">
     <link rel="stylesheet" href="gauge.css?v=1">
     <style>
         :root { --asset-color: #10b981; }
@@ -177,15 +177,6 @@
             <div class="insight-text" id="insight">Loading...</div>
         </div>
 
-        <section class="components-section">
-            <h2>Index Components</h2>
-            <div class="components-grid" id="componentsGrid"></div>
-        </section>
-
-        <div class="back-link">
-            <a href="index.html">← Back to Market Overview</a>
-        </div>
-
         <!-- Inline Alert CTA -->
         <section class="cta-section" id="ctaSection">
             <div class="cta-box">
@@ -199,6 +190,26 @@
                 </form>
                 <div class="cta-msg" id="ctaMsg"></div>
                 <button class="cta-customize-btn" id="ctaCustomize">Customize your alerts</button>
+            </div>
+        </section>
+
+        <!-- Across all markets: static skeleton (crawlable links), hydrated by JS -->
+        <section class="mrows-section" id="marketRowsSection">
+            <h2>Across All Markets</h2>
+            <div class="mrows" id="marketRows">
+                <a class="mrow" href="gold.html" data-market="gold" data-dest="gold"><div class="mrow-top"><span class="mrow-name">Gold<span class="sr-only"> Fear &amp; Greed Index</span></span><span class="mrow-spacer"></span><span class="mrow-score" style="color:#555">&ndash;</span><span class="mrow-badge" style="display:none"></span><span class="mrow-chev">&rsaquo;</span></div><div class="mrow-trackwrap"><div class="mrow-track"><div class="mrow-fill"></div></div><span class="mrow-dot" style="visibility:hidden"></span></div></a>
+                <a class="mrow active" href="bonds.html" data-market="bonds">
+                    <div class="mrow-top"><span class="mrow-name">Bonds</span><span class="mrow-here">You are here</span><span class="mrow-spacer"></span><span class="mrow-score" style="color:#555">&ndash;</span><span class="mrow-badge" style="display:none"></span><span class="mrow-chev">&rsaquo;</span></div>
+                    <div class="mrow-trackwrap"><div class="mrow-track"><div class="mrow-fill"></div></div><span class="mrow-dot" style="visibility:hidden"></span></div>
+                </a>
+                <a class="mrow" href="stocks.html" data-market="stocks" data-dest="stocks"><div class="mrow-top"><span class="mrow-name">Stocks<span class="sr-only"> Fear &amp; Greed Index</span></span><span class="mrow-spacer"></span><span class="mrow-score" style="color:#555">&ndash;</span><span class="mrow-badge" style="display:none"></span><span class="mrow-chev">&rsaquo;</span></div><div class="mrow-trackwrap"><div class="mrow-track"><div class="mrow-fill"></div></div><span class="mrow-dot" style="visibility:hidden"></span></div></a>
+                <a class="mrow" href="crypto.html" data-market="crypto" data-dest="crypto"><div class="mrow-top"><span class="mrow-name">Crypto<span class="sr-only"> Fear &amp; Greed Index</span></span><span class="mrow-spacer"></span><span class="mrow-score" style="color:#555">&ndash;</span><span class="mrow-badge" style="display:none"></span><span class="mrow-chev">&rsaquo;</span></div><div class="mrow-trackwrap"><div class="mrow-track"><div class="mrow-fill"></div></div><span class="mrow-dot" style="visibility:hidden"></span></div></a>
+                <a class="mrows-foot" href="index.html" data-dest="overview">
+                    <span class="logo-dots2"><i style="background:#555"></i><i style="background:#555"></i></span>
+                    <span class="foot-name">Market Sentiment<span class="sr-only"> &mdash; Fear &amp; Greed overview across gold, stocks, bonds and crypto</span></span>
+                    <span class="foot-sub">all four combined</span><span class="foot-spacer"></span>
+                    <span class="foot-val" style="color:#555">&ndash;</span><span class="foot-zone"></span><span class="foot-arr">&rarr;</span>
+                </a>
             </div>
         </section>
 
@@ -258,9 +269,25 @@
             </div>
         </section>
 
-        <!-- Methodology -->
+        <!-- Components Breakdown (collapsed accordion) -->
+        <section class="components-section">
+            <details class="components-details" id="componentsDetails">
+                <summary class="comp-summary">
+                    <span class="comp-title"><h2>Index Components</h2><span class="comp-sub">6 components &amp; weights</span></span>
+                    <span class="ind ind-chev" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+                </summary>
+                <div class="components-grid" id="componentsGrid"></div>
+            </details>
+        </section>
+
+        <!-- Methodology (collapsed accordion) -->
         <section class="methodology-section">
-            <h2>How This Index is Calculated</h2>
+            <details class="components-details">
+                <summary class="comp-summary">
+                    <span class="comp-title"><h2>How This Index is Calculated</h2></span>
+                    <span class="ind ind-chev" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+                </summary>
+                <div class="methodology-body">
             <p>
                 The Bonds Index measures sentiment in the fixed income market using <strong>6 bond-specific components</strong> with zero overlap with equity markets. Duration Risk (TLT momentum) is the primary indicator at 30% weight. Optimized to measure bond demand, duration appetite, and credit conditions. All scores from 0-100:
             </p>
@@ -320,6 +347,36 @@
             <p style="margin-top: 24px; font-size: 0.9rem; color: #666;">
                 Full cross-asset methodology and data sources available on the <a href="about.html" style="color: #10b981;">About page</a>.
             </p>
+                </div>
+            </details>
+        </section>
+
+        <!-- FAQ (collapsed accordion) -->
+        <section class="faq-section" id="faq">
+            <details class="components-details">
+                <summary class="comp-summary">
+                    <span class="comp-title"><h2>Frequently Asked Questions</h2></span>
+                    <span class="ind ind-chev" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg></span>
+                </summary>
+                <div class="faq-body">
+
+            <h3>What is the Bonds Fear &amp; Greed Index?</h3>
+            <p>
+                The Bonds Fear &amp; Greed Index measures sentiment in the fixed income market using 6 components: Duration Risk/TLT (30%), Yield Curve Shape (20%), Credit Quality/HYG vs LQD (20%), Real Rates (15%), Bond Volatility (10%), and Equity vs Bonds Rotation (5%). TLT momentum is the primary indicator. Credit quality measures high-yield vs investment-grade appetite independently of rate moves.
+            </p>
+
+            <h3>How does the yield curve affect bond sentiment?</h3>
+            <p>
+                The yield curve (10Y-2Y spread) is a classic recession indicator. A steep curve means high term premium, rewarding long bond holders (greed). An inverted curve means the Fed is hiking aggressively, crushing bond prices (fear). This component contributes 20% to the index.
+            </p>
+
+            <h3>Why does the Bonds index have 6 components while others have 5 or 7?</h3>
+            <p>
+                Each asset class has unique dynamics requiring tailored indicators. Bonds need 6 components to capture yield curve shape, duration appetite, credit spreads, real yields, volatility, and equity rotation — all specific to fixed income markets with zero overlap with equity indicators.
+            </p>
+
+                </div>
+            </details>
         </section>
 
         <footer>
@@ -353,5 +410,47 @@
     <script src="asset-chart.js?v=4"></script>
     <script src="alert-signup.js"></script>
     <script src="cta-asset.js"></script>
+    <script>
+    // "Across all markets": hydrate the static skeleton with live scores (links work without JS)
+    (function () {
+        function zn(s) { if (s <= 25) return 'Extreme Fear'; if (s <= 45) return 'Fear'; if (s <= 55) return 'Neutral'; if (s <= 75) return 'Greed'; return 'Extreme Greed'; }
+        var root = document.getElementById('marketRows');
+        if (!root) return;
+        root.querySelectorAll('[data-dest]').forEach(function (el) {
+            el.addEventListener('click', function () {
+                if (typeof gtag === 'function') {
+                    gtag('event', 'market_rows_click', { event_category: 'market_rows', event_label: el.dataset.dest, from_page: 'bonds' });
+                }
+            });
+        });
+        var files = { gold: 'data/gold-fear-greed.json', stocks: 'data/stocks-fear-greed.json', bonds: 'data/bonds-fear-greed.json', crypto: 'data/crypto-fear-greed.json' };
+        Promise.all(Object.keys(files).map(function (k) {
+            return fetch(files[k]).then(function (r) { return r.json(); }).then(function (d) { return [k, Math.round(d.score)]; });
+        })).then(function (entries) {
+            var s = {};
+            entries.forEach(function (e) { s[e[0]] = e[1]; });
+            function hydrate(key, v) {
+                var row = root.querySelector('[data-market="' + key + '"]');
+                if (!row) return;
+                var c = getColor(v);
+                var score = row.querySelector('.mrow-score');
+                score.textContent = v; score.style.color = c;
+                var badge = row.querySelector('.mrow-badge');
+                badge.textContent = zn(v); badge.style.color = c; badge.style.background = c + '1f'; badge.style.display = '';
+                var dot = row.querySelector('.mrow-dot');
+                dot.style.background = c; dot.style.visibility = '';
+                var fill = row.querySelector('.mrow-fill');
+                requestAnimationFrame(function () { fill.style.setProperty('--score', v + '%'); dot.style.left = v + '%'; });
+            }
+            ['gold', 'stocks', 'bonds', 'crypto'].forEach(function (k) { hydrate(k, s[k]); });
+            var comp = Math.round((s.gold + s.stocks + s.bonds + s.crypto) / 4), cc = getColor(comp);
+            var foot = root.querySelector('.mrows-foot');
+            var fv = foot.querySelector('.foot-val'), fz = foot.querySelector('.foot-zone');
+            fv.textContent = comp; fv.style.color = cc;
+            fz.textContent = zn(comp); fz.style.color = cc;
+            foot.querySelectorAll('.logo-dots2 i').forEach(function (i) { i.style.background = cc; });
+        }).catch(function () { /* skeleton stays: links keep working without data */ });
+    })();
+    </script>
 </body>
 </html>
