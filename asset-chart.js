@@ -581,10 +581,53 @@
 
     // ==================== History ====================
 
-    function updateHistoryChart(days) {
+    // Sorted once: the period animation re-slices it on every frame.
+    let sortedHistory = null;
+    let periodAnimId = null;
+
+    function getSortedHistory() {
+        if (!sortedHistory) {
+            sortedHistory = [...assetData.history].sort((a, b) => new Date(a.date) - new Date(b.date));
+        }
+        return sortedHistory;
+    }
+
+    // Switching period animates the visible window instead of snapping to it:
+    // the slice length is eased from the old span to the new one, so the curve
+    // compresses/expands and the price axis rescales along with it.
+    function updateHistoryChart(days, animate) {
         if (!assetData || !assetData.history) return;
-        chartHistory = [...assetData.history].sort((a, b) => new Date(a.date) - new Date(b.date)).slice(-days);
-        drawChart();
+        const all = getSortedHistory();
+        const target = Math.min(days, all.length);
+        const from = chartHistory.length;
+
+        if (periodAnimId) { cancelAnimationFrame(periodAnimId); periodAnimId = null; }
+
+        const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        if (!animate || reduceMotion || from < 2 || from === target) {
+            chartHistory = all.slice(-target);
+            drawChart();
+            return;
+        }
+
+        const DURATION = 480;
+        const start = performance.now();
+        const easeOut = t => 1 - Math.pow(1 - t, 3);
+
+        const step = now => {
+            const t = Math.min(1, (now - start) / DURATION);
+            const n = Math.round(from + (target - from) * easeOut(t));
+            chartHistory = all.slice(-Math.max(2, n));
+            drawChart();
+            if (t < 1) {
+                periodAnimId = requestAnimationFrame(step);
+            } else {
+                periodAnimId = null;
+                chartHistory = all.slice(-target);
+                drawChart();
+            }
+        };
+        periodAnimId = requestAnimationFrame(step);
     }
 
     // ==================== Event Listeners ====================
@@ -595,7 +638,7 @@
             document.querySelectorAll('.period-btn').forEach(b => b.classList.remove('active'));
             button.classList.add('active');
             currentPeriod = parseInt(button.dataset.period);
-            updateHistoryChart(currentPeriod);
+            updateHistoryChart(currentPeriod, true);
         });
     });
 
