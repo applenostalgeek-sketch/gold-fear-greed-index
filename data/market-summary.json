@@ -1,19 +1,19 @@
 {
-  "date": "2026-07-25",
-  "timestamp": "2026-07-25T05:16:20Z",
-  "summary": "Alphabet's decision to raise its 2026 capital expenditure forecast to $195\u2013$205 billion intensified concerns about runaway AI hyperscaler spending, overshadowing a strong earnings beat and dragging tech lower. Elevated oil prices \u2014 with Brent holding near $100 a barrel after Houthi tanker attacks \u2014 are adding upward pressure on rates and stressing the bond market, keeping real yields elevated and sentiment cautious across assets.",
-  "tweet": "Alphabet's AI capex shock and $100 Brent crude are the twin drags this week \u2014 tech rotates lower, bonds stay under pressure, gold caught in the crossfire.",
+  "date": "2026-07-26",
+  "timestamp": "2026-07-26T05:34:22Z",
+  "summary": "Houthi attacks on Saudi tankers drove Brent above $100 a barrel, pushing real yields higher and stressing bond duration. New Section 301 tariffs on 60 economies took effect July 24, adding trade friction that is weighing on tech and growth assets. Crypto remains the lone bright spot as risk appetite rotates to alternative assets.",
+  "tweet": "Oil above $100 and fresh tariffs on 60 nations are doing the damage \u2014 bonds under pressure, tech soft, crypto the only asset holding a greed signal.",
   "scores": {
     "gold": {
       "score": 46.5,
       "label": "Neutral"
     },
     "stocks": {
-      "score": 51.3,
+      "score": 51.2,
       "label": "Neutral"
     },
     "crypto": {
-      "score": 59.8,
+      "score": 60.1,
       "label": "Greed"
     },
     "bonds": {
