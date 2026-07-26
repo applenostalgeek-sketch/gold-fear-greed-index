@@ -99,7 +99,7 @@
     <!-- Shared Styles -->
     <link rel="stylesheet" href="shared.css">
     <link rel="stylesheet" href="chart.css">
-    <link rel="stylesheet" href="asset.css?v=15">
+    <link rel="stylesheet" href="asset.css?v=16">
     <link rel="stylesheet" href="gauge.css?v=1">
     <style>
         :root { --asset-color: #10b981; }
@@ -218,28 +218,32 @@
             <div class="chart-wrapper">
                 <div class="chart-toolbar">
                     <div class="chart-toggles">
-                        <button class="chart-toggle-btn active" data-series="index" style="--toggle-color: #ffffff;">
+                        <button class="chart-toggle-btn active" data-series="index" style="--toggle-color: #10b981;">
                             <span class="chart-toggle-dot"></span> Index
                         </button>
-                        <button class="chart-toggle-btn active" data-series="price" style="--toggle-color: #10b981;">
+                        <button class="chart-toggle-btn active" data-series="price" style="--toggle-color: #9aa0b4;">
                             <span class="chart-toggle-dot"></span> TLT
                         </button>
                     </div>
                     <div class="period-selector">
-                        <button class="period-btn" data-period="7">7D</button>
-                        <button class="period-btn active" data-period="30">30D</button>
-                        <button class="period-btn" data-period="90">90D</button>
-                        <button class="period-btn" data-period="180">180D</button>
+                        <button class="period-btn active" data-period="90">90D</button>
                         <button class="period-btn" data-period="365">1Y</button>
+                        <button class="period-btn" data-period="1095">3Y</button>
+                        <button class="period-btn" data-period="1825">5Y</button>
+                        <button class="chart-expand-btn" id="chartExpand" aria-label="Agrandir le graphique" title="Agrandir">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+                        </button>
                     </div>
                 </div>
-                <div class="chart-canvas-box">
+                <button class="chart-close-btn" id="chartClose" aria-label="Fermer">&times;</button>
+                    <div class="chart-canvas-box">
                     <canvas id="historyChart"></canvas>
                     <div class="chart-tooltip" id="chartTooltip">
                         <div class="chart-tooltip-date" id="tooltipDate"></div>
                         <div id="tooltipRows"></div>
                     </div>
                 </div>
+                <div class="chart-rotate-hint">Tourne ton téléphone pour plus de largeur</div>
             </div>
         </section>
 
@@ -407,7 +411,7 @@
         };
     </script>
     <script src="shared.js"></script>
-    <script src="asset-chart.js?v=5"></script>
+    <script src="asset-chart.js?v=8"></script>
     <script src="alert-signup.js"></script>
     <script src="cta-asset.js"></script>
     <script src="market-rows.js?v=1"></script>

@@ -20,7 +20,7 @@
     let assetData = null;
     let history5yData = null;
     let chartHistory = [];
-    let currentPeriod = 30;
+    let currentPeriod = 90;
 
     // ==================== Circle Wave Animation ====================
 
@@ -78,7 +78,7 @@
             assetData = await response.json();
             history5yData = response5y && response5y.ok ? await response5y.json() : null;
             updateUI();
-            updateHistoryChart(30);
+            updateHistoryChart(90);
         } catch (error) {
             console.error('Error:', error);
         }
@@ -362,6 +362,49 @@
 
     // ==================== Chart ====================
 
+    // ==================== Chart rendering ====================
+    //
+    // Colour carries one meaning per channel: the asset colour identifies the
+    // index (the same one the homepage gives it), the background bands carry the
+    // sentiment zone, and the price — a second scale that must never look
+    // comparable to the first — is drawn as neutral terrain rather than a rival
+    // line.
+
+    const PRICE_INK = '154,160,180';
+
+    // The shared bands in shared.js sit at 2–7% opacity, which reads as nothing.
+    // Asset pages use their own, strong enough to actually say "this was fear".
+    const BANDS = [
+        { from: 0,  to: 25,  rgb: '239,68,68',    a: 0.16 },
+        { from: 25, to: 45,  rgb: '245,158,11',   a: 0.12 },
+        { from: 45, to: 55,  rgb: '255,255,255',  a: 0.05 },
+        { from: 55, to: 75,  rgb: '34,197,94',    a: 0.12 },
+        { from: 75, to: 100, rgb: '6,182,212',    a: 0.16 }
+    ];
+    const BAND_LABELS = [
+        { score: 12.5, text: 'Extreme Fear',  color: 'rgba(239,68,68,0.5)' },
+        { score: 35,   text: 'Fear',          color: 'rgba(245,158,11,0.45)' },
+        { score: 65,   text: 'Greed',         color: 'rgba(34,197,94,0.45)' },
+        { score: 87.5, text: 'Extreme Greed', color: 'rgba(6,182,212,0.5)' }
+    ];
+
+    // Catmull-Rom as cubic bezier, control points clamped inside each segment's
+    // own range so smoothing can never invent a peak the data doesn't contain.
+    function tracePath(ctx, pts) {
+        ctx.moveTo(pts[0].x, pts[0].y);
+        if (pts.length < 3) {
+            for (let i = 1; i < pts.length; i++) ctx.lineTo(pts[i].x, pts[i].y);
+            return;
+        }
+        for (let i = 0; i < pts.length - 1; i++) {
+            const p0 = pts[i - 1] || pts[i], p1 = pts[i], p2 = pts[i + 1], p3 = pts[i + 2] || p2;
+            const lo = Math.min(p1.y, p2.y), hi = Math.max(p1.y, p2.y);
+            const c1y = Math.max(lo, Math.min(hi, p1.y + (p2.y - p0.y) / 6));
+            const c2y = Math.max(lo, Math.min(hi, p2.y - (p3.y - p1.y) / 6));
+            ctx.bezierCurveTo(p1.x + (p2.x - p0.x) / 6, c1y, p2.x - (p3.x - p1.x) / 6, c2y, p2.x, p2.y);
+        }
+    }
+
     function drawChart() {
         const canvas = document.getElementById('historyChart');
         const box = canvas.parentElement;
@@ -397,21 +440,20 @@
             return pad.top + plotH - ((p - pMin + pPad) / (pRange + pPad * 2)) * plotH;
         }
 
-        // Zone bands
-        zones.forEach(zone => {
-            const yTop = scoreToY(zone.to, pad, plotH);
-            const yBot = scoreToY(zone.from, pad, plotH);
-            ctx.fillStyle = zone.color;
+        // Zone bands — the sentiment now lives in the background, readably
+        BANDS.forEach(b => {
+            const yTop = scoreToY(b.to, pad, plotH);
+            const yBot = scoreToY(b.from, pad, plotH);
+            ctx.fillStyle = 'rgba(' + b.rgb + ',' + b.a + ')';
             ctx.fillRect(pad.left, yTop, plotW, yBot - yTop);
         });
 
         // Zone labels
-        zoneLabels.forEach(zl => {
-            const y = scoreToY(zl.score, pad, plotH) + 4;
+        ctx.font = '10px -apple-system, sans-serif';
+        ctx.textAlign = 'right';
+        BAND_LABELS.forEach(zl => {
             ctx.fillStyle = zl.color;
-            ctx.font = '10px -apple-system, sans-serif';
-            ctx.textAlign = 'right';
-            ctx.fillText(zl.text, pad.left + plotW - 6, y);
+            ctx.fillText(zl.text, pad.left + plotW - 6, scoreToY(zl.score, pad, plotH) + 4);
         });
 
         // Separators
@@ -429,42 +471,79 @@
         ctx.beginPath(); ctx.moveTo(pad.left, y50); ctx.lineTo(pad.left + plotW, y50); ctx.stroke();
         ctx.setLineDash([]);
 
-        // Price line (behind score line)
+        // Price as terrain, not a rival line: the two series sit on different
+        // scales, so where they cross means nothing. Making the price a backdrop
+        // removes the invitation to read a crossing as a signal.
         if (showPrice && chartHistory.length >= 2) {
-            ctx.strokeStyle = (CFG.priceColor || CFG.color) + '88';
-            ctx.lineWidth = 1.5;
-            ctx.beginPath();
-            let started = false;
-            chartHistory.forEach((p, i) => {
-                if (p.price == null) return;
-                const x = indexToX(i, chartHistory.length, pad, plotW);
-                const y = priceToY(p.price);
-                if (!started) { ctx.moveTo(x, y); started = true; }
-                else ctx.lineTo(x, y);
-            });
-            ctx.stroke();
+            const pricePts = chartHistory
+                .map((p, i) => p.price == null ? null : { x: indexToX(i, chartHistory.length, pad, plotW), y: priceToY(p.price) })
+                .filter(Boolean);
+            if (pricePts.length >= 2) {
+                const bottom = pad.top + plotH;
+                const priceDense = pricePts.length / Math.max(1, plotW) > 1.2;
+                const priceTrace = p2 => priceDense
+                    ? p2.forEach((q, i) => i ? ctx.lineTo(q.x, q.y) : ctx.moveTo(q.x, q.y))
+                    : tracePath(ctx, p2);
+                ctx.beginPath();
+                priceTrace(pricePts);
+                ctx.lineTo(pricePts[pricePts.length - 1].x, bottom);
+                ctx.lineTo(pricePts[0].x, bottom);
+                ctx.closePath();
+                const g = ctx.createLinearGradient(0, pad.top, 0, bottom);
+                g.addColorStop(0, 'rgba(' + PRICE_INK + ',0.5)');
+                g.addColorStop(1, 'rgba(' + PRICE_INK + ',0.07)');
+                ctx.fillStyle = g;
+                ctx.fill();
+
+                ctx.strokeStyle = 'rgba(' + PRICE_INK + ',0.5)';
+                ctx.lineWidth = 1;
+                ctx.lineJoin = 'round';
+                ctx.beginPath();
+                priceTrace(pricePts);
+                ctx.stroke();
+            }
         }
 
-        // Score line (on top)
+        // Score line — in the asset's own colour, the same one the homepage uses
+        // for this asset. White stays reserved for the composite sentiment.
         if (isIndexVisible() && chartHistory.length >= 2) {
-            ctx.strokeStyle = '#ffffff';
-            ctx.lineWidth = 2;
-            ctx.beginPath();
-            chartHistory.forEach((p, i) => {
-                const x = indexToX(i, chartHistory.length, pad, plotW);
-                const y = scoreToY(p.score, pad, plotH);
-                if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
-            });
-            ctx.stroke();
+            const pts = chartHistory.map((p, i) => ({
+                x: indexToX(i, chartHistory.length, pad, plotW),
+                y: scoreToY(p.score, pad, plotH)
+            }));
+            const ac = CFG.color;
 
-            // End dot
-            const last = chartHistory[chartHistory.length - 1];
-            const lx = indexToX(chartHistory.length - 1, chartHistory.length, pad, plotW);
-            const ly = scoreToY(last.score, pad, plotH);
+            // Every point is always drawn — nothing is dropped, averaged or
+            // smoothed away. Only the pen adapts: past ~1 point per pixel a thick
+            // curve turns into a blob, so the line thins and smoothing is dropped
+            // (interpolating below pixel scale is invisible work anyway).
+            const density = pts.length / Math.max(1, plotW);
+            const dense = density > 1.2;
+            ctx.save();
+            ctx.shadowColor = 'rgba(0,0,0,0.6)';   // keeps it crisp over the terrain
+            ctx.shadowBlur = dense ? 3 : 6;
+            ctx.lineJoin = 'round';
+            ctx.lineCap = 'round';
+            ctx.strokeStyle = ac;
+            ctx.lineWidth = density > 3 ? 1.1 : dense ? 1.5 : 2.4;
             ctx.beginPath();
-            ctx.arc(lx, ly, 4, 0, Math.PI * 2);
-            ctx.fillStyle = '#ffffff';
+            if (dense) {
+                pts.forEach((p, i) => i ? ctx.lineTo(p.x, p.y) : ctx.moveTo(p.x, p.y));
+            } else {
+                tracePath(ctx, pts);
+            }
+            ctx.stroke();
+            ctx.restore();
+
+            const lx = pts[pts.length - 1].x, ly = pts[pts.length - 1].y;
+            ctx.save();
+            ctx.shadowColor = ac;
+            ctx.shadowBlur = 13;
+            ctx.beginPath();
+            ctx.arc(lx, ly, 4.2, 0, Math.PI * 2);
+            ctx.fillStyle = ac;
             ctx.fill();
+            ctx.restore();
         }
 
         // Price end dot
@@ -476,7 +555,7 @@
                 const py = priceToY(lastWithPrice.price);
                 ctx.beginPath();
                 ctx.arc(px, py, 3, 0, Math.PI * 2);
-                ctx.fillStyle = CFG.priceColor || CFG.color;
+                ctx.fillStyle = 'rgba(' + PRICE_INK + ',0.9)';
                 ctx.fill();
             }
         }
@@ -485,7 +564,7 @@
         if (showPrice) {
             ctx.textAlign = 'left';
             ctx.font = '10px -apple-system, sans-serif';
-            ctx.fillStyle = (CFG.priceColor || CFG.color) + '88';
+            ctx.fillStyle = 'rgba(' + PRICE_INK + ',0.7)';
             const priceSteps = 5;
             for (let i = 0; i <= priceSteps; i++) {
                 const p = pMin - pPad + (i / priceSteps) * (pRange + pPad * 2);
@@ -547,7 +626,7 @@
                 + '<span class="chart-tooltip-val" style="color:#fff">' + Math.round(point.score) + '</span></div>';
         }
         if (isPriceVisible() && point.price != null) {
-            const pc = CFG.priceColor || CFG.color;
+            const pc = 'rgb(' + PRICE_INK + ')';
             let priceStr;
             if (point.price >= 1000) priceStr = '$' + Math.round(point.price).toLocaleString();
             else priceStr = '$' + point.price.toFixed(2);
@@ -585,10 +664,50 @@
     let sortedHistory = null;
     let periodAnimId = null;
 
+    // One series for every period. The 5Y file already contains the recent days
+    // (appended daily) plus price, so reading it everywhere means 90D and 5Y can
+    // never disagree about the same date — which two separate files did.
+    // The index is computed and published every single day, weekends included —
+    // Friday 36.2 is followed by a genuine Saturday 48.8, not a repeat. So the
+    // chart must plot the published value for every date it exists, and never
+    // substitute the previous one.
+    //
+    // Both files are merged: the 5Y file is the base, and the 1Y file is laid on
+    // top because it holds a published value for all 365 recent days. A day is
+    // carried forward only when no value was ever computed for it (weekends
+    // beyond the last year, which predate the daily job).
+    function buildSeries() {
+        const byDate = new Map();
+        const add = rows => (rows || []).forEach(r => byDate.set(r.date, r));
+        if (history5yData && history5yData.history) add(history5yData.history);
+        add(assetData.history);                 // published values win
+
+        const dates = [...byDate.keys()].sort();
+        if (!dates.length) return [];
+
+        const DAY = 86400000;
+        const out = [];
+        let prev = null;
+        dates.forEach(date => {
+            if (prev) {
+                for (let t = Date.parse(prev.date) + DAY; t < Date.parse(date); t += DAY) {
+                    out.push({
+                        date: new Date(t).toISOString().slice(0, 10),
+                        score: prev.score,
+                        price: prev.price,
+                        carried: true           // no value was ever published for this day
+                    });
+                }
+            }
+            const row = byDate.get(date);
+            out.push(row);
+            prev = row;
+        });
+        return out;
+    }
+
     function getSortedHistory() {
-        if (!sortedHistory) {
-            sortedHistory = [...assetData.history].sort((a, b) => new Date(a.date) - new Date(b.date));
-        }
+        if (!sortedHistory) sortedHistory = buildSeries();
         return sortedHistory;
     }
 
@@ -629,6 +748,30 @@
         };
         periodAnimId = requestAnimationFrame(step);
     }
+
+    // ==================== Expand ====================
+    //
+    // At 3Y/5Y the series holds 1100–1800 points and none of them are dropped,
+    // so on a phone the density can only be solved with more pixels. A CSS
+    // overlay is used rather than the Fullscreen API, which iOS Safari does not
+    // support on iPhone.
+
+    function setExpanded(on) {
+        const wrap = document.querySelector('.chart-wrapper');
+        if (!wrap) return;
+        wrap.classList.toggle('expanded', on);
+        document.body.classList.toggle('chart-locked', on);
+        requestAnimationFrame(drawChart);
+    }
+
+    const expandBtn = document.getElementById('chartExpand');
+    if (expandBtn) expandBtn.addEventListener('click', () => setExpanded(true));
+    const closeBtn = document.getElementById('chartClose');
+    if (closeBtn) closeBtn.addEventListener('click', () => setExpanded(false));
+    document.addEventListener('keydown', e => {
+        if (e.key === 'Escape') setExpanded(false);
+    });
+    window.addEventListener('orientationchange', () => setTimeout(drawChart, 250));
 
     // ==================== Event Listeners ====================
 

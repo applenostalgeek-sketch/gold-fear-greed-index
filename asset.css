@@ -526,3 +526,39 @@ a.mrow:hover .mrow-chev { color: #fff; transform: translateX(3px); }
     .mrows-section h2 { font-size: 1.25rem; }
     .comp-sub { font-size: 0.68rem; }
 }
+
+/* === Chart: expand to fill the viewport ===
+   Long periods hold 1300–1800 points. Nothing is ever dropped from the series,
+   so on a phone the only real fix for density is more pixels. */
+.chart-expand-btn, .chart-close-btn {
+    display: flex; align-items: center; justify-content: center;
+    background: transparent; border: 1px solid #1a1a1a; color: #666;
+    cursor: pointer; border-radius: 8px; transition: all .2s ease;
+}
+.chart-expand-btn { width: 30px; height: 27px; margin-left: 4px; }
+.chart-expand-btn:hover { color: var(--asset-color, #fff); border-color: var(--asset-color, #333); }
+.chart-close-btn { display: none; }
+
+.chart-wrapper.expanded {
+    position: fixed; inset: 0; z-index: 9999;
+    background: #0a0a0a; margin: 0; border-radius: 0;
+    padding: 56px 16px 16px; display: flex; flex-direction: column;
+}
+.chart-wrapper.expanded .chart-toolbar { flex: 0 0 auto; margin-bottom: 12px; }
+.chart-wrapper.expanded .chart-canvas-box { flex: 1 1 auto; min-height: 0; }
+.chart-wrapper.expanded canvas { height: 100% !important; }
+.chart-wrapper.expanded .chart-close-btn {
+    display: flex; position: absolute; top: 12px; right: 14px;
+    width: 34px; height: 34px; font-size: 1.4rem; line-height: 1; color: #999;
+}
+.chart-wrapper.expanded .chart-close-btn:hover { color: #fff; border-color: #333; }
+body.chart-locked { overflow: hidden; }
+
+/* Rotating the phone is what actually buys horizontal room at 3Y/5Y. */
+.chart-rotate-hint {
+    display: none; font-size: .7rem; color: #666; text-align: center;
+    margin-top: 8px; flex: 0 0 auto;
+}
+@media (max-width: 600px) and (orientation: portrait) {
+    .chart-wrapper.expanded .chart-rotate-hint { display: block; }
+}
