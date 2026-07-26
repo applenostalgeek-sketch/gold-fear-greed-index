@@ -31,20 +31,21 @@ function indexToX(i, total, pad, plotW) {
     return pad.left + (total > 1 ? (i / (total - 1)) * plotW : plotW / 2);
 }
 
+// Sentiment lives in the background of the charts, so the bands have to be
+// visible enough to actually say "this was fear" — at 2-7% they read as nothing.
 const zones = [
-    { from: 0,  to: 25,  color: 'rgba(239, 68, 68, 0.07)' },
-    { from: 25, to: 45,  color: 'rgba(245, 158, 11, 0.05)' },
-    { from: 45, to: 55,  color: 'rgba(255, 255, 255, 0.02)' },
-    { from: 55, to: 75,  color: 'rgba(34, 197, 94, 0.05)' },
-    { from: 75, to: 100, color: 'rgba(6, 182, 212, 0.07)' }
+    { from: 0,  to: 25,  color: 'rgba(239, 68, 68, 0.16)' },
+    { from: 25, to: 45,  color: 'rgba(245, 158, 11, 0.12)' },
+    { from: 45, to: 55,  color: 'rgba(255, 255, 255, 0.05)' },
+    { from: 55, to: 75,  color: 'rgba(34, 197, 94, 0.12)' },
+    { from: 75, to: 100, color: 'rgba(6, 182, 212, 0.16)' }
 ];
 
 const zoneLabels = [
-    { score: 12.5, text: 'Extreme Fear', color: 'rgba(239, 68, 68, 0.35)' },
-    { score: 35,   text: 'Fear',         color: 'rgba(245, 158, 11, 0.3)' },
-    { score: 50,   text: 'Neutral',      color: 'rgba(255, 255, 255, 0.15)' },
-    { score: 65,   text: 'Greed',        color: 'rgba(34, 197, 94, 0.3)' },
-    { score: 87.5, text: 'Extreme Greed', color: 'rgba(6, 182, 212, 0.35)' }
+    { score: 12.5, text: 'Extreme Fear', color: 'rgba(239, 68, 68, 0.5)' },
+    { score: 35,   text: 'Fear',         color: 'rgba(245, 158, 11, 0.45)' },
+    { score: 65,   text: 'Greed',        color: 'rgba(34, 197, 94, 0.45)' },
+    { score: 87.5, text: 'Extreme Greed', color: 'rgba(6, 182, 212, 0.5)' }
 ];
 
 function hideTooltip() {

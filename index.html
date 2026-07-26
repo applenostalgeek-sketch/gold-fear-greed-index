@@ -74,7 +74,7 @@
 
     <!-- Shared Styles -->
     <link rel="stylesheet" href="shared.css">
-    <link rel="stylesheet" href="chart.css">
+    <link rel="stylesheet" href="chart.css?v=2">
     <link rel="stylesheet" href="gauge.css">
 
     <style>
@@ -778,13 +778,16 @@
                         </button>
                     </div>
                     <div class="period-selector">
-                        <button class="period-btn" data-period="7">7D</button>
-                        <button class="period-btn active" data-period="30">30D</button>
-                        <button class="period-btn" data-period="90">90D</button>
-                        <button class="period-btn" data-period="180">180D</button>
+                        <button class="period-btn active" data-period="90">90D</button>
                         <button class="period-btn" data-period="365">1Y</button>
+                        <button class="period-btn" data-period="1095">3Y</button>
+                        <button class="period-btn" data-period="1825">5Y</button>
+                        <button class="chart-expand-btn" id="chartExpand" aria-label="Agrandir le graphique" title="Agrandir">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 3 21 3 21 9"/><polyline points="9 21 3 21 3 15"/><line x1="21" y1="3" x2="14" y2="10"/><line x1="3" y1="21" x2="10" y2="14"/></svg>
+                        </button>
                     </div>
                 </div>
+                <button class="chart-close-btn" id="chartClose" aria-label="Fermer">&times;</button>
                 <div class="chart-canvas-box">
                     <canvas id="historyChart"></canvas>
                     <div class="chart-tooltip" id="chartTooltip">
@@ -792,6 +795,7 @@
                         <div id="tooltipRows"></div>
                     </div>
                 </div>
+                <div class="chart-rotate-hint">Tourne ton téléphone pour plus de largeur</div>
             </div>
         </section>
 
@@ -841,6 +845,7 @@
     <script src="shared.js"></script>
     <script>
         let gold, stocks, crypto, bonds;
+        let history5y = null;   // full-calendar series, shared by the percentile and the chart
 
         async function loadData() {
             try {
@@ -865,6 +870,7 @@
                 let composite5yPct = null;
                 try {
                     const h5y = await Promise.all([gold5yRes, stocks5yRes, crypto5yRes, bonds5yRes].map(r => r && r.ok ? r.json() : null));
+                    history5y = { gold: h5y[0], stocks: h5y[1], crypto: h5y[2], bonds: h5y[3] };
                     if (h5y.every(d => d && d.history && d.history.length >= 100)) {
                         const maps = h5y.map(d => Object.fromEntries(d.history.map(e => [e.date, e.score])));
                         const commonDates = Object.keys(maps[0]).filter(dt => maps.every(m => m[dt] != null));
@@ -878,7 +884,7 @@
                 } catch (e) { /* silent fail */ }
 
                 updateUI(gold, stocks, crypto, bonds, composite5yPct);
-                updateHistoryChart(30);
+                updateHistoryChart(90);
             } catch (error) {
                 console.error('Error:', error);
             }
@@ -1275,16 +1281,31 @@
             return btn && btn.classList.contains('active');
         }
 
+        // One series per asset for every period: the 5Y files (already fetched for
+        // the percentile) hold a published value for all 1826 calendar days, and
+        // the 1Y file is laid on top since it is the released record. Reading a
+        // single source means 90D and 5Y can never disagree about a given date.
+        const longSeriesCache = {};
+        function longSeries(key, short, long) {
+            if (!longSeriesCache[key]) {
+                const byDate = new Map();
+                (long?.history || []).forEach(r => byDate.set(r.date, r));
+                (short?.history || []).forEach(r => byDate.set(r.date, r));
+                longSeriesCache[key] = [...byDate.keys()].sort().map(d => byDate.get(d));
+            }
+            return longSeriesCache[key];
+        }
+
         function prepareChartData(days) {
             const cutoff = new Date();
             cutoff.setDate(cutoff.getDate() - days);
             const cutoffStr = cutoff.toISOString().slice(0, 10);
-            const filterByDate = (h) => [...(h || [])].sort((a, b) => new Date(a.date) - new Date(b.date)).filter(p => p.date >= cutoffStr);
+            const filterByDate = (h) => (h || []).filter(p => p.date >= cutoffStr);
 
-            const g = filterByDate(gold?.history);
-            const s = filterByDate(stocks?.history);
-            const c = filterByDate(crypto?.history);
-            const b = filterByDate(bonds?.history);
+            const g = filterByDate(longSeries('gold', gold, history5y?.gold));
+            const s = filterByDate(longSeries('stocks', stocks, history5y?.stocks));
+            const c = filterByDate(longSeries('crypto', crypto, history5y?.crypto));
+            const b = filterByDate(longSeries('bonds', bonds, history5y?.bonds));
 
             // Build unified date map (date -> { gold, stocks, crypto, bonds })
             const dateMap = {};
@@ -1358,24 +1379,47 @@
             // 5. Draw series (assets thin first, then sentiment thick on top)
             const drawOrder = ['gold', 'bonds', 'stocks', 'crypto', 'sentiment'];
             const totalDates = data.dates.length;
+            // Five series can share this canvas, so past ~1 point per pixel the four
+            // asset lines thin down and fade while the white composite keeps its
+            // weight: at 5Y you read the overall mood, with the assets as context.
+            // Every point is still drawn — only the pen adapts.
+            const density = totalDates / Math.max(1, plotW);
+            const dense = density > 1.2;
+
             drawOrder.forEach(name => {
                 if (!isSeriesVisible(name)) return;
                 const cfg = seriesConfig[name];
+                const isComposite = name === 'sentiment';
 
-                ctx.strokeStyle = name === 'sentiment' ? cfg.color : cfg.color + 'CC';
-                ctx.lineWidth = cfg.width;
+                ctx.lineJoin = 'round';
+                ctx.lineCap = 'round';
+                ctx.strokeStyle = isComposite ? cfg.color : cfg.color + (dense ? '99' : 'CC');
+                ctx.lineWidth = isComposite
+                    ? (density > 3 ? 2 : cfg.width)
+                    : (density > 3 ? 0.9 : dense ? 1.1 : cfg.width);
                 ctx.beginPath();
-                let started = false;
-                let lastX, lastY;
+                const pts = [];
                 data.dates.forEach((date, i) => {
                     const score = data.dateMap[date]?.[name];
                     if (score == null) return;
-                    const x = indexToX(i, totalDates, pad, plotW);
-                    const y = scoreToY(score, pad, plotH);
-                    if (!started) { ctx.moveTo(x, y); started = true; }
-                    else ctx.lineTo(x, y);
-                    lastX = x; lastY = y;
+                    pts.push({ x: indexToX(i, totalDates, pad, plotW), y: scoreToY(score, pad, plotH) });
                 });
+                if (!pts.length) return;
+                let lastX = pts[pts.length - 1].x, lastY = pts[pts.length - 1].y;
+                if (dense || pts.length < 3) {
+                    pts.forEach((q, i) => i ? ctx.lineTo(q.x, q.y) : ctx.moveTo(q.x, q.y));
+                } else {
+                    // Catmull-Rom as bezier, control points clamped inside each
+                    // segment so smoothing can never invent a peak.
+                    ctx.moveTo(pts[0].x, pts[0].y);
+                    for (let i = 0; i < pts.length - 1; i++) {
+                        const p0 = pts[i - 1] || pts[i], p1 = pts[i], p2 = pts[i + 1], p3 = pts[i + 2] || p2;
+                        const lo = Math.min(p1.y, p2.y), hi = Math.max(p1.y, p2.y);
+                        const c1y = Math.max(lo, Math.min(hi, p1.y + (p2.y - p0.y) / 6));
+                        const c2y = Math.max(lo, Math.min(hi, p2.y - (p3.y - p1.y) / 6));
+                        ctx.bezierCurveTo(p1.x + (p2.x - p0.x) / 6, c1y, p2.x - (p3.x - p1.x) / 6, c2y, p2.x, p2.y);
+                    }
+                }
                 ctx.stroke();
 
                 // End dot
@@ -1468,6 +1512,22 @@
             prepareChartData(days);
             drawChart();
         }
+
+        // Expand: five series at 3Y/5Y need pixels more than anything else.
+        // A CSS overlay rather than the Fullscreen API, which iPhone Safari lacks.
+        function setChartExpanded(on) {
+            const wrap = document.querySelector('.chart-wrapper');
+            if (!wrap) return;
+            wrap.classList.toggle('expanded', on);
+            document.body.classList.toggle('chart-locked', on);
+            requestAnimationFrame(drawChart);
+        }
+        const expandBtn = document.getElementById('chartExpand');
+        if (expandBtn) expandBtn.addEventListener('click', () => setChartExpanded(true));
+        const closeBtn = document.getElementById('chartClose');
+        if (closeBtn) closeBtn.addEventListener('click', () => setChartExpanded(false));
+        document.addEventListener('keydown', e => { if (e.key === 'Escape') setChartExpanded(false); });
+        window.addEventListener('orientationchange', () => setTimeout(drawChart, 250));
 
         // Toggle buttons
         document.querySelectorAll('.chart-toggle-btn').forEach(btn => {
