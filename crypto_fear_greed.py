@@ -14,6 +14,21 @@ import os
 import math
 
 
+
+def safe_history(ticker, start, end):
+    """Fetch a date range, retrying one day later if Yahoo chokes on the start.
+
+    Yahoo returns a malformed payload when a window begins on the US daylight
+    saving changeover (second Sunday of March), which yfinance surfaces as
+    KeyError('chart'). Unhandled, it aborts the whole calculation and the day
+    is published as a neutral 50 with no price. Every component needs "enough
+    history", never that exact first day, so shifting it costs nothing.
+    """
+    try:
+        return ticker.history(start=start, end=end)
+    except Exception:
+        return ticker.history(start=start + timedelta(days=1), end=end)
+
 def clean_hist(hist, ticker=None):
     """Fix rows where Close is NaN (Yahoo Chart API bug).
     First tries to fill from Quote API (regularMarketPrice),
@@ -357,8 +372,8 @@ class CryptoFearGreedIndex:
             btc = yf.Ticker("BTC-USD")
             eth = yf.Ticker("ETH-USD")
 
-            btc_hist = clean_hist(btc.history(start=start_date, end=end_date + timedelta(days=1)), "BTC-USD")
-            eth_hist = clean_hist(eth.history(start=start_date, end=end_date + timedelta(days=1)), "ETH-USD")
+            btc_hist = clean_hist(safe_history(btc, start_date, end_date + timedelta(days=1)), "BTC-USD")
+            eth_hist = clean_hist(safe_history(eth, start_date, end_date + timedelta(days=1)), "ETH-USD")
 
             if len(btc_hist) < 20:
                 print("insufficient data")

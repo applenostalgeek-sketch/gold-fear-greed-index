@@ -15,6 +15,21 @@ import os
 import time
 
 
+
+def safe_history(ticker, start, end):
+    """Fetch a date range, retrying one day later if Yahoo chokes on the start.
+
+    Yahoo returns a malformed payload when a window begins on the US daylight
+    saving changeover (second Sunday of March), which yfinance surfaces as
+    KeyError('chart'). Unhandled, it aborts the whole calculation and the day
+    is published as a neutral 50 with no price. Every component needs "enough
+    history", never that exact first day, so shifting it costs nothing.
+    """
+    try:
+        return ticker.history(start=start, end=end)
+    except Exception:
+        return ticker.history(start=start + timedelta(days=1), end=end)
+
 def clean_hist(hist, ticker=None):
     """Fix rows where Close is NaN (Yahoo Chart API bug).
     First tries to fill from Quote API (regularMarketPrice),
@@ -429,13 +444,13 @@ class StocksFearGreedIndex:
             hyg = yf.Ticker("HYG")
             tlt = yf.Ticker("TLT")
 
-            spy_hist = clean_hist(spy.history(start=start_date, end=end_date + timedelta(days=1)), "SPY")
-            vix_hist = clean_hist(vix.history(start=start_date, end=end_date + timedelta(days=1)), "^VIX")
-            rsp_hist = clean_hist(rsp.history(start=start_date, end=end_date + timedelta(days=1)), "RSP")
-            qqq_hist = clean_hist(qqq.history(start=start_date, end=end_date + timedelta(days=1)), "QQQ")
-            xlp_hist = clean_hist(xlp.history(start=start_date, end=end_date + timedelta(days=1)), "XLP")
-            hyg_hist = clean_hist(hyg.history(start=start_date, end=end_date + timedelta(days=1)), "HYG")
-            tlt_hist = clean_hist(tlt.history(start=start_date, end=end_date + timedelta(days=1)), "TLT")
+            spy_hist = clean_hist(safe_history(spy, start_date, end_date + timedelta(days=1)), "SPY")
+            vix_hist = clean_hist(safe_history(vix, start_date, end_date + timedelta(days=1)), "^VIX")
+            rsp_hist = clean_hist(safe_history(rsp, start_date, end_date + timedelta(days=1)), "RSP")
+            qqq_hist = clean_hist(safe_history(qqq, start_date, end_date + timedelta(days=1)), "QQQ")
+            xlp_hist = clean_hist(safe_history(xlp, start_date, end_date + timedelta(days=1)), "XLP")
+            hyg_hist = clean_hist(safe_history(hyg, start_date, end_date + timedelta(days=1)), "HYG")
+            tlt_hist = clean_hist(safe_history(tlt, start_date, end_date + timedelta(days=1)), "TLT")
 
             if len(spy_hist) < 20:
                 print("insufficient data")

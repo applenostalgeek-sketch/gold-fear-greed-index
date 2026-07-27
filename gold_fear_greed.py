@@ -18,6 +18,21 @@ import math
 DXY_TICKERS = ["DX=F", "DX-Y.NYB"]
 
 
+
+def safe_history(ticker, start, end):
+    """Fetch a date range, retrying one day later if Yahoo chokes on the start.
+
+    Yahoo returns a malformed payload when a window begins on the US daylight
+    saving changeover (second Sunday of March), which yfinance surfaces as
+    KeyError('chart'). Unhandled, it aborts the whole calculation and the day
+    is published as a neutral 50 with no price. Every component needs "enough
+    history", never that exact first day, so shifting it costs nothing.
+    """
+    try:
+        return ticker.history(start=start, end=end)
+    except Exception:
+        return ticker.history(start=start + timedelta(days=1), end=end)
+
 def clean_hist(hist, ticker=None):
     """Fix rows where Close is NaN (Yahoo Chart API bug).
     First tries to fill from Quote API (regularMarketPrice),
@@ -603,12 +618,12 @@ class GoldFearGreedIndex:
             spy = yf.Ticker("SPY")
             tnx = yf.Ticker("^TNX")
 
-            gold_hist = clean_hist(gold.history(start=start_date, end=end_date + timedelta(days=1)))
-            vix_hist = clean_hist(vix.history(start=start_date, end=end_date + timedelta(days=1)))
+            gold_hist = clean_hist(safe_history(gold, start_date, end_date + timedelta(days=1)))
+            vix_hist = clean_hist(safe_history(vix, start_date, end_date + timedelta(days=1)))
             dxy_hist = fetch_dxy_data(start=start_date, end=end_date + timedelta(days=1))
-            gld_hist = clean_hist(gld.history(start=start_date, end=end_date + timedelta(days=1)))
-            spy_hist = clean_hist(spy.history(start=start_date, end=end_date + timedelta(days=1)))
-            tnx_hist = clean_hist(tnx.history(start=start_date, end=end_date + timedelta(days=1)))
+            gld_hist = clean_hist(safe_history(gld, start_date, end_date + timedelta(days=1)))
+            spy_hist = clean_hist(safe_history(spy, start_date, end_date + timedelta(days=1)))
+            tnx_hist = clean_hist(safe_history(tnx, start_date, end_date + timedelta(days=1)))
 
             if len(gold_hist) < 20:
                 print("insufficient data")

@@ -1922,8 +1922,9 @@
     },
     {
       "date": "2022-06-11",
-      "score": 50.0,
-      "label": "Neutral"
+      "score": 45.3,
+      "label": "Fear",
+      "price": 367.91
     },
     {
       "date": "2022-06-12",
@@ -4105,8 +4106,9 @@
     },
     {
       "date": "2023-06-10",
-      "score": 50.0,
-      "label": "Neutral"
+      "score": 61.1,
+      "label": "Greed",
+      "price": 412.63
     },
     {
       "date": "2023-06-11",
@@ -6288,8 +6290,9 @@
     },
     {
       "date": "2024-06-08",
-      "score": 50.0,
-      "label": "Neutral"
+      "score": 54.6,
+      "label": "Neutral",
+      "price": 519.98
     },
     {
       "date": "2024-06-09",
@@ -8471,8 +8474,9 @@
     },
     {
       "date": "2025-06-07",
-      "score": 50.0,
-      "label": "Neutral"
+      "score": 56.2,
+      "label": "Greed",
+      "price": 590.83
     },
     {
       "date": "2025-06-08",

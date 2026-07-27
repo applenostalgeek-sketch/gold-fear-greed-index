@@ -1598,8 +1598,9 @@
     },
     {
       "date": "2022-04-18",
-      "score": 50.0,
-      "label": "Neutral"
+      "score": 55.9,
+      "label": "Greed",
+      "price": 184.61
     },
     {
       "date": "2022-04-19",
@@ -3781,8 +3782,9 @@
     },
     {
       "date": "2023-04-17",
-      "score": 50.0,
-      "label": "Neutral"
+      "score": 47.6,
+      "label": "Neutral",
+      "price": 185.53
     },
     {
       "date": "2023-04-18",
@@ -5964,8 +5966,9 @@
     },
     {
       "date": "2024-04-15",
-      "score": 50.0,
-      "label": "Neutral"
+      "score": 80.2,
+      "label": "Extreme Greed",
+      "price": 220.95
     },
     {
       "date": "2024-04-16",
@@ -8147,8 +8150,9 @@
     },
     {
       "date": "2025-04-14",
-      "score": 50.0,
-      "label": "Neutral"
+      "score": 78.2,
+      "label": "Extreme Greed",
+      "price": 296.23
     },
     {
       "date": "2025-04-15",
@@ -8752,8 +8756,9 @@
     },
     {
       "date": "2025-07-24",
-      "score": 50.0,
-      "label": "Neutral"
+      "score": 46.5,
+      "label": "Neutral",
+      "price": 310.27
     },
     {
       "date": "2025-07-25",
