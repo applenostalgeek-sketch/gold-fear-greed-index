@@ -1,7 +1,7 @@
 {
-  "score": 46.5,
+  "score": 47.2,
   "label": "Neutral",
-  "timestamp": "2026-07-26T05:33:49Z",
+  "timestamp": "2026-07-27T05:52:24Z",
   "components": {
     "gld_price": {
       "score": 42.6,
@@ -9,9 +9,9 @@
       "detail": "GLD 14d: -1.5%"
     },
     "momentum": {
-      "score": 36.0,
+      "score": 38.3,
       "weight": 0.2,
-      "detail": "RSI: 44, Price < MA50"
+      "detail": "RSI: 46, Price < MA50"
     },
     "gold_vs_spy": {
       "score": 49.2,
@@ -19,9 +19,9 @@
       "detail": "GLD -1.5% vs SPY -1.2% (14d)"
     },
     "dollar_index": {
-      "score": 45.1,
+      "score": 47.7,
       "weight": 0.1,
-      "detail": "DXY: 101.47 (+0.3% 14d, MA30: 100.88)"
+      "detail": "DXY: 101.20 (+0.2% 14d, MA30: 100.93)"
     },
     "real_rates": {
       "score": 29.4,
@@ -35,6 +35,11 @@
     }
   },
   "history": [
+    {
+      "date": "2026-07-27",
+      "score": 47.2,
+      "price": 371.9
+    },
     {
       "date": "2026-07-26",
       "score": 46.5,
@@ -1854,11 +1859,6 @@
       "date": "2025-07-28",
       "score": 41.2,
       "price": 305.41
-    },
-    {
-      "date": "2025-07-27",
-      "score": 44.9,
-      "price": 307.4
     }
   ]
 }

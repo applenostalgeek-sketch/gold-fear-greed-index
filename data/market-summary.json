@@ -1,19 +1,19 @@
 {
-  "date": "2026-07-26",
-  "timestamp": "2026-07-26T05:34:22Z",
-  "summary": "Houthi attacks on Saudi tankers drove Brent above $100 a barrel, pushing real yields higher and stressing bond duration. New Section 301 tariffs on 60 economies took effect July 24, adding trade friction that is weighing on tech and growth assets. Crypto remains the lone bright spot as risk appetite rotates to alternative assets.",
-  "tweet": "Oil above $100 and fresh tariffs on 60 nations are doing the damage \u2014 bonds under pressure, tech soft, crypto the only asset holding a greed signal.",
+  "date": "2026-07-27",
+  "timestamp": "2026-07-27T05:52:41Z",
+  "summary": "A US-Iran military pause drove Brent crude down as much as 7.4% to below $90, easing the inflation shock that had been pressuring bonds and real assets. That relief is running directly into FOMC tension, as the Fed holds rates at 3.50-3.75% with markets pricing roughly a 25-30% chance of a hike at tomorrow's decision, keeping duration under stress and real rates elevated.",
+  "tweet": "Iran ceasefire cuts oil, but a hawkish Fed decision tomorrow and bruising Big Tech earnings keep bonds stressed and stocks rangebound.",
   "scores": {
     "gold": {
-      "score": 46.5,
+      "score": 47.2,
       "label": "Neutral"
     },
     "stocks": {
-      "score": 51.2,
+      "score": 51.3,
       "label": "Neutral"
     },
     "crypto": {
-      "score": 60.1,
+      "score": 62.7,
       "label": "Greed"
     },
     "bonds": {
@@ -21,7 +21,7 @@
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 51.5,
+      "score": 52.3,
       "label": "Neutral"
     }
   }
