@@ -1,35 +1,40 @@
 {
-  "score": 62.7,
+  "score": 58.5,
   "label": "Greed",
-  "timestamp": "2026-07-27T05:52:27Z",
+  "timestamp": "2026-07-28T05:16:38Z",
   "components": {
     "context": {
-      "score": 65.3,
+      "score": 61.0,
       "weight": 0.3,
-      "detail": "30-day change: +9.0%"
+      "detail": "30-day change: +6.5%"
     },
     "momentum": {
-      "score": 49.9,
+      "score": 48.8,
       "weight": 0.2,
-      "detail": "RSI: 57, Price vs MA200: -9.4%"
+      "detail": "RSI: 55, Price vs MA200: -11.9%"
     },
     "dominance": {
-      "score": 66.5,
+      "score": 55.9,
       "weight": 0.2,
-      "detail": "BTC +5.0% vs ETH +10.4% (14d)"
+      "detail": "BTC -2.4% vs ETH -0.4% (14d)"
     },
     "volume": {
-      "score": 48.4,
+      "score": 47.2,
       "weight": 0.15,
-      "detail": "Vol 7d/30d: 0.95x, price up"
+      "detail": "Vol 7d/30d: 0.91x, price down"
     },
     "volatility": {
-      "score": 84.1,
+      "score": 81.5,
       "weight": 0.15,
-      "detail": "Vol 14d: 33.8% annualized"
+      "detail": "Vol 14d: 35.2% annualized"
     }
   },
   "history": [
+    {
+      "date": "2026-07-28",
+      "score": 58.5,
+      "price": 63397.5
+    },
     {
       "date": "2026-07-27",
       "score": 62.7,
@@ -1849,11 +1854,6 @@
       "date": "2025-07-29",
       "score": 72.7,
       "price": 117922.15
-    },
-    {
-      "date": "2025-07-28",
-      "score": 72.9,
-      "price": 117924.48
     }
   ]
 }

@@ -1,27 +1,27 @@
 {
-  "date": "2026-07-27",
-  "timestamp": "2026-07-27T05:52:41Z",
-  "summary": "A US-Iran military pause drove Brent crude down as much as 7.4% to below $90, easing the inflation shock that had been pressuring bonds and real assets. That relief is running directly into FOMC tension, as the Fed holds rates at 3.50-3.75% with markets pricing roughly a 25-30% chance of a hike at tomorrow's decision, keeping duration under stress and real rates elevated.",
-  "tweet": "Iran ceasefire cuts oil, but a hawkish Fed decision tomorrow and bruising Big Tech earnings keep bonds stressed and stocks rangebound.",
+  "date": "2026-07-28",
+  "timestamp": "2026-07-28T05:16:57Z",
+  "summary": "The FOMC is in session today, with the policy decision due tomorrow, July 29. The Fed is widely expected to hold rates unchanged, but markets continue to price in the possibility of a hike in September.",
+  "tweet": "FOMC decision tomorrow keeps rates in focus, while a chip-sector rout over AI spending doubts drags tech lower and lifts defensive rotation across markets.",
   "scores": {
     "gold": {
-      "score": 47.2,
+      "score": 49.4,
       "label": "Neutral"
     },
     "stocks": {
-      "score": 51.3,
+      "score": 52.4,
       "label": "Neutral"
     },
     "crypto": {
-      "score": 62.7,
+      "score": 58.5,
       "label": "Greed"
     },
     "bonds": {
-      "score": 48.2,
+      "score": 52.4,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 52.3,
+      "score": 53.2,
       "label": "Neutral"
     }
   }
