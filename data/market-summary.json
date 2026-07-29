@@ -1,27 +1,27 @@
 {
-  "date": "2026-07-28",
-  "timestamp": "2026-07-28T05:16:57Z",
-  "summary": "The FOMC is in session today, with the policy decision due tomorrow, July 29. The Fed is widely expected to hold rates unchanged, but markets continue to price in the possibility of a hike in September.",
-  "tweet": "FOMC decision tomorrow keeps rates in focus, while a chip-sector rout over AI spending doubts drags tech lower and lifts defensive rotation across markets.",
+  "date": "2026-07-29",
+  "timestamp": "2026-07-29T05:23:45Z",
+  "summary": "The FOMC wrapped its July 28-29 meeting today, with the policy statement released at 2:00 p.m. ET and Chair Warsh's press conference at 2:30 p.m. The backdrop is a hawkish one \u2014 the June dot plot pointed to a median year-end rate of 3.8%, up from 3.4% in March, with the market split on whether a hike follows.",
+  "tweet": "Fed decision day: Warsh speaks at 2:30 p.m. ET against a hawkish dot-plot backdrop, while a global chip sell-off keeps tech on the defensive.",
   "scores": {
     "gold": {
-      "score": 49.4,
-      "label": "Neutral"
+      "score": 43.7,
+      "label": "Fear"
     },
     "stocks": {
-      "score": 52.4,
+      "score": 51.4,
       "label": "Neutral"
     },
     "crypto": {
-      "score": 58.5,
+      "score": 58.9,
       "label": "Greed"
     },
     "bonds": {
-      "score": 52.4,
+      "score": 51.8,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 53.2,
+      "score": 51.5,
       "label": "Neutral"
     }
   }
