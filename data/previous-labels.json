@@ -1,6 +1,6 @@
 {
-  "gold": "Fear",
-  "bonds": "Neutral",
+  "gold": "Neutral",
+  "bonds": "Fear",
   "stocks": "Neutral",
   "crypto": "Greed",
   "sentiment": "Neutral"

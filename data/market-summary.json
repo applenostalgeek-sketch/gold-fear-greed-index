@@ -1,27 +1,27 @@
 {
-  "date": "2026-07-29",
-  "timestamp": "2026-07-29T05:23:45Z",
-  "summary": "The FOMC wrapped its July 28-29 meeting today, with the policy statement released at 2:00 p.m. ET and Chair Warsh's press conference at 2:30 p.m. The backdrop is a hawkish one \u2014 the June dot plot pointed to a median year-end rate of 3.8%, up from 3.4% in March, with the market split on whether a hike follows.",
-  "tweet": "Fed decision day: Warsh speaks at 2:30 p.m. ET against a hawkish dot-plot backdrop, while a global chip sell-off keeps tech on the defensive.",
+  "date": "2026-07-30",
+  "timestamp": "2026-07-30T05:12:20Z",
+  "summary": "The Fed held rates unchanged at 3.5%\u20133.75% for the fifth straight meeting, with the Middle East conflict clouding the inflation outlook.",
+  "tweet": "Fed held at 3.5\u20133.75% but 3 hawks dissented for an immediate hike and Warsh warned of no soft inflation target \u2014 bonds sold off and tech led equities lower.",
   "scores": {
     "gold": {
-      "score": 43.7,
-      "label": "Fear"
+      "score": 52.6,
+      "label": "Neutral"
     },
     "stocks": {
-      "score": 51.4,
+      "score": 48.4,
       "label": "Neutral"
     },
     "crypto": {
-      "score": 58.9,
+      "score": 61.3,
       "label": "Greed"
     },
     "bonds": {
-      "score": 51.8,
-      "label": "Neutral"
+      "score": 42.5,
+      "label": "Fear"
     },
     "sentiment": {
-      "score": 51.5,
+      "score": 51.2,
       "label": "Neutral"
     }
   }
