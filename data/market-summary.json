@@ -1,27 +1,27 @@
 {
-  "date": "2026-07-30",
-  "timestamp": "2026-07-30T05:12:20Z",
-  "summary": "The Fed held rates unchanged at 3.5%\u20133.75% for the fifth straight meeting, with the Middle East conflict clouding the inflation outlook.",
-  "tweet": "Fed held at 3.5\u20133.75% but 3 hawks dissented for an immediate hike and Warsh warned of no soft inflation target \u2014 bonds sold off and tech led equities lower.",
+  "date": "2026-07-31",
+  "timestamp": "2026-07-31T05:37:38Z",
+  "summary": "The Fed held rates but three dissenters pushed for a hike, and Chair Warsh signaled a hawkish lean for September. The 30-year Treasury",
+  "tweet": "Three Fed dissenters favored a rate hike and the 30-year yield hit a 19-year high, but blockbuster Big Tech earnings kept stocks afloat heading into month-end. --- Formatted output: SUMMARY: The Fed held rates but three...",
   "scores": {
     "gold": {
-      "score": 52.6,
+      "score": 53.0,
       "label": "Neutral"
     },
     "stocks": {
-      "score": 48.4,
+      "score": 53.6,
       "label": "Neutral"
     },
     "crypto": {
-      "score": 61.3,
+      "score": 61.7,
       "label": "Greed"
     },
     "bonds": {
-      "score": 42.5,
+      "score": 42.1,
       "label": "Fear"
     },
     "sentiment": {
-      "score": 51.2,
+      "score": 52.6,
       "label": "Neutral"
     }
   }
