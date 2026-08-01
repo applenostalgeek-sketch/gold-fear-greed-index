@@ -1,40 +1,45 @@
 {
-  "score": 53.0,
-  "label": "Neutral",
-  "timestamp": "2026-07-31T05:37:13Z",
+  "score": 43.6,
+  "label": "Fear",
+  "timestamp": "2026-08-01T05:29:06Z",
   "components": {
     "gld_price": {
-      "score": 63.7,
+      "score": 49.2,
       "weight": 0.25,
-      "detail": "GLD 14d: +2.7%"
+      "detail": "GLD 14d: -0.2%"
     },
     "momentum": {
-      "score": 50.1,
+      "score": 42.0,
       "weight": 0.2,
-      "detail": "RSI: 62, Price < MA50"
+      "detail": "RSI: 54, Price < MA50"
     },
     "gold_vs_spy": {
-      "score": 59.3,
+      "score": 51.2,
       "weight": 0.2,
-      "detail": "GLD +2.7% vs SPY -1.0% (14d)"
+      "detail": "GLD -0.2% vs SPY -0.6% (14d)"
     },
     "dollar_index": {
-      "score": 60.5,
+      "score": 66.9,
       "weight": 0.1,
-      "detail": "DXY: 100.24 (-0.7% 14d, MA30: 101.05)"
+      "detail": "DXY: 99.80 (-1.1% 14d, MA30: 101.04)"
     },
     "real_rates": {
       "score": 29.8,
       "weight": 0.1,
-      "detail": "TIPS 10Y: 2.41% (avg: 2.31%)"
+      "detail": "TIPS 10Y: 2.41% (avg: 2.32%)"
     },
     "vix": {
-      "score": 41.2,
+      "score": 19.8,
       "weight": 0.15,
-      "detail": "VIX: 17.1 (avg: 17.5, z: -0.3)"
+      "detail": "VIX: 16.0 (avg: 17.4, z: -1.0)"
     }
   },
   "history": [
+    {
+      "date": "2026-08-01",
+      "score": 43.6,
+      "price": 371.54
+    },
     {
       "date": "2026-07-31",
       "score": 53.0,
@@ -1853,11 +1858,6 @@
     {
       "date": "2025-08-02",
       "score": 56.2,
-      "price": 309.11
-    },
-    {
-      "date": "2025-08-01",
-      "score": 55.7,
       "price": 309.11
     }
   ]
