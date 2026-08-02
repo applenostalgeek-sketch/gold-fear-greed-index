@@ -1,11 +1,11 @@
 {
-  "date": "2026-08-01",
-  "timestamp": "2026-08-01T05:29:29Z",
-  "summary": "Markets are pricing in roughly a 63% chance of a Fed rate hike in September, keeping bond duration under pressure and real rates elevated. Geopolitical tensions remained elevated after the US military launched fresh strikes on Iranian targets in retaliation for Tehran's attacks on US assets across the Middle East, sustaining an energy risk premium that is weighing on gold's safe-haven appeal even as stocks hold up on low volatility.",
-  "tweet": "A ~63% market-implied chance of a September Fed hike collides with fresh US strikes on Iran \u2014 bonds and gold rattled, stocks surprisingly resilient.",
+  "date": "2026-08-02",
+  "timestamp": "2026-08-02T05:29:43Z",
+  "summary": "The Fed held rates at 3.5\u20133.75% on July 29 but three FOMC members dissented in favor of a hike, an \"uncomfortable hold\" that is keeping real rates elevated and bond duration under pressure. Hawkish dissent reflects price pressures tied to both Trump tariffs and higher energy costs from the Iran conflict, which is supporting the dollar and weighing on long bonds even as equity volatility stays low.",
+  "tweet": "A divided Fed held rates but three dissents signaled a hike is live, keeping bonds in the crossfire while stocks shrug on low vol.",
   "scores": {
     "gold": {
-      "score": 43.6,
+      "score": 44.7,
       "label": "Fear"
     },
     "stocks": {
@@ -13,7 +13,7 @@
       "label": "Greed"
     },
     "crypto": {
-      "score": 56.3,
+      "score": 56.8,
       "label": "Greed"
     },
     "bonds": {
@@ -21,7 +21,7 @@
       "label": "Fear"
     },
     "sentiment": {
-      "score": 49.7,
+      "score": 50.0,
       "label": "Neutral"
     }
   }
