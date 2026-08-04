@@ -1,27 +1,27 @@
 {
-  "date": "2026-08-03",
-  "timestamp": "2026-08-03T05:43:47Z",
-  "summary": "The Fed held rates unchanged last week but shifted its statement to acknowledge significant progress toward its 2% inflation target, and a cooling PCE print reinforced the view that tightening is over.",
-  "tweet": "Fed's dovish pivot and a soft labor market have bonds under pressure and stocks in greed \u2014 July payrolls Friday will either confirm or complicate the rate-cut trade.",
+  "date": "2026-08-04",
+  "timestamp": "2026-08-04T05:16:38Z",
+  "summary": "A mild equity rally kicked off August after Trump called off an attack on Iran, easing geopolitical risk \u2014 though markets remain skeptical as Iran denied being in talks. That relief is competing with a soft labor market backdrop: the June jobs report showed only 57,000 nonfarm payrolls added, roughly half the median economist forecast.",
+  "tweet": "Iran war fears dialed back and a deeply soft June jobs print are driving this week's cross-asset moves \u2014 stocks up, bonds selling off, gold losing its safe-haven bid.",
   "scores": {
     "gold": {
-      "score": 43.8,
+      "score": 42.8,
       "label": "Fear"
     },
     "stocks": {
-      "score": 57.9,
+      "score": 61.2,
       "label": "Greed"
     },
     "crypto": {
-      "score": 53.4,
+      "score": 55.3,
       "label": "Neutral"
     },
     "bonds": {
-      "score": 40.8,
+      "score": 40.2,
       "label": "Fear"
     },
     "sentiment": {
-      "score": 49.0,
+      "score": 49.9,
       "label": "Neutral"
     }
   }
