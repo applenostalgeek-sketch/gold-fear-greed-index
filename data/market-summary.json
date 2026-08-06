@@ -1,28 +1,28 @@
 {
-  "date": "2026-08-05",
-  "timestamp": "2026-08-05T05:16:27Z",
-  "summary": "Optimism over a possible US-Iran deal to reopen the Strait of Hormuz has driven equities to fresh records, with Brent dropping below $79 and Qatar confirming an interim proposal has been drafted. Meanwhile, the Fed held rates at 3.5\u20133.75% at its July meeting, though three FOMC members dissented in favor of a hike, keeping bond markets uneasy and real rates elevated.",
-  "tweet": "Iran deal optimism pushed stocks to all-time highs and crushed oil, but three Fed hawks dissenting on hikes are keeping bonds under pressure.",
+  "date": "2026-08-06",
+  "timestamp": "2026-08-06T05:19:51Z",
+  "summary": "ADP data released Wednesday showed US private payrolls added just 44,000 jobs in July, the least since the start of the year, sharpening labor slowdown fears ahead of the official BLS print and keeping the dollar under pressure.",
+  "tweet": "A shockingly weak ADP jobs print and Strait of Hormuz deal hopes are driving the week \u2014 dollar sliding, oil falling, stocks and gold both catching a bid.",
   "scores": {
     "gold": {
-      "score": 49.8,
-      "label": "Neutral"
+      "score": 58.4,
+      "label": "Greed"
     },
     "stocks": {
-      "score": 63.2,
+      "score": 64.2,
       "label": "Greed"
     },
     "crypto": {
-      "score": 54.4,
+      "score": 54.7,
       "label": "Neutral"
     },
     "bonds": {
-      "score": 42.5,
-      "label": "Fear"
+      "score": 50.3,
+      "label": "Neutral"
     },
     "sentiment": {
-      "score": 52.5,
-      "label": "Neutral"
+      "score": 56.9,
+      "label": "Greed"
     }
   }
 }
