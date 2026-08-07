@@ -1,27 +1,27 @@
 {
-  "date": "2026-08-06",
-  "timestamp": "2026-08-06T05:19:51Z",
-  "summary": "ADP data released Wednesday showed US private payrolls added just 44,000 jobs in July, the least since the start of the year, sharpening labor slowdown fears ahead of the official BLS print and keeping the dollar under pressure.",
-  "tweet": "A shockingly weak ADP jobs print and Strait of Hormuz deal hopes are driving the week \u2014 dollar sliding, oil falling, stocks and gold both catching a bid.",
+  "date": "2026-08-07",
+  "timestamp": "2026-08-07T04:26:53Z",
+  "summary": "The July nonfarm payrolls report landed today, the first major data point after the Fed's 9-to-3 vote on July 29 to hold rates at 3.50\u20133.75%, its most divided decision since 2016. Wall Street had expected a gain of just 83,000 jobs, with economists watching labor force participation, wage growth, and job composition for broader clues.",
+  "tweet": "July payrolls hit after the Fed's most divided rate decision since 2016 \u2014 a weak print cements the rate-cut trade; a hot one hands Warsh the green light to hike in September.",
   "scores": {
     "gold": {
-      "score": 58.4,
+      "score": 55.6,
       "label": "Greed"
     },
     "stocks": {
-      "score": 64.2,
+      "score": 65.4,
       "label": "Greed"
     },
     "crypto": {
-      "score": 54.7,
-      "label": "Neutral"
+      "score": 58.1,
+      "label": "Greed"
     },
     "bonds": {
-      "score": 50.3,
-      "label": "Neutral"
+      "score": 43.6,
+      "label": "Fear"
     },
     "sentiment": {
-      "score": 56.9,
+      "score": 55.7,
       "label": "Greed"
     }
   }
