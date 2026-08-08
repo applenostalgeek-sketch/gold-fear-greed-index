@@ -1,11 +1,11 @@
 {
-  "date": "2026-08-07",
-  "timestamp": "2026-08-07T04:26:53Z",
-  "summary": "The July nonfarm payrolls report landed today, the first major data point after the Fed's 9-to-3 vote on July 29 to hold rates at 3.50\u20133.75%, its most divided decision since 2016. Wall Street had expected a gain of just 83,000 jobs, with economists watching labor force participation, wage growth, and job composition for broader clues.",
-  "tweet": "July payrolls hit after the Fed's most divided rate decision since 2016 \u2014 a weak print cements the rate-cut trade; a hot one hands Warsh the green light to hike in September.",
+  "date": "2026-08-08",
+  "timestamp": "2026-08-08T03:27:24Z",
+  "summary": "July payrolls came in weaker than expected, pushing rate-hike bets to December at the earliest and lifting equities toward record territory. A soft dollar is amplifying gold's run, while Section 338 Canada tariffs set for August 19 keep trade risk in the frame.",
+  "tweet": "Weak jobs data killed near-term hike odds and sent stocks higher, but Canada tariffs land in 11 days \u2014 gold and a soft dollar say the market is not fully relaxed.",
   "scores": {
     "gold": {
-      "score": 55.6,
+      "score": 57.5,
       "label": "Greed"
     },
     "stocks": {
@@ -13,15 +13,15 @@
       "label": "Greed"
     },
     "crypto": {
-      "score": 58.1,
+      "score": 58.7,
       "label": "Greed"
     },
     "bonds": {
-      "score": 43.6,
-      "label": "Fear"
+      "score": 47.1,
+      "label": "Neutral"
     },
     "sentiment": {
-      "score": 55.7,
+      "score": 57.2,
       "label": "Greed"
     }
   }
