@@ -1,11 +1,11 @@
 {
-  "date": "2026-08-08",
-  "timestamp": "2026-08-08T03:27:24Z",
-  "summary": "July payrolls came in weaker than expected, pushing rate-hike bets to December at the earliest and lifting equities toward record territory. A soft dollar is amplifying gold's run, while Section 338 Canada tariffs set for August 19 keep trade risk in the frame.",
-  "tweet": "Weak jobs data killed near-term hike odds and sent stocks higher, but Canada tariffs land in 11 days \u2014 gold and a soft dollar say the market is not fully relaxed.",
+  "date": "2026-08-09",
+  "timestamp": "2026-08-09T03:44:23Z",
+  "summary": "The economy unexpectedly shed 23,000 jobs in July, the first monthly decline since February, cooling rate-hike bets and pulling Treasury yields lower. The Fed's July hold came in a 9-3 decision \u2014 the first three-member dissent since 2016 \u2014 keeping policy uncertainty front and center. Iran's publication of a restrictive draft plan for the Strait of Hormuz has kept oil and geopolitical risk in play, capping the risk-on mood.",
+  "tweet": "A shock jobs loss crushed hike bets and lifted equities, but Iran's Strait of Hormuz draft plan is keeping geopolitical risk alive and gold bid.",
   "scores": {
     "gold": {
-      "score": 57.5,
+      "score": 56.8,
       "label": "Greed"
     },
     "stocks": {
@@ -13,7 +13,7 @@
       "label": "Greed"
     },
     "crypto": {
-      "score": 58.7,
+      "score": 56.1,
       "label": "Greed"
     },
     "bonds": {
@@ -21,7 +21,7 @@
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 57.2,
+      "score": 56.4,
       "label": "Greed"
     }
   }

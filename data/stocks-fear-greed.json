@@ -1,7 +1,7 @@
 {
   "score": 65.4,
   "label": "Greed",
-  "timestamp": "2026-08-08T03:27:06Z",
+  "timestamp": "2026-08-09T03:44:07Z",
   "components": {
     "price_strength": {
       "score": 76.7,
@@ -40,6 +40,11 @@
     }
   },
   "history": [
+    {
+      "date": "2026-08-09",
+      "score": 65.4,
+      "price": 773.26
+    },
     {
       "date": "2026-08-08",
       "score": 65.4,
@@ -1857,11 +1862,6 @@
     },
     {
       "date": "2025-08-10",
-      "score": 52.9,
-      "price": 633.55
-    },
-    {
-      "date": "2025-08-09",
       "score": 52.9,
       "price": 633.55
     }
