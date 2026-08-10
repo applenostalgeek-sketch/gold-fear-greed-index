@@ -1,11 +1,11 @@
 {
-  "date": "2026-08-09",
-  "timestamp": "2026-08-09T03:44:23Z",
-  "summary": "The economy unexpectedly shed 23,000 jobs in July, the first monthly decline since February, cooling rate-hike bets and pulling Treasury yields lower. The Fed's July hold came in a 9-3 decision \u2014 the first three-member dissent since 2016 \u2014 keeping policy uncertainty front and center. Iran's publication of a restrictive draft plan for the Strait of Hormuz has kept oil and geopolitical risk in play, capping the risk-on mood.",
-  "tweet": "A shock jobs loss crushed hike bets and lifted equities, but Iran's Strait of Hormuz draft plan is keeping geopolitical risk alive and gold bid.",
+  "date": "2026-08-10",
+  "timestamp": "2026-08-10T03:57:42Z",
+  "summary": "July's shock payroll loss of 23,000 jobs has cooled rate-hike bets going into this week, with Wednesday's CPI report now the week's clearest test of the roughly 56% market-implied odds the Fed pauses at its September meeting. A new 12.5% Section 301 tariff on Chinese goods took effect July 24, raising the overall tariff burden on China by 2.5%, keeping the dollar under pressure and supporting gold's outperformance.",
+  "tweet": "Weak jobs killed the September hike; now Wednesday's CPI decides if that reprieve holds \u2014 gold and stocks both pricing in a soft landing, tariff drag and all.",
   "scores": {
     "gold": {
-      "score": 56.8,
+      "score": 57.0,
       "label": "Greed"
     },
     "stocks": {
@@ -13,7 +13,7 @@
       "label": "Greed"
     },
     "crypto": {
-      "score": 56.1,
+      "score": 56.4,
       "label": "Greed"
     },
     "bonds": {
@@ -21,7 +21,7 @@
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 56.4,
+      "score": 56.5,
       "label": "Greed"
     }
   }
