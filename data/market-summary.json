@@ -1,27 +1,27 @@
 {
-  "date": "2026-08-10",
-  "timestamp": "2026-08-10T03:57:42Z",
-  "summary": "July's shock payroll loss of 23,000 jobs has cooled rate-hike bets going into this week, with Wednesday's CPI report now the week's clearest test of the roughly 56% market-implied odds the Fed pauses at its September meeting. A new 12.5% Section 301 tariff on Chinese goods took effect July 24, raising the overall tariff burden on China by 2.5%, keeping the dollar under pressure and supporting gold's outperformance.",
-  "tweet": "Weak jobs killed the September hike; now Wednesday's CPI decides if that reprieve holds \u2014 gold and stocks both pricing in a soft landing, tariff drag and all.",
+  "date": "2026-08-11",
+  "timestamp": "2026-08-11T03:45:43Z",
+  "summary": "Tomorrow's July CPI report is the week's defining event, arriving as markets price roughly two-thirds odds of a Fed rate hike in September under Chair Warsh, who has abandoned forward guidance. A dollar stuck below its 30-day moving average \u2014 pressured by tariff uncertainty and shifting rate expectations \u2014 is amplifying gold's outperformance while keeping bond duration under pressure from elevated real rates.",
+  "tweet": "July CPI hits tomorrow with September hike odds near 65% and a rudderless dollar fu",
   "scores": {
     "gold": {
-      "score": 57.0,
+      "score": 58.8,
       "label": "Greed"
     },
     "stocks": {
-      "score": 65.4,
+      "score": 66.2,
       "label": "Greed"
     },
     "crypto": {
-      "score": 56.4,
-      "label": "Greed"
-    },
-    "bonds": {
-      "score": 47.1,
+      "score": 55.1,
       "label": "Neutral"
     },
+    "bonds": {
+      "score": 44.3,
+      "label": "Fear"
+    },
     "sentiment": {
-      "score": 56.5,
+      "score": 56.1,
       "label": "Greed"
     }
   }
