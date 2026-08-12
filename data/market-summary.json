@@ -1,27 +1,27 @@
 {
-  "date": "2026-08-11",
-  "timestamp": "2026-08-11T03:45:43Z",
-  "summary": "Tomorrow's July CPI report is the week's defining event, arriving as markets price roughly two-thirds odds of a Fed rate hike in September under Chair Warsh, who has abandoned forward guidance. A dollar stuck below its 30-day moving average \u2014 pressured by tariff uncertainty and shifting rate expectations \u2014 is amplifying gold's outperformance while keeping bond duration under pressure from elevated real rates.",
-  "tweet": "July CPI hits tomorrow with September hike odds near 65% and a rudderless dollar fu",
+  "date": "2026-08-12",
+  "timestamp": "2026-08-12T04:09:33Z",
+  "summary": "July CPI landed this morning as the session's key macro test, with markets already on edge from a six-day oil rally driven by an unresolved Strait of Hormuz standoff. Iran's refusal to reopen the waterway keeps energy inflation risk elevated, pressuring bonds and amplifying gold's safe-haven appeal. The weak dollar, sitting below its 30-day moving average, is adding fuel to gold's outperformance over equities.",
+  "tweet": "July CPI hits as oil surges for a sixth day on Hormuz deadlock \u2014 energy inflation risk is back on the table, gold is winning and bond duration is losing.",
   "scores": {
     "gold": {
-      "score": 58.8,
+      "score": 59.9,
       "label": "Greed"
     },
     "stocks": {
-      "score": 66.2,
+      "score": 66.9,
       "label": "Greed"
     },
     "crypto": {
-      "score": 55.1,
-      "label": "Neutral"
+      "score": 56.4,
+      "label": "Greed"
     },
     "bonds": {
-      "score": 44.3,
-      "label": "Fear"
+      "score": 47.5,
+      "label": "Neutral"
     },
     "sentiment": {
-      "score": 56.1,
+      "score": 57.7,
       "label": "Greed"
     }
   }

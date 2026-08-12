@@ -1,45 +1,50 @@
 {
-  "score": 66.2,
+  "score": 66.9,
   "label": "Greed",
-  "timestamp": "2026-08-11T03:45:23Z",
+  "timestamp": "2026-08-12T04:09:15Z",
   "components": {
     "price_strength": {
-      "score": 77.4,
+      "score": 85.1,
       "weight": 0.2,
-      "detail": "SPY +3.4% 14d"
+      "detail": "SPY +4.4% 14d"
     },
     "vix": {
-      "score": 72.5,
+      "score": 73.1,
       "weight": 0.2,
-      "detail": "VIX: 15.5 vs avg: 17.3"
+      "detail": "VIX: 15.3 vs avg: 17.2"
     },
     "momentum": {
-      "score": 69.2,
+      "score": 68.3,
       "weight": 0.15,
-      "detail": "RSI: 67, Price > MA50"
+      "detail": "RSI: 65, Price > MA50"
     },
     "market_participation": {
-      "score": 51.1,
+      "score": 47.5,
       "weight": 0.15,
-      "detail": "RSP +3.5% vs SPY +3.4%"
+      "detail": "RSP +4.1% vs SPY +4.4%"
     },
     "junk_bonds": {
-      "score": 66.9,
+      "score": 66.2,
       "weight": 0.1,
-      "detail": "HYG +0.4% vs TLT -1.3%"
+      "detail": "HYG +0.8% vs TLT -0.8%"
     },
     "safe_haven": {
-      "score": 60.1,
+      "score": 56.2,
       "weight": 0.1,
-      "detail": "TLT -1.3% 14d"
+      "detail": "TLT -0.8% 14d"
     },
     "sector_rotation": {
-      "score": 54.6,
+      "score": 56.1,
       "weight": 0.1,
-      "detail": "QQQ +2.2% vs XLP +0.7%"
+      "detail": "QQQ +3.8% vs XLP +1.8%"
     }
   },
   "history": [
+    {
+      "date": "2026-08-12",
+      "score": 66.9,
+      "price": 770.56
+    },
     {
       "date": "2026-08-11",
       "score": 66.2,
@@ -1859,11 +1864,6 @@
       "date": "2025-08-13",
       "score": 55.0,
       "price": 641.21
-    },
-    {
-      "date": "2025-08-12",
-      "score": 53.5,
-      "price": 639.02
     }
   ]
 }
