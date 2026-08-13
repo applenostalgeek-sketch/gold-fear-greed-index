@@ -1,27 +1,27 @@
 {
-  "date": "2026-08-12",
-  "timestamp": "2026-08-12T04:09:33Z",
-  "summary": "July CPI landed this morning as the session's key macro test, with markets already on edge from a six-day oil rally driven by an unresolved Strait of Hormuz standoff. Iran's refusal to reopen the waterway keeps energy inflation risk elevated, pressuring bonds and amplifying gold's safe-haven appeal. The weak dollar, sitting below its 30-day moving average, is adding fuel to gold's outperformance over equities.",
-  "tweet": "July CPI hits as oil surges for a sixth day on Hormuz deadlock \u2014 energy inflation risk is back on the table, gold is winning and bond duration is losing.",
+  "date": "2026-08-13",
+  "timestamp": "2026-08-13T04:13:08Z",
+  "summary": "July CPI landed Wednesday and July PPI hit this morning, completing the week's inflation data gauntlet. With three FOMC members having dissented in favor of a rate hike at the July meeting, the September decision is now a toss-up \u2014 markets are pricing roughly a 55% chance of a quarter-point hike.",
+  "tweet": "July CPI and PPI are in, and a divided Fed has September's rate decision at a coin flip \u2014 equities are holding, bonds are hurting, and gold is catching the uncertainty bid.",
   "scores": {
     "gold": {
-      "score": 59.9,
+      "score": 62.5,
       "label": "Greed"
     },
     "stocks": {
-      "score": 66.9,
+      "score": 68.7,
       "label": "Greed"
     },
     "crypto": {
-      "score": 56.4,
-      "label": "Greed"
+      "score": 54.6,
+      "label": "Neutral"
     },
     "bonds": {
-      "score": 47.5,
+      "score": 47.9,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 57.7,
+      "score": 58.4,
       "label": "Greed"
     }
   }
