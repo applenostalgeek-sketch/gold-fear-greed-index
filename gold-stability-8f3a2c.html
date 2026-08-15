@@ -103,12 +103,14 @@
     <div class="note" id="calibNote"></div>
 
     <h2>Last 14 days</h2>
-    <p class="h2sub">Day by day: what would have been announced the evening before, and what the next
-       reading did.</p>
+    <p class="h2sub">What was announced the day before, and what the next reading did. No day is marked
+       right or wrong: a probability cannot be judged on a single day. Announcing 27% and seeing nothing
+       happen is the expected outcome, not a failure — only the totals below mean anything.</p>
     <table>
-        <thead><tr><th>Date</th><th>Score</th><th>Announced</th><th>Next</th><th>Outcome</th></tr></thead>
+        <thead><tr><th>Date</th><th>Score</th><th>Announced</th><th>Next</th><th>Zone</th></tr></thead>
         <tbody id="recent"></tbody>
     </table>
+    <div class="note" id="recentNote"></div>
 
     <div class="note" id="footnote"></div>
 </div>
@@ -196,27 +198,49 @@
         document.getElementById('when').textContent =
             'published ' + last.date + ' · next update ' + next.toISOString().slice(0, 10) + ' (' + a.weekday + ')';
 
+        // Headline the outcome that will almost always happen — staying put — so the
+        // number reads as a plain statement rather than an alarm. The wording, not
+        // the number, carries the urgency.
         var pct = Math.round(a.p * 100);
+        var stay = 100 - pct;
         var pEl = document.getElementById('pct');
-        pEl.textContent = pct + '%';
-        pEl.style.color = pct >= 30 ? '#f59e0b' : pct >= 15 ? '#e8e8e8' : '#22c55e';
+        pEl.textContent = stay + '%';
+        pEl.style.color = stay >= 85 ? '#22c55e' : stay >= 70 ? '#e8e8e8' : '#f59e0b';
 
         var dom = a.pDown >= a.pUp ? 'down' : 'up';
         var domZone = dom === 'down' ? a.downZone : a.upZone;
+        var share = (a.pDown + a.pUp) > 0 ? Math.max(a.pDown, a.pUp) / (a.pDown + a.pUp) : 1;
+        // Only name a destination when the geometry really points one way. Sitting
+        // mid-zone, both boundaries are within reach and picking one would be a guess.
+        var clear = share >= 0.7;
+        var oneIn = pct > 0 ? Math.max(2, Math.round(100 / pct)) : null;
+        var here = ZONES[a.z];
+
         var verdict;
-        if (pct < 3) {
-            verdict = 'The reading is <b>solid</b>. Gold should still be in <b>' + ZONES[a.z] + '</b> at the next update.';
+        if (pct < 5) {
+            verdict = 'Gold will almost certainly still be in <b>' + here + '</b> at the next update.';
         } else if (pct < 15) {
-            verdict = 'The reading is <b>fairly steady</b> — a move into <b>' + domZone + '</b> is possible but unlikely.';
+            verdict = 'Gold should stay in <b>' + here + '</b>' +
+                      (clear ? ' — a move to <b>' + domZone + '</b> is possible but unlikely.' : '.');
         } else if (pct < 30) {
-            verdict = 'The reading is <b>loose</b>. There is a real chance of slipping into <b>' + domZone + '</b>.';
+            verdict = 'Gold should stay in <b>' + here + '</b>, but there is a real chance it leaves — roughly <b>1 in ' +
+                      oneIn + '</b>' + (clear ? ', most likely down to <b>' + domZone + '</b>.' :
+                      '. It sits mid-zone, so either side is open.');
         } else {
-            verdict = 'The reading is <b>fragile</b> — it is close to the <b>' + domZone + '</b> boundary.';
+            verdict = 'Gold is <b>close to leaving ' + here + '</b> — about <b>1 in ' + oneIn + '</b>' +
+                      (clear ? ' that it moves to <b>' + domZone + '</b>.' :
+                      '. It sits mid-zone, so either side is open.');
         }
         if (a.weekday === 'Sunday' || a.weekday === 'Monday') {
             verdict += ' <span style="color:#888">No new close has landed yet, so the index barely moves.</span>';
         }
-        document.getElementById('verdict').innerHTML = 'Chance of a zone change at the next update. ' + verdict;
+        // Bounded 0-100, the index drifts back toward the middle from the extremes.
+        // Real but weak — 54.5% out of sample — so it is mentioned, never quantified.
+        if (last.score >= 65 || last.score <= 35) {
+            verdict += ' <span style="color:#888">From this level the index has tended to drift back toward the middle.</span>';
+        }
+        document.getElementById('verdict').innerHTML =
+            '<span style="color:#888;font-size:.86rem">Chance it stays put at the next update.</span><br>' + verdict;
 
         var need = dom === 'down' ? a.needDown : a.needUp;
         document.getElementById('need').textContent = (need > 0 ? '+' : '') + need.toFixed(2) + '%';
@@ -255,18 +279,23 @@
             '% observed</b>, over ' + allN + ' days. The two should track each other — that is the whole test.';
 
         // ---- last 14 days
-        var rb = document.getElementById('recent');
+        var rb = document.getElementById('recent'), sumP = 0, nChg = 0, nDays = 0;
         for (var i = Math.max(1, hist.length - 14); i < hist.length; i++) {
             var g2 = assess(hist[i - 1].score, parseDay(hist[i].date), by, sens);
             var ch = zoneIdx(hist[i].score) !== zoneIdx(hist[i - 1].score);
             var p2 = Math.round(g2.p * 100);
-            var ok = (p2 >= 15) === ch;
+            sumP += p2; nDays++; if (ch) nChg++;
             rb.insertAdjacentHTML('beforeend',
                 '<tr><td class="mono">' + hist[i - 1].date + '</td><td class="mono">' + hist[i - 1].score +
                 '</td><td class="mono">' + p2 + '%</td><td class="mono">' + hist[i].score +
-                '</td><td class="' + (ok ? 'hit' : 'miss') + '">' + (ch ? '→ ' + ZONES[zoneIdx(hist[i].score)] : 'same zone') +
-                '</td></tr>');
+                '</td><td class="' + (ch ? 'hit' : '') + '">' +
+                (ch ? 'changed → ' + ZONES[zoneIdx(hist[i].score)] : 'unchanged') + '</td></tr>');
         }
+        document.getElementById('recentNote').innerHTML =
+            'Over these ' + nDays + ' days the method announced <b>' + (sumP / nDays).toFixed(0) +
+            '%</b> on average, and <b>' + nChg + '</b> zone change' + (nChg === 1 ? '' : 's') +
+            ' occurred — <b>' + (nChg / nDays * 100).toFixed(0) + '%</b>. Fourteen days is far too few to ' +
+            'conclude anything; the table above, built on ' + (hist.length - 1) + ' days, is the one that counts.';
 
         document.getElementById('footnote').innerHTML =
             'Uses the <b>' + hist.length + ' published days</b> only — roughly 52 observations per weekday, which is thin ' +
