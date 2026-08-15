@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reading Stability — Gold (private)</title>
+
+    <!-- Private working page: never indexed, never linked, absent from the sitemap. -->
+    <meta name="robots" content="noindex, nofollow, noarchive">
+
+    <link rel="icon" type="image/x-icon" href="/favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="shared.css">
+    <style>
+        :root { --asset-color: #FFD700; }
+        body { background: #0a0a0a; }
+        .wrap { max-width: 780px; margin: 0 auto; padding: 48px 20px 100px; }
+
+        .tag { font-size: .62rem; letter-spacing: .16em; text-transform: uppercase; color: #666; }
+        h1 { font-size: 1.45rem; font-weight: 600; color: #fff; margin: 8px 0 4px; }
+        .sub { font-size: .82rem; color: #777; line-height: 1.6; max-width: 62ch; }
+
+        .now { display: flex; align-items: baseline; gap: 14px; flex-wrap: wrap;
+               margin: 34px 0 6px; }
+        .now .val { font-family: 'Space Grotesk', sans-serif; font-size: 3.4rem; font-weight: 700; line-height: 1; }
+        .now .zone { font-size: .95rem; font-weight: 600; letter-spacing: .04em; text-transform: uppercase; }
+        .now .when { font-size: .74rem; color: #666; }
+
+        .card { background: rgba(255,255,255,.02); border: 1px solid rgba(255,255,255,.08);
+                border-radius: 16px; padding: 28px 30px; margin: 26px 0; }
+        .headline { font-family: 'Space Grotesk', sans-serif; font-size: 2.6rem; font-weight: 700;
+                    line-height: 1; margin-bottom: 10px; }
+        .verdict { font-size: 1.05rem; color: #eee; line-height: 1.6; }
+        .verdict b { color: #fff; }
+        .because { font-size: .8rem; color: #7a7a7a; line-height: 1.7; margin-top: 16px;
+                   padding-top: 16px; border-top: 1px solid rgba(255,255,255,.07); }
+        .because code { font-family: ui-monospace, Menlo, monospace; font-size: .76rem;
+                        color: #bbb; background: rgba(255,255,255,.05); padding: 1px 5px; border-radius: 3px; }
+
+        .split { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: rgba(255,255,255,.08);
+                 border-radius: 12px; overflow: hidden; margin-top: 18px; }
+        .split > div { background: #0d0d0d; padding: 16px 18px; }
+        .split .k { font-size: .62rem; letter-spacing: .12em; text-transform: uppercase; color: #666; }
+        .split .v { font-family: 'Space Grotesk', sans-serif; font-size: 1.5rem; font-weight: 700; margin-top: 5px; }
+        .split .n { font-size: .72rem; color: #777; margin-top: 3px; }
+
+        h2 { font-size: 1.05rem; font-weight: 600; color: #fff; margin: 44px 0 6px; }
+        .h2sub { font-size: .78rem; color: #777; margin-bottom: 14px; line-height: 1.6; }
+
+        table { width: 100%; border-collapse: collapse; font-size: .8rem; }
+        th { text-align: left; font-size: .6rem; letter-spacing: .1em; text-transform: uppercase;
+             color: #666; font-weight: 600; padding: 8px 10px 8px 0; border-bottom: 1px solid rgba(255,255,255,.1); }
+        td { padding: 9px 10px 9px 0; color: #bbb; border-bottom: 1px solid rgba(255,255,255,.05); }
+        td.mono { font-family: ui-monospace, Menlo, monospace; }
+        .hit { color: #22c55e; } .miss { color: #f59e0b; }
+
+        .note { font-size: .76rem; color: #6a6a6a; line-height: 1.7; margin-top: 14px; }
+        .note b { color: #aaa; font-weight: 600; }
+        @media (max-width: 600px) { .split { grid-template-columns: 1fr; } .now .val { font-size: 2.8rem; } }
+    </style>
+</head>
+<body>
+<div class="wrap">
+    <div class="tag">Private · not indexed</div>
+    <h1>How firm is today's gold reading?</h1>
+    <p class="sub">The index is published each morning from the previous close, so the next reading hangs on a
+       single unknown — today's session. Everything else is already fixed. This page turns that into one number:
+       how likely the headline zone is to change.</p>
+
+    <div class="now">
+        <span class="val" id="score">–</span>
+        <span class="zone" id="zone"></span>
+        <span class="when" id="when"></span>
+    </div>
+
+    <div class="card">
+        <div class="headline" id="pct">–</div>
+        <div class="verdict" id="verdict"></div>
+        <div class="split">
+            <div>
+                <div class="k">Gold move needed</div>
+                <div class="v" id="need">–</div>
+                <div class="n" id="needNote"></div>
+            </div>
+            <div>
+                <div class="k">Typical move</div>
+                <div class="v" id="typ">–</div>
+                <div class="n" id="typNote"></div>
+            </div>
+        </div>
+        <div class="because" id="because"></div>
+    </div>
+
+    <h2>Does it hold up?</h2>
+    <p class="h2sub">Every past day replayed: what this method would have announced, against what actually
+       happened. If the announced column stops matching the observed one, the method is broken — and this
+       table will say so before anything else does.</p>
+    <table>
+        <thead><tr><th>Announced</th><th>Actually changed</th><th>Days</th></tr></thead>
+        <tbody id="calib"></tbody>
+    </table>
+    <div class="note" id="calibNote"></div>
+
+    <h2>Last 14 days</h2>
+    <p class="h2sub">Day by day: what would have been announced the evening before, and what the next
+       reading did.</p>
+    <table>
+        <thead><tr><th>Date</th><th>Score</th><th>Announced</th><th>Next</th><th>Outcome</th></tr></thead>
+        <tbody id="recent"></tbody>
+    </table>
+
+    <div class="note" id="footnote"></div>
+</div>
+
+<script src="shared.js"></script>
+<script>
+(function () {
+    var BOUNDS = [25.5, 45.5, 55.5, 75.5];
+    var ZONES = ['Extreme Fear', 'Fear', 'Neutral', 'Greed', 'Extreme Greed'];
+    var DAYS = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+
+    function zoneIdx(s) {
+        s = Math.round(s);
+        return s <= 25 ? 0 : s <= 45 ? 1 : s <= 55 ? 2 : s <= 75 ? 3 : 4;
+    }
+    function parseDay(iso) { return new Date(iso + 'T12:00:00Z'); }
+
+    // Observed moves of the index, grouped by the weekday they were published on.
+    // Used as raw observations rather than fitted to a bell curve: the real
+    // distribution is far more peaked at zero, and assuming normality overstated
+    // the odds of a boundary crossing by about a seventh.
+    function movesByWeekday(hist) {
+        var by = {};
+        for (var i = 1; i < hist.length; i++) {
+            var d = parseDay(hist[i].date), p = parseDay(hist[i - 1].date);
+            if ((d - p) / 86400000 !== 1) continue;
+            var w = d.getUTCDay();
+            (by[w] = by[w] || []).push(hist[i].score - hist[i - 1].score);
+        }
+        return by;
+    }
+
+    // Index points per 1% move in gold, from transitions where a new close
+    // actually entered (the stored price changed).
+    function goldSensitivity(hist) {
+        var xs = [], ys = [];
+        for (var i = 1; i < hist.length; i++) {
+            var a = hist[i - 1].price, b = hist[i].price;
+            if (a == null || b == null || Math.abs(b - a) < 1e-9) continue;
+            xs.push((b / a - 1) * 100);
+            ys.push(hist[i].score - hist[i - 1].score);
+        }
+        var mx = xs.reduce(function (s, v) { return s + v; }, 0) / xs.length;
+        var my = ys.reduce(function (s, v) { return s + v; }, 0) / ys.length;
+        var cov = 0, vr = 0;
+        for (var k = 0; k < xs.length; k++) { cov += (xs[k] - mx) * (ys[k] - my); vr += (xs[k] - mx) * (xs[k] - mx); }
+        return cov / vr;
+    }
+
+    function assess(score, nextDate, by, sens) {
+        var obs = by[nextDate.getUTCDay()] || [];
+        if (!obs.length) { obs = Object.keys(by).reduce(function (a, k) { return a.concat(by[k]); }, []); }
+        var z = zoneIdx(score);
+        var lo = z > 0 ? BOUNDS[z - 1] : null, hi = z < 4 ? BOUNDS[z] : null;
+        var pd = 0, pu = 0;
+        obs.forEach(function (m) {
+            if (lo !== null && score + m < lo) pd++;
+            if (hi !== null && score + m > hi) pu++;
+        });
+        pd /= obs.length; pu /= obs.length;
+        var sd = Math.sqrt(obs.reduce(function (s, v) { return s + v * v; }, 0) / obs.length -
+                 Math.pow(obs.reduce(function (s, v) { return s + v; }, 0) / obs.length, 2));
+        return {
+            z: z, pDown: pd, pUp: pu, p: Math.min(1, pd + pu), sd: sd, n: obs.length,
+            downZone: lo !== null ? ZONES[z - 1] : null, upZone: hi !== null ? ZONES[z + 1] : null,
+            needDown: lo !== null ? (lo - score) / sens : null,
+            needUp: hi !== null ? (hi - score) / sens : null,
+            weekday: DAYS[nextDate.getUTCDay()]
+        };
+    }
+
+    fetch('data/gold-fear-greed.json').then(function (r) { return r.json(); }).then(function (d) {
+        var hist = d.history.slice().sort(function (a, b) { return a.date < b.date ? -1 : 1; });
+        var by = movesByWeekday(hist);
+        var sens = goldSensitivity(hist);
+        var last = hist[hist.length - 1];
+        var next = new Date(parseDay(last.date).getTime() + 86400000);
+        var a = assess(last.score, next, by, sens);
+        var col = getColor(Math.round(last.score));
+
+        document.getElementById('score').textContent = last.score;
+        document.getElementById('score').style.color = col;
+        var zEl = document.getElementById('zone');
+        zEl.textContent = ZONES[a.z]; zEl.style.color = col;
+        document.getElementById('when').textContent =
+            'published ' + last.date + ' · next update ' + next.toISOString().slice(0, 10) + ' (' + a.weekday + ')';
+
+        var pct = Math.round(a.p * 100);
+        var pEl = document.getElementById('pct');
+        pEl.textContent = pct + '%';
+        pEl.style.color = pct >= 30 ? '#f59e0b' : pct >= 15 ? '#e8e8e8' : '#22c55e';
+
+        var dom = a.pDown >= a.pUp ? 'down' : 'up';
+        var domZone = dom === 'down' ? a.downZone : a.upZone;
+        var verdict;
+        if (pct < 3) {
+            verdict = 'The reading is <b>solid</b>. Gold should still be in <b>' + ZONES[a.z] + '</b> at the next update.';
+        } else if (pct < 15) {
+            verdict = 'The reading is <b>fairly steady</b> — a move into <b>' + domZone + '</b> is possible but unlikely.';
+        } else if (pct < 30) {
+            verdict = 'The reading is <b>loose</b>. There is a real chance of slipping into <b>' + domZone + '</b>.';
+        } else {
+            verdict = 'The reading is <b>fragile</b> — it is close to the <b>' + domZone + '</b> boundary.';
+        }
+        if (a.weekday === 'Sunday' || a.weekday === 'Monday') {
+            verdict += ' <span style="color:#888">No new close has landed yet, so the index barely moves.</span>';
+        }
+        document.getElementById('verdict').innerHTML = 'Chance of a zone change at the next update. ' + verdict;
+
+        var need = dom === 'down' ? a.needDown : a.needUp;
+        document.getElementById('need').textContent = (need > 0 ? '+' : '') + need.toFixed(2) + '%';
+        document.getElementById('need').style.color = col;
+        document.getElementById('needNote').textContent = 'to reach ' + domZone;
+        document.getElementById('typ').textContent = a.sd.toFixed(1) + ' pts';
+        document.getElementById('typNote').textContent = 'on a ' + a.weekday + ' (' + a.n + ' observed)';
+
+        document.getElementById('because').innerHTML =
+            'Built from two known quantities, nothing forecast: the score sits <code>' +
+            Math.abs(need * sens).toFixed(1) + ' pts</code> from the ' + domZone + ' boundary, and the index has moved ' +
+            '<code>' + a.sd.toFixed(1) + ' pts</code> on a typical ' + a.weekday +
+            '. Gold sensitivity: <code>' + sens.toFixed(2) + ' pts per 1%</code>.';
+
+        // ---- calibration: replay every day in the record
+        var buckets = {};
+        for (var i = 1; i < hist.length; i++) {
+            var dt = parseDay(hist[i].date);
+            var g = assess(hist[i - 1].score, dt, by, sens);
+            var changed = zoneIdx(hist[i].score) !== zoneIdx(hist[i - 1].score);
+            var b = Math.min(3, Math.floor(g.p * 100 / 15));
+            (buckets[b] = buckets[b] || []).push([g.p * 100, changed]);
+        }
+        var tb = document.getElementById('calib'), allA = 0, allO = 0, allN = 0;
+        Object.keys(buckets).sort().forEach(function (k) {
+            var v = buckets[k];
+            var ann = v.reduce(function (s, x) { return s + x[0]; }, 0) / v.length;
+            var obs = v.filter(function (x) { return x[1]; }).length / v.length * 100;
+            allA += ann * v.length; allO += obs * v.length; allN += v.length;
+            tb.insertAdjacentHTML('beforeend',
+                '<tr><td class="mono">' + ann.toFixed(0) + '%</td><td class="mono">' + obs.toFixed(0) +
+                '%</td><td class="mono">' + v.length + '</td></tr>');
+        });
+        document.getElementById('calibNote').innerHTML =
+            'Overall: <b>' + (allA / allN).toFixed(1) + '% announced</b> against <b>' + (allO / allN).toFixed(1) +
+            '% observed</b>, over ' + allN + ' days. The two should track each other — that is the whole test.';
+
+        // ---- last 14 days
+        var rb = document.getElementById('recent');
+        for (var i = Math.max(1, hist.length - 14); i < hist.length; i++) {
+            var g2 = assess(hist[i - 1].score, parseDay(hist[i].date), by, sens);
+            var ch = zoneIdx(hist[i].score) !== zoneIdx(hist[i - 1].score);
+            var p2 = Math.round(g2.p * 100);
+            var ok = (p2 >= 15) === ch;
+            rb.insertAdjacentHTML('beforeend',
+                '<tr><td class="mono">' + hist[i - 1].date + '</td><td class="mono">' + hist[i - 1].score +
+                '</td><td class="mono">' + p2 + '%</td><td class="mono">' + hist[i].score +
+                '</td><td class="' + (ok ? 'hit' : 'miss') + '">' + (ch ? '→ ' + ZONES[zoneIdx(hist[i].score)] : 'same zone') +
+                '</td></tr>');
+        }
+
+        document.getElementById('footnote').innerHTML =
+            'Uses the <b>' + hist.length + ' published days</b> only — roughly 52 observations per weekday, which is thin ' +
+            'and will improve on its own. The five-year file cannot be used here: its older section was recomputed ' +
+            'after the fact and its weekends sit still, which would understate how much the index really moves.';
+    });
+})();
+</script>
+</body>
+</html>
