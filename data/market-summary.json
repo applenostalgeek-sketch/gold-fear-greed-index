@@ -1,27 +1,27 @@
 {
-  "date": "2026-08-16",
-  "timestamp": "2026-08-16T03:01:27Z",
-  "summary": "July core CPI came in at 2.6%, below the 2.8% forecast, and falling gasoline and energy costs helped keep overall consumer price increases in check. The cooler-than-expected inflation print reinforced the case for the Fed to hold, pressuring the dollar and amplifying gold's run.",
-  "tweet": "July CPI undershot forecasts, cementing a Fed hold and hammering the dollar. New 50% Canada tariffs kicking in Tuesday add a fresh trade jolt to an already risk-on week.",
+  "date": "2026-08-17",
+  "timestamp": "2026-08-17T03:01:15Z",
+  "summary": "July retail sales fell a surprising 0.6% month-over-month \u2014 well below the 0.2% gain analysts had expected \u2014 reinforcing a softening consumer picture and keeping pressure on the dollar while supporting risk assets.",
+  "tweet": "Weak July retail sales and a fractured Fed \u2014 the minutes from a 9-3 vote drop Wednesday, and markets are caught between soft consumer data and a chair who hasn't ruled out another hike.",
   "scores": {
     "gold": {
-      "score": 61.0,
+      "score": 62.6,
       "label": "Greed"
     },
     "stocks": {
-      "score": 70.7,
+      "score": 72.5,
       "label": "Greed"
     },
     "crypto": {
-      "score": 54.5,
+      "score": 54.6,
       "label": "Neutral"
     },
     "bonds": {
-      "score": 45.2,
-      "label": "Fear"
+      "score": 45.9,
+      "label": "Neutral"
     },
     "sentiment": {
-      "score": 57.8,
+      "score": 58.9,
       "label": "Greed"
     }
   }

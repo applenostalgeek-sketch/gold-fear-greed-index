@@ -1,7 +1,7 @@
 {
-  "score": 70.7,
+  "score": 72.5,
   "label": "Greed",
-  "timestamp": "2026-08-16T03:01:11Z",
+  "timestamp": "2026-08-17T03:00:51Z",
   "components": {
     "price_strength": {
       "score": 88.3,
@@ -19,9 +19,9 @@
       "detail": "RSI: 75, Price > MA50"
     },
     "market_participation": {
-      "score": 25.4,
+      "score": 37.4,
       "weight": 0.15,
-      "detail": "RSP +2.3% vs SPY +4.8%"
+      "detail": "RSP +3.5% vs SPY +4.8%"
     },
     "junk_bonds": {
       "score": 80.7,
@@ -40,6 +40,11 @@
     }
   },
   "history": [
+    {
+      "date": "2026-08-17",
+      "score": 72.5,
+      "price": 776.34
+    },
     {
       "date": "2026-08-16",
       "score": 70.7,
@@ -1859,11 +1864,6 @@
       "date": "2025-08-18",
       "score": 58.7,
       "price": 639.63
-    },
-    {
-      "date": "2025-08-17",
-      "score": 58.0,
-      "price": 639.77
     }
   ]
 }

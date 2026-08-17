@@ -1,7 +1,7 @@
 {
-  "score": 45.2,
-  "label": "Fear",
-  "timestamp": "2026-08-16T03:01:14Z",
+  "score": 45.9,
+  "label": "Neutral",
+  "timestamp": "2026-08-17T03:00:59Z",
   "components": {
     "yield_curve": {
       "score": 64.4,
@@ -14,9 +14,9 @@
       "detail": "TLT 14j: -1.6%"
     },
     "credit_quality": {
-      "score": 69.6,
+      "score": 72.9,
       "weight": 0.2,
-      "detail": "HYG vs LQD: +1.0%"
+      "detail": "HYG vs LQD: +1.1%"
     },
     "real_rates": {
       "score": 32.2,
@@ -35,6 +35,12 @@
     }
   },
   "history": [
+    {
+      "date": "2026-08-17",
+      "score": 45.9,
+      "label": "Neutral",
+      "price": 82.04
+    },
     {
       "date": "2026-08-16",
       "score": 45.2,
@@ -2218,12 +2224,6 @@
       "score": 47.8,
       "label": "Neutral",
       "price": 84.26
-    },
-    {
-      "date": "2025-08-17",
-      "score": 52.9,
-      "label": "Neutral",
-      "price": 84.51
     }
   ]
 }
