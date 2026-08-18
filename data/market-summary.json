@@ -1,27 +1,27 @@
 {
-  "date": "2026-08-17",
-  "timestamp": "2026-08-17T03:01:15Z",
-  "summary": "July retail sales fell a surprising 0.6% month-over-month \u2014 well below the 0.2% gain analysts had expected \u2014 reinforcing a softening consumer picture and keeping pressure on the dollar while supporting risk assets.",
-  "tweet": "Weak July retail sales and a fractured Fed \u2014 the minutes from a 9-3 vote drop Wednesday, and markets are caught between soft consumer data and a chair who hasn't ruled out another hike.",
+  "date": "2026-08-18",
+  "timestamp": "2026-08-18T02:56:44Z",
+  "summary": "Middle East tensions intensified as prospects for peace dimmed, pushing oil prices higher and pressuring bonds \u2014 a key driver of the ongoing flight to gold and the selloff in Treasuries weighing on bond sentiment. Rising yields are also snuffing equity momentum as investors simultaneously brace for the July FOMC minutes, due Wednesday, with the committee still split on the inflation outlook.",
+  "tweet": "Middle East tensions are lifting oil and gold while rising yields squeeze bonds \u2014 all eyes on Wednesday's FOMC minutes for clues on the Fed's inflation split.",
   "scores": {
     "gold": {
-      "score": 62.6,
+      "score": 63.4,
       "label": "Greed"
     },
     "stocks": {
-      "score": 72.5,
+      "score": 69.6,
       "label": "Greed"
     },
     "crypto": {
-      "score": 54.6,
-      "label": "Neutral"
+      "score": 56.8,
+      "label": "Greed"
     },
     "bonds": {
-      "score": 45.9,
-      "label": "Neutral"
+      "score": 42.0,
+      "label": "Fear"
     },
     "sentiment": {
-      "score": 58.9,
+      "score": 58.0,
       "label": "Greed"
     }
   }
