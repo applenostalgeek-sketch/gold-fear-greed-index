@@ -1,27 +1,27 @@
 {
-  "date": "2026-08-19",
-  "timestamp": "2026-08-19T02:58:10Z",
-  "summary": "The Fed held rates at 3.50\u20133.75% on July 29 for a fifth straight meeting, but the vote was 9-3 hawkish, and today's July FOMC minutes release is the market's first look inside that split \u2014 with September hike odds since falling to 31% on data the committee never saw.",
-  "tweet": "Fed minutes land today with a hawkish 9-3 split baked in, while soft retail sales and weak jobs data question whether the economy can absorb another hike \u2014 markets are pricing the tension.",
+  "date": "2026-08-20",
+  "timestamp": "2026-08-20T02:57:50Z",
+  "summary": "A 60-day U.S.-Iran ceasefire expired this week with no deal in sight, and Tehran signaled it may shift to an offensive posture and escalate in the Strait of Hormuz, keeping geopolitical risk bid across safe havens. Separately, a cooler-than-expected CPI print dampened Fed hike expectations, fueling the gold surge and softening the dollar \u2014 with September hike odds falling to roughly 35%, down sharply from the mid-50s a fortnight ago.",
+  "tweet": "Iran ceasefire expired with no deal, and a soft CPI gutted Fed hike odds \u2014 gold and crypto surge while stocks digest the crosscurrents. --- Formatted output: SUMMARY: Iran's 60-day ceasefire with the U.S. expired this...",
   "scores": {
     "gold": {
-      "score": 58.0,
+      "score": 66.8,
       "label": "Greed"
     },
     "stocks": {
-      "score": 65.4,
+      "score": 62.5,
       "label": "Greed"
     },
     "crypto": {
-      "score": 55.7,
+      "score": 66.9,
       "label": "Greed"
     },
     "bonds": {
-      "score": 46.3,
+      "score": 49.7,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 56.4,
+      "score": 61.5,
       "label": "Greed"
     }
   }
