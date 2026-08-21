@@ -1,27 +1,27 @@
 {
-  "date": "2026-08-20",
-  "timestamp": "2026-08-20T02:57:50Z",
-  "summary": "A 60-day U.S.-Iran ceasefire expired this week with no deal in sight, and Tehran signaled it may shift to an offensive posture and escalate in the Strait of Hormuz, keeping geopolitical risk bid across safe havens. Separately, a cooler-than-expected CPI print dampened Fed hike expectations, fueling the gold surge and softening the dollar \u2014 with September hike odds falling to roughly 35%, down sharply from the mid-50s a fortnight ago.",
-  "tweet": "Iran ceasefire expired with no deal, and a soft CPI gutted Fed hike odds \u2014 gold and crypto surge while stocks digest the crosscurrents. --- Formatted output: SUMMARY: Iran's 60-day ceasefire with the U.S. expired this...",
+  "date": "2026-08-21",
+  "timestamp": "2026-08-21T03:03:57Z",
+  "summary": "Treasury's doubling of long-term bond buybacks sent yields lower and sparked a broad short squeeze across crypto, with Bitcoin surging past $72,000. Soft jobs and inflation prints this week cut September Fed hike odds to roughly 31%, pulling the dollar lower and amplifying gold's rally to multi-month highs.",
+  "tweet": "Treasury doubled bond buybacks, soft jobs and CPI data slashed Fed hike odds to 31%, and a crypto short squeeze sent Bitcoin past $72K \u2014 risk assets and gold are both bid at once.",
   "scores": {
     "gold": {
-      "score": 66.8,
+      "score": 72.0,
       "label": "Greed"
     },
     "stocks": {
-      "score": 62.5,
+      "score": 59.2,
       "label": "Greed"
     },
     "crypto": {
-      "score": 66.9,
+      "score": 68.9,
       "label": "Greed"
     },
     "bonds": {
-      "score": 49.7,
+      "score": 51.0,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 61.5,
+      "score": 62.8,
       "label": "Greed"
     }
   }
