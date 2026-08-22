@@ -1,27 +1,27 @@
 {
-  "date": "2026-08-21",
-  "timestamp": "2026-08-21T03:03:57Z",
-  "summary": "Treasury's doubling of long-term bond buybacks sent yields lower and sparked a broad short squeeze across crypto, with Bitcoin surging past $72,000. Soft jobs and inflation prints this week cut September Fed hike odds to roughly 31%, pulling the dollar lower and amplifying gold's rally to multi-month highs.",
-  "tweet": "Treasury doubled bond buybacks, soft jobs and CPI data slashed Fed hike odds to 31%, and a crypto short squeeze sent Bitcoin past $72K \u2014 risk assets and gold are both bid at once.",
+  "date": "2026-08-22",
+  "timestamp": "2026-08-22T02:55:25Z",
+  "summary": "Markets are positioning ahead of Jackson Hole next week, where new Fed Chair Kevin Warsh will speak for the first time since taking office in May \u2014 and unlike his predecessors, Warsh no longer telegraphs intentions in advance, giving the event genuine information value.",
+  "tweet": "Warsh no longer tips his hand before meetings \u2014 and a 39% September hike probability does not bind him. Gold surges, dollar slides, and stocks grind higher ahead of the most unscripted Jackson Hole in years.",
   "scores": {
     "gold": {
-      "score": 72.0,
+      "score": 71.6,
       "label": "Greed"
     },
     "stocks": {
-      "score": 59.2,
+      "score": 58.6,
       "label": "Greed"
     },
     "crypto": {
-      "score": 68.9,
+      "score": 75.1,
       "label": "Greed"
     },
     "bonds": {
-      "score": 51.0,
+      "score": 47.8,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 62.8,
+      "score": 63.3,
       "label": "Greed"
     }
   }
