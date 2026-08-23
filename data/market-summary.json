@@ -1,11 +1,11 @@
 {
-  "date": "2026-08-22",
-  "timestamp": "2026-08-22T02:55:25Z",
-  "summary": "Markets are positioning ahead of Jackson Hole next week, where new Fed Chair Kevin Warsh will speak for the first time since taking office in May \u2014 and unlike his predecessors, Warsh no longer telegraphs intentions in advance, giving the event genuine information value.",
-  "tweet": "Warsh no longer tips his hand before meetings \u2014 and a 39% September hike probability does not bind him. Gold surges, dollar slides, and stocks grind higher ahead of the most unscripted Jackson Hole in years.",
+  "date": "2026-08-23",
+  "timestamp": "2026-08-23T03:03:51Z",
+  "summary": "A steep Treasury-yield-driven sell-off weighed on equities this week, with tech shedding more than 3% and the S&P 500 finishing in the red. Roughly half of FOMC participants penciled in rate hikes for 2026 at Warsh's first meeting in June, and three regional presidents dissented in favor of hikes at his second meeting in July \u2014 an unusually high level of dissent so early in a new chair's tenure.",
+  "tweet": "Rising Treasury yields hammered tech and equities this week as a near-even Fed hike/hold split for September keeps rate risk live \u2014 gold and crypto are absorbing the uncertainty.",
   "scores": {
     "gold": {
-      "score": 71.6,
+      "score": 71.5,
       "label": "Greed"
     },
     "stocks": {
@@ -13,7 +13,7 @@
       "label": "Greed"
     },
     "crypto": {
-      "score": 75.1,
+      "score": 73.6,
       "label": "Greed"
     },
     "bonds": {
@@ -21,7 +21,7 @@
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 63.3,
+      "score": 62.9,
       "label": "Greed"
     }
   }
