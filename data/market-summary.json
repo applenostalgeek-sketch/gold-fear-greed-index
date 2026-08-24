@@ -1,11 +1,11 @@
 {
-  "date": "2026-08-23",
-  "timestamp": "2026-08-23T03:03:51Z",
-  "summary": "A steep Treasury-yield-driven sell-off weighed on equities this week, with tech shedding more than 3% and the S&P 500 finishing in the red. Roughly half of FOMC participants penciled in rate hikes for 2026 at Warsh's first meeting in June, and three regional presidents dissented in favor of hikes at his second meeting in July \u2014 an unusually high level of dissent so early in a new chair's tenure.",
-  "tweet": "Rising Treasury yields hammered tech and equities this week as a near-even Fed hike/hold split for September keeps rate risk live \u2014 gold and crypto are absorbing the uncertainty.",
+  "date": "2026-08-24",
+  "timestamp": "2026-08-24T03:04:26Z",
+  "summary": "Gold headed for a third straight weekly gain, trading near $4,540, as the dollar slid and investors reacted to the Treasury's decision to expand long-dated bond buybacks. Crypto surged after the Treasury intervened in bond markets and President Trump urged Congress to pass the CLARITY Act, with a White House meeting of crypto executives and regulators triggering a record $2.7 billion short squeeze.",
+  "tweet": "Treasury bond buybacks crushed the dollar and lit up gold, while Trump's CLARITY Act push and a record $2.7B crypto short squeeze sent Bitcoin past $75K for the first time since May.",
   "scores": {
     "gold": {
-      "score": 71.5,
+      "score": 71.3,
       "label": "Greed"
     },
     "stocks": {
@@ -13,15 +13,15 @@
       "label": "Greed"
     },
     "crypto": {
-      "score": 73.6,
-      "label": "Greed"
+      "score": 75.7,
+      "label": "Extreme Greed"
     },
     "bonds": {
       "score": 47.8,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 62.9,
+      "score": 63.4,
       "label": "Greed"
     }
   }
