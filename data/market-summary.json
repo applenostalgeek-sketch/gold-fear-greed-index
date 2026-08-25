@@ -1,27 +1,27 @@
 {
-  "date": "2026-08-24",
-  "timestamp": "2026-08-24T03:04:26Z",
-  "summary": "Gold headed for a third straight weekly gain, trading near $4,540, as the dollar slid and investors reacted to the Treasury's decision to expand long-dated bond buybacks. Crypto surged after the Treasury intervened in bond markets and President Trump urged Congress to pass the CLARITY Act, with a White House meeting of crypto executives and regulators triggering a record $2.7 billion short squeeze.",
-  "tweet": "Treasury bond buybacks crushed the dollar and lit up gold, while Trump's CLARITY Act push and a record $2.7B crypto short squeeze sent Bitcoin past $75K for the first time since May.",
+  "date": "2026-08-25",
+  "timestamp": "2026-08-25T02:59:40Z",
+  "summary": "Markets are in wait-and-see mode ahead of Fed Chair Kevin Warsh's first-ever Jackson Hole keynote on Friday, with September rate-hike odds already collapsed from 82% to 30% after weak retail sales and unexpected job losses, while the Fed held at 3.5\u20133.75% in July on a 9-3 vote.",
+  "tweet": "Warsh hits the Jackson Hole podium Friday as the most consequential macro moment before September's FOMC \u2014 rate bets and crypto digital-asset policy signals both hanging on his words.",
   "scores": {
     "gold": {
-      "score": 71.3,
+      "score": 70.2,
       "label": "Greed"
     },
     "stocks": {
-      "score": 58.6,
+      "score": 55.8,
       "label": "Greed"
     },
     "crypto": {
-      "score": 75.7,
+      "score": 77.4,
       "label": "Extreme Greed"
     },
     "bonds": {
-      "score": 47.8,
+      "score": 49.6,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 63.4,
+      "score": 63.2,
       "label": "Greed"
     }
   }
