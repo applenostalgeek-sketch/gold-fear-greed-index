@@ -1,27 +1,27 @@
 {
-  "date": "2026-08-26",
-  "timestamp": "2026-08-26T03:06:02Z",
-  "summary": "The US Treasury's decision to double its long-end bond buybacks \u2014 from $2 billion to at least $4 billion per operation effective September 9 \u2014 has driven a synchronized dollar sell-off, gold surge, and crypto rally, pulling sentiment sharply higher across gold and crypto while stocks remain flat.",
-  "tweet": "A weak dollar, strong gold, and surging Bitcoin are three reactions to the same trigger \u2014 Treasury's buyback doubling \u2014 with Warsh's Jackson Hole debut on Friday the next event to clear.",
+  "date": "2026-08-27",
+  "timestamp": "2026-08-27T10:00:05Z",
+  "summary": "Jackson Hole is the week's pivot point, with new Fed Chair Warsh delivering his first keynote today amid an audience still building its dictionary of what his signals mean. A hawkish lean from Collins this week already nudged Treasury yields higher and weighed on stocks and gold, while low volatility and crypto's sustained momentum suggest risk appetite remains resilient heading into his remarks.",
+  "tweet": "Warsh's first Jackson Hole keynote lands today with markets still learning his language \u2014 Collins already moved yields higher this week, keeping rate risk squarely in focus.",
   "scores": {
     "gold": {
-      "score": 70.1,
+      "score": 60.5,
       "label": "Greed"
     },
     "stocks": {
-      "score": 55.2,
+      "score": 55.3,
       "label": "Neutral"
     },
     "crypto": {
-      "score": 78.6,
+      "score": 78.4,
       "label": "Extreme Greed"
     },
     "bonds": {
-      "score": 51.2,
+      "score": 54.1,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 63.8,
+      "score": 62.1,
       "label": "Greed"
     }
   }
