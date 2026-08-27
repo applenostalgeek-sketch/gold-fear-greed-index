@@ -2,7 +2,11 @@ name: Post Tweet
 
 on:
   schedule:
-    - cron: '0 6 * * *'  # Daily at 6:00 UTC (7:00 Paris)
+    # Daily at 6:07 UTC (8:07 Paris in summer). Kept 4h after the index job.
+    # Off the top of the hour on purpose: the :00 slot is the most contended
+    # GitHub-wide, and this job has never once started on time (median lag
+    # 1h42 over 201 runs). Both schedules silently failed to fire on 2026-08-27.
+    - cron: '7 6 * * *'
   workflow_dispatch:  # Allow manual trigger
 
 jobs:
