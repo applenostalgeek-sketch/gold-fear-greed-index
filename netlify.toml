@@ -5,6 +5,15 @@
 [functions]
   directory = "netlify/functions"
 
+# Independent safety net for the daily index run. GitHub's scheduler dropped the
+# job entirely on 2026-08-27 and 2026-08-28 after 210 consecutive successes, so
+# the backup deliberately lives here rather than in a second GitHub cron.
+# 09:00 UTC = 7h after the intended 02:07, well past the usual 20min-3h lag, and
+# still ahead of the US open so the data matches what the night run would have
+# produced. Reads first, triggers only when today's entry is genuinely missing.
+[functions."watchdog"]
+  schedule = "0 9 * * *"
+
 [[headers]]
   for = "/*"
   [headers.values]

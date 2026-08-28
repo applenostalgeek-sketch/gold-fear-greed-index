@@ -9,6 +9,13 @@ on:
     - cron: '7 2 * * *'
   workflow_dispatch:  # Allow manual trigger
 
+# The job ends in `git push`. If a scheduled run and a watchdog-triggered run
+# ever overlapped, the loser's push would be rejected and the run would fail.
+# Queue them instead of running both; never cancel one mid-push.
+concurrency:
+  group: update-index
+  cancel-in-progress: false
+
 jobs:
   update-indices:
     runs-on: ubuntu-latest

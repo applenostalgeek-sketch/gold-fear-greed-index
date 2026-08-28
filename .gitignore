@@ -24,6 +24,9 @@ Thumbs.db
 .env
 .env.local
 
+# Netlify CLI state (contains the site id, written by `netlify link`)
+.netlify/
+
 # Logs
 *.log
 
