@@ -1,27 +1,27 @@
 {
-  "date": "2026-08-27",
-  "timestamp": "2026-08-27T10:00:05Z",
-  "summary": "Jackson Hole is the week's pivot point, with new Fed Chair Warsh delivering his first keynote today amid an audience still building its dictionary of what his signals mean. A hawkish lean from Collins this week already nudged Treasury yields higher and weighed on stocks and gold, while low volatility and crypto's sustained momentum suggest risk appetite remains resilient heading into his remarks.",
-  "tweet": "Warsh's first Jackson Hole keynote lands today with markets still learning his language \u2014 Collins already moved yields higher this week, keeping rate risk squarely in focus.",
+  "date": "2026-08-28",
+  "timestamp": "2026-08-28T09:01:46Z",
+  "summary": "July PCE came in hotter than expected, with headline inflation at 3.7% year-over-year, cementing the Fed's hawkish hold and setting up markets waiting for Warsh's first Jackson Hole speech today for clues on how he intends to navigate the tension between softer growth and persistent price pressures.",
+  "tweet": "Hot PCE locked in the Fed's hawkish hold and Warsh's Jackson Hole debut today is the only thing standing between markets and a rate-hike reprice \u2014 Nvidia's beat bought stocks a night of relief.",
   "scores": {
     "gold": {
-      "score": 60.5,
+      "score": 58.4,
       "label": "Greed"
     },
     "stocks": {
-      "score": 55.3,
+      "score": 54.9,
       "label": "Neutral"
     },
     "crypto": {
-      "score": 78.4,
-      "label": "Extreme Greed"
+      "score": 74.6,
+      "label": "Greed"
     },
     "bonds": {
-      "score": 54.1,
+      "score": 53.3,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 62.1,
+      "score": 60.3,
       "label": "Greed"
     }
   }
