@@ -1,27 +1,27 @@
 {
-  "date": "2026-08-28",
-  "timestamp": "2026-08-28T09:01:46Z",
-  "summary": "July PCE came in hotter than expected, with headline inflation at 3.7% year-over-year, cementing the Fed's hawkish hold and setting up markets waiting for Warsh's first Jackson Hole speech today for clues on how he intends to navigate the tension between softer growth and persistent price pressures.",
-  "tweet": "Hot PCE locked in the Fed's hawkish hold and Warsh's Jackson Hole debut today is the only thing standing between markets and a rate-hike reprice \u2014 Nvidia's beat bought stocks a night of relief.",
+  "date": "2026-08-29",
+  "timestamp": "2026-08-29T08:58:27Z",
+  "summary": "Fed Chair Warsh's Jackson Hole debut put a September rate hike firmly on the table, citing PCE inflation at 3.7% with over half the basket still rising faster than 3%, pushing rate-hike odds to roughly 57% from 35% before the speech. The two-year Treasury yield hit its highest since July near 4.32%, the dollar firmed, and gold slid roughly 3% \u2014 pressuring safe-haven sentiment even as crypto and bonds held relative ground on the week.",
+  "tweet": "Warsh's Jackson Hole hawkishness flipped a majority of investors to expect a September hike, sending yields and the dollar higher while gold sold off sharply.",
   "scores": {
     "gold": {
-      "score": 58.4,
-      "label": "Greed"
+      "score": 50.9,
+      "label": "Neutral"
     },
     "stocks": {
-      "score": 54.9,
+      "score": 54.2,
       "label": "Neutral"
     },
     "crypto": {
-      "score": 74.6,
+      "score": 71.0,
       "label": "Greed"
     },
     "bonds": {
-      "score": 53.3,
+      "score": 54.8,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 60.3,
+      "score": 57.7,
       "label": "Greed"
     }
   }
