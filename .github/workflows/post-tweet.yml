@@ -7,10 +7,77 @@ on:
     # GitHub-wide, and this job has never once started on time (median lag
     # 1h42 over 201 runs). Both schedules silently failed to fire on 2026-08-27.
     - cron: '7 6 * * *'
-  workflow_dispatch:  # Allow manual trigger
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 'Post even if a tweet already went out today'
+        type: boolean
+        default: false
+
+# Two runs starting together would both look up "did a tweet go out today?" and
+# both answer no. Queue them instead, so the second sees the first's result.
+# Never cancel one mid-post: a cancelled run may already have hit the API.
+concurrency:
+  group: post-tweet
+  cancel-in-progress: false
 
 jobs:
+  # One tweet per day, whoever fires it.
+  #
+  # On 2026-08-28 two went out: one at 11:49 UTC, then GitHub's own cron woke up
+  # 12h late and posted again at 18:33. The Netlify watchdog already checks
+  # before dispatching, but nothing could stop GitHub's scheduler from firing on
+  # top of it — and a duplicate tweet is public and cannot be taken back.
+  #
+  # Unlike the index job, this one writes no file, so there is nothing to re-read
+  # to know whether the day is done. It has to ask GitHub about its own past
+  # runs instead. Only successful ones count: a run that failed never tweeted,
+  # and must not block a later attempt.
+  guard:
+    runs-on: ubuntu-latest
+    permissions:
+      actions: read
+    outputs:
+      should_run: ${{ steps.check.outputs.should_run }}
+    steps:
+      - name: Has a tweet already gone out today?
+        id: check
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          RUN_ID: ${{ github.run_id }}
+          FORCED: ${{ inputs.force }}
+        run: |
+          gh api "repos/$REPO/actions/workflows/post-tweet.yml/runs?per_page=50" > runs.json
+          python3 - <<'PY'
+          import datetime, json, os, sys
+
+          today = datetime.datetime.now(datetime.timezone.utc).date().isoformat()
+          me = os.environ['RUN_ID']
+
+          with open('runs.json') as f:
+              runs = json.load(f).get('workflow_runs', [])
+
+          # Exclude this very run: it is in the list already, still in progress.
+          earlier = [r for r in runs
+                     if str(r.get('id')) != me
+                     and str(r.get('created_at', '')).startswith(today)
+                     and r.get('conclusion') == 'success']
+
+          forced = os.environ.get('FORCED', '').lower() == 'true'
+          run = forced or not earlier
+
+          when = ', '.join(r['created_at'][11:16] + ' UTC' for r in earlier) or 'none'
+          print(f"::notice::successful tweets today = {len(earlier)} ({when}), "
+                f"forced = {forced} -> {'posting' if run else 'skipping'}",
+                file=sys.stderr)
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
+              out.write(f"should_run={'true' if run else 'false'}\n")
+          PY
+
   tweet:
+    needs: guard
+    if: needs.guard.outputs.should_run == 'true'
     runs-on: ubuntu-latest
 
     steps:
