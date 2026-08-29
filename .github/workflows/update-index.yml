@@ -8,6 +8,11 @@ on:
     # has never once started on time (median lag measured at 2h55 over 208 runs).
     - cron: '7 2 * * *'
   workflow_dispatch:  # Allow manual trigger
+    inputs:
+      force:
+        description: 'Recompute even if today is already published (repairs a bad day)'
+        type: boolean
+        default: false
 
 # The job ends in `git push`. If a scheduled run and a watchdog-triggered run
 # ever overlapped, the loser's push would be rejected and the run would fail.
@@ -17,7 +22,51 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  # One publication per day, and only the first one counts.
+  #
+  # On 2026-08-28 the cron fired 12h late, at 14:16 UTC — after the 13:30 US
+  # open. It recomputed the day from a live session price and overwrote what had
+  # already been published that morning: gold went to 417.95, a number that was
+  # never anyone's close. Worse, the two files disagreed afterwards, because
+  # append_5y.py skips a date it already has while the 1Y path overwrites it.
+  #
+  # So the run itself has to know it is too late. Whoever publishes first owns
+  # the day; every later run stops here. `force: true` on a manual dispatch is
+  # the deliberate way back in when a day genuinely needs repairing.
+  guard:
+    runs-on: ubuntu-latest
+    outputs:
+      should_run: ${{ steps.check.outputs.should_run }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Has today already been published?
+        id: check
+        env:
+          FORCED: ${{ inputs.force }}
+        run: |
+          python3 - <<'PY'
+          import datetime, json, os, sys
+
+          today = datetime.datetime.now(datetime.timezone.utc).date().isoformat()
+          with open('data/gold-fear-greed.json') as f:
+              latest = max(e['date'] for e in json.load(f)['history'])
+
+          forced = os.environ.get('FORCED', '').lower() == 'true'
+          run = forced or latest != today
+
+          # Reason goes to the log, the flag goes to the step output.
+          print(f"::notice::latest published = {latest}, today = {today}, "
+                f"forced = {forced} -> {'running' if run else 'skipping'}",
+                file=sys.stderr)
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as out:
+              out.write(f"should_run={'true' if run else 'false'}\n")
+          PY
+
   update-indices:
+    needs: guard
+    if: needs.guard.outputs.should_run == 'true'
     runs-on: ubuntu-latest
     permissions:
       contents: write
