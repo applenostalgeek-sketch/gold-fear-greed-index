@@ -1,7 +1,7 @@
 {
   "score": 54.8,
   "label": "Neutral",
-  "timestamp": "2026-08-29T08:58:12Z",
+  "timestamp": "2026-08-30T08:15:10Z",
   "components": {
     "yield_curve": {
       "score": 64.1,
@@ -35,6 +35,12 @@
     }
   },
   "history": [
+    {
+      "date": "2026-08-30",
+      "score": 54.8,
+      "label": "Neutral",
+      "price": 82.88
+    },
     {
       "date": "2026-08-29",
       "score": 54.8,
@@ -2215,12 +2221,6 @@
     },
     {
       "date": "2025-08-31",
-      "score": 52.5,
-      "label": "Neutral",
-      "price": 84.7
-    },
-    {
-      "date": "2025-08-30",
       "score": 52.5,
       "label": "Neutral",
       "price": 84.7
