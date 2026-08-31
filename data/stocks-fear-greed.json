@@ -1,7 +1,7 @@
 {
-  "score": 54.2,
+  "score": 53.7,
   "label": "Neutral",
-  "timestamp": "2026-08-30T08:15:07Z",
+  "timestamp": "2026-08-31T08:35:21Z",
   "components": {
     "price_strength": {
       "score": 48.7,
@@ -9,9 +9,9 @@
       "detail": "SPY -0.2% 14d"
     },
     "vix": {
-      "score": 75.8,
+      "score": 73.2,
       "weight": 0.2,
-      "detail": "VIX: 14.4 vs avg: 16.8"
+      "detail": "VIX: 15.2 vs avg: 16.8"
     },
     "momentum": {
       "score": 54.5,
@@ -40,6 +40,11 @@
     }
   },
   "history": [
+    {
+      "date": "2026-08-31",
+      "score": 53.7,
+      "price": 769.35
+    },
     {
       "date": "2026-08-30",
       "score": 54.2,
@@ -1857,11 +1862,6 @@
     },
     {
       "date": "2025-09-01",
-      "score": 61.4,
-      "price": 641.37
-    },
-    {
-      "date": "2025-08-31",
       "score": 61.4,
       "price": 641.37
     }
