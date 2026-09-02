@@ -1,27 +1,27 @@
 {
-  "date": "2026-09-01",
-  "timestamp": "2026-09-01T07:42:40Z",
-  "summary": "Fresh US-Iran strikes \u2014 including US forces targeting Iranian military assets and Iran responding with missile and drone attacks on US facilities in Jordan \u2014 pushed crude oil above $85, pressuring equities at the open.",
-  "tweet": "Iran-US strikes lift oil and dent risk appetite; Warsh's 60%-odds rate hike looms over every asset class as crypto's big August fades into a nervous September open.",
+  "date": "2026-09-02",
+  "timestamp": "2026-09-02T07:04:02Z",
+  "summary": "Warsh's hawkish Jackson Hole tone has kept a September Fed rate hike in play, leaving Friday's August jobs report as the week's decisive data point. Elevated energy costs are simultaneously driving global inflation higher, pressuring bonds and weighing on equities.",
+  "tweet": "Warsh talked hawkish at Jackson Hole and Friday's jobs report now decides whether a September Fed hike happens \u2014 energy-driven inflation is squeezing the rest.",
   "scores": {
     "gold": {
-      "score": 48.0,
+      "score": 47.5,
       "label": "Neutral"
     },
     "stocks": {
-      "score": 53.4,
+      "score": 49.9,
       "label": "Neutral"
     },
     "crypto": {
-      "score": 64.0,
+      "score": 62.2,
       "label": "Greed"
     },
     "bonds": {
-      "score": 52.5,
+      "score": 51.4,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 54.5,
+      "score": 52.8,
       "label": "Neutral"
     }
   }
