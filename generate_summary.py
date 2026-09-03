@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
-"""Generate AI market context using Claude Haiku from component data only.
+"""Generate AI market context using Claude Sonnet 5 with web search.
 
 Called daily after the 4 index calculations. Produces a 2-3 sentence
-context explaining WHY scores are what they are, based ONLY on component
-data (RSI, VIX, DXY, yields, etc.) — no web search, no external catalysts.
+context naming this week's market catalysts, grounded in the component
+data (RSI, VIX, DXY, yields, etc.) plus up to 3 web searches.
 Falls back to a template if the API is unavailable.
 """
 
@@ -223,7 +223,7 @@ What are the 1-2 key catalysts driving these markets this week?"""
 
     try:
         response = client.messages.create(
-            model="claude-sonnet-4-6",
+            model="claude-sonnet-5",
             max_tokens=350,
             system=system,
             tools=[{
