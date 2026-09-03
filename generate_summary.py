@@ -224,15 +224,18 @@ What are the 1-2 key catalysts driving these markets this week?"""
     try:
         response = client.messages.create(
             model="claude-sonnet-5",
-            # Headroom, not a target: the prompt caps the summary at 450 chars
-            # and the tweet at 220 (~165 tokens together). The rest is spent on
-            # the model's search queries and its narration between them, which
-            # is discarded. TWEET: is written last, so it is what disappears
-            # first if the cap is hit. Only generated tokens are billed.
-            max_tokens=600,
+            # Headroom, not a target. Sonnet 5 runs adaptive thinking by default
+            # (omitting `thinking` does NOT turn it off), and those tokens are
+            # billed and counted here even though their text is never returned.
+            # They are spent BEFORE the visible answer, which is only ~165 tokens
+            # (450-char summary + 220-char tweet). TWEET: is emitted last, so it
+            # is what disappears if the cap is hit. Only generated tokens are
+            # billed, so the headroom itself is free.
+            max_tokens=4000,
             system=system,
             tools=[{
-                "type": "web_search_20250305",
+                # Sonnet 5's variant; the 20250305 one is for pre-4.6 models
+                "type": "web_search_20260209",
                 "name": "web_search",
                 "max_uses": 3
             }],
