@@ -224,7 +224,12 @@ What are the 1-2 key catalysts driving these markets this week?"""
     try:
         response = client.messages.create(
             model="claude-sonnet-5",
-            max_tokens=350,
+            # Headroom, not a target: the prompt caps the summary at 450 chars
+            # and the tweet at 220 (~165 tokens together). The rest is spent on
+            # the model's search queries and its narration between them, which
+            # is discarded. TWEET: is written last, so it is what disappears
+            # first if the cap is hit. Only generated tokens are billed.
+            max_tokens=600,
             system=system,
             tools=[{
                 "type": "web_search_20250305",
@@ -233,6 +238,14 @@ What are the 1-2 key catalysts driving these markets this week?"""
             }],
             messages=[{"role": "user", "content": user_msg}]
         )
+
+        # A truncated response loses TWEET: silently — say so in the logs.
+        usage = getattr(response, 'usage', None)
+        out_tokens = getattr(usage, 'output_tokens', None) if usage else None
+        print(f"  stop_reason={response.stop_reason}"
+              + (f", output_tokens={out_tokens}/600" if out_tokens else ""))
+        if response.stop_reason == "max_tokens":
+            print("  WARNING: hit max_tokens — the tweet is probably missing. Raise the cap.")
 
         # Web search splits response across multiple text blocks
         import re
@@ -258,6 +271,10 @@ What are the 1-2 key catalysts driving these markets this week?"""
         if not summary or len(summary) < 20:
             print("  Response too short, using fallback")
             return fallback_summary(scores, components)
+
+        if tweet is None:
+            print("  WARNING: no TWEET: block parsed — post_tweet.py will fall "
+                  "back to the summary's first sentence.")
 
         # Truncate summary if too long — cut at sentence boundary, not decimal point
         if len(summary) > 450:
