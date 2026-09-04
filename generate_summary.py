@@ -12,6 +12,16 @@ import os
 from datetime import datetime, timezone
 
 
+# Output cap for the context call. Headroom, not a target — only generated
+# tokens are billed. Sonnet 5 runs adaptive thinking by default (omitting
+# `thinking` does NOT turn it off) and those tokens are billed too, which is
+# why the visible answer (~165 tokens: a 450-char summary + a 220-char tweet)
+# is a small fraction of what a run reports. Measured 2026-09-04: 4626 output
+# tokens with stop_reason=end_turn — the reported total covers every internal
+# iteration of the web-search loop, so it can exceed this cap without the
+# response being truncated.
+MAX_TOKENS = 4000
+
 COMPONENT_NAMES = {
     'Gold': {
         'gld_price': 'GLD Price',
@@ -224,14 +234,7 @@ What are the 1-2 key catalysts driving these markets this week?"""
     try:
         response = client.messages.create(
             model="claude-sonnet-5",
-            # Headroom, not a target. Sonnet 5 runs adaptive thinking by default
-            # (omitting `thinking` does NOT turn it off), and those tokens are
-            # billed and counted here even though their text is never returned.
-            # They are spent BEFORE the visible answer, which is only ~165 tokens
-            # (450-char summary + 220-char tweet). TWEET: is emitted last, so it
-            # is what disappears if the cap is hit. Only generated tokens are
-            # billed, so the headroom itself is free.
-            max_tokens=4000,
+            max_tokens=MAX_TOKENS,
             system=system,
             tools=[{
                 # Sonnet 5's variant; the 20250305 one is for pre-4.6 models
@@ -246,7 +249,7 @@ What are the 1-2 key catalysts driving these markets this week?"""
         usage = getattr(response, 'usage', None)
         out_tokens = getattr(usage, 'output_tokens', None) if usage else None
         print(f"  stop_reason={response.stop_reason}"
-              + (f", output_tokens={out_tokens}/600" if out_tokens else ""))
+              + (f", output_tokens={out_tokens}/{MAX_TOKENS}" if out_tokens else ""))
         if response.stop_reason == "max_tokens":
             print("  WARNING: hit max_tokens — the tweet is probably missing. Raise the cap.")
 
