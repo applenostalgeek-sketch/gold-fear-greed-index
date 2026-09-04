@@ -1,19 +1,19 @@
 {
-  "date": "2026-09-03",
-  "timestamp": "2026-09-03T07:08:06Z",
-  "summary": "August ADP private payrolls came in at just 38,000, well below forecasts, setting a soft tone ahead of Friday's official BLS report and reinforcing expectations that central banks must maintain tight monetary policies as energy market shocks push Brent crude past $92.",
-  "tweet": "Soft ADP print (38K vs 48K est.) and $92 oil are pulling markets in opposite directions ahead of Friday's jobs report, with a Fed hike now near coin-flip odds.",
+  "date": "2026-09-04",
+  "timestamp": "2026-09-04T07:13:09Z",
+  "summary": "Today's August jobs report is the week's headline event, giving markets fresh data to gauge whether the Federal Reserve stays on a rate-cut path into its next meeting. Risk appetite remains resilient across assets even as investors digest the print, with equity volatility subdued and crypto holding onto recent gains.",
+  "tweet": "All eyes on today's August jobs report for clues on the Fed's next move, but risk appetite is holding steady across markets.",
   "scores": {
     "gold": {
-      "score": 47.7,
+      "score": 49.5,
       "label": "Neutral"
     },
     "stocks": {
-      "score": 51.1,
+      "score": 52.0,
       "label": "Neutral"
     },
     "crypto": {
-      "score": 64.4,
+      "score": 66.4,
       "label": "Greed"
     },
     "bonds": {
@@ -21,8 +21,8 @@
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 54.6,
-      "label": "Neutral"
+      "score": 55.8,
+      "label": "Greed"
     }
   }
 }
