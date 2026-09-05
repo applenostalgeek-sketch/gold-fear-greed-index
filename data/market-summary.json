@@ -1,27 +1,27 @@
 {
-  "date": "2026-09-04",
-  "timestamp": "2026-09-04T07:13:09Z",
-  "summary": "Today's August jobs report is the week's headline event, giving markets fresh data to gauge whether the Federal Reserve stays on a rate-cut path into its next meeting. Risk appetite remains resilient across assets even as investors digest the print, with equity volatility subdued and crypto holding onto recent gains.",
-  "tweet": "All eyes on today's August jobs report for clues on the Fed's next move, but risk appetite is holding steady across markets.",
+  "date": "2026-09-05",
+  "timestamp": "2026-09-05T07:01:41Z",
+  "summary": "Today's stronger-than-expected August jobs report, with payrolls up 162,000 against forecasts near 53,000-58,000, is reshaping the rate outlook and pushing traders to price in higher Fed rate-hike odds rather than the cuts many expected. That hawkish surprise is keeping real yields elevated and bond volatility jumpy, even as equity volatility stays subdued and crypto holds most of its recent gains.",
+  "tweet": "A blowout August jobs print (162k vs ~53k forecast) just flipped the rate narrative toward hike risk, keeping bond vol elevated while stocks and crypto shrug it off for now.",
   "scores": {
     "gold": {
-      "score": 49.5,
+      "score": 48.2,
       "label": "Neutral"
     },
     "stocks": {
-      "score": 52.0,
+      "score": 54.0,
       "label": "Neutral"
     },
     "crypto": {
-      "score": 66.4,
+      "score": 67.5,
       "label": "Greed"
     },
     "bonds": {
-      "score": 55.2,
-      "label": "Neutral"
+      "score": 58.1,
+      "label": "Greed"
     },
     "sentiment": {
-      "score": 55.8,
+      "score": 56.9,
       "label": "Greed"
     }
   }
