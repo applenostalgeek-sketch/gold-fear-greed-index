@@ -593,8 +593,26 @@ def post_tweet(tweet_text):
         sys.exit(1)
 
 
+def summary_is_new():
+    """False when generate_summary.py reused the previous text (quiet weekend).
+
+    Posting then would repeat a tweet that already went out — and a duplicate
+    tweet is public and cannot be taken back (it happened on 2026-08-28)."""
+    try:
+        with open('data/market-summary.json', 'r') as f:
+            return json.load(f).get('is_new', True)
+    except Exception:
+        return True          # au moindre doute, on tweete : silence > doublon
+
+
 def main():
     dry_run = '--dry-run' in sys.argv
+    force = '--force' in sys.argv
+
+    if not summary_is_new() and not force:
+        print("Context was reused from the previous run (quiet weekend session).")
+        print("Nothing new to say — skipping the tweet. Use --force to override.")
+        return
 
     data = load_data()
     if data is None:

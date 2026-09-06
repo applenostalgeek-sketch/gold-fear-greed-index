@@ -9,7 +9,7 @@ Falls back to a template if the API is unavailable.
 
 import json
 import os
-from datetime import datetime, timezone
+from datetime import datetime, timezone, timedelta
 
 
 # Output cap for the context call. Headroom, not a target — only generated
@@ -56,6 +56,34 @@ COMPONENT_NAMES = {
         'equity_vs_bonds': 'Equity vs Bonds',
     },
 }
+
+
+# Le run de ~07:00 UTC du jour D publie la CLOTURE DE D-1 : l'entree datee D
+# porte la seance de la veille (verifie le 6 sep 2026 — l'entree du samedi
+# valait la cloture du vendredi a 4 $ pres). Tout ce qui suit raisonne donc sur
+# la seance decrite, jamais sur la date du run.
+WEEKEND_CRYPTO_THRESHOLD = 2.0   # %, ~= le mouvement moyen d'un jour de bourse
+
+
+def session_described():
+    """Date et jour de la seance que le tableau de bord publie ce matin."""
+    try:
+        with open('data/gold-fear-greed.json') as f:
+            newest = json.load(f)['history'][0]['date']
+        d = datetime.strptime(newest, '%Y-%m-%d').date() - timedelta(days=1)
+    except Exception:
+        d = (datetime.now(timezone.utc) - timedelta(days=1)).date()
+    return d
+
+
+def crypto_session_move():
+    """Variation de la crypto PENDANT la seance decrite, en %."""
+    try:
+        with open('data/crypto-fear-greed.json') as f:
+            h = json.load(f)['history']          # tri decroissant
+        return (h[0]['price'] / h[1]['price'] - 1) * 100
+    except Exception:
+        return None
 
 
 def get_label(score):
@@ -203,18 +231,36 @@ def generate_summary():
     previous = load_previous_summary()
     components_text = format_components(scores, components)
 
-    today = datetime.now(timezone.utc).strftime('%Y-%m-%d')
+    now = datetime.now(timezone.utc)
+    sess = session_described()
+    sess_str = sess.strftime('%A, %Y-%m-%d')
+    now_str = now.strftime('%A, %Y-%m-%d %H:%M UTC')
+    weekend = sess.weekday() >= 5
 
-    system = f"""You write market context for a multi-asset Fear & Greed dashboard. Today is {today}.
+    weekend_rule = (
+        "\n- IT IS A WEEKEND SESSION. Stocks, bonds and gold did not trade: their numbers "
+        "are Friday's close and must be described in the past tense. Only crypto traded. "
+        "Lead with crypto.\n"
+        if weekend else "\n"
+    )
 
-Use web search to find this week's main market catalysts. Connect them to the sentiment data.
+    system = f"""You write market context for a multi-asset Fear & Greed dashboard.
+
+The dashboard you are describing shows the close of {sess_str}. That session is the
+subject of everything you write. You are writing on {now_str}, after that close.
+
+Use web search to find the catalysts behind that session. Connect them to the sentiment data.
 
 Rules:
-- Name the 1-2 biggest catalysts this week (Fed, jobs data, tariffs, geopolitics, etc.) and explain how they affect markets.
+- Name the 1-2 biggest catalysts and explain how they affected markets.
 - Write like a dashboard subtitle, not a research note. Be concise and direct.
 - ONLY cite facts found in your search results. Never invent data.
-- Only reference events that have already happened or are happening TODAY ({today}). Never reference upcoming events.
-- Do NOT restate scores or indicators the user already sees.
+- CHECK THE DATE OF EVERY FACT. Search results resurface old articles published on the
+  same day of an earlier year — verify the YEAR before citing anything.
+- Anything released AFTER the close of {sess_str} had not happened yet for this dashboard.
+  Never call it "today's". Never write about a release that is still upcoming.
+- Write about {sess_str} in the past tense. Reserve the present tense for conditions that
+  still hold now.{weekend_rule}- Do NOT restate scores or indicators the user already sees.
 - Do NOT predict. Current state only.
 - Plain text. No emojis, no markdown.
 - Vary from yesterday's context.
@@ -313,12 +359,37 @@ What are the 1-2 key catalysts driving these markets this week?"""
 
 def main():
     print("Generating AI context summary...")
-    summary, tweet = generate_summary()
     scores = load_scores()
+    sess = session_described()
+    move = crypto_session_move()
+
+    # Seance de week-end : seule la crypto a cote. Si elle n'a pas bouge autant
+    # qu'un jour de bourse ordinaire, il n'y a rien de neuf a raconter — on garde
+    # le texte precedent, mais les scores doivent rester frais (inject_scores.py
+    # lit le composite ici) et le tweet ne doit pas repartir en double.
+    reuse = False
+    if sess.weekday() >= 5:
+        moved = f"crypto moved {move:+.2f}%" if move is not None else "crypto move unknown"
+        print(f"  Weekend session ({sess:%A %Y-%m-%d}) — {moved}")
+        if move is not None and abs(move) < WEEKEND_CRYPTO_THRESHOLD:
+            print(f"  Below {WEEKEND_CRYPTO_THRESHOLD}% — keeping the previous context, no API call.")
+            reuse = True
+
+    if reuse:
+        try:
+            with open('data/market-summary.json') as f:
+                prev = json.load(f)
+            summary, tweet = prev.get('summary', ''), prev.get('tweet')
+        except Exception:
+            reuse = False
+    if not reuse:
+        summary, tweet = generate_summary()
 
     output = {
         'date': datetime.now(timezone.utc).strftime('%Y-%m-%d'),
         'timestamp': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
+        'session': sess.strftime('%Y-%m-%d'),
+        'is_new': not reuse,
         'summary': summary,
         'tweet': tweet,
         'scores': {
@@ -330,6 +401,7 @@ def main():
     with open('data/market-summary.json', 'w') as f:
         json.dump(output, f, indent=2)
 
+    print(f"  Session described: {sess:%A %Y-%m-%d} | new text: {not reuse}")
     print(f"  Summary ({len(summary)} chars): {summary}")
     if tweet:
         print(f"  Tweet ({len(tweet)} chars): {tweet}")
