@@ -1,11 +1,11 @@
 {
-  "date": "2026-09-05",
-  "timestamp": "2026-09-05T07:01:41Z",
-  "summary": "Today's stronger-than-expected August jobs report, with payrolls up 162,000 against forecasts near 53,000-58,000, is reshaping the rate outlook and pushing traders to price in higher Fed rate-hike odds rather than the cuts many expected. That hawkish surprise is keeping real yields elevated and bond volatility jumpy, even as equity volatility stays subdued and crypto holds most of its recent gains.",
-  "tweet": "A blowout August jobs print (162k vs ~53k forecast) just flipped the rate narrative toward hike risk, keeping bond vol elevated while stocks and crypto shrug it off for now.",
+  "date": "2026-09-06",
+  "timestamp": "2026-09-06T07:07:02Z",
+  "summary": "Markets are still digesting last week's blowout August jobs report, which came in far above forecasts and forced traders to scale back Fed rate-cut bets in favor of a more hawkish path. That repricing keeps real yields elevated and bond volatility elevated, even as equity volatility stays subdued and crypto holds onto its recent rally.",
+  "tweet": "The jobs-data shockwave keeps reshaping Fed bets, jolting bonds while stocks and crypto shrug it off for now.",
   "scores": {
     "gold": {
-      "score": 48.2,
+      "score": 48.9,
       "label": "Neutral"
     },
     "stocks": {
@@ -13,7 +13,7 @@
       "label": "Neutral"
     },
     "crypto": {
-      "score": 67.5,
+      "score": 68.8,
       "label": "Greed"
     },
     "bonds": {
@@ -21,7 +21,7 @@
       "label": "Greed"
     },
     "sentiment": {
-      "score": 56.9,
+      "score": 57.4,
       "label": "Greed"
     }
   }
