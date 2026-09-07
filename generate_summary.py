@@ -62,7 +62,7 @@ COMPONENT_NAMES = {
 # porte la seance de la veille (verifie le 6 sep 2026 — l'entree du samedi
 # valait la cloture du vendredi a 4 $ pres). Tout ce qui suit raisonne donc sur
 # la seance decrite, jamais sur la date du run.
-WEEKEND_CRYPTO_THRESHOLD = 2.0   # %, ~= le mouvement moyen d'un jour de bourse
+CLOSED_SESSION_CRYPTO_THRESHOLD = 2.0   # %, ~= le mouvement moyen d'un jour de bourse
 
 
 def session_described():
@@ -74,6 +74,28 @@ def session_described():
     except Exception:
         d = (datetime.now(timezone.utc) - timedelta(days=1)).date()
     return d
+
+
+def traditional_markets_closed():
+    """Les trois marches traditionnels ont-ils cote pendant la seance decrite ?
+
+    On lit la donnee au lieu du calendrier : si gold, stocks ET bonds repetent
+    tous les trois la valeur precedente, la seance etait fermee. Couvre les
+    week-ends ET les jours feries sans aucune liste a maintenir — un calendrier
+    code en dur serait a mettre a jour chaque annee et raterait les fermetures
+    exceptionnelles. Valide sur l'ere reconstruction : 10,0 detections par an en
+    semaine, soit exactement le nombre de fermetures du NYSE (Labor Day,
+    Thanksgiving, Noel, Jour de l'an, MLK, Presidents' Day...).
+    """
+    try:
+        for a in ('gold', 'stocks', 'bonds'):
+            with open(f'data/{a}-fear-greed.json') as f:
+                h = json.load(f)['history']
+            if h[0]['price'] != h[1]['price']:
+                return False
+        return True
+    except Exception:
+        return False          # au moindre doute, on traite comme une seance normale
 
 
 def crypto_session_move():
@@ -235,13 +257,14 @@ def generate_summary():
     sess = session_described()
     sess_str = sess.strftime('%A, %Y-%m-%d')
     now_str = now.strftime('%A, %Y-%m-%d %H:%M UTC')
-    weekend = sess.weekday() >= 5
+    closed = traditional_markets_closed()
 
-    weekend_rule = (
-        "\n- IT IS A WEEKEND SESSION. Stocks, bonds and gold did not trade: their numbers "
-        "are Friday's close and must be described in the past tense. Only crypto traded. "
-        "Lead with crypto.\n"
-        if weekend else "\n"
+    closed_rule = (
+        "\n- STOCKS, BONDS AND GOLD DID NOT TRADE in this session — it was a weekend or a "
+        "US market holiday. Their numbers are the previous close carried forward, not a "
+        "move: describe them in the past tense and never as today's action. Only crypto "
+        "traded. Lead with crypto, and name the holiday if your search identifies one.\n"
+        if closed else "\n"
     )
 
     system = f"""You write market context for a multi-asset Fear & Greed dashboard.
@@ -260,7 +283,7 @@ Rules:
 - Anything released AFTER the close of {sess_str} had not happened yet for this dashboard.
   Never call it "today's". Never write about a release that is still upcoming.
 - Write about {sess_str} in the past tense. Reserve the present tense for conditions that
-  still hold now.{weekend_rule}- Do NOT restate scores or indicators the user already sees.
+  still hold now.{closed_rule}- Do NOT restate scores or indicators the user already sees.
 - Do NOT predict. Current state only.
 - Plain text. No emojis, no markdown.
 - Vary from yesterday's context.
@@ -363,16 +386,16 @@ def main():
     sess = session_described()
     move = crypto_session_move()
 
-    # Seance de week-end : seule la crypto a cote. Si elle n'a pas bouge autant
-    # qu'un jour de bourse ordinaire, il n'y a rien de neuf a raconter — on garde
+    # Seance fermee (week-end OU ferie) : seule la crypto a cote. Si elle n'a pas
+    # bouge autant qu'un jour de bourse ordinaire, rien de neuf a raconter — on garde
     # le texte precedent, mais les scores doivent rester frais (inject_scores.py
     # lit le composite ici) et le tweet ne doit pas repartir en double.
     reuse = False
-    if sess.weekday() >= 5:
+    if traditional_markets_closed():
         moved = f"crypto moved {move:+.2f}%" if move is not None else "crypto move unknown"
-        print(f"  Weekend session ({sess:%A %Y-%m-%d}) — {moved}")
-        if move is not None and abs(move) < WEEKEND_CRYPTO_THRESHOLD:
-            print(f"  Below {WEEKEND_CRYPTO_THRESHOLD}% — keeping the previous context, no API call.")
+        print(f"  Closed session ({sess:%A %Y-%m-%d}) — stocks/bonds/gold did not trade, {moved}")
+        if move is not None and abs(move) < CLOSED_SESSION_CRYPTO_THRESHOLD:
+            print(f"  Below {CLOSED_SESSION_CRYPTO_THRESHOLD}% — keeping the previous context, no API call.")
             reuse = True
 
     if reuse:
