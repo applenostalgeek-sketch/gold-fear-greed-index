@@ -1,21 +1,21 @@
 {
-  "date": "2026-09-07",
-  "timestamp": "2026-09-07T07:16:40Z",
-  "session": "2026-09-06",
+  "date": "2026-09-08",
+  "timestamp": "2026-09-08T07:12:13Z",
+  "session": "2026-09-07",
   "is_new": false,
   "summary": "Markets are still digesting last week's blowout August jobs report, which came in far above forecasts and forced traders to scale back Fed rate-cut bets in favor of a more hawkish path. That repricing keeps real yields elevated and bond volatility elevated, even as equity volatility stays subdued and crypto holds onto its recent rally.",
   "tweet": "The jobs-data shockwave keeps reshaping Fed bets, jolting bonds while stocks and crypto shrug it off for now.",
   "scores": {
     "gold": {
-      "score": 47.9,
+      "score": 49.4,
       "label": "Neutral"
     },
     "stocks": {
-      "score": 54.0,
+      "score": 53.6,
       "label": "Neutral"
     },
     "crypto": {
-      "score": 68.9,
+      "score": 67.3,
       "label": "Greed"
     },
     "bonds": {
@@ -23,7 +23,7 @@
       "label": "Greed"
     },
     "sentiment": {
-      "score": 57.2,
+      "score": 57.1,
       "label": "Greed"
     }
   }
