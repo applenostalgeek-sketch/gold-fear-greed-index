@@ -1,29 +1,29 @@
 {
-  "date": "2026-09-08",
-  "timestamp": "2026-09-08T07:12:13Z",
-  "session": "2026-09-07",
-  "is_new": false,
-  "summary": "Markets are still digesting last week's blowout August jobs report, which came in far above forecasts and forced traders to scale back Fed rate-cut bets in favor of a more hawkish path. That repricing keeps real yields elevated and bond volatility elevated, even as equity volatility stays subdued and crypto holds onto its recent rally.",
-  "tweet": "The jobs-data shockwave keeps reshaping Fed bets, jolting bonds while stocks and crypto shrug it off for now.",
+  "date": "2026-09-09",
+  "timestamp": "2026-09-09T07:26:59Z",
+  "session": "2026-09-08",
+  "is_new": true,
+  "summary": "Gold sank as the hawkish Fed repricing from last week's strong jobs report kept real yields near recent highs, pulling GLD down sharply while equities stayed range-bound. Bond volatility eased intraday even as the rate path stayed elevated, and crypto extended its rally, decoupling from the risk-off tone in metals.",
+  "tweet": "Hawkish Fed repricing hammered gold on Tuesday while bonds calmed and crypto kept climbing, decoupled from the pressure.",
   "scores": {
     "gold": {
-      "score": 49.4,
-      "label": "Neutral"
+      "score": 40.9,
+      "label": "Fear"
     },
     "stocks": {
-      "score": 53.6,
+      "score": 53.5,
       "label": "Neutral"
     },
     "crypto": {
-      "score": 67.3,
+      "score": 69.6,
       "label": "Greed"
     },
     "bonds": {
-      "score": 58.1,
+      "score": 57.6,
       "label": "Greed"
     },
     "sentiment": {
-      "score": 57.1,
+      "score": 55.4,
       "label": "Greed"
     }
   }
