@@ -1,30 +1,30 @@
 {
-  "date": "2026-09-09",
-  "timestamp": "2026-09-09T07:26:59Z",
-  "session": "2026-09-08",
+  "date": "2026-09-10",
+  "timestamp": "2026-09-10T07:19:58Z",
+  "session": "2026-09-09",
   "is_new": true,
-  "summary": "Gold sank as the hawkish Fed repricing from last week's strong jobs report kept real yields near recent highs, pulling GLD down sharply while equities stayed range-bound. Bond volatility eased intraday even as the rate path stayed elevated, and crypto extended its rally, decoupling from the risk-off tone in metals.",
-  "tweet": "Hawkish Fed repricing hammered gold on Tuesday while bonds calmed and crypto kept climbing, decoupled from the pressure.",
+  "summary": "Wednesday's session was split: calm, near-average volatility left equities range-bound while breadth thinned as defensives lagged growth. Bonds absorbed the day's sharpest sentiment hit as duration risk resurfaced even though short-term rate volatility eased. Gold stayed stuck in Fear despite a flat dollar, and crypto cooled from its recent surge but held the board's only Greed reading.",
+  "tweet": "Bonds took the day's biggest sentiment hit on resurfacing duration risk, gold stayed stuck in Fear despite a flat dollar, and crypto cooled but held the only Greed on the board.",
   "scores": {
     "gold": {
-      "score": 40.9,
+      "score": 43.6,
       "label": "Fear"
     },
     "stocks": {
-      "score": 53.5,
+      "score": 52.0,
       "label": "Neutral"
     },
     "crypto": {
-      "score": 69.6,
+      "score": 68.4,
       "label": "Greed"
     },
     "bonds": {
-      "score": 57.6,
-      "label": "Greed"
+      "score": 50.1,
+      "label": "Neutral"
     },
     "sentiment": {
-      "score": 55.4,
-      "label": "Greed"
+      "score": 53.5,
+      "label": "Neutral"
     }
   }
 }
