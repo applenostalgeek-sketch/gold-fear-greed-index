@@ -1,0 +1,55 @@
+name: Announce alert rule change
+
+# One-off, manual only. Never runs on a schedule and never on push:
+# it emails real subscribers, so it fires when a human clicks Run workflow.
+#
+# Default is a dry run: it lists who would receive the message and stops
+# without a single write call to Resend. Sending requires ticking `confirm`,
+# so a stray click costs nothing.
+on:
+  workflow_dispatch:
+    inputs:
+      confirm:
+        description: 'Actually send the emails (leave unticked for a dry run)'
+        type: boolean
+        default: false
+
+# A second run while the first is mid-send would email people twice, and a
+# duplicate is out of reach the moment it leaves. Queue instead, never cancel.
+concurrency:
+  group: announce
+  cancel-in-progress: false
+
+jobs:
+  announce:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+          cache: 'pip'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+
+      - name: Dry run — list recipients
+        if: ${{ !inputs.confirm }}
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          RESEND_AUDIENCE_ID: ${{ secrets.RESEND_AUDIENCE_ID }}
+        run: |
+          python announce_alert_change.py
+
+      - name: Send
+        if: ${{ inputs.confirm }}
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          RESEND_AUDIENCE_ID: ${{ secrets.RESEND_AUDIENCE_ID }}
+        run: |
+          python announce_alert_change.py --send
