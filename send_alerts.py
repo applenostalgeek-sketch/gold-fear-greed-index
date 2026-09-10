@@ -41,6 +41,26 @@ DELTA_THRESHOLDS_ASSET = {'gold': 11, 'stocks': 8, 'crypto': 8, 'bonds': 7}
 DELTA_THRESHOLD_ASSET_DEFAULT = 10  # fallback for any unlisted asset key
 DELTA_THRESHOLD_SENTIMENT = 7  # for market sentiment
 
+# Zones we do not email about. Neutral is not a mood, it is the absence of one:
+# an alert saying "nothing in particular is happening" interrupts a subscriber
+# to tell them nothing. It is also the narrowest band (46-55 = 10 points, against
+# 20 for Fear and Greed), so an index drifting through the middle crosses its
+# edges twice as often as any other boundary — bonds sits in Neutral 39% of the
+# time and crosses in or out 53 times a year.
+#
+# Measured over 5 years of history: Neutral was the destination of 73 of 181
+# alerts (40%), and the least durable — still true five days later only 43% of
+# the time, against 68% for both Fear and Greed. Dropping it takes the mailing
+# from 36 to 22 alerts a year and removes exactly the ones that say nothing.
+#
+# A move that merely passes through Neutral on its way to Fear or Greed still
+# alerts on arrival. Skipping a large drop straight into Neutral was considered
+# and rejected: a two-boundary jump into Neutral happened 0 times in 5 years
+# (it needs a >20-point day; the largest ever seen is 16.6), so the exception
+# would have been dead code. If "big move" ever deserves an alert, it is its own
+# feature, measured on its own terms — not a branch bolted onto zone logic.
+SILENT_ZONES = {'Neutral'}
+
 ZONE_STYLES = {
     'Extreme Fear': {'color': '#dc2626', 'bg': '#fef2f2'},
     'Fear':         {'color': '#d97706', 'bg': '#fffbeb'},
@@ -165,6 +185,11 @@ def find_changes(current, previous_labels, previous_scores):
 
         # Must have a zone change
         if not prev_label or not curr_label or prev_label == curr_label:
+            continue
+
+        # ... to a zone worth an email
+        if curr_label in SILENT_ZONES:
+            print(f"  SKIP: {key} moved {prev_label} -> {curr_label} (silent zone)")
             continue
 
         # Must exceed delta threshold
