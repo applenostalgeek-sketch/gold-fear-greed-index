@@ -1,29 +1,29 @@
 {
-  "date": "2026-09-10",
-  "timestamp": "2026-09-10T07:19:58Z",
-  "session": "2026-09-09",
+  "date": "2026-09-11",
+  "timestamp": "2026-09-11T07:20:25Z",
+  "session": "2026-09-10",
   "is_new": true,
-  "summary": "Wednesday's session was split: calm, near-average volatility left equities range-bound while breadth thinned as defensives lagged growth. Bonds absorbed the day's sharpest sentiment hit as duration risk resurfaced even though short-term rate volatility eased. Gold stayed stuck in Fear despite a flat dollar, and crypto cooled from its recent surge but held the board's only Greed reading.",
-  "tweet": "Bonds took the day's biggest sentiment hit on resurfacing duration risk, gold stayed stuck in Fear despite a flat dollar, and crypto cooled but held the only Greed on the board.",
+  "summary": "Thursday's slide was rate-driven: real yields firmed and the 10Y-2Y curve steepened further, squeezing gold and long-duration bonds while equity breadth thinned as defensive shares lagged growth names. Crypto kept its 30-day rally intact but stayed the board's lone bright spot amid falling volume and softening momentum.",
+  "tweet": "Steeper curve, firmer real yields hit gold and bonds Thursday; breadth thinned in stocks while crypto alone held Greed.",
   "scores": {
     "gold": {
-      "score": 43.6,
+      "score": 40.3,
       "label": "Fear"
     },
     "stocks": {
-      "score": 52.0,
+      "score": 48.4,
       "label": "Neutral"
     },
     "crypto": {
-      "score": 68.4,
+      "score": 67.2,
       "label": "Greed"
     },
     "bonds": {
-      "score": 50.1,
+      "score": 46.4,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 53.5,
+      "score": 50.6,
       "label": "Neutral"
     }
   }
