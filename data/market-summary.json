@@ -1,29 +1,29 @@
 {
-  "date": "2026-09-11",
-  "timestamp": "2026-09-11T07:20:25Z",
-  "session": "2026-09-10",
+  "date": "2026-09-12",
+  "timestamp": "2026-09-12T07:09:40Z",
+  "session": "2026-09-11",
   "is_new": true,
-  "summary": "Thursday's slide was rate-driven: real yields firmed and the 10Y-2Y curve steepened further, squeezing gold and long-duration bonds while equity breadth thinned as defensive shares lagged growth names. Crypto kept its 30-day rally intact but stayed the board's lone bright spot amid falling volume and softening momentum.",
-  "tweet": "Steeper curve, firmer real yields hit gold and bonds Thursday; breadth thinned in stocks while crypto alone held Greed.",
+  "summary": "Friday's session stayed rate-driven: 10-year real yields held near cycle highs and the 10Y-2Y curve kept its steepening bias, pressuring gold and long-duration Treasuries. Equity breadth stayed thin as defensive shares lagged growth, while bitcoin held most of its 30-day rally despite cooling volume and momentum.",
+  "tweet": "Elevated real yields and a steepening curve kept gold and bonds under pressure Friday, even as crypto held its 30-day rally and equity breadth stayed thin.",
   "scores": {
     "gold": {
-      "score": 40.3,
+      "score": 32.3,
       "label": "Fear"
     },
     "stocks": {
-      "score": 48.4,
+      "score": 54.4,
       "label": "Neutral"
     },
     "crypto": {
-      "score": 67.2,
+      "score": 69.7,
       "label": "Greed"
     },
     "bonds": {
-      "score": 46.4,
+      "score": 47.1,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 50.6,
+      "score": 50.9,
       "label": "Neutral"
     }
   }
