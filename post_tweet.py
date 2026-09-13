@@ -605,9 +605,30 @@ def summary_is_new():
         return True          # au moindre doute, on tweete : silence > doublon
 
 
+def summary_date():
+    """UTC date of the last index run, as written by generate_summary.py."""
+    try:
+        with open('data/market-summary.json', 'r') as f:
+            return json.load(f).get('date')
+    except Exception:
+        return None
+
+
 def main():
     dry_run = '--dry-run' in sys.argv
     force = '--force' in sys.argv
+
+    # Checked BEFORE is_new, and as a failure, not a quiet return: the workflow
+    # guard counts every run whose tweet job succeeded as today's tweet. A run
+    # reading yesterday's files — started before the index job, or a dispatch that
+    # sat in GitHub's queue past midnight on its frozen commit — would otherwise
+    # "succeed" on yesterday's is_new and block the real tweet of the day.
+    today = datetime.now(timezone.utc).strftime('%Y-%m-%d')
+    published = summary_date()
+    if published != today and not force:
+        print(f"Error: newest published data is {published}, today is {today} (UTC).")
+        print("The index job has not published today yet — not tweeting stale numbers. Use --force to override.")
+        sys.exit(1)
 
     if not summary_is_new() and not force:
         print("Context was reused from the previous run (quiet weekend session).")

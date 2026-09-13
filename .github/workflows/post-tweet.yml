@@ -1,12 +1,18 @@
 name: Post Tweet
 
 on:
-  schedule:
-    # Daily at 6:07 UTC (8:07 Paris in summer). Kept 4h after the index job.
-    # Off the top of the hour on purpose: the :00 slot is the most contended
-    # GitHub-wide, and this job has never once started on time (median lag
-    # 1h42 over 201 runs). Both schedules silently failed to fire on 2026-08-27.
-    - cron: '7 6 * * *'
+  # Chained to the index job instead of a clock. The tweet reads the files that
+  # job commits, so it must start after the push — which a second cron could
+  # never promise: the old '7 6 * * *' schedule never once started before the
+  # Netlify watchdog stepped in at 09:02 UTC (checked 2026-09-05 to 09-13), so
+  # the backup had become the mechanism. For workflow_run, checkout gets the
+  # latest commit on main, i.e. the data that run just pushed.
+  #
+  # ⚠️ This matches the index workflow by its NAME. Rename it there and this
+  # trigger silently stops firing — only the watchdog would still tweet.
+  workflow_run:
+    workflows: ['Update Gold, Stocks, Crypto & Bonds Fear & Greed Indices']
+    types: [completed]
   workflow_dispatch:
     inputs:
       force:
@@ -31,9 +37,13 @@ jobs:
   #
   # Unlike the index job, this one writes no file, so there is nothing to re-read
   # to know whether the day is done. It has to ask GitHub about its own past
-  # runs instead. Only successful ones count: a run that failed never tweeted,
-  # and must not block a later attempt.
+  # runs instead. Only runs whose `tweet` job actually succeeded count: a run
+  # that failed never tweeted, and neither did one whose jobs were skipped —
+  # none of them may block a later attempt.
   guard:
+    # A run chained to a failed index job has nothing fresh to read. The watchdog
+    # re-dispatches the index at 09:02 UTC, and that run chains the tweet again.
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     permissions:
       actions: read
@@ -50,7 +60,7 @@ jobs:
         run: |
           gh api "repos/$REPO/actions/workflows/post-tweet.yml/runs?per_page=50" > runs.json
           python3 - <<'PY'
-          import datetime, json, os, sys
+          import datetime, json, os, subprocess, sys
 
           today = datetime.datetime.now(datetime.timezone.utc).date().isoformat()
           me = os.environ['RUN_ID']
@@ -59,10 +69,25 @@ jobs:
               runs = json.load(f).get('workflow_runs', [])
 
           # Exclude this very run: it is in the list already, still in progress.
-          earlier = [r for r in runs
-                     if str(r.get('id')) != me
-                     and str(r.get('created_at', '')).startswith(today)
-                     and r.get('conclusion') == 'success']
+          successful = [r for r in runs
+                        if str(r.get('id')) != me
+                        and str(r.get('created_at', '')).startswith(today)
+                        and r.get('conclusion') == 'success']
+
+          # A successful RUN is not a tweet. A run chained to a failed index job
+          # skips both jobs and can still be marked successful, and so is a run
+          # this guard stopped. Counting those would let a non-tweet own the day
+          # and block the real one. Only a `tweet` job that actually ran counts —
+          # including one where post_tweet.py found nothing new and stayed quiet.
+          # If the jobs API fails, this step fails: no tweet beats a duplicate.
+          def tweet_job_ran(run_id):
+              out = subprocess.run(
+                  ['gh', 'api', f"repos/{os.environ['REPO']}/actions/runs/{run_id}/jobs"],
+                  capture_output=True, text=True, check=True).stdout
+              return any(j.get('name') == 'tweet' and j.get('conclusion') == 'success'
+                         for j in json.loads(out).get('jobs', []))
+
+          earlier = [r for r in successful if tweet_job_ran(r['id'])]
 
           forced = os.environ.get('FORCED', '').lower() == 'true'
           run = forced or not earlier
