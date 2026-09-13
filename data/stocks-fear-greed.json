@@ -1,7 +1,7 @@
 {
   "score": 54.4,
   "label": "Neutral",
-  "timestamp": "2026-09-12T07:06:27Z",
+  "timestamp": "2026-09-13T07:26:04Z",
   "components": {
     "price_strength": {
       "score": 50.9,
@@ -40,6 +40,11 @@
     }
   },
   "history": [
+    {
+      "date": "2026-09-13",
+      "score": 54.4,
+      "price": 764.29
+    },
     {
       "date": "2026-09-12",
       "score": 54.4,
@@ -1857,11 +1862,6 @@
     },
     {
       "date": "2025-09-14",
-      "score": 53.4,
-      "price": 653.66
-    },
-    {
-      "date": "2025-09-13",
       "score": 53.4,
       "price": 653.66
     }
