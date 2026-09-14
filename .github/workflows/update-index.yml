@@ -112,6 +112,15 @@ jobs:
         run: |
           python append_5y.py
 
+      - name: Compute cross-asset correlations
+        # Secondary display block: it must never take the four indices down with
+        # it. On failure the run stays green, yesterday's correlation files stay
+        # in place, the indices publish and the tweet goes out as usual — and the
+        # step still shows red in the log so the failure is not silent.
+        continue-on-error: true
+        run: |
+          python correlation.py
+
       - name: Collect ETF shares outstanding
         run: |
           python collect_shares.py
@@ -140,14 +149,14 @@ jobs:
       - name: Check for changes
         id: git-check
         run: |
-          git diff --exit-code data/gold-fear-greed.json data/stocks-fear-greed.json data/crypto-fear-greed.json data/bonds-fear-greed.json data/previous-labels.json data/previous-scores.json data/etf-shares.json data/history-5y-gold.json data/history-5y-stocks.json data/history-5y-crypto.json data/history-5y-bonds.json data/market-summary.json og-home.png og-gold.png og-bonds.png og-stocks.png og-crypto.png index.html sitemap.xml || echo "changed=true" >> $GITHUB_OUTPUT
+          git diff --exit-code data/gold-fear-greed.json data/stocks-fear-greed.json data/crypto-fear-greed.json data/bonds-fear-greed.json data/previous-labels.json data/previous-scores.json data/etf-shares.json data/history-5y-gold.json data/history-5y-stocks.json data/history-5y-crypto.json data/history-5y-bonds.json data/market-summary.json data/correlations-gold.json data/correlations-stocks.json data/correlations-bonds.json data/correlations-crypto.json og-home.png og-gold.png og-bonds.png og-stocks.png og-crypto.png index.html sitemap.xml || echo "changed=true" >> $GITHUB_OUTPUT
 
       - name: Commit and push changes
         if: steps.git-check.outputs.changed == 'true'
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add data/gold-fear-greed.json data/stocks-fear-greed.json data/crypto-fear-greed.json data/bonds-fear-greed.json data/previous-labels.json data/previous-scores.json data/etf-shares.json data/history-5y-gold.json data/history-5y-stocks.json data/history-5y-crypto.json data/history-5y-bonds.json data/market-summary.json og-home.png og-gold.png og-bonds.png og-stocks.png og-crypto.png index.html sitemap.xml
+          git add data/gold-fear-greed.json data/stocks-fear-greed.json data/crypto-fear-greed.json data/bonds-fear-greed.json data/previous-labels.json data/previous-scores.json data/etf-shares.json data/history-5y-gold.json data/history-5y-stocks.json data/history-5y-crypto.json data/history-5y-bonds.json data/market-summary.json data/correlations-gold.json data/correlations-stocks.json data/correlations-bonds.json data/correlations-crypto.json og-home.png og-gold.png og-bonds.png og-stocks.png og-crypto.png index.html sitemap.xml
           git commit -m "Update Gold, Stocks, Crypto & Bonds Fear & Greed Indices - $(date -u '+%Y-%m-%d %H:%M UTC')"
           git push
 

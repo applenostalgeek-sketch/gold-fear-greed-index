@@ -57,6 +57,14 @@
         "mainEntity": [
             {
                 "@type": "Question",
+                "name": "How is \u201cMoving With The Market\u201d calculated?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "It compares the daily price moves of stocks and one other index over the last 90 trading days \u2014 about a quarter. The percentage is the share of their movement that goes together: 30% means roughly a third of what one did on a given day is echoed in the other. Weekends and market holidays are left out, since gold, stocks and bonds do not trade then while crypto does. \u201cUsually\u201d is the median of that same figure across five years of history, so it says whether today is ordinary for this pair or not. The direction matters as much as the size: two indices can be strongly linked while moving in opposite directions \u2014 which is what a hedge against stocks is supposed to do."
+                }
+            },
+            {
+                "@type": "Question",
                 "name": "What does the Stock Market Fear & Greed Index measure?",
                 "acceptedAnswer": {
                     "@type": "Answer",
@@ -103,6 +111,66 @@
     <link rel="stylesheet" href="gauge.css?v=1">
     <style>
         :root { --asset-color: #4A90E2; }
+    /* --- MAQUETTE : bulles chevauchantes, 3 couples --- */
+.beta-tag {
+    font-size: 0.55rem; font-weight: 700; text-transform: uppercase;
+    background: #8b5cf6; color: #fff; padding: 1px 5px; border-radius: 3px;
+    vertical-align: middle; margin-left: 8px;
+}
+
+.cmbar-section { margin:60px 0; }
+.cmbar-section h2 { font-size:1.5rem; font-weight:600; margin-bottom:20px; color:#fff; }
+.bub { padding:clamp(14px,2.4vw,20px) clamp(10px,2vw,16px) clamp(10px,2vw,14px); }
+/* Meme apparence que .chart-toggle-btn, mais PAS la meme classe : asset-chart.js
+   attache ses ecouteurs a .chart-toggle-btn et piloterait les series du graphique
+   historique si on la reutilisait ici. */
+.cmp-tabs { display:flex; gap:8px; flex-wrap:wrap; margin-bottom:14px; }
+.cmp-btn { display:flex; align-items:center; gap:6px; padding:6px 12px; border-radius:20px;
+           border:1px solid #1a1a1a; background:transparent; color:#555;
+           font-family:inherit; font-size:0.75rem; font-weight:600; cursor:pointer;
+           transition:all 0.2s ease; }
+.cmp-btn.active { border-color:var(--vs-color); color:var(--vs-color);
+                  background:color-mix(in srgb, var(--vs-color) 8%, transparent); }
+.cmp-dot { width:7px; height:7px; border-radius:50%; background:var(--vs-color); opacity:0.4; }
+.cmp-btn.active .cmp-dot { opacity:1; }
+
+.bub-stage { position:relative; }
+.bub-svg { width:100%; height:clamp(170px,26vw,210px); display:block; }
+/* Deux disques ecartes symetriquement ; l'aire commune vaut exactement r2.
+   La lentille est dessinee explicitement (intersection par clip) parce que r2
+   ignore le signe : +0.44 et -0.44 donnent la meme image. En negatif l'actif ne
+   suit pas, il contrebalance — hachures froides et libelle explicite.
+   Le clip suit le disque de droite, qui se deplace lui aussi. */
+.bub-asset{ fill:color-mix(in srgb,var(--asset-color) 22%,transparent);
+            stroke:var(--asset-color); stroke-width:1.5; }
+.bub-other{ fill:color-mix(in srgb,var(--vs-color,#8b93a5) 16%,transparent);
+            stroke:var(--vs-color,#8b93a5); stroke-width:1.5; }
+.bub-lens { fill:color-mix(in srgb,var(--asset-color) 46%,transparent); stroke:none; }
+.bub.neg .bub-lens { fill:url(#hatch); }
+.bub.neg .bub-asset { stroke:#7fb0c4; fill:rgba(127,176,196,0.14); }
+.bub.neg .bub-la { fill:#7fb0c4; }
+.bub-la { fill:var(--asset-color); font-size:12px; font-weight:600; text-anchor:middle;
+          font-family:-apple-system,BlinkMacSystemFont,sans-serif; }
+.bub-lm { fill:var(--vs-color,#8b93a5); font-size:12px; font-weight:600; text-anchor:middle;
+          font-family:-apple-system,BlinkMacSystemFont,sans-serif; }
+.bub-read { position:absolute; left:50%; top:6px; transform:translateX(-50%);
+            font-size:0.72rem; color:#8b90a0; white-space:nowrap; }
+.bub-read b { color:#fff; font-size:1rem; }
+.bub-read .usual { color:#5c6170; }
+.bub.neg .bub-read b { color:#7fb0c4; }
+.bub-ctrl { display:flex; align-items:center; gap:12px; margin-top:6px; }
+.bub-play { flex:0 0 30px; width:30px; height:30px; border-radius:50%; cursor:pointer;
+            background:transparent; color:var(--asset-color); font-size:0.7rem;
+            border:1px solid color-mix(in srgb,var(--asset-color) 34%,transparent); }
+.bub-range { flex:1; accent-color:var(--asset-color); }
+.bub-date { flex:0 0 84px; text-align:right; font-size:0.7rem; color:#6b7183; }
+.bub-legend { display:flex; gap:16px; align-items:baseline; margin-top:8px;
+              font-size:0.64rem; color:#5c6170; }
+#bubUsual { color:#6b7183; }
+.bub-hint { margin-left:auto; }
+@media (max-width:520px){ .cmbar-section h2{font-size:1.25rem;} .bub-hint{display:none;}
+                          .bub-read{font-size:0.66rem;} .cmp-btn{font-size:0.7rem;padding:5px 10px;} }
+
     </style>
 </head>
 <body>
@@ -213,6 +281,48 @@
             </div>
         </section>
 
+        <!-- MAQUETTE : bulles chevauchantes, 3 couples (aperçu local) -->
+        <section class="cmbar-section">
+            <h2>Moving With The Market <span class="beta-tag">Beta</span></h2>
+            <div class="mrows">
+                <div class="bub" id="bubRoot">
+                    <div class="cmp-tabs">
+                        <button class="cmp-btn" data-vs="gold" style="--vs-color:#FFD700;">
+                            <span class="cmp-dot"></span>vs Gold</button>
+                        <button class="cmp-btn active" data-vs="bonds" style="--vs-color:#10b981;">
+                            <span class="cmp-dot"></span>vs Bonds</button>
+                        <button class="cmp-btn" data-vs="crypto" style="--vs-color:#F7931A;">
+                            <span class="cmp-dot"></span>vs Crypto</button>
+                        </div>
+                    <div class="bub-stage">
+                        <svg viewBox="0 0 400 200" class="bub-svg">
+                            <defs>
+                                <clipPath id="mktClip"><circle id="clipC" cx="200" cy="100" r="62"/></clipPath>
+                                <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse"
+                                         patternTransform="rotate(45)">
+                                    <rect width="6" height="6" fill="rgba(127,176,196,0.18)"/>
+                                    <line x1="0" y1="0" x2="0" y2="6" stroke="#7fb0c4" stroke-width="1.6"/>
+                                </pattern>
+                            </defs>
+                            <circle class="bub-other" id="bubOther" cx="200" cy="100" r="62"/>
+                            <circle class="bub-asset" id="bubAsset" cx="200" cy="100" r="62"/>
+                            <circle class="bub-lens"  id="bubLens"  cx="200" cy="100" r="62"
+                                    clip-path="url(#mktClip)"/>
+                            <text class="bub-la" id="bubLabel" x="200" y="104">Stocks</text>
+                            <text class="bub-lm" id="bubOlab"  x="200" y="104">Bonds</text>
+                        </svg>
+                        <div class="bub-read"><b id="bubOv">–</b> <span id="bubWay">–</span></div>
+                    </div>
+                    <div class="bub-ctrl">
+                        <button id="bubPlay" class="bub-play" aria-label="Play">▶</button>
+                        <input id="bubRange" class="bub-range" type="range" min="0" max="0" value="0">
+                        <span id="bubDate" class="bub-date">–</span>
+                    </div>
+                    <div class="bub-legend"><span id="bubUsual"></span>
+                        <span class="bub-hint">drag to rewind 12 months</span></div>
+                </div>
+            </div>
+        </section>
         <section class="history-section">
             <h2>Historical Trend</h2>
             <div class="chart-wrapper">
@@ -384,6 +494,14 @@
                 </summary>
                 <div class="faq-body">
 
+            <h3>How is &ldquo;Moving With The Market&rdquo; calculated?</h3>
+            <p>
+                It compares the daily price moves of stocks and one other index over the last 90 trading days &mdash; about a quarter. The percentage is the share of their movement that goes together: 30% means roughly a third of what one did on a given day is echoed in the other. Weekends and market holidays are left out, since gold, stocks and bonds do not trade then while crypto does.
+            </p>
+            <p>
+                &ldquo;Usually&rdquo; is the median of that same figure across five years of history, so it says whether today is ordinary for this pair or not. The direction matters as much as the size: two indices can be strongly linked while moving in opposite directions &mdash; which is what a hedge against stocks is supposed to do.
+            </p>
+
             <h3>What does the Stock Market Fear &amp; Greed Index measure?</h3>
             <p>
                 The Stocks Fear &amp; Greed Index uses 7 components: Price Strength (20%), VIX (20%), Momentum (15%), Market Participation (15%), Junk Bond Demand (10%), Safe Haven Demand (10%), and Sector Rotation (10%). It combines technical, volatility, breadth, and cross-asset signals to capture stock market sentiment.
@@ -435,5 +553,63 @@
     <script src="alert-signup.js"></script>
     <script src="cta-asset.js"></script>
     <script src="market-rows.js?v=1"></script>
+
+    <script>
+    (function(){
+      const COL={"gold": "#FFD700", "bonds": "#10b981", "crypto": "#F7931A"}, LAB={"gold": "Gold", "bonds": "Bonds", "crypto": "Crypto"};
+      const CX=200, R=62;
+      const root=document.getElementById('bubRoot'),
+            g=document.getElementById('bubAsset'), o=document.getElementById('bubOther'),
+            lens=document.getElementById('bubLens'), clipC=document.getElementById('clipC'),
+            la=document.getElementById('bubLabel'), ol=document.getElementById('bubOlab'),
+            ov=document.getElementById('bubOv'), way=document.getElementById('bubWay'),
+            us=document.getElementById('bubUsual'), dt=document.getElementById('bubDate'),
+            rg=document.getElementById('bubRange'), pl=document.getElementById('bubPlay');
+      let DATA=null, vs='bonds', timer=null;
+      function render(i){
+        if(!DATA) return;
+        const F=DATA[vs], f=F.frames[i], half=f.gap*R/2;
+        const ax=CX-half, mx=CX+half;
+        g.setAttribute('cx',ax); la.setAttribute('x',ax); lens.setAttribute('cx',ax);
+        o.setAttribute('cx',mx); ol.setAttribute('x',mx); clipC.setAttribute('cx',mx);
+        root.classList.toggle('neg', f.sign<0);
+        ov.textContent=f.ov.toFixed(0)+'% shared —';
+        way.textContent = f.sign>0 ? 'in the same direction' : 'in OPPOSITE directions';
+        us.textContent='over the past 90 trading days · usually '+F.ov_med.toFixed(0)
+                       +'% across five years, '+F.usual_way;
+        dt.textContent=f.d;
+      }
+      function setVs(k){
+        if(!DATA) return;
+        vs=k; root.style.setProperty('--vs-color', COL[k]); ol.textContent=LAB[k];
+        rg.max=DATA[k].frames.length-1; rg.value=DATA[k].frames.length-1;
+        if(timer){ clearInterval(timer); timer=null; pl.textContent='▶'; }
+        render(DATA[k].frames.length-1);
+      }
+      document.querySelectorAll('.cmp-btn').forEach(b=>b.addEventListener('click',()=>{
+        document.querySelectorAll('.cmp-btn').forEach(x=>x.classList.remove('active'));
+        b.classList.add('active'); setVs(b.dataset.vs);
+      }));
+      rg.addEventListener('input', ()=>render(+rg.value));
+      pl.addEventListener('click', ()=>{
+        if(timer){ clearInterval(timer); timer=null; pl.textContent='▶'; return; }
+        pl.textContent='❚❚'; let i=0; rg.value=0; render(0);
+        timer=setInterval(()=>{
+          i++; const n=DATA[vs].frames.length;
+          if(i>=n){ clearInterval(timer); timer=null; pl.textContent='▶'; return; }
+          rg.value=i; render(i);
+        }, 28);
+      });
+      /* Les valeurs viennent du fichier recalcule chaque matin par correlation.py :
+         les douze mois d'images, la lecture du jour ET la normale sur cinq ans.
+         Rien n'est fige dans la page. Si le fichier manque, la section disparait
+         plutot que d'afficher des chiffres perimes. */
+      fetch('data/correlations-stocks.json')
+        .then(r => r.json())
+        .then(J => { DATA = J.pairs; setVs('bonds'); })
+        .catch(() => { const s = document.querySelector('.cmbar-section');
+                       if (s) s.style.display = 'none'; });
+    })();
+    </script>
 </body>
 </html>
