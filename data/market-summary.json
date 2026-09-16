@@ -1,29 +1,29 @@
 {
-  "date": "2026-09-15",
-  "timestamp": "2026-09-15T07:40:01Z",
-  "session": "2026-09-14",
+  "date": "2026-09-16",
+  "timestamp": "2026-09-16T07:37:52Z",
+  "session": "2026-09-15",
   "is_new": true,
-  "summary": "Monday's session stayed tethered to rates: 10-year real yields held near 2.6%, above their recent average, and a firm dollar near 99.6 pushed gold to a two-week low and kept Treasury duration under pressure. Equity gains stayed narrow as defensive staples lagged growth, while bitcoin's 30-day rally cooled on thinning volume.",
-  "tweet": "Elevated real yields and a firm dollar pressured gold and bonds Monday, while thin equity breadth and cooling crypto momentum kept sentiment mixed.",
+  "summary": "Tuesday's close leaned risk-off across the board: 10-year real yields held near 2.6%, keeping pressure on both gold and Treasuries, while the S&P slipped below its 50-day average on sharply weaker breadth (equal-weight down 3.7% vs cap-weight's 1.1%). Bitcoin's 30-day rally lost steam as volume thinned, even with prices still up double digits for the month.",
+  "tweet": "Elevated real yields and a stalled dollar kept gold and bonds under pressure Tuesday, while equity breadth cracked and bitcoin's rally cooled on thin volume.",
   "scores": {
     "gold": {
-      "score": 34.3,
+      "score": 36.2,
       "label": "Fear"
     },
     "stocks": {
-      "score": 53.7,
+      "score": 50.8,
       "label": "Neutral"
     },
     "crypto": {
-      "score": 68.4,
+      "score": 65.2,
       "label": "Greed"
     },
     "bonds": {
-      "score": 44.8,
+      "score": 40.6,
       "label": "Fear"
     },
     "sentiment": {
-      "score": 50.3,
+      "score": 48.2,
       "label": "Neutral"
     }
   }
