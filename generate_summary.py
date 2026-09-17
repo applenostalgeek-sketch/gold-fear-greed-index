@@ -13,14 +13,17 @@ from datetime import datetime, timezone, timedelta
 
 
 # Output cap for the context call. Headroom, not a target — only generated
-# tokens are billed. Sonnet 5 runs adaptive thinking by default (omitting
-# `thinking` does NOT turn it off) and those tokens are billed too, which is
-# why the visible answer (~165 tokens: a 450-char summary + a 220-char tweet)
-# is a small fraction of what a run reports. Measured 2026-09-04: 4626 output
-# tokens with stop_reason=end_turn — the reported total covers every internal
-# iteration of the web-search loop, so it can exceed this cap without the
-# response being truncated.
-MAX_TOKENS = 4000
+# tokens are billed, so raising it costs nothing on the runs that already fit.
+# It applies per internal iteration of the web-search loop, NOT to the whole
+# turn: runs routinely report 8000+ output tokens in total and still finish on
+# end_turn. Observed over 20 days: 3303, 4056, 4704, 4733, 5960, 8162, 8882 —
+# and on 2026-09-17 a single iteration blew past 4000, the response was cut
+# before it could write SUMMARY:, and the site published the canned fallback
+# with no tweet. 16000 is the documented default for a non-streamed request.
+# Sonnet 5 also runs adaptive thinking by default, and those tokens are billed
+# and counted here even though their text is never returned, which is why the
+# visible answer (~165 tokens) is a small fraction of what a run reports.
+MAX_TOKENS = 16000
 
 COMPONENT_NAMES = {
     'Gold': {
