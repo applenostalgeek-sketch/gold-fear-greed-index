@@ -1,29 +1,29 @@
 {
-  "date": "2026-09-17",
-  "timestamp": "2026-09-17T07:38:52Z",
-  "session": "2026-09-16",
+  "date": "2026-09-18",
+  "timestamp": "2026-09-18T07:23:10Z",
+  "session": "2026-09-17",
   "is_new": true,
-  "summary": "Stocks show weak momentum with narrow market participation.",
-  "tweet": null,
+  "summary": "Real 10-year yields pushed toward the top of their recent range and the dollar index held above its 30-day average Thursday, keeping pressure on gold even as calm volatility left equities range-bound. Narrow participation, with the average stock lagging the S&P, kept breadth thin beneath a still-orderly surface.",
+  "tweet": "Firmer real yields and a stronger dollar weighed on gold Thursday while low volatility masked thin, narrow-breadth equity gains.",
   "scores": {
     "gold": {
-      "score": 31.5,
+      "score": 38.7,
       "label": "Fear"
     },
     "stocks": {
-      "score": 49.0,
+      "score": 51.5,
       "label": "Neutral"
     },
     "crypto": {
-      "score": 66.4,
+      "score": 64.9,
       "label": "Greed"
     },
     "bonds": {
-      "score": 41.3,
+      "score": 45.3,
       "label": "Fear"
     },
     "sentiment": {
-      "score": 47.0,
+      "score": 50.1,
       "label": "Neutral"
     }
   }
