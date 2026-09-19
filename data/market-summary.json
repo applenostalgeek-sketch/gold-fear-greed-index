@@ -1,29 +1,29 @@
 {
-  "date": "2026-09-18",
-  "timestamp": "2026-09-18T07:23:10Z",
-  "session": "2026-09-17",
+  "date": "2026-09-19",
+  "timestamp": "2026-09-19T07:20:25Z",
+  "session": "2026-09-18",
   "is_new": true,
-  "summary": "Real 10-year yields pushed toward the top of their recent range and the dollar index held above its 30-day average Thursday, keeping pressure on gold even as calm volatility left equities range-bound. Narrow participation, with the average stock lagging the S&P, kept breadth thin beneath a still-orderly surface.",
-  "tweet": "Firmer real yields and a stronger dollar weighed on gold Thursday while low volatility masked thin, narrow-breadth equity gains.",
+  "summary": "Stocks closed broadly higher into quarterly options expiration Friday, with the Dow up 0.6% to 51,778.04 as all three major benchmarks finished in the green, though gains stayed concentrated in mega-cap tech. Firm real yields and a resilient dollar kept gold pinned near recent lows, while calm volatility left broader sentiment little changed into the weekend.",
+  "tweet": "Dow closed up 0.6% to 51,778 on quad-witching Friday as tech led narrow gains, while firm real yields and a strong dollar kept gold under pressure.",
   "scores": {
     "gold": {
-      "score": 38.7,
+      "score": 38.3,
       "label": "Fear"
     },
     "stocks": {
-      "score": 51.5,
+      "score": 52.7,
       "label": "Neutral"
     },
     "crypto": {
-      "score": 64.9,
+      "score": 63.4,
       "label": "Greed"
     },
     "bonds": {
-      "score": 45.3,
+      "score": 42.6,
       "label": "Fear"
     },
     "sentiment": {
-      "score": 50.1,
+      "score": 49.2,
       "label": "Neutral"
     }
   }
