@@ -1,8 +1,8 @@
 {
-  "date": "2026-09-19",
-  "timestamp": "2026-09-19T07:20:25Z",
-  "session": "2026-09-18",
-  "is_new": true,
+  "date": "2026-09-20",
+  "timestamp": "2026-09-20T07:42:45Z",
+  "session": "2026-09-19",
+  "is_new": false,
   "summary": "Stocks closed broadly higher into quarterly options expiration Friday, with the Dow up 0.6% to 51,778.04 as all three major benchmarks finished in the green, though gains stayed concentrated in mega-cap tech. Firm real yields and a resilient dollar kept gold pinned near recent lows, while calm volatility left broader sentiment little changed into the weekend.",
   "tweet": "Dow closed up 0.6% to 51,778 on quad-witching Friday as tech led narrow gains, while firm real yields and a strong dollar kept gold under pressure.",
   "scores": {
@@ -15,7 +15,7 @@
       "label": "Neutral"
     },
     "crypto": {
-      "score": 63.4,
+      "score": 58.1,
       "label": "Greed"
     },
     "bonds": {
@@ -23,7 +23,7 @@
       "label": "Fear"
     },
     "sentiment": {
-      "score": 49.2,
+      "score": 47.9,
       "label": "Neutral"
     }
   }
