@@ -1,29 +1,29 @@
 {
-  "date": "2026-09-21",
-  "timestamp": "2026-09-21T07:54:39Z",
-  "session": "2026-09-20",
-  "is_new": false,
-  "summary": "Stocks closed broadly higher into quarterly options expiration Friday, with the Dow up 0.6% to 51,778.04 as all three major benchmarks finished in the green, though gains stayed concentrated in mega-cap tech. Firm real yields and a resilient dollar kept gold pinned near recent lows, while calm volatility left broader sentiment little changed into the weekend.",
-  "tweet": "Dow closed up 0.6% to 51,778 on quad-witching Friday as tech led narrow gains, while firm real yields and a strong dollar kept gold under pressure.",
+  "date": "2026-09-22",
+  "timestamp": "2026-09-22T07:43:20Z",
+  "session": "2026-09-21",
+  "is_new": true,
+  "summary": "Monday's rally was a chip story: the Nasdaq Composite posted its first record close since June, with shares of Intel popping 12%, while Advanced Micro Devices added about 10% and hit $1 trillion in market cap, pushing Stocks into Greed even as breadth stayed narrow and tech-led.",
+  "tweet": "Intel +12%, AMD tops $1T market cap: chip stocks drove the Nasdaq to a record close Monday, while fading Mideast tensions pulled yields down and left gold in Fear.",
   "scores": {
     "gold": {
-      "score": 38.5,
+      "score": 40.3,
       "label": "Fear"
     },
     "stocks": {
-      "score": 52.6,
-      "label": "Neutral"
+      "score": 56.2,
+      "label": "Greed"
     },
     "crypto": {
-      "score": 61.2,
+      "score": 60.6,
       "label": "Greed"
     },
     "bonds": {
-      "score": 42.6,
+      "score": 44.0,
       "label": "Fear"
     },
     "sentiment": {
-      "score": 48.7,
+      "score": 50.3,
       "label": "Neutral"
     }
   }
