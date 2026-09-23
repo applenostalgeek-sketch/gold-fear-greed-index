@@ -1,29 +1,29 @@
 {
-  "date": "2026-09-22",
-  "timestamp": "2026-09-22T07:43:20Z",
-  "session": "2026-09-21",
+  "date": "2026-09-23",
+  "timestamp": "2026-09-23T07:42:13Z",
+  "session": "2026-09-22",
   "is_new": true,
-  "summary": "Monday's rally was a chip story: the Nasdaq Composite posted its first record close since June, with shares of Intel popping 12%, while Advanced Micro Devices added about 10% and hit $1 trillion in market cap, pushing Stocks into Greed even as breadth stayed narrow and tech-led.",
-  "tweet": "Intel +12%, AMD tops $1T market cap: chip stocks drove the Nasdaq to a record close Monday, while fading Mideast tensions pulled yields down and left gold in Fear.",
+  "summary": "Tuesday's session extended the tech-led rotation, with megacap growth names driving gains while defensive sectors and small caps lagged, keeping breadth thin under the surface. A firmer dollar and elevated real yields kept pressure on gold even as equities and crypto held onto recent strength.",
+  "tweet": "Tech kept carrying stocks Tuesday while a stronger dollar and higher real yields kept gold on the back foot.",
   "scores": {
     "gold": {
-      "score": 40.3,
+      "score": 37.4,
       "label": "Fear"
     },
     "stocks": {
-      "score": 56.2,
+      "score": 56.6,
       "label": "Greed"
     },
     "crypto": {
-      "score": 60.6,
+      "score": 61.1,
       "label": "Greed"
     },
     "bonds": {
-      "score": 44.0,
+      "score": 44.4,
       "label": "Fear"
     },
     "sentiment": {
-      "score": 50.3,
+      "score": 49.9,
       "label": "Neutral"
     }
   }
