@@ -1,29 +1,29 @@
 {
-  "date": "2026-09-25",
-  "timestamp": "2026-09-25T07:43:21Z",
-  "session": "2026-09-24",
+  "date": "2026-09-26",
+  "timestamp": "2026-09-26T07:33:45Z",
+  "session": "2026-09-25",
   "is_new": true,
-  "summary": "Thursday's close was driven by a Fed official pushing for another rate hike, sending Treasury yields toward 19-year highs. That hammered long bonds and lifted the dollar, pressuring gold to fresh monthly lows on inflation worries, while equity gains stayed concentrated in tech as broader breadth lagged sharply.",
-  "tweet": "Hawkish Fed talk drove yields to 19-year highs, hammering bonds and gold while tech masked thin equity breadth.",
+  "summary": "Elevated real yields (TIPS 10Y at 2.85%) and a firmer dollar (DXY near 101, +2.2% over two weeks) kept pressuring gold to fresh lows below its 50-day average. Equities held in greed as low volatility and a tech-led rally in QQQ masked notably weak breadth, while the TLT selloff deepened bond-market duration stress.",
+  "tweet": "Sticky real yields and dollar strength kept gold in fear and bonds under pressure, while a narrow tech-led rally kept stocks in greed despite weak breadth.",
   "scores": {
     "gold": {
-      "score": 32.7,
+      "score": 33.9,
       "label": "Fear"
     },
     "stocks": {
-      "score": 55.5,
+      "score": 59.4,
       "label": "Greed"
     },
     "crypto": {
-      "score": 57.0,
+      "score": 60.6,
       "label": "Greed"
     },
     "bonds": {
-      "score": 35.7,
+      "score": 33.7,
       "label": "Fear"
     },
     "sentiment": {
-      "score": 45.2,
+      "score": 46.9,
       "label": "Neutral"
     }
   }
