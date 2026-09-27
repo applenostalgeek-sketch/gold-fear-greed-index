@@ -91,22 +91,41 @@ jobs:
       - name: Run Gold index calculation
         env:
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+          ALPHAVANTAGE_API_KEY: ${{ secrets.ALPHAVANTAGE_API_KEY }}
         run: |
           python gold_fear_greed.py
 
       - name: Run Stocks index calculation
+        env:
+          ALPHAVANTAGE_API_KEY: ${{ secrets.ALPHAVANTAGE_API_KEY }}
         run: |
           python stocks_fear_greed.py
 
       - name: Run Crypto index calculation
+        env:
+          ALPHAVANTAGE_API_KEY: ${{ secrets.ALPHAVANTAGE_API_KEY }}
         run: |
           python crypto_fear_greed.py
 
       - name: Run Bonds index calculation
         env:
           FRED_API_KEY: ${{ secrets.FRED_API_KEY }}
+          ALPHAVANTAGE_API_KEY: ${{ secrets.ALPHAVANTAGE_API_KEY }}
         run: |
           python bonds_fear_greed.py
+
+      - name: Mail the owner about data incidents
+        # One mail listing every fallback the four scripts needed today (price
+        # from Alpha Vantage, price held from yesterday, providers disagreeing).
+        # Nothing to report, nothing sent. It runs even if an index step failed,
+        # and can never fail the run itself.
+        if: always()
+        continue-on-error: true
+        env:
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+          WATCHDOG_EMAIL: ${{ secrets.WATCHDOG_EMAIL }}
+        run: |
+          python incidents.py
 
       - name: Append daily scores to 5Y history
         run: |

@@ -50,6 +50,21 @@ def clean_hist(hist, ticker=None):
     return hist
 
 
+def yahoo_price(ticker):
+    """Latest close from Yahoo alone, or None.
+
+    This is the price fetch as it stood before price_source.py: kept as the
+    fallback if that module fails, and as its second try on a bad Yahoo day.
+    """
+    try:
+        ph = clean_hist(yf.Ticker(ticker).history(period="5d"), ticker)
+        if ph.empty:
+            return None
+        return round(float(ph['Close'].iloc[-1]), 2)
+    except Exception:
+        return None
+
+
 def sanitize_for_json(obj):
     """Replace float NaN/Inf with None for valid JSON output."""
     if isinstance(obj, float) and (math.isnan(obj) or math.isinf(obj)):
@@ -591,16 +606,14 @@ class StocksFearGreedIndex:
                         if not self.score:
                             self.calculate_index()
                         score = self.score
-                        # Fetch today's SPY price
+                        # Fetch today's SPY price: Yahoo, then Alpha Vantage, then the last
+                        # published one (price_source.py). If that module fails in any way, the
+                        # Yahoo-only fetch it replaced runs exactly as before.
                         try:
-                            spy = yf.Ticker("SPY")
-                            ph = clean_hist(spy.history(period="5d"), "SPY")
-                            if ph.empty:
-                                price = None
-                            else:
-                                price = round(float(ph['Close'].iloc[-1]), 2)
+                            from price_source import price_for_today
+                            price = price_for_today('stocks', lambda: yahoo_price("SPY"))
                         except Exception:
-                            price = None
+                            price = yahoo_price("SPY")
                     else:
                         score, price = self.calculate_simple_historical_score(
                             datetime.combine(historical_date, datetime.min.time())
@@ -621,16 +634,14 @@ class StocksFearGreedIndex:
                 # Incremental update: only add today's score
                 print(f"📊 Updating index for {today_str}...")
 
-                # Fetch today's SPY price
+                # Fetch today's SPY price: Yahoo, then Alpha Vantage, then the last
+                # published one (price_source.py). If that module fails in any way, the
+                # Yahoo-only fetch it replaced runs exactly as before.
                 try:
-                    spy = yf.Ticker("SPY")
-                    ph = clean_hist(spy.history(period="5d"), "SPY")
-                    if ph.empty:
-                        today_price = None
-                    else:
-                        today_price = round(float(ph['Close'].iloc[-1]), 2)
+                    from price_source import price_for_today
+                    today_price = price_for_today('stocks', lambda: yahoo_price("SPY"))
                 except Exception:
-                    today_price = None
+                    today_price = yahoo_price("SPY")
 
                 # Update or add today's score
                 history_dict[today_str] = {'score': self.score, 'price': today_price}
