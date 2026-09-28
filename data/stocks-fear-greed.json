@@ -1,7 +1,7 @@
 {
-  "score": 59.4,
+  "score": 58.5,
   "label": "Greed",
-  "timestamp": "2026-09-27T08:01:11Z",
+  "timestamp": "2026-09-28T08:37:28Z",
   "components": {
     "price_strength": {
       "score": 57.6,
@@ -9,9 +9,9 @@
       "detail": "SPY +1.0% 14d"
     },
     "vix": {
-      "score": 74.4,
+      "score": 70.2,
       "weight": 0.2,
-      "detail": "VIX: 14.9 vs avg: 16.2"
+      "detail": "VIX: 16.2 vs avg: 16.1"
     },
     "momentum": {
       "score": 59.3,
@@ -40,6 +40,11 @@
     }
   },
   "history": [
+    {
+      "date": "2026-09-28",
+      "score": 58.5,
+      "price": 771.35
+    },
     {
       "date": "2026-09-27",
       "score": 59.4,
@@ -1859,11 +1864,6 @@
       "date": "2025-09-29",
       "score": 61.7,
       "price": 661.72
-    },
-    {
-      "date": "2025-09-28",
-      "score": 62.1,
-      "price": 659.87
     }
   ]
 }

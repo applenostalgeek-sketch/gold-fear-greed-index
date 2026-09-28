@@ -1,21 +1,21 @@
 {
-  "date": "2026-09-27",
-  "timestamp": "2026-09-27T08:01:25Z",
-  "session": "2026-09-26",
-  "is_new": false,
-  "summary": "Elevated real yields (TIPS 10Y at 2.85%) and a firmer dollar (DXY near 101, +2.2% over two weeks) kept pressuring gold to fresh lows below its 50-day average. Equities held in greed as low volatility and a tech-led rally in QQQ masked notably weak breadth, while the TLT selloff deepened bond-market duration stress.",
-  "tweet": "Sticky real yields and dollar strength kept gold in fear and bonds under pressure, while a narrow tech-led rally kept stocks in greed despite weak breadth.",
+  "date": "2026-09-28",
+  "timestamp": "2026-09-28T08:40:47Z",
+  "session": "2026-09-27",
+  "is_new": true,
+  "summary": "Only crypto traded through Sunday's close: bitcoin held its 30-day uptrend near 6.7% gains and stayed comfortably above its 200-day average, though light weekend volume let ether outpace it. Stocks, bonds and gold simply carried Friday's levels, still pinned by a firmer dollar and elevated real yields that left gold oversold and bonds pressured by the TLT slide.",
+  "tweet": "Bitcoin was the only market open this weekend, extending its uptrend as ether outpaced it, while gold, bonds and stocks sat frozen at Friday's dollar-and-yield-pressured close.",
   "scores": {
     "gold": {
-      "score": 33.9,
+      "score": 36.4,
       "label": "Fear"
     },
     "stocks": {
-      "score": 59.4,
+      "score": 58.5,
       "label": "Greed"
     },
     "crypto": {
-      "score": 57.8,
+      "score": 57.2,
       "label": "Greed"
     },
     "bonds": {
@@ -23,7 +23,7 @@
       "label": "Fear"
     },
     "sentiment": {
-      "score": 46.2,
+      "score": 46.5,
       "label": "Neutral"
     }
   }
