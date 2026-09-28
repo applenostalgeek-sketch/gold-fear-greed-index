@@ -173,6 +173,16 @@ def published_price(asset):
     y_last = max(y) if y else None
     av_last = max(av) if av else None
 
+    # What the second provider said, for the log only. Without it, a day where
+    # Alpha Vantage silently stopped answering reads exactly like a day where
+    # it agreed: in both cases there is no note.
+    if not AV_KEY:
+        alpha = 'Alpha Vantage: no key'
+    elif not av:
+        alpha = 'Alpha Vantage: no answer'
+    else:
+        alpha = f'Alpha Vantage: answered up to {av_last}'
+
     # Yahoo answered, and is not behind the second provider.
     if y_last and (av_last is None or y_last >= av_last):
         note = ''
@@ -184,27 +194,28 @@ def published_price(asset):
             if common:
                 d = common[-1]
                 gap = 100 * abs(y[d] - av[d]) / av[d] if av[d] else 0.0
+                alpha = f'Alpha Vantage: {av[d]:.2f} on {d}, {gap:.2f}% apart'
                 if gap > CROSSCHECK_PCT:
                     note = (f'providers disagree on {d}: Yahoo {y[d]:.2f} vs '
                             f'Alpha Vantage {av[d]:.2f} ({gap:.2f}%)')
         return {'price': round(y[y_last], 2), 'source': 'yahoo', 'session': y_last,
-                'status': 'ok', 'note': note}
+                'status': 'ok', 'note': note, 'alpha': alpha}
 
     # Yahoo is missing or stale while the second provider has moved on.
     if av_last:
         why = 'Yahoo returned nothing' if not y_last else f'Yahoo stopped at {y_last}'
         return {'price': round(av[av_last], 2), 'source': 'alphavantage',
                 'session': av_last, 'status': 'fallback',
-                'note': f'{why}, used Alpha Vantage ({av_last})'}
+                'note': f'{why}, used Alpha Vantage ({av_last})', 'alpha': alpha}
 
     # Neither answered.
     price, when = _frozen_price(asset)
     if price is not None:
         return {'price': price, 'source': 'frozen', 'session': when, 'status': 'frozen',
-                'note': f'both providers failed, held the price of {when}'}
+                'note': f'both providers failed, held the price of {when}', 'alpha': alpha}
 
     return {'price': None, 'source': None, 'session': None, 'status': 'unavailable',
-            'note': 'both providers failed and no previous price was on file'}
+            'note': 'both providers failed and no previous price was on file', 'alpha': alpha}
 
 
 NAMES_FR = {'gold': 'Or', 'stocks': 'Actions', 'bonds': 'Obligations', 'crypto': 'Crypto'}
@@ -225,7 +236,7 @@ def price_for_today(asset, yahoo_only):
     if r['status'] in ('frozen', 'unavailable'):
         retry = yahoo_only()
         if retry is not None:
-            print(f"  💲 {asset}: {retry} from Yahoo on the second try")
+            print(f"  💲 {asset}: {retry} from Yahoo on the second try — {r.get('alpha', '')}")
             return retry
 
     # The mail is a courtesy: whatever goes wrong while reporting, the price
@@ -247,7 +258,7 @@ def price_for_today(asset, yahoo_only):
     except Exception as e:
         print(f"  (incident not reported: {e})")
 
-    print(f"  💲 {asset}: {r['price']} from {r['source']} ({r['session']})")
+    print(f"  💲 {asset}: {r['price']} from {r['source']} ({r['session']}) — {r.get('alpha', '')}")
     return r['price']
 
 
@@ -256,6 +267,6 @@ if __name__ == '__main__':
     for name in ASSETS:
         r = published_price(name)
         flag = {'ok': 'OK  ', 'fallback': 'FALL', 'frozen': 'FROZ', 'unavailable': 'FAIL'}[r['status']]
-        print(f"  [{flag}] {name:7s} {str(r['price']):>12}  {r['source'] or '-':13s} {r['session'] or '-'}")
+        print(f"  [{flag}] {name:7s} {str(r['price']):>12}  {r['source'] or '-':13s} {r['session'] or '-'}  {r['alpha']}")
         if r['note']:
             print(f"         -> {r['note']}")
