@@ -1,29 +1,29 @@
 {
-  "date": "2026-09-29",
-  "timestamp": "2026-09-29T08:23:08Z",
-  "session": "2026-09-28",
+  "date": "2026-09-30",
+  "timestamp": "2026-09-30T08:24:56Z",
+  "session": "2026-09-29",
   "is_new": true,
-  "summary": "Gold sank further into fear as a firmer dollar (DXY near 101.4, above its 30-day average) and elevated real yields (10Y TIPS at 2.83%) kept bullion oversold and dragged Treasuries lower, with TLT off 4.4% over two weeks. Risk appetite instead concentrated in crypto and mega-cap tech, leaving broader stock breadth thin even as headline indices held flat.",
-  "tweet": "A stronger dollar and rising real yields crushed gold and bonds Monday, while risk appetite rotated narrowly into crypto and big tech.",
+  "summary": "Real yields climbed to 2.90% on 10-year TIPS, well above trend, extending pressure on gold and long Treasuries even as the dollar held firm near multi-week highs. Equities stayed buoyant on narrow tech-led rotation (Nasdaq names outpacing staples) despite thin overall participation. Crypto's rally remained stretched, with momentum readings near overbought levels on cooling volume.",
+  "tweet": "Elevated real yields and a firm dollar kept gold and bonds under pressure Tuesday, while narrow tech-led gains propped up stocks and crypto stayed overbought on fading volume.",
   "scores": {
     "gold": {
-      "score": 27.9,
+      "score": 33.2,
       "label": "Fear"
     },
     "stocks": {
-      "score": 58.5,
+      "score": 59.4,
       "label": "Greed"
     },
     "crypto": {
-      "score": 61.4,
+      "score": 60.3,
       "label": "Greed"
     },
     "bonds": {
-      "score": 35.1,
+      "score": 34.7,
       "label": "Fear"
     },
     "sentiment": {
-      "score": 45.7,
+      "score": 46.9,
       "label": "Neutral"
     }
   }
