@@ -37,6 +37,9 @@ Run directly to see what both providers say right now:
 import json
 import math
 import os
+import socket
+import time
+import urllib.error
 import urllib.request
 from datetime import datetime, timezone
 
@@ -59,9 +62,18 @@ ASSETS = {
 # enough to catch a corrupted quote. Revisit once real daily pairs accumulate.
 CROSSCHECK_PCT = 0.5
 
-# Alpha Vantage answers in 0.13-0.46 s (measured 2026-09-27, six calls). Ten
-# seconds is twenty times the slowest; past it, Yahoo's answer stands alone.
-TIMEOUT = 10
+# Measured from a Mac, Alpha Vantage answered in 0.13-0.46 s on 2026-09-27 and
+# 0.3-3.6 s on 2026-09-29. But from GitHub on 2026-09-29, all four calls hit a
+# 10 s limit, and a cut-off call cannot say whether the answer was 2 s or two
+# minutes away. The same afternoon, from the Mac, eight calls took 3.0-25.8 s.
+# 45 s clears the slowest one seen, and lets the log record how long Alpha
+# Vantage really takes from the runner. It costs at most three minutes on a
+# day it hangs, which nothing waits on: the tweet simply follows later.
+TIMEOUT = 45
+
+# Why the last Alpha Vantage call for each asset gave what it gave, and how
+# long it took — for the log line only, never for a decision.
+_av_diag = {}
 
 
 def _av_series(asset):
@@ -69,6 +81,7 @@ def _av_series(asset):
 
     Never raises: a missing key, a rate limit, a network failure and a renamed
     field all mean the same thing to the caller — no second opinion today.
+    Which of them it was goes to _av_diag, so the log can tell them apart.
     """
     if not AV_KEY:
         return None
@@ -77,16 +90,39 @@ def _av_series(asset):
         url = f"{AV_URL}function={cfg['av_fn']}&symbol={cfg['av_sym']}&market=USD&apikey={AV_KEY}"
     else:
         url = f"{AV_URL}function={cfg['av_fn']}&symbol={cfg['av_sym']}&apikey={AV_KEY}"
+    start = time.monotonic()
+
+    def fail(reason):
+        # The reason never includes the URL: it carries the API key.
+        _av_diag[asset] = (reason, time.monotonic() - start)
+        return None
+
     try:
         req = urllib.request.Request(url, headers={'User-Agent': 'onoff.markets'})
-        payload = json.loads(urllib.request.urlopen(req, timeout=TIMEOUT).read().decode())
-    except Exception:
-        return None
+        body = urllib.request.urlopen(req, timeout=TIMEOUT).read().decode()
+    except urllib.error.HTTPError as e:
+        return fail(f'HTTP {e.code}')
+    except (socket.timeout, TimeoutError):
+        return fail('timeout')
+    except urllib.error.URLError as e:
+        if isinstance(e.reason, (socket.timeout, TimeoutError)):
+            return fail('timeout')
+        return fail(f'network error: {type(e.reason).__name__}')
+    except Exception as e:
+        return fail(f'error: {type(e).__name__}')
+    try:
+        payload = json.loads(body)
+    except ValueError:
+        return fail('unreadable reply')
     # The free tier answers a rate limit with HTTP 200 and an "Information"
     # note instead of the series, so a missing key matters more than a status.
     keys = [k for k in payload if 'Time Series' in k or 'Digital Currency' in k]
     if not keys:
-        return None
+        if 'Information' in payload or 'Note' in payload:
+            return fail('rate limit or plan notice')
+        if 'Error Message' in payload:
+            return fail('rejected: ' + str(payload['Error Message'])[:60])
+        return fail('no series in reply')
     out = {}
     for day, fields in payload[keys[0]].items():
         close = [v for k, v in fields.items() if 'close' in k.lower()]
@@ -95,7 +131,10 @@ def _av_series(asset):
                 out[day] = float(close[0])
             except (TypeError, ValueError):
                 pass
-    return out or None
+    if not out:
+        return fail('empty series')
+    _av_diag[asset] = ('ok', time.monotonic() - start)
+    return out
 
 
 def _yahoo_series(asset):
@@ -176,12 +215,14 @@ def published_price(asset):
     # What the second provider said, for the log only. Without it, a day where
     # Alpha Vantage silently stopped answering reads exactly like a day where
     # it agreed: in both cases there is no note.
+    reason, took = _av_diag.get(asset, ('', None))
+    took = f' ({took:.1f} s)' if took is not None else ''
     if not AV_KEY:
         alpha = 'Alpha Vantage: no key'
     elif not av:
-        alpha = 'Alpha Vantage: no answer'
+        alpha = f"Alpha Vantage: no answer{' — ' + reason if reason else ''}{took}"
     else:
-        alpha = f'Alpha Vantage: answered up to {av_last}'
+        alpha = f'Alpha Vantage: answered up to {av_last}{took}'
 
     # Yahoo answered, and is not behind the second provider.
     if y_last and (av_last is None or y_last >= av_last):
@@ -194,7 +235,7 @@ def published_price(asset):
             if common:
                 d = common[-1]
                 gap = 100 * abs(y[d] - av[d]) / av[d] if av[d] else 0.0
-                alpha = f'Alpha Vantage: {av[d]:.2f} on {d}, {gap:.2f}% apart'
+                alpha = f'Alpha Vantage: {av[d]:.2f} on {d}, {gap:.2f}% apart{took}'
                 if gap > CROSSCHECK_PCT:
                     note = (f'providers disagree on {d}: Yahoo {y[d]:.2f} vs '
                             f'Alpha Vantage {av[d]:.2f} ({gap:.2f}%)')
