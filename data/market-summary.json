@@ -1,29 +1,29 @@
 {
-  "date": "2026-09-30",
-  "timestamp": "2026-09-30T08:24:56Z",
-  "session": "2026-09-29",
+  "date": "2026-10-01",
+  "timestamp": "2026-10-01T08:49:52Z",
+  "session": "2026-09-30",
   "is_new": true,
-  "summary": "Real yields climbed to 2.90% on 10-year TIPS, well above trend, extending pressure on gold and long Treasuries even as the dollar held firm near multi-week highs. Equities stayed buoyant on narrow tech-led rotation (Nasdaq names outpacing staples) despite thin overall participation. Crypto's rally remained stretched, with momentum readings near overbought levels on cooling volume.",
-  "tweet": "Elevated real yields and a firm dollar kept gold and bonds under pressure Tuesday, while narrow tech-led gains propped up stocks and crypto stayed overbought on fading volume.",
+  "summary": "Wednesday's session swung on an August PCE report that showed price increases cooling more than expected in September, paring back October rate hike bets, with odds pulling back to roughly 40% odds in turn, though a December hike is still largely expected.",
+  "tweet": "Cooler PCE sparked a stock rally that yields erased: dollar firmed, gold fell, S&P gave back gains, leaving Nasdaq tech alone in the green.",
   "scores": {
     "gold": {
-      "score": 33.2,
+      "score": 34.5,
       "label": "Fear"
     },
     "stocks": {
-      "score": 59.4,
+      "score": 58.1,
       "label": "Greed"
     },
     "crypto": {
-      "score": 60.3,
+      "score": 60.4,
       "label": "Greed"
     },
     "bonds": {
-      "score": 34.7,
+      "score": 36.3,
       "label": "Fear"
     },
     "sentiment": {
-      "score": 46.9,
+      "score": 47.3,
       "label": "Neutral"
     }
   }
