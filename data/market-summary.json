@@ -1,29 +1,29 @@
 {
-  "date": "2026-10-01",
-  "timestamp": "2026-10-01T08:49:52Z",
-  "session": "2026-09-30",
+  "date": "2026-10-02",
+  "timestamp": "2026-10-02T08:35:04Z",
+  "session": "2026-10-01",
   "is_new": true,
-  "summary": "Wednesday's session swung on an August PCE report that showed price increases cooling more than expected in September, paring back October rate hike bets, with odds pulling back to roughly 40% odds in turn, though a December hike is still largely expected.",
-  "tweet": "Cooler PCE sparked a stock rally that yields erased: dollar firmed, gold fell, S&P gave back gains, leaving Nasdaq tech alone in the green.",
+  "summary": "Thursday's close reflected a stronger dollar and firmer real yields squeezing gold and long duration, with DXY up over the past two weeks and 10-year TIPS yields running well above their recent average. Capital rotated instead into mega-cap tech and crypto, while small caps, staples, and long bonds lagged behind the broader market.",
+  "tweet": "A firmer dollar and higher real yields pressured gold and bonds Thursday, while tech and crypto kept climbing and breadth stayed thin.",
   "scores": {
     "gold": {
-      "score": 34.5,
+      "score": 35.5,
       "label": "Fear"
     },
     "stocks": {
-      "score": 58.1,
+      "score": 59.4,
       "label": "Greed"
     },
     "crypto": {
-      "score": 60.4,
+      "score": 60.9,
       "label": "Greed"
     },
     "bonds": {
-      "score": 36.3,
+      "score": 35.8,
       "label": "Fear"
     },
     "sentiment": {
-      "score": 47.3,
+      "score": 47.9,
       "label": "Neutral"
     }
   }
