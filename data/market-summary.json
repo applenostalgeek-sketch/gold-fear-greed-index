@@ -1,29 +1,29 @@
 {
-  "date": "2026-10-02",
-  "timestamp": "2026-10-02T08:35:04Z",
-  "session": "2026-10-01",
+  "date": "2026-10-03",
+  "timestamp": "2026-10-03T07:59:54Z",
+  "session": "2026-10-02",
   "is_new": true,
-  "summary": "Thursday's close reflected a stronger dollar and firmer real yields squeezing gold and long duration, with DXY up over the past two weeks and 10-year TIPS yields running well above their recent average. Capital rotated instead into mega-cap tech and crypto, while small caps, staples, and long bonds lagged behind the broader market.",
-  "tweet": "A firmer dollar and higher real yields pressured gold and bonds Thursday, while tech and crypto kept climbing and breadth stayed thin.",
+  "summary": "Friday's close extended the same dollar and real-yield squeeze on gold, now down for a second straight week, while a narrow mega-cap tech rally kept stocks in greed territory despite weak breadth. Long-duration bonds kept sliding in tandem with gold, leaving crypto's steadier uptrend as the session's relative outlier.",
+  "tweet": "Dollar strength and elevated real yields kept pressuring gold and long bonds Friday, while a narrow tech-led rally held stocks in greed territory.",
   "scores": {
     "gold": {
-      "score": 35.5,
+      "score": 29.5,
       "label": "Fear"
     },
     "stocks": {
-      "score": 59.4,
+      "score": 62.5,
       "label": "Greed"
     },
     "crypto": {
-      "score": 60.9,
+      "score": 60.3,
       "label": "Greed"
     },
     "bonds": {
-      "score": 35.8,
+      "score": 35.5,
       "label": "Fear"
     },
     "sentiment": {
-      "score": 47.9,
+      "score": 47.0,
       "label": "Neutral"
     }
   }
