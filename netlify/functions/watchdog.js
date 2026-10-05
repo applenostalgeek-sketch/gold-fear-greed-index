@@ -56,12 +56,33 @@ async function readPublished(file) {
   return res.json();
 }
 
-// Read the newest date published for one asset.
-async function latestDate(asset) {
-  const body = await readPublished(`${asset}-fear-greed.json`);
-  const history = body.history || [];
+const newestDate = (asset, body) => {
+  const history = (body && body.history) || [];
   if (!history.length) throw new Error(`${asset}: empty history`);
   return history.reduce((max, e) => (e.date > max ? e.date : max), history[0].date);
+};
+
+// Read the newest date published for one asset.
+async function latestDate(asset) {
+  return newestDate(asset, await readPublished(`${asset}-fear-greed.json`));
+}
+
+// The same, read from main on GitHub rather than from the site. The two differ
+// only when the index run committed but Netlify did not publish the commit.
+async function latestDateOnGitHub(asset, token) {
+  const res = await fetch(
+    `https://api.github.com/repos/${OWNER}/${REPO}/contents/data/${asset}-fear-greed.json?ref=main`,
+    { headers: { ...ghHeaders(token), Accept: 'application/vnd.github.raw+json' } }
+  );
+  if (!res.ok) throw new Error(`GitHub ${asset}: HTTP ${res.status}`);
+  return newestDate(asset, await res.json());
+}
+
+// Netlify build hook: rebuilds main as it stands, which republishes the data
+// already committed. Nothing is recomputed.
+async function triggerDeploy(hook) {
+  const res = await fetch(hook, { method: 'POST' });
+  if (!res.ok) throw new Error(`build hook: HTTP ${res.status}`);
 }
 
 // Any run today counts, whatever its outcome — queued included. A failed run is a
@@ -151,7 +172,53 @@ async function check() {
   }
 
   // --- 1. The index. Everything else depends on it being current. ---
+
+  // Stale on the site does not mean the run was missed. On 2026-10-05 the run
+  // committed today's data at 08:51 UTC, but Netlify's deploy of that commit
+  // failed in 3 s ("Unexpected status code 502 from fetching extensions"). The
+  // site stayed on yesterday; this function took it for a missed run and
+  // started the index workflow, whose guard saw today already on main and
+  // stopped — no commit, so no new deploy. Three attempts, nothing repaired,
+  // until the deploy was retried by hand at 12:38 UTC. So ask GitHub first: if
+  // main already has today for every stale asset, the fix is a redeploy.
   if (stale.length) {
+    let onGitHub = null;
+    try {
+      onGitHub = await Promise.all(stale.map((a) => latestDateOnGitHub(a, token)));
+    } catch (err) {
+      // Unknown: fall through to the index run, as before. At worst its guard
+      // stops it, which costs nothing.
+      console.log(`could not read main on GitHub (${err.message}) — treating as a missed run`);
+    }
+
+    if (onGitHub && onGitHub.every((d) => d === today)) {
+      const hook = process.env.NETLIFY_BUILD_HOOK;
+      if (!hook) {
+        await notify('OnOff watchdog: Netlify did not publish today, I cannot fix it', [
+          `Today's data (${today}) is on GitHub, but the site still shows ${dates[0]} for: <strong>${stale.join(', ')}</strong>.`,
+          'The daily run worked; the Netlify deploy of its commit did not.',
+          'NETLIFY_BUILD_HOOK is not set, so nothing was triggered. In Netlify: Deploys → Trigger deploy → Deploy site.',
+        ]);
+        return done('deploy missing but NETLIFY_BUILD_HOOK unset');
+      }
+      try {
+        await triggerDeploy(hook);
+      } catch (err) {
+        await notify('OnOff watchdog: Netlify did not publish today, and the retry failed', [
+          `Today's data (${today}) is on GitHub, but the site still shows ${dates[0]} for: <strong>${stale.join(', ')}</strong>.`,
+          `Asking Netlify to republish failed: <strong>${err.message}</strong>`,
+          'In Netlify: Deploys → Trigger deploy → Deploy site.',
+        ]);
+        return done(`deploy retry failed: ${err.message}`);
+      }
+      await notify('OnOff watchdog: Netlify did not publish today, I asked it to republish', [
+        `The daily run worked: today's data (${today}) is on GitHub. The site still showed ${dates[0]} for: <strong>${stale.join(', ')}</strong>.`,
+        'So the Netlify deploy of that commit failed. I asked Netlify to republish it; nothing is recomputed. It usually takes under a minute.',
+        `The ${second ? 'next scheduled check is tomorrow' : 'second pass, 25 minutes from now,'} will tell if it worked.`,
+      ]);
+      return done(`deploy triggered: ${stale.join(',')}`);
+    }
+
     try {
       await triggerWorkflow(INDEX_WORKFLOW, token);
     } catch (err) {
