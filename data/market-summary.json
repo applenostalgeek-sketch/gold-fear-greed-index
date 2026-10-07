@@ -1,29 +1,29 @@
 {
-  "date": "2026-10-06",
-  "timestamp": "2026-10-06T08:54:27Z",
-  "session": "2026-10-05",
+  "date": "2026-10-07",
+  "timestamp": "2026-10-07T08:34:52Z",
+  "session": "2026-10-06",
   "is_new": true,
-  "summary": "Monday's close pushed gold deeper into fear as a firming dollar and rising real yields extended the metal's slide for a second straight week, while narrow mega-cap tech leadership kept stocks in greed despite thin breadth beneath the surface. Long-duration bonds fell in tandem with gold, leaving crypto's steadier climb the market's calmer corner.",
-  "tweet": "Dollar strength and rising real yields drove gold deeper into fear Monday, while a narrow tech rally kept stocks in greed despite weak breadth.",
+  "summary": "Tuesday's close extended a rates-driven rotation: a firming dollar and 10-year real yields near 3% pushed gold into oversold territory (RSI 24) and hit long-duration bonds hardest, while concentrated mega-cap tech gains kept stocks in greed even as broader equity breadth stayed flat. Crypto cooled slightly from its recent climb but held steadier than the rest.",
+  "tweet": "Dollar strength and near-3% real yields battered gold and bonds Tuesday while narrow mega-cap tech gains kept stocks in greed despite flat breadth.",
   "scores": {
     "gold": {
-      "score": 30.7,
+      "score": 27.8,
       "label": "Fear"
     },
     "stocks": {
-      "score": 66.7,
+      "score": 68.4,
       "label": "Greed"
     },
     "crypto": {
-      "score": 63.5,
+      "score": 61.5,
       "label": "Greed"
     },
     "bonds": {
-      "score": 36.1,
+      "score": 36.4,
       "label": "Fear"
     },
     "sentiment": {
-      "score": 49.2,
+      "score": 48.5,
       "label": "Neutral"
     }
   }
