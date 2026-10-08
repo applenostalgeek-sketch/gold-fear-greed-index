@@ -1,40 +1,46 @@
 {
-  "score": 36.4,
+  "score": 37.4,
   "label": "Fear",
-  "timestamp": "2026-10-07T08:33:04Z",
+  "timestamp": "2026-10-08T08:49:33Z",
   "components": {
     "yield_curve": {
-      "score": 64.1,
+      "score": 64.4,
       "weight": 0.2,
-      "detail": "Courbe: +0.47% (10Y-2Y)"
+      "detail": "Courbe: +0.48% (10Y-2Y)"
     },
     "duration_risk": {
-      "score": 1.2,
+      "score": 0,
       "weight": 0.3,
-      "detail": "TLT 14j: -4.1%"
+      "detail": "TLT 14j: -5.3%"
     },
     "credit_quality": {
-      "score": 65.2,
+      "score": 69.4,
       "weight": 0.2,
-      "detail": "HYG vs LQD: +0.8%"
+      "detail": "HYG vs LQD: +1.0%"
     },
     "real_rates": {
-      "score": 21.0,
+      "score": 21.8,
       "weight": 0.15,
-      "detail": "TIPS 10Y: +2.95%"
+      "detail": "TIPS 10Y: +2.91%"
     },
     "bond_volatility": {
-      "score": 69.7,
+      "score": 73.4,
       "weight": 0.1,
-      "detail": "Vol TLT 5j: 6.4% vs 30j: 9.6%"
+      "detail": "Vol TLT 5j: 5.4% vs 30j: 8.8%"
     },
     "equity_vs_bonds": {
       "score": 0,
       "weight": 0.05,
-      "detail": "TLT vs SPY: -7.6%"
+      "detail": "TLT vs SPY: -7.5%"
     }
   },
   "history": [
+    {
+      "date": "2026-10-08",
+      "score": 37.4,
+      "label": "Fear",
+      "price": 77.15
+    },
     {
       "date": "2026-10-07",
       "score": 36.4,
@@ -2218,12 +2224,6 @@
       "score": 54.2,
       "label": "Neutral",
       "price": 87.86
-    },
-    {
-      "date": "2025-10-08",
-      "score": 54.1,
-      "label": "Neutral",
-      "price": 87.93
     }
   ]
 }
