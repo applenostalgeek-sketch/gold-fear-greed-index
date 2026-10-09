@@ -1,10 +1,10 @@
 {
   "asset": "bonds",
-  "generated": "2026-10-08T08:49:34Z",
+  "generated": "2026-10-09T08:53:21Z",
   "total_days": 1826,
   "date_range": {
-    "start": "2021-10-09",
-    "end": "2026-10-08"
+    "start": "2021-10-10",
+    "end": "2026-10-09"
   },
   "score_stats": {
     "min": 26.8,
@@ -12,12 +12,6 @@
     "avg": 49.8
   },
   "history": [
-    {
-      "date": "2021-10-09",
-      "score": 56.8,
-      "label": "Greed",
-      "price": 120.03
-    },
     {
       "date": "2021-10-10",
       "score": 56.8,
@@ -10967,6 +10961,12 @@
       "score": 37.4,
       "label": "Fear",
       "price": 77.15
+    },
+    {
+      "date": "2026-10-09",
+      "score": 34.9,
+      "label": "Fear",
+      "price": 77.87
     }
   ]
 }

@@ -1,29 +1,29 @@
 {
-  "date": "2026-10-08",
-  "timestamp": "2026-10-08T08:56:43Z",
-  "session": "2026-10-07",
+  "date": "2026-10-09",
+  "timestamp": "2026-10-09T08:54:36Z",
+  "session": "2026-10-08",
   "is_new": true,
-  "summary": "Gold's slide deepened into extreme fear as the dollar pushed above 102 and 10-year real yields held near 2.9%, dragging its RSI to 20 even as equities climbed. Stocks stayed in greed on a narrow, tech-led advance (QQQ +5.1%) while average-stock breadth slipped negative. Bonds extended losses, with TLT down over 5% in two weeks, and crypto volatility spiked near 21%.",
-  "tweet": "Dollar strength and near-3% real yields hammered gold into extreme fear, a narrow tech rally kept stocks greedy, and duration pain kept bonds under pressure.",
+  "summary": "Gold deepened its fear-zone slide Thursday as the dollar climbed to 102 and real 10-year yields held near 2.9%, keeping bullion under its 50-day average. Treasuries sold off further, pulling TLT down over 4% in two weeks and nudging equities off highs even with volatility low. Crypto stayed in greed, supported by Bitcoin's 30-day gain despite choppier short-term swings.",
+  "tweet": "Dollar strength and rising real yields pushed gold deeper into fear Thursday, while bond losses pulled stocks off highs and crypto held its greed stance.",
   "scores": {
     "gold": {
-      "score": 25.1,
-      "label": "Extreme Fear"
+      "score": 29.8,
+      "label": "Fear"
     },
     "stocks": {
-      "score": 65.7,
+      "score": 62.6,
       "label": "Greed"
     },
     "crypto": {
-      "score": 59.6,
+      "score": 59.8,
       "label": "Greed"
     },
     "bonds": {
-      "score": 37.4,
+      "score": 34.9,
       "label": "Fear"
     },
     "sentiment": {
-      "score": 47.0,
+      "score": 46.8,
       "label": "Neutral"
     }
   }
