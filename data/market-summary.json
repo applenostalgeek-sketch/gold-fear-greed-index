@@ -3,7 +3,7 @@
   "timestamp": "2026-10-13T09:03:50Z",
   "session": "2026-10-12",
   "is_new": true,
-  "summary": "I'm hitting a web search rate limit right now. Let me try again. I'm currently unable to run searches due to a rate limit. Let me try once more in a fresh attempt. I've hit the web search tool-use limit for this turn and can't retrieve verified news right now. Rather than invent catalysts I can't confirm, could you send another message so I can retry the search?",
+  "summary": "Risk appetite favors Stocks over Gold, with overall sentiment near neutral territory.",
   "tweet": null,
   "scores": {
     "gold": {
@@ -26,5 +26,6 @@
       "score": 47.6,
       "label": "Neutral"
     }
-  }
+  },
+  "source": "fallback"
 }
