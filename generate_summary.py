@@ -9,6 +9,7 @@ Falls back to a template if the API is unavailable.
 
 import json
 import os
+import time
 from datetime import datetime, timezone, timedelta
 
 
@@ -24,6 +25,10 @@ from datetime import datetime, timezone, timedelta
 # and counted here even though their text is never returned, which is why the
 # visible answer (~165 tokens) is a small fraction of what a run reports.
 MAX_TOKENS = 16000
+
+# Pause before the single retry of a failed call. The 2026-10-13 failure was a
+# web search rate limit; a retry in the same second would most likely meet it again.
+RETRY_DELAY = 30
 
 COMPONENT_NAMES = {
     'Gold': {
@@ -244,14 +249,14 @@ def generate_summary():
     api_key = os.environ.get('ANTHROPIC_API_KEY')
     if not api_key:
         print("  No ANTHROPIC_API_KEY set, using fallback")
-        return fallback_summary(scores, components)
+        return fallback_summary(scores, components) + ('fallback',)
 
     try:
         import anthropic
         client = anthropic.Anthropic(api_key=api_key)
     except Exception as e:
         print(f"  Anthropic client error: {e}, using fallback")
-        return fallback_summary(scores, components)
+        return fallback_summary(scores, components) + ('fallback',)
 
     previous = load_previous_summary()
     components_text = format_components(scores, components)
@@ -303,84 +308,123 @@ Yesterday's context (vary): "{previous}"
 
 What are the 1-2 key catalysts driving these markets this week?"""
 
-    try:
-        response = client.messages.create(
-            model="claude-sonnet-5",
-            max_tokens=MAX_TOKENS,
-            system=system,
-            tools=[{
-                # Sonnet 5's variant; the 20250305 one is for pre-4.6 models
-                "type": "web_search_20260209",
-                "name": "web_search",
-                "max_uses": 3
-            }],
-            messages=[{"role": "user", "content": user_msg}]
-        )
+    # On 2026-10-13 every web search of the call failed on a rate limit. The model
+    # answered with an apology ("I'm hitting a web search rate limit right now...
+    # could you send another message so I can retry?") and no SUMMARY: line. The
+    # parser fell back to the whole raw text, so the apology went on the site, and
+    # post_tweet.py tweeted its first sentence. A reply without SUMMARY:, or one
+    # written with no search result to stand on, is now a failed call: one retry,
+    # then the indicator-based fallback — never the raw text.
+    for attempt in (1, 2):
+        try:
+            summary, tweet = ask_claude(client, system, user_msg)
+            return summary, tweet, 'ai'
+        except Exception as e:
+            print(f"  Attempt {attempt} failed: {e}")
+            if attempt == 1:
+                time.sleep(RETRY_DELAY)
+    print("  Using the indicator-based fallback; post_tweet.py will not quote it.")
+    return fallback_summary(scores, components) + ('fallback',)
 
-        # A truncated response loses TWEET: silently — say so in the logs.
-        usage = getattr(response, 'usage', None)
-        out_tokens = getattr(usage, 'output_tokens', None) if usage else None
-        print(f"  stop_reason={response.stop_reason}"
-              + (f", output_tokens={out_tokens}/{MAX_TOKENS}" if out_tokens else ""))
-        if response.stop_reason == "max_tokens":
-            print("  WARNING: hit max_tokens — the tweet is probably missing. Raise the cap.")
 
-        # Web search splits response across multiple text blocks
-        import re
-        text_parts = [block.text for block in response.content
-                      if block.type == "text" and block.text.strip()]
-        raw = " ".join(part.strip() for part in text_parts).strip()
-        raw = re.sub(r'\s+([,.;:!?])', r'\1', raw)
-        raw = re.sub(r'\s{2,}', ' ', raw)
+def ask_claude(client, system, user_msg):
+    """One call. Returns (summary, tweet), or raises with the reason it is unusable."""
+    import re
+    response = client.messages.create(
+        model="claude-sonnet-5",
+        max_tokens=MAX_TOKENS,
+        system=system,
+        tools=[{
+            # Sonnet 5's variant; the 20250305 one is for pre-4.6 models
+            "type": "web_search_20260209",
+            "name": "web_search",
+            "max_uses": 3
+        }],
+        messages=[{"role": "user", "content": user_msg}]
+    )
 
-        # Parse SUMMARY: and TWEET: format
-        # Clean markdown bold markers and HTML tags the model sometimes adds
-        raw = re.sub(r'\*{1,2}', '', raw)
-        raw = re.sub(r'<br\s*/?>', ' ', raw)
-        summary = raw
-        tweet = None
-        summary_match = re.search(r'SUMMARY:\s*(.+?)(?=\s*TWEET:|\Z)', raw, re.DOTALL)
-        tweet_match = re.search(r'TWEET:\s*(.+)', raw, re.DOTALL)
-        if summary_match:
-            summary = summary_match.group(1).strip()
-        if tweet_match:
-            tweet = tweet_match.group(1).strip()
+    # A truncated response loses TWEET: silently — say so in the logs.
+    usage = getattr(response, 'usage', None)
+    out_tokens = getattr(usage, 'output_tokens', None) if usage else None
+    print(f"  stop_reason={response.stop_reason}"
+          + (f", output_tokens={out_tokens}/{MAX_TOKENS}" if out_tokens else ""))
+    if response.stop_reason == "max_tokens":
+        print("  WARNING: hit max_tokens — the tweet is probably missing. Raise the cap.")
 
-        if not summary or len(summary) < 20:
-            print("  Response too short, using fallback")
-            return fallback_summary(scores, components)
+    # Server-tool errors do not raise: a failed search comes back as a result
+    # block whose content is an error object instead of a list of results.
+    searched, errors = 0, []
+    for block in response.content:
+        if getattr(block, 'type', '') != 'web_search_tool_result':
+            continue
+        content = getattr(block, 'content', None)
+        if isinstance(content, list):
+            searched += 1
+        else:
+            code = getattr(content, 'error_code', None)
+            if code is None and isinstance(content, dict):
+                code = content.get('error_code')
+            errors.append(str(code or 'unknown'))
+    # Second witness: the API bills only searches that ran, never failed ones.
+    server_use = getattr(usage, 'server_tool_use', None) if usage else None
+    billed = (getattr(server_use, 'web_search_requests', 0) or 0) if server_use else 0
+    searched = max(searched, billed)
+    print(f"  web searches: {searched} ok" + (f", {len(errors)} failed ({', '.join(errors)})" if errors else ""))
+    if searched == 0:
+        # The prompt allows only facts from search results: with none, any
+        # catalyst in the text is either invented or an apology.
+        raise ValueError(f"no web search succeeded ({', '.join(errors) or 'none attempted'})")
 
-        if tweet is None:
-            print("  WARNING: no TWEET: block parsed — post_tweet.py will fall "
-                  "back to the summary's first sentence.")
+    # Web search splits response across multiple text blocks
+    text_parts = [block.text for block in response.content
+                  if block.type == "text" and block.text.strip()]
+    raw = " ".join(part.strip() for part in text_parts).strip()
+    raw = re.sub(r'\s+([,.;:!?])', r'\1', raw)
+    raw = re.sub(r'\s{2,}', ' ', raw)
 
-        # Truncate summary if too long — cut at sentence boundary, not decimal point
-        if len(summary) > 450:
-            truncated = summary[:450]
-            # Find last sentence end: period/!/? followed by space or end of string
-            matches = list(re.finditer(r'[.!?](?=\s|$)', truncated))
-            if matches and matches[-1].start() > 100:
-                summary = truncated[:matches[-1].start() + 1]
-            else:
-                # Cut at last word boundary, strip trailing continuation punctuation
-                last_space = truncated.rfind(' ')
-                cut = truncated[:last_space].rstrip(' ,;:—-') if last_space > 100 else truncated.rstrip(' ,;:—-')
-                summary = cut + '.'
+    # Parse SUMMARY: and TWEET: format
+    # Clean markdown bold markers and HTML tags the model sometimes adds
+    raw = re.sub(r'\*{1,2}', '', raw)
+    raw = re.sub(r'<br\s*/?>', ' ', raw)
+    tweet = None
+    summary_match = re.search(r'SUMMARY:\s*(.+?)(?=\s*TWEET:|\Z)', raw, re.DOTALL)
+    tweet_match = re.search(r'TWEET:\s*(.+)', raw, re.DOTALL)
+    if not summary_match:
+        raise ValueError(f"no SUMMARY: in the reply ({raw[:80]!r})")
+    summary = summary_match.group(1).strip()
+    if tweet_match:
+        tweet = tweet_match.group(1).strip()
 
-        # Truncate tweet if too long
-        if tweet and len(tweet) > 220:
-            truncated = tweet[:220]
+    if len(summary) < 20:
+        raise ValueError(f"summary too short ({summary!r})")
+
+    if tweet is None:
+        print("  WARNING: no TWEET: block parsed — post_tweet.py will fall "
+              "back to the summary's first sentence.")
+
+    # Truncate summary if too long — cut at sentence boundary, not decimal point
+    if len(summary) > 450:
+        truncated = summary[:450]
+        # Find last sentence end: period/!/? followed by space or end of string
+        matches = list(re.finditer(r'[.!?](?=\s|$)', truncated))
+        if matches and matches[-1].start() > 100:
+            summary = truncated[:matches[-1].start() + 1]
+        else:
+            # Cut at last word boundary, strip trailing continuation punctuation
             last_space = truncated.rfind(' ')
-            if last_space > 100:
-                tweet = truncated[:last_space] + "..."
-            else:
-                tweet = truncated.rstrip() + "..."
+            cut = truncated[:last_space].rstrip(' ,;:—-') if last_space > 100 else truncated.rstrip(' ,;:—-')
+            summary = cut + '.'
 
-        return summary, tweet
+    # Truncate tweet if too long
+    if tweet and len(tweet) > 220:
+        truncated = tweet[:220]
+        last_space = truncated.rfind(' ')
+        if last_space > 100:
+            tweet = truncated[:last_space] + "..."
+        else:
+            tweet = truncated.rstrip() + "..."
 
-    except Exception as e:
-        print(f"  API error: {e}, using fallback")
-        return fallback_summary(scores, components)  # returns (summary, None)
+    return summary, tweet
 
 
 def main():
@@ -406,16 +450,20 @@ def main():
             with open('data/market-summary.json') as f:
                 prev = json.load(f)
             summary, tweet = prev.get('summary', ''), prev.get('tweet')
+            source = prev.get('source', 'ai')
         except Exception:
             reuse = False
     if not reuse:
-        summary, tweet = generate_summary()
+        summary, tweet, source = generate_summary()
 
     output = {
         'date': datetime.now(timezone.utc).strftime('%Y-%m-%d'),
         'timestamp': datetime.now(timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ'),
         'session': sess.strftime('%Y-%m-%d'),
         'is_new': not reuse,
+        # 'fallback' = indicator-based text written because the AI call failed.
+        # post_tweet.py never quotes it.
+        'source': source,
         'summary': summary,
         'tweet': tweet,
         'scores': {
@@ -427,7 +475,7 @@ def main():
     with open('data/market-summary.json', 'w') as f:
         json.dump(output, f, indent=2)
 
-    print(f"  Session described: {sess:%A %Y-%m-%d} | new text: {not reuse}")
+    print(f"  Session described: {sess:%A %Y-%m-%d} | new text: {not reuse} | source: {source}")
     print(f"  Summary ({len(summary)} chars): {summary}")
     if tweet:
         print(f"  Tweet ({len(tweet)} chars): {tweet}")

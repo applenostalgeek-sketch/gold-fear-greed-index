@@ -462,6 +462,12 @@ def load_ai_context():
         with open('data/market-summary.json', 'r') as f:
             data = json.load(f)
 
+        # The AI call failed and generate_summary.py wrote its indicator-based
+        # fallback. On 2026-10-13, before that was flagged, the first sentence of
+        # the AI's apology went out as the tweet. Let the story detectors speak.
+        if data.get('source') == 'fallback':
+            return None
+
         # Prefer dedicated tweet field
         tweet = data.get('tweet', '')
         if tweet and len(tweet) >= 20:
