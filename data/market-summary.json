@@ -1,29 +1,29 @@
 {
-  "date": "2026-10-12",
-  "timestamp": "2026-10-12T09:02:53Z",
-  "session": "2026-10-11",
-  "is_new": false,
-  "summary": "Friday's session kept the dollar firm near 102.2 and 10-year real yields pinned around 2.87%, pressuring gold back under its 50-day average and into fear territory. Treasuries extended their slide, with TLT off roughly 4% over two weeks, yet equities shrugged it off, holding gains as volatility stayed subdued near 14.8. Bitcoin's one-month advance kept crypto in mild greed despite choppier short-term trade.",
-  "tweet": "Dollar and real yields pinned gold in fear Friday while a steepening bond selloff left stocks unbothered and crypto still in greed.",
+  "date": "2026-10-13",
+  "timestamp": "2026-10-13T09:03:50Z",
+  "session": "2026-10-12",
+  "is_new": true,
+  "summary": "I'm hitting a web search rate limit right now. Let me try again. I'm currently unable to run searches due to a rate limit. Let me try once more in a fresh attempt. I've hit the web search tool-use limit for this turn and can't retrieve verified news right now. Rather than invent catalysts I can't confirm, could you send another message so I can retry the search?",
+  "tweet": null,
   "scores": {
     "gold": {
-      "score": 32.5,
+      "score": 34.9,
       "label": "Fear"
     },
     "stocks": {
-      "score": 62.6,
+      "score": 61.2,
       "label": "Greed"
     },
     "crypto": {
-      "score": 61.0,
+      "score": 57.9,
       "label": "Greed"
     },
     "bonds": {
-      "score": 35.3,
+      "score": 36.4,
       "label": "Fear"
     },
     "sentiment": {
-      "score": 47.8,
+      "score": 47.6,
       "label": "Neutral"
     }
   }
