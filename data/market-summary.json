@@ -1,31 +1,31 @@
 {
-  "date": "2026-10-13",
-  "timestamp": "2026-10-13T09:03:50Z",
-  "session": "2026-10-12",
+  "date": "2026-10-14",
+  "timestamp": "2026-10-14T07:29:40Z",
+  "session": "2026-10-13",
   "is_new": true,
-  "summary": "Risk appetite favors Stocks over Gold, with overall sentiment near neutral territory.",
-  "tweet": null,
+  "source": "ai",
+  "summary": "Tuesday's session was dominated by broad dollar strength, with the DXY holding above its 30-day average and up 1.2% over two weeks, which kept pressure on gold and pushed it toward 14-day lows. Equities stayed calm as volatility remained below its historical average, while crypto diverged sharply, with Bitcoin holding up far better than Ethereum amid rising short-term volatility.",
+  "tweet": "A firmer dollar hammered gold on Tuesday while low volatility kept stocks steady and crypto split, Bitcoin outperforming Ethereum.",
   "scores": {
     "gold": {
-      "score": 34.9,
+      "score": 33.8,
       "label": "Fear"
     },
     "stocks": {
-      "score": 61.2,
+      "score": 59.6,
       "label": "Greed"
     },
     "crypto": {
-      "score": 57.9,
+      "score": 60.0,
       "label": "Greed"
     },
     "bonds": {
-      "score": 36.4,
+      "score": 41.0,
       "label": "Fear"
     },
     "sentiment": {
-      "score": 47.6,
+      "score": 48.6,
       "label": "Neutral"
     }
-  },
-  "source": "fallback"
+  }
 }
