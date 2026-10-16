@@ -1,30 +1,30 @@
 {
-  "date": "2026-10-15",
-  "timestamp": "2026-10-15T07:21:05Z",
-  "session": "2026-10-14",
+  "date": "2026-10-16",
+  "timestamp": "2026-10-16T07:03:47Z",
+  "session": "2026-10-15",
   "is_new": true,
   "source": "ai",
-  "summary": "A hotter than expected September CPI print revived Fed rate-hike odds, driving the S&P 500's worst session since late July as AI and semiconductor stocks sold off while Health Care and Staples led gains. Rising real yields and a firmer dollar pushed gold toward 14-day lows, with bitcoin holding up far better than ether.",
-  "tweet": "Hot September CPI reignited Fed hike bets, slamming AI/chip stocks and gold while Health Care, Staples, and bonds held firmer.",
+  "summary": "Equities stabilized Thursday as breadth broadened beyond mega-cap tech, with equal-weight shares outpacing the S&P 500 and staples outperforming growth. Treasuries firmed alongside a steady curve, while gold and bitcoin both found modest footing after a shaky prior session, leaving overall risk sentiment in neutral territory.",
+  "tweet": "Thursday's session showed broadening equity participation and firmer bonds, with gold and crypto stabilizing as sentiment held neutral.",
   "scores": {
     "gold": {
-      "score": 37.8,
-      "label": "Fear"
+      "score": 48.6,
+      "label": "Neutral"
     },
     "stocks": {
-      "score": 52.9,
+      "score": 53.0,
       "label": "Neutral"
     },
     "crypto": {
-      "score": 54.1,
-      "label": "Neutral"
+      "score": 57.7,
+      "label": "Greed"
     },
     "bonds": {
-      "score": 46.1,
+      "score": 49.6,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 47.7,
+      "score": 52.2,
       "label": "Neutral"
     }
   }
