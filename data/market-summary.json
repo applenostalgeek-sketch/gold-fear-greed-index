@@ -1,30 +1,30 @@
 {
-  "date": "2026-10-16",
-  "timestamp": "2026-10-16T07:03:47Z",
-  "session": "2026-10-15",
+  "date": "2026-10-17",
+  "timestamp": "2026-10-17T06:57:25Z",
+  "session": "2026-10-16",
   "is_new": true,
   "source": "ai",
-  "summary": "Equities stabilized Thursday as breadth broadened beyond mega-cap tech, with equal-weight shares outpacing the S&P 500 and staples outperforming growth. Treasuries firmed alongside a steady curve, while gold and bitcoin both found modest footing after a shaky prior session, leaving overall risk sentiment in neutral territory.",
-  "tweet": "Thursday's session showed broadening equity participation and firmer bonds, with gold and crypto stabilizing as sentiment held neutral.",
+  "summary": "Stock Market News for Oct 16, 2026, equities diverged as the Dow advanced on materials strength while the Nasdaq slipped under tech-led selling, extending the week's rotation out of mega-cap growth into value and defensives. That shift, paired with a firmer bid for Treasuries and gold and still-elevated volatility, kept multi-asset sentiment pinned in neutral territory for a second straight session.",
+  "tweet": "Friday: tech lagged as the Dow and materials led, gold and Treasuries caught a safe-haven bid, and elevated volatility kept sentiment neutral.",
   "scores": {
     "gold": {
-      "score": 48.6,
+      "score": 51.5,
       "label": "Neutral"
     },
     "stocks": {
-      "score": 53.0,
+      "score": 45.8,
       "label": "Neutral"
     },
     "crypto": {
-      "score": 57.7,
+      "score": 57.0,
       "label": "Greed"
     },
     "bonds": {
-      "score": 49.6,
+      "score": 51.4,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 52.2,
+      "score": 51.4,
       "label": "Neutral"
     }
   }
