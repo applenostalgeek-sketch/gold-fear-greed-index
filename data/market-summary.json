@@ -1,22 +1,22 @@
 {
-  "date": "2026-10-18",
-  "timestamp": "2026-10-18T07:10:53Z",
-  "session": "2026-10-17",
+  "date": "2026-10-19",
+  "timestamp": "2026-10-19T07:39:52Z",
+  "session": "2026-10-18",
   "is_new": false,
   "source": "ai",
   "summary": "Stock Market News for Oct 16, 2026, equities diverged as the Dow advanced on materials strength while the Nasdaq slipped under tech-led selling, extending the week's rotation out of mega-cap growth into value and defensives. That shift, paired with a firmer bid for Treasuries and gold and still-elevated volatility, kept multi-asset sentiment pinned in neutral territory for a second straight session.",
   "tweet": "Friday: tech lagged as the Dow and materials led, gold and Treasuries caught a safe-haven bid, and elevated volatility kept sentiment neutral.",
   "scores": {
     "gold": {
-      "score": 51.5,
+      "score": 50.8,
       "label": "Neutral"
     },
     "stocks": {
-      "score": 45.8,
+      "score": 46.8,
       "label": "Neutral"
     },
     "crypto": {
-      "score": 53.5,
+      "score": 54.6,
       "label": "Neutral"
     },
     "bonds": {
@@ -24,7 +24,7 @@
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 50.6,
+      "score": 50.9,
       "label": "Neutral"
     }
   }
