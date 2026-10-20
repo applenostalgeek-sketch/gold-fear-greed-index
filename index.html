@@ -469,6 +469,10 @@
         }
 
         .chart-toggle-btn.active .chart-toggle-dot { opacity: 1; }
+        .mood-key { display: flex; flex-wrap: wrap; gap: 6px 16px; padding: 0 30px 14px; font-size: 0.7rem; color: #666; }
+        .mood-key i { display: inline-block; width: 14px; height: 4px; border-radius: 2px; margin-right: 7px; vertical-align: 2px; }
+        .mood-key-note { color: #4a4a4a; }
+        .mood-key-title { color: #888; margin-right: -6px; }
 
         /* === METHODOLOGY === */
         .methodology-section {
@@ -789,6 +793,13 @@
                         <div class="chart-tooltip-date" id="tooltipDate"></div>
                         <div id="tooltipRows"></div>
                     </div>
+                </div>
+                <div class="mood-key">
+                    <span class="mood-key-title">Market mood:</span>
+                    <span><i style="background:#4A90E2"></i>Offense</span>
+                    <span><i style="background:#FFD700"></i>Defense</span>
+                    <span><i style="background:#9aa0ad"></i>Neither</span>
+                    <span class="mood-key-note">5-day average · paler = close to switching</span>
                 </div>
                 <div class="chart-rotate-hint">Rotate your phone for more width</div>
             </div>
@@ -1291,6 +1302,39 @@
             return longSeriesCache[key];
         }
 
+        // Offense / defense: stocks+crypto vs gold, 5-day averages over trading days
+        // (the stocks price moved), carried over weekends and holidays. clarity =
+        // points to the nearest divider (50 on either axis): over 5 years half the
+        // days sit under 5 points, so the strip pales instead of pretending.
+        const MOOD = {
+            offense: { color: '#4A90E2', label: 'Playing offense' },
+            defense: { color: '#FFD700', label: 'Playing defense' },
+            buying:  { color: '#9aa0ad', label: 'Buying everything' },
+            selling: { color: '#9aa0ad', label: 'Selling everything' }
+        };
+        function moodByDate() {
+            const S = longSeries('stocks', stocks, history5y?.stocks);
+            const C = new Map(longSeries('crypto', crypto, history5y?.crypto).map(r => [r.date, r.score]));
+            const G = new Map(longSeries('gold', gold, history5y?.gold).map(r => [r.date, r.score]));
+            const out = {}, win = [];
+            let prevPrice = null, last = null;
+            S.forEach(r => {
+                const c = C.get(r.date), g = G.get(r.date);
+                const trading = prevPrice !== null && r.price != null && r.price !== prevPrice;
+                if (r.price != null) prevPrice = r.price;
+                if (trading && c != null && g != null) {
+                    win.push([(r.score + c) / 2, g]);
+                    if (win.length > 5) win.shift();
+                    const risk = win.reduce((a, e) => a + e[0], 0) / win.length;
+                    const gl = win.reduce((a, e) => a + e[1], 0) / win.length;
+                    const key = risk >= 50 ? (gl >= 50 ? 'buying' : 'offense') : (gl >= 50 ? 'defense' : 'selling');
+                    last = { key, clarity: Math.min(Math.abs(risk - 50), Math.abs(gl - 50)) };
+                }
+                if (last) out[r.date] = last;
+            });
+            return out;
+        }
+
         function prepareChartData(days) {
             const cutoff = new Date();
             cutoff.setDate(cutoff.getDate() - days);
@@ -1322,7 +1366,7 @@
                 }
             });
 
-            chartData = { dateMap, dates };
+            chartData = { dateMap, dates, mood: moodByDate() };
             return chartData;
         }
 
@@ -1426,6 +1470,23 @@
                 }
             });
 
+            // Offense / defense strip, just under the plot.
+            if (data.mood) {
+                const total = data.dates.length;
+                const yS = pad.top + plotH + 5, hS = 5;
+                const step = plotW / Math.max(1, total - 1);
+                data.dates.forEach((date, i) => {
+                    const m = data.mood[date];
+                    if (!m) return;
+                    const x0 = Math.round(Math.max(pad.left, indexToX(i, total, pad, plotW) - step / 2));
+                    const x1 = Math.round(Math.min(pad.left + plotW, indexToX(i, total, pad, plotW) + step / 2));
+                    ctx.globalAlpha = 0.2 + 0.8 * Math.min(1, m.clarity / 10);
+                    ctx.fillStyle = MOOD[m.key].color;
+                    ctx.fillRect(x0, yS, Math.max(1, x1 - x0), hS);
+                });
+                ctx.globalAlpha = 1;
+            }
+
             // Date labels (horizontal, clean)
             if (data.dates && data.dates.length > 0) {
                 const total = data.dates.length;
@@ -1478,6 +1539,13 @@
                     <span class="chart-tooltip-val" style="color:${cfg.color}">${Math.round(score)}</span>
                 </div>`;
             });
+            const m = chartData.mood?.[targetDate];
+            if (m) {
+                rows += `<div class="chart-tooltip-row" style="margin-top:6px;padding-top:6px;border-top:1px solid #222">
+                    <span class="chart-tooltip-name" style="color:#aaa">${MOOD[m.key].label}</span>
+                    <span class="chart-tooltip-val" style="color:${MOOD[m.key].color}">●</span>
+                </div>`;
+            }
             document.getElementById('tooltipRows').innerHTML = rows;
 
             // Position tooltip (flip side if near right edge)
