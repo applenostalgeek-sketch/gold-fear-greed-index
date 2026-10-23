@@ -1,30 +1,30 @@
 {
-  "date": "2026-10-22",
-  "timestamp": "2026-10-22T07:31:36Z",
-  "session": "2026-10-21",
+  "date": "2026-10-23",
+  "timestamp": "2026-10-23T07:27:11Z",
+  "session": "2026-10-22",
   "is_new": true,
   "source": "ai",
-  "summary": "Wednesday closed with a defensive tilt: consumer staples far outran tech, long Treasuries extended a sharp rally that pushed bond duration sentiment into greed, and gold's momentum stayed soft even as equity volatility edged up. Bitcoin held above its 200-day trend despite a volatility spike, keeping crypto sentiment in greed.",
-  "tweet": "Staples crushed tech and long bonds kept rallying Wednesday, tilting sentiment defensive while crypto stayed in greed despite a volatility jump.",
+  "summary": "Thursday's close was driven by a sharp flight to safety: long Treasuries surged, credit spreads cracked, and equity volatility jumped, punishing growth names as tech badly lagged defensive staples. That rotation pushed stocks into fear while bonds stayed calm and gold's safe-haven bid remained muted.",
+  "tweet": "A volatility-driven flight to safety hit stocks Thursday: Treasuries surged, credit spreads cracked, and tech cratered versus staples, dragging equity sentiment into fear.",
   "scores": {
     "gold": {
-      "score": 46.9,
+      "score": 45.5,
       "label": "Neutral"
     },
     "stocks": {
-      "score": 51.0,
-      "label": "Neutral"
+      "score": 41.4,
+      "label": "Fear"
     },
     "crypto": {
-      "score": 56.9,
-      "label": "Greed"
+      "score": 53.3,
+      "label": "Neutral"
     },
     "bonds": {
-      "score": 55.6,
-      "label": "Greed"
+      "score": 55.2,
+      "label": "Neutral"
     },
     "sentiment": {
-      "score": 52.6,
+      "score": 48.8,
       "label": "Neutral"
     }
   }
