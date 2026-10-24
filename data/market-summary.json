@@ -1,30 +1,30 @@
 {
-  "date": "2026-10-23",
-  "timestamp": "2026-10-23T07:27:11Z",
-  "session": "2026-10-22",
+  "date": "2026-10-24",
+  "timestamp": "2026-10-24T07:21:29Z",
+  "session": "2026-10-23",
   "is_new": true,
   "source": "ai",
-  "summary": "Thursday's close was driven by a sharp flight to safety: long Treasuries surged, credit spreads cracked, and equity volatility jumped, punishing growth names as tech badly lagged defensive staples. That rotation pushed stocks into fear while bonds stayed calm and gold's safe-haven bid remained muted.",
-  "tweet": "A volatility-driven flight to safety hit stocks Thursday: Treasuries surged, credit spreads cracked, and tech cratered versus staples, dragging equity sentiment into fear.",
+  "summary": "Friday's close extended Thursday's rotation out of mega-cap tech and into defensive staples and long Treasuries, with credit markets staying under strain and equity volatility holding well above its recent average. Stocks and gold remained stuck in fear as that growth-to-safety shift showed no sign of reversing into the weekend.",
+  "tweet": "The tech-to-safety rotation rolled into Friday's close: staples and long bonds caught bids, credit stayed stressed, stocks and gold stuck in fear.",
   "scores": {
     "gold": {
-      "score": 45.5,
-      "label": "Neutral"
+      "score": 43.7,
+      "label": "Fear"
     },
     "stocks": {
-      "score": 41.4,
+      "score": 39.1,
       "label": "Fear"
     },
     "crypto": {
-      "score": 53.3,
+      "score": 52.6,
       "label": "Neutral"
     },
     "bonds": {
-      "score": 55.2,
-      "label": "Neutral"
+      "score": 56.0,
+      "label": "Greed"
     },
     "sentiment": {
-      "score": 48.8,
+      "score": 47.9,
       "label": "Neutral"
     }
   }
