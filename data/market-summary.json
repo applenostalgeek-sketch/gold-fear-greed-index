@@ -1,22 +1,22 @@
 {
-  "date": "2026-10-25",
-  "timestamp": "2026-10-25T07:31:57Z",
-  "session": "2026-10-24",
+  "date": "2026-10-26",
+  "timestamp": "2026-10-26T07:42:57Z",
+  "session": "2026-10-25",
   "is_new": false,
   "source": "ai",
   "summary": "Friday's close extended Thursday's rotation out of mega-cap tech and into defensive staples and long Treasuries, with credit markets staying under strain and equity volatility holding well above its recent average. Stocks and gold remained stuck in fear as that growth-to-safety shift showed no sign of reversing into the weekend.",
   "tweet": "The tech-to-safety rotation rolled into Friday's close: staples and long bonds caught bids, credit stayed stressed, stocks and gold stuck in fear.",
   "scores": {
     "gold": {
-      "score": 43.7,
+      "score": 44.4,
       "label": "Fear"
     },
     "stocks": {
-      "score": 39.1,
+      "score": 38.9,
       "label": "Fear"
     },
     "crypto": {
-      "score": 52.1,
+      "score": 52.0,
       "label": "Neutral"
     },
     "bonds": {
@@ -24,7 +24,7 @@
       "label": "Greed"
     },
     "sentiment": {
-      "score": 47.7,
+      "score": 47.8,
       "label": "Neutral"
     }
   }
