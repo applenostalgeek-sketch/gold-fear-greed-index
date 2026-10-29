@@ -1,22 +1,22 @@
 {
-  "date": "2026-10-28",
-  "timestamp": "2026-10-28T08:25:46Z",
-  "session": "2026-10-27",
+  "date": "2026-10-29",
+  "timestamp": "2026-10-29T08:23:34Z",
+  "session": "2026-10-28",
   "is_new": true,
   "source": "ai",
-  "summary": "Tuesday's close saw a broad equity bounce, with small caps outrunning the S&P while defensive staples kept beating tech over the past two weeks. Long Treasuries extended a sharp rally into bond-market greed, and gold slipped as the dollar firmed and its momentum faded below the 50-day average. Credit spreads stayed stressed even as overall sentiment held neutral.",
-  "tweet": "Stocks bounced broadly Tuesday but tech kept lagging staples, Treasuries extended their rally into greed territory, and gold slipped as the dollar firmed.",
+  "summary": "Wednesday's session was defined by a sharp flight into long Treasuries, with TLT up roughly 4% over two weeks pulling bond sentiment into greed while real yields fell to 2.64%. Equities split along defensive lines as staples outran a weak Nasdaq, and gold's safe-haven bid broke down, sliding further even as the dollar stayed soft.",
+  "tweet": "Treasuries rallied hard and staples beat tech, but gold's safe-haven bid broke down despite falling real yields and a soft dollar.",
   "scores": {
     "gold": {
-      "score": 45.4,
+      "score": 43.1,
       "label": "Fear"
     },
     "stocks": {
-      "score": 47.1,
+      "score": 48.6,
       "label": "Neutral"
     },
     "crypto": {
-      "score": 54.7,
+      "score": 52.8,
       "label": "Neutral"
     },
     "bonds": {
@@ -24,7 +24,7 @@
       "label": "Greed"
     },
     "sentiment": {
-      "score": 51.4,
+      "score": 50.7,
       "label": "Neutral"
     }
   }
