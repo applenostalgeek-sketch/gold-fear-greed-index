@@ -1,35 +1,40 @@
 {
-  "score": 48.5,
+  "score": 49.2,
   "label": "Neutral",
-  "timestamp": "2026-10-30T08:30:53Z",
+  "timestamp": "2026-10-31T08:20:43Z",
   "components": {
     "context": {
-      "score": 36.0,
+      "score": 35.5,
       "weight": 0.3,
-      "detail": "30-day change: -8.2%"
+      "detail": "30-day change: -8.5%"
     },
     "momentum": {
-      "score": 44.9,
+      "score": 44.1,
       "weight": 0.2,
-      "detail": "RSI: 35, Price vs MA200: +6.5%"
+      "detail": "RSI: 34, Price vs MA200: +5.7%"
     },
     "dominance": {
-      "score": 41.0,
+      "score": 46.5,
       "weight": 0.2,
-      "detail": "BTC -4.3% vs ETH -7.3% (14d)"
+      "detail": "BTC -5.7% vs ETH -6.9% (14d)"
     },
     "volume": {
-      "score": 47.3,
+      "score": 46.9,
       "weight": 0.15,
-      "detail": "Vol 7d/30d: 1.05x, price down"
+      "detail": "Vol 7d/30d: 1.06x, price down"
     },
     "volatility": {
-      "score": 89.3,
+      "score": 89.2,
       "weight": 0.15,
-      "detail": "Vol 14d: 30.9% annualized"
+      "detail": "Vol 14d: 31.0% annualized"
     }
   },
   "history": [
+    {
+      "date": "2026-10-31",
+      "score": 49.2,
+      "price": 77306.56
+    },
     {
       "date": "2026-10-30",
       "score": 48.5,
@@ -1849,11 +1854,6 @@
       "date": "2025-11-01",
       "score": 49.2,
       "price": 110064.02
-    },
-    {
-      "date": "2025-10-31",
-      "score": 49.9,
-      "price": 109556.16
     }
   ]
 }
