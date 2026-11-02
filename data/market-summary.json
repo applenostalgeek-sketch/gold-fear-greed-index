@@ -1,22 +1,22 @@
 {
-  "date": "2026-11-01",
-  "timestamp": "2026-11-01T09:02:44Z",
-  "session": "2026-10-31",
+  "date": "2026-11-02",
+  "timestamp": "2026-11-02T09:02:54Z",
+  "session": "2026-11-01",
   "is_new": false,
   "source": "ai",
   "summary": "Friday's close capped a volatility-driven risk-off week: the VIX held near 19, pushing stocks and gold lower together while capital rotated hard into Treasuries and defensive staples. Gold's slide alongside equities points to indiscriminate deleveraging rather than classic flight-to-safety buying, leaving duration and equal-weight names as the lone winners.",
   "tweet": "Stocks and gold fell together Friday as VIX stayed elevated near 19 - a liquidity-driven selloff, not a flight to safety, with Treasuries and staples the lone winners.",
   "scores": {
     "gold": {
-      "score": 38.0,
+      "score": 39.2,
       "label": "Fear"
     },
     "stocks": {
-      "score": 41.3,
+      "score": 41.5,
       "label": "Fear"
     },
     "crypto": {
-      "score": 49.9,
+      "score": 49.6,
       "label": "Neutral"
     },
     "bonds": {
@@ -24,7 +24,7 @@
       "label": "Greed"
     },
     "sentiment": {
-      "score": 47.8,
+      "score": 48.1,
       "label": "Neutral"
     }
   }
