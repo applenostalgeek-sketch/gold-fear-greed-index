@@ -5,18 +5,24 @@
 [functions]
   directory = "netlify/functions"
 
-# Independent safety net for the daily index run. GitHub's scheduler dropped the
-# job entirely on 2026-08-27 and 2026-08-28 after 210 consecutive successes, so
-# the backup deliberately lives here rather than in a second GitHub cron.
-# 09:02 UTC = 7h after the intended 02:07, well past the usual 20min-3h lag, and
-# still ahead of the US open so the data matches what the night run would have
-# produced. Reads first, triggers only when today's entry is genuinely missing.
+# Last safety net for the daily index run, after the 04:07 Netlify trigger and
+# GitHub's 04:37 backup cron. GitHub's scheduler dropped the job entirely on
+# 2026-08-27 and 2026-08-28 after 210 consecutive successes, so this net
+# deliberately lives here rather than in a second GitHub cron. 09:02 UTC is still
+# ahead of the US open, so the data matches what the morning run would have
+# produced. Reads the published site first, acts only when today is missing.
 # Two passes, 25 min apart. The tweet job reads the data files the index job
 # commits, so a single pass could only ever fix one of the two: the first repairs
 # the index, the second finds the data live and releases the tweet. On a normal
 # day both passes find everything current and do nothing.
 [functions."watchdog"]
   schedule = "2,27 9 * * *"
+
+# PRIMARY trigger of the daily index run since Nov 2026 (see trigger-index.js).
+# GitHub's own cron (37 4, UTC) is the backup; the watchdog above is the last net.
+# Netlify evaluates this in UTC: 04:07 UTC = 05:07 Paris in winter, 06:07 in summer.
+[functions."trigger-index"]
+  schedule = "7 4 * * *"
 
 [[headers]]
   for = "/*"

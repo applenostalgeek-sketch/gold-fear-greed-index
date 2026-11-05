@@ -228,8 +228,8 @@ async function check() {
       ]);
       return done(`index dispatch failed: ${err.message}`);
     }
-    await notify("OnOff watchdog: GitHub missed today's run, I started it", [
-      `The scheduled run did not happen. Newest entry was ${dates[0]}, expected ${today}.`,
+    await notify("OnOff watchdog: today's run had not published, I started it", [
+      `Neither the 04:07 UTC Netlify trigger nor GitHub's backup cron had published today. Newest entry was ${dates[0]}, expected ${today}.`,
       `Assets missing today: <strong>${stale.join(', ')}</strong>.`,
       'The index workflow has been triggered and should publish within a few minutes.',
       'The tweet, if it is also missing, will be released on the next pass once the data is live.',

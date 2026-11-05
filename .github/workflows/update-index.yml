@@ -2,11 +2,12 @@ name: Update Gold, Stocks, Crypto & Bonds Fear & Greed Indices
 
 on:
   schedule:
-    # Run every day at 2:07 UTC (4:07 Paris time in summer).
-    # Deliberately off the top of the hour: GitHub queues scheduled workflows
-    # globally and the :00 slot is the most contended, which is why this job
-    # has never once started on time (median lag measured at 2h55 over 208 runs).
-    - cron: '7 2 * * *'
+    # BACKUP only. The daily run is started at 04:07 UTC by the Netlify function
+    # trigger-index (netlify.toml); this cron is set 30 min after it. GitHub has
+    # never started it on time (lag 0.8 h in Aug 2026, 7.2 h in early Nov), so in
+    # practice it arrives hours after the primary and the guard below stops it in
+    # seconds. It computes something only on a day the primary did not publish.
+    - cron: '37 4 * * *'
   workflow_dispatch:  # Allow manual trigger
     inputs:
       force:
@@ -41,17 +42,25 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
+      # Read main as it is NOW, not the commit this run was created on. A run
+      # keeps the SHA of its creation; one that waited in the concurrency queue
+      # behind the run that published today would otherwise read yesterday,
+      # recompute the day, mail the zone alerts a second time, then fail on push.
+      - name: Fetch current main
+        run: git fetch --depth=1 origin main
+
       - name: Has today already been published?
         id: check
         env:
           FORCED: ${{ inputs.force }}
         run: |
           python3 - <<'PY'
-          import datetime, json, os, sys
+          import datetime, json, os, subprocess, sys
 
           today = datetime.datetime.now(datetime.timezone.utc).date().isoformat()
-          with open('data/gold-fear-greed.json') as f:
-              latest = max(e['date'] for e in json.load(f)['history'])
+          raw = subprocess.run(['git', 'show', 'FETCH_HEAD:data/gold-fear-greed.json'],
+                               check=True, capture_output=True, text=True).stdout
+          latest = max(e['date'] for e in json.loads(raw)['history'])
 
           forced = os.environ.get('FORCED', '').lower() == 'true'
           run = forced or latest != today
@@ -76,6 +85,8 @@ jobs:
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
+          # Same reason as the guard: start from main as it is now.
+          ref: main
 
       - name: Set up Python
         uses: actions/setup-python@v4
