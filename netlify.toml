@@ -24,6 +24,66 @@
 [functions."trigger-index"]
   schedule = "7 4 * * *"
 
+# One address per page. Netlify answers both /gold and /gold.html, and its
+# "Pretty URLs" option (switched off in the site settings in Nov 2026) rewrote
+# every internal link to the short form while the canonical tags and the sitemap
+# said .html. Google ended up picking /crypto, /stocks and /bonds against their
+# canonical, kept /gold.html for gold, and still showed /gold as a duplicate.
+# Everything is .html now: the form gold.html already ranks under.
+[[redirects]]
+  from = "/index.html"
+  to = "/"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/gold"
+  to = "/gold.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/stocks"
+  to = "/stocks.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/crypto"
+  to = "/crypto.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/bonds"
+  to = "/bonds.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/about"
+  to = "/about.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/what-is-fear-and-greed"
+  to = "/what-is-fear-and-greed.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/how-to-use-sentiment"
+  to = "/how-to-use-sentiment.html"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/gold-vs-stocks-sentiment"
+  to = "/gold-vs-stocks-sentiment.html"
+  status = 301
+  force = true
+
 [[headers]]
   for = "/*"
   [headers.values]
@@ -37,5 +97,8 @@
 [[headers]]
   for = "/data/*"
   [headers.values]
+    # Crawlable (robots.txt) so Google can render the pages that read it, but
+    # never listed as search results of their own.
+    X-Robots-Tag = "noindex"
     Cache-Control = "public, max-age=300"  # 5 minutes cache
     Content-Type = "application/json"

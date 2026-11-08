@@ -9,7 +9,7 @@ import json
 import re
 import html
 from pathlib import Path
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 
 
 def load_json(path):
@@ -65,6 +65,41 @@ def update_sitemap(today_str):
     )
     sitemap_path.write_text(content, encoding="utf-8")
     print(f"  Sitemap: updated lastmod to {today_str}")
+
+
+# Asset pages that get today's numbers written into their static HTML. gold.html
+# brings 96 % of the search clicks, and until 2026-11 Google indexed it as
+# "50 / NEUTRAL / Updated: Loading... / Loading...": the page fills itself in from
+# /data/*.json, which robots.txt kept Googlebot from fetching, and the AI crawlers
+# do not run JavaScript at all. The page script overwrites all four for visitors.
+ASSET_PAGES = ["gold"]
+
+
+def inject_asset_page(asset, date_str):
+    path = Path(f"{asset}.html")
+    content = path.read_text(encoding="utf-8")
+    data = load_json(f"data/{asset}-fear-greed.json")
+    score = round(data["score"])
+
+    # One-week change, read by date: weekends carry an entry too.
+    by_date = {e["date"]: e["score"] for e in data["history"]}
+    latest = max(by_date)
+    week_ago = (datetime.fromisoformat(latest) - timedelta(days=7)).date().isoformat()
+    sentence = f"{asset.capitalize()} sentiment reads {score}/100 ({get_label(score)})"
+    if week_ago in by_date:
+        diff = score - round(by_date[week_ago])
+        sentence += (", unchanged from a week ago." if diff == 0 else
+                     f", {'up' if diff > 0 else 'down'} {abs(diff)} "
+                     f"point{'s' if abs(diff) != 1 else ''} from a week ago.")
+    else:
+        sentence += "."
+
+    content = replace_element_content(content, "score", score)
+    content = replace_element_content(content, "label", get_label_upper(score))
+    content = replace_element_content(content, "updated", date_str)
+    content = replace_element_content(content, "insight", sentence)
+    path.write_text(content, encoding="utf-8")
+    print(f"Injected into {path}: {sentence}")
 
 
 def main():
@@ -148,6 +183,9 @@ def main():
     )
 
     index_path.write_text(content, encoding="utf-8")
+
+    for asset in ASSET_PAGES:
+        inject_asset_page(asset, date_str)
 
     # Update sitemap lastmod
     update_sitemap(today_str)

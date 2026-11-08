@@ -15,7 +15,8 @@ Disallow: /*-old*.html
 Disallow: /*-test*.html
 Disallow: /*-backup*.html
 Disallow: /*.py$
-Disallow: /data/
+# /data/ stays crawlable: the pages build their numbers from it, and a blocked
+# fetch left Google rendering placeholders. netlify.toml marks it noindex instead.
 
 # Allow all important pages
 Allow: /index.html
