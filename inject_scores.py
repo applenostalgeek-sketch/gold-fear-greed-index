@@ -9,7 +9,7 @@ import json
 import re
 import html
 from pathlib import Path
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timezone
 
 
 def load_json(path):
@@ -81,16 +81,17 @@ def inject_asset_page(asset, date_str):
     data = load_json(f"data/{asset}-fear-greed.json")
     score = round(data["score"])
 
-    # One-week change, read by date: weekends carry an entry too.
-    by_date = {e["date"]: e["score"] for e in data["history"]}
-    latest = max(by_date)
-    week_ago = (datetime.fromisoformat(latest) - timedelta(days=7)).date().isoformat()
+    # Weekly change computed exactly as the page's own text does it
+    # (asset-chart.js, weeklyDiff): unrounded score minus the entry six places
+    # back in the newest-first history, then rounded. Visitors and crawlers
+    # must never read two different numbers for the same week.
+    history = sorted(data["history"], key=lambda e: e["date"], reverse=True)
     sentence = f"{asset.capitalize()} sentiment reads {score}/100 ({get_label(score)})"
-    if week_ago in by_date:
-        diff = score - round(by_date[week_ago])
-        sentence += (", unchanged from a week ago." if diff == 0 else
+    if len(history) >= 7:
+        diff = round(data["score"] - history[6]["score"])
+        sentence += (", unchanged this week." if diff == 0 else
                      f", {'up' if diff > 0 else 'down'} {abs(diff)} "
-                     f"point{'s' if abs(diff) != 1 else ''} from a week ago.")
+                     f"point{'s' if abs(diff) != 1 else ''} this week.")
     else:
         sentence += "."
 
