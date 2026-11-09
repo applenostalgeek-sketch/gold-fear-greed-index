@@ -1,14 +1,14 @@
 {
-  "date": "2026-11-08",
-  "timestamp": "2026-11-08T04:07:54Z",
-  "session": "2026-11-07",
+  "date": "2026-11-09",
+  "timestamp": "2026-11-09T04:07:46Z",
+  "session": "2026-11-08",
   "is_new": false,
   "source": "ai",
   "summary": "Friday's close capped a volatile week: the VIX held near four standard deviations above its average, keeping equities in Fear as losses concentrated in growth and tech names while consumer staples and long-duration Treasuries drew defensive flows. Credit spreads widened against governments, reinforcing the bond bid, even as gold and crypto showed early signs of stabilizing.",
   "tweet": "Elevated volatility and a tech-to-staples, equity-to-bond rotation defined Friday's close, while gold and crypto showed early signs of stabilizing.",
   "scores": {
     "gold": {
-      "score": 51.4,
+      "score": 52.6,
       "label": "Neutral"
     },
     "stocks": {
@@ -16,15 +16,15 @@
       "label": "Fear"
     },
     "crypto": {
-      "score": 47.6,
-      "label": "Neutral"
+      "score": 44.8,
+      "label": "Fear"
     },
     "bonds": {
       "score": 59.1,
       "label": "Greed"
     },
     "sentiment": {
-      "score": 49.2,
+      "score": 48.8,
       "label": "Neutral"
     }
   }
