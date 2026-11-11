@@ -1,30 +1,30 @@
 {
-  "date": "2026-11-10",
-  "timestamp": "2026-11-10T04:09:33Z",
-  "session": "2026-11-09",
+  "date": "2026-11-11",
+  "timestamp": "2026-11-11T04:12:07Z",
+  "session": "2026-11-10",
   "is_new": true,
   "source": "ai",
-  "summary": "Monday's session showed a clear defensive rotation: tech and growth names lagged badly (QQQ -6.3% vs XLP +4.3% over two weeks) while elevated volatility (VIX 19.9, well above its 16.6 average) pushed capital into long-duration Treasuries (TLT +2.1%) and gold held flat against a falling SPY. Crypto stayed the weak spot, with BTC down 11% over 30 days and momentum still negative.",
-  "tweet": "Growth sold off, staples and bonds caught the bid, and crypto kept bleeding as volatility stayed elevated into Monday's close.",
+  "summary": "Tuesday's close extended the recent pattern: growth stocks kept lagging defensives sharply (QQQ -4.2% vs XLP +1.2%), while broader breadth held up as equal-weight outperformed the S&P. Volatility stayed stuck above its average, keeping flows tilted toward Treasuries and gold even as crypto stayed pinned near oversold levels.",
+  "tweet": "Growth still lagging defensives, VIX stuck above average, crypto oversold near-term floor, bonds and gold absorbing the haven bid.",
   "scores": {
     "gold": {
-      "score": 53.1,
+      "score": 49.9,
       "label": "Neutral"
     },
     "stocks": {
-      "score": 46.8,
+      "score": 52.5,
       "label": "Neutral"
     },
     "crypto": {
-      "score": 43.6,
+      "score": 43.0,
       "label": "Fear"
     },
     "bonds": {
-      "score": 57.3,
-      "label": "Greed"
+      "score": 50.3,
+      "label": "Neutral"
     },
     "sentiment": {
-      "score": 50.2,
+      "score": 48.9,
       "label": "Neutral"
     }
   }
