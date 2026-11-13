@@ -1,31 +1,31 @@
 {
-  "date": "2026-11-12",
-  "timestamp": "2026-11-12T04:10:04Z",
-  "session": "2026-11-11",
+  "date": "2026-11-13",
+  "timestamp": "2026-11-13T04:10:57Z",
+  "session": "2026-11-12",
   "is_new": true,
   "source": "ai",
-  "summary": "Stocks closed lower on Tuesday as the inflation report drove Treasury yields higher and renewed fears over Federal Reserve rate hikes, but Wednesday brought a bounce: the Dow Jones Industrial Average rose 0.5%, while the S&P 500 climbed 1.3%, helped as CoreWeave shares soared after the cloud provider reported better-than-expected quarterly revenue and raised its revenue outlook.",
-  "tweet": "Stocks bounced Wednesday on a CoreWeave-led tech rally, pushing the VIX to a one-week low, while gold and crypto stayed pressured by the hawkish-Fed/CPI-driven dollar and yield spike.",
+  "summary": "Thursday's close showed a broad risk-off tilt: tech-heavy names lagged sharply behind defensive staples, bitcoin extended its slide to fresh 30-day lows near oversold levels, and gold fell alongside equities as the dollar firmed. Bonds slipped too, leaving cash-like defensiveness as the main winner across the board.",
+  "tweet": "Tech slumped, staples held up, bitcoin hit fresh lows, and gold fell with the dollar firmer \u2014 a broad risk-off Thursday across assets.",
   "scores": {
     "gold": {
-      "score": 43.7,
+      "score": 40.1,
       "label": "Fear"
     },
     "stocks": {
-      "score": 56.2,
+      "score": 55.9,
       "label": "Greed"
     },
     "crypto": {
-      "score": 42.4,
+      "score": 34.9,
       "label": "Fear"
     },
     "bonds": {
-      "score": 49.7,
-      "label": "Neutral"
+      "score": 44.2,
+      "label": "Fear"
     },
     "sentiment": {
-      "score": 48.0,
-      "label": "Neutral"
+      "score": 43.8,
+      "label": "Fear"
     }
   }
 }
