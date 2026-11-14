@@ -1,30 +1,30 @@
 {
-  "date": "2026-11-13",
-  "timestamp": "2026-11-13T04:10:57Z",
-  "session": "2026-11-12",
+  "date": "2026-11-14",
+  "timestamp": "2026-11-14T04:11:32Z",
+  "session": "2026-11-13",
   "is_new": true,
   "source": "ai",
-  "summary": "Thursday's close showed a broad risk-off tilt: tech-heavy names lagged sharply behind defensive staples, bitcoin extended its slide to fresh 30-day lows near oversold levels, and gold fell alongside equities as the dollar firmed. Bonds slipped too, leaving cash-like defensiveness as the main winner across the board.",
-  "tweet": "Tech slumped, staples held up, bitcoin hit fresh lows, and gold fell with the dollar firmer \u2014 a broad risk-off Thursday across assets.",
+  "summary": "Friday's close was driven by a firming dollar and rising real yields, which pressured gold even as equities held up on a sharp rotation out of tech into defensive staples. Bitcoin extended its slide to fresh multi-week lows amid heavy deleveraging, while bonds eased in tandem with stocks, leaving staples as the lone pocket of relative calm.",
+  "tweet": "A stronger dollar and rising real yields hit gold Friday, tech-to-staples rotation kept stocks afloat, and bitcoin hit fresh multi-week lows.",
   "scores": {
     "gold": {
-      "score": 40.1,
+      "score": 38.8,
       "label": "Fear"
     },
     "stocks": {
-      "score": 55.9,
-      "label": "Greed"
+      "score": 53.8,
+      "label": "Neutral"
     },
     "crypto": {
-      "score": 34.9,
+      "score": 33.1,
       "label": "Fear"
     },
     "bonds": {
-      "score": 44.2,
+      "score": 42.1,
       "label": "Fear"
     },
     "sentiment": {
-      "score": 43.8,
+      "score": 41.9,
       "label": "Fear"
     }
   }
