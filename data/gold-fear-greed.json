@@ -1,7 +1,7 @@
 {
   "score": 38.8,
   "label": "Fear",
-  "timestamp": "2026-11-14T04:07:40Z",
+  "timestamp": "2026-11-15T04:07:40Z",
   "components": {
     "gld_price": {
       "score": 27.4,
@@ -9,9 +9,9 @@
       "detail": "GLD 14d: -4.5%"
     },
     "momentum": {
-      "score": 28.2,
+      "score": 28.1,
       "weight": 0.2,
-      "detail": "RSI: 41, Price < MA50"
+      "detail": "RSI: 40, Price < MA50"
     },
     "gold_vs_spy": {
       "score": 43.7,
@@ -29,12 +29,17 @@
       "detail": "TIPS 10Y: 2.86% (avg: 2.75%)"
     },
     "vix": {
-      "score": 80.0,
+      "score": 80.6,
       "weight": 0.15,
       "detail": "VIX: 19.3 (avg: 16.8, z: +1.0)"
     }
   },
   "history": [
+    {
+      "date": "2026-11-15",
+      "score": 38.8,
+      "price": 355.45
+    },
     {
       "date": "2026-11-14",
       "score": 38.8,
@@ -1852,11 +1857,6 @@
     },
     {
       "date": "2025-11-16",
-      "score": 65.1,
-      "price": 375.96
-    },
-    {
-      "date": "2025-11-15",
       "score": 65.1,
       "price": 375.96
     }
