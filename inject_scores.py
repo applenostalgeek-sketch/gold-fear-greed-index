@@ -73,6 +73,11 @@ def update_sitemap(today_str):
 # /data/*.json, which robots.txt kept Googlebot from fetching, and the AI crawlers
 # do not run JavaScript at all. The page script overwrites all four for visitors.
 ASSET_PAGES = ["gold"]
+# What each index is built from, long and short, for the meta description.
+ASSET_METHODS = {
+    "gold": ("Based on price momentum, safe-haven flows, dollar strength, real rates and VIX.",
+             "From momentum, safe-haven flows, dollar, real rates and VIX."),
+}
 
 
 def inject_asset_page(asset, date_str):
@@ -94,6 +99,21 @@ def inject_asset_page(asset, date_str):
                      f"point{'s' if abs(diff) != 1 else ''} this week.")
     else:
         sentence += "."
+
+    # Search snippet with today's number: queries ending in "today", "live" or
+    # "current" are a large share of the page's impressions. Google cuts
+    # descriptions near 155 characters, so the method part shortens if needed.
+    lead = f"{asset.capitalize()} Fear & Greed Index today: {score} ({get_label(score).lower()})"
+    lead += sentence[sentence.index(")") + 1:]
+    method = ASSET_METHODS[asset]
+    meta_desc = f"{lead} {method[0]} Updated daily."
+    if len(meta_desc) > 155:
+        meta_desc = f"{lead} {method[1]} Updated daily."
+    content = re.sub(
+        r'(<meta name="description" content=")[^"]*(")',
+        rf'\g<1>{html.escape(meta_desc)}\2',
+        content, count=1
+    )
 
     content = replace_element_content(content, "score", score)
     content = replace_element_content(content, "label", get_label_upper(score))
@@ -146,7 +166,7 @@ def main():
         f"Market sentiment is {sentiment_score} ({label_lower}). "
         f"Gold {assets['gold']['score']}, Bonds {assets['bonds']['score']}, "
         f"Stocks {assets['stocks']['score']}, Crypto {assets['crypto']['score']}. "
-        f"Track real-time Fear & Greed across 4 asset classes. Updated daily."
+        f"Fear & Greed across 4 asset classes, updated daily."
     )
     content = re.sub(
         r'(<meta name="description" content=")[^"]*(")',
