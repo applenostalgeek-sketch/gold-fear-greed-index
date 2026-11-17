@@ -1,30 +1,30 @@
 {
-  "date": "2026-11-16",
-  "timestamp": "2026-11-16T04:07:51Z",
-  "session": "2026-11-15",
-  "is_new": false,
+  "date": "2026-11-17",
+  "timestamp": "2026-11-17T04:11:07Z",
+  "session": "2026-11-16",
+  "is_new": true,
   "source": "ai",
-  "summary": "Saturday's session was weekend-only crypto trading, extending Friday's slide as December Fed rate-hike bets surged past 85% on CME FedWatch. Bitcoin ETFs bled roughly $1.3 billion over the week and forced liquidations topped $1 billion, dragging BTC toward $63,500 with RSI near 23. Stocks, bonds and gold simply carried over Friday's closes under the stronger dollar and higher real yields.",
-  "tweet": "Weekend crypto-only trade: Fed hike bets near 85%, $1.3B in BTC ETF outflows and $1B+ liquidations drag bitcoin toward $63,500.",
+  "summary": "Monday's close extended a rates-and-dollar driven risk-off: real yields and the DXY pushed higher, squeezing growth names (QQQ sharply lagging defensive staples) and pressuring bitcoin toward multi-week lows with RSI near oversold. VIX held near its highest levels in months, and gold found no shelter as the firmer dollar and elevated real rates offset safe-haven demand.",
+  "tweet": "Higher real yields and a stronger dollar drove Monday's risk-off, hammering tech and crypto while gold found no refuge either.",
   "scores": {
     "gold": {
-      "score": 38.2,
+      "score": 39.7,
       "label": "Fear"
     },
     "stocks": {
-      "score": 53.8,
+      "score": 46.3,
       "label": "Neutral"
     },
     "crypto": {
-      "score": 29.8,
+      "score": 29.5,
       "label": "Fear"
     },
     "bonds": {
-      "score": 42.1,
+      "score": 41.3,
       "label": "Fear"
     },
     "sentiment": {
-      "score": 41.0,
+      "score": 39.2,
       "label": "Fear"
     }
   }
