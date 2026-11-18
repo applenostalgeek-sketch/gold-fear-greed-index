@@ -1,30 +1,30 @@
 {
-  "date": "2026-11-17",
-  "timestamp": "2026-11-17T04:11:07Z",
-  "session": "2026-11-16",
+  "date": "2026-11-18",
+  "timestamp": "2026-11-18T04:16:28Z",
+  "session": "2026-11-17",
   "is_new": true,
   "source": "ai",
-  "summary": "Monday's close extended a rates-and-dollar driven risk-off: real yields and the DXY pushed higher, squeezing growth names (QQQ sharply lagging defensive staples) and pressuring bitcoin toward multi-week lows with RSI near oversold. VIX held near its highest levels in months, and gold found no shelter as the firmer dollar and elevated real rates offset safe-haven demand.",
-  "tweet": "Higher real yields and a stronger dollar drove Monday's risk-off, hammering tech and crypto while gold found no refuge either.",
+  "summary": "Tuesday's close extended a tech-led risk-off move that began after a massive tech selloff following Jensen Huang's resignation as NVIDIA CEO last week, which continued to dampen markets' enthusiasm for AI stocks. Growth names stayed under pressure as defensive sectors held firmer ground, while elevated volatility kept bitcoin and gold tracking equities lower in a broad flight from risk.",
+  "tweet": "Tuesday's slide carried on from the AI-stock shakeout after Nvidia's CEO shock exit, with volatility still elevated and risk assets moving together lower.",
   "scores": {
     "gold": {
-      "score": 39.7,
+      "score": 41.0,
       "label": "Fear"
     },
     "stocks": {
-      "score": 46.3,
-      "label": "Neutral"
+      "score": 41.9,
+      "label": "Fear"
     },
     "crypto": {
-      "score": 29.5,
+      "score": 27.8,
       "label": "Fear"
     },
     "bonds": {
-      "score": 41.3,
+      "score": 45.0,
       "label": "Fear"
     },
     "sentiment": {
-      "score": 39.2,
+      "score": 38.9,
       "label": "Fear"
     }
   }
