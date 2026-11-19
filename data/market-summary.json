@@ -1,30 +1,30 @@
 {
-  "date": "2026-11-18",
-  "timestamp": "2026-11-18T04:16:28Z",
-  "session": "2026-11-17",
+  "date": "2026-11-19",
+  "timestamp": "2026-11-19T04:10:15Z",
+  "session": "2026-11-18",
   "is_new": true,
   "source": "ai",
-  "summary": "Tuesday's close extended a tech-led risk-off move that began after a massive tech selloff following Jensen Huang's resignation as NVIDIA CEO last week, which continued to dampen markets' enthusiasm for AI stocks. Growth names stayed under pressure as defensive sectors held firmer ground, while elevated volatility kept bitcoin and gold tracking equities lower in a broad flight from risk.",
-  "tweet": "Tuesday's slide carried on from the AI-stock shakeout after Nvidia's CEO shock exit, with volatility still elevated and risk assets moving together lower.",
+  "summary": "Stocks clawed back some ground Wednesday after last week's NVIDIA leadership shock, but the bounce stayed shallow as VIX held near 25 and a surging dollar near 104 kept real yields elevated, pinning gold to its own fear reading. Bitcoin kept sliding deeper into oversold territory, extending the broad de-risking gripping every asset class this month.",
+  "tweet": "Stocks bounced Wednesday but stayed fragile post-NVIDIA shock, as a surging dollar pinned gold and bitcoin sank deeper into oversold territory.",
   "scores": {
     "gold": {
-      "score": 41.0,
+      "score": 39.2,
       "label": "Fear"
     },
     "stocks": {
-      "score": 41.9,
+      "score": 44.7,
       "label": "Fear"
     },
     "crypto": {
-      "score": 27.8,
+      "score": 28.7,
       "label": "Fear"
     },
     "bonds": {
-      "score": 45.0,
+      "score": 43.8,
       "label": "Fear"
     },
     "sentiment": {
-      "score": 38.9,
+      "score": 39.1,
       "label": "Fear"
     }
   }
