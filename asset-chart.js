@@ -405,6 +405,74 @@
         }
     }
 
+    // "Lowest / highest score since" line on the score curve.
+    // Same rule as the homepage: the score is the lowest (or highest) it has been
+    // for at least 90 days; kept 7 days after the record, anchored to it. The
+    // search never goes further back than this chart's longest range (5Y), so the
+    // line never points at a date nobody can see.
+    const RECORD_MIN_DAYS = 90, RECORD_KEEP = 7, RECORD_LIMIT = 1825;
+    let recordCache;
+    function scoreRecord() {
+        if (recordCache !== undefined) return recordCache;
+        const all = getSortedHistory().slice(-RECORD_LIMIT);
+        const days = (a, b) => Math.round((Date.parse(b) - Date.parse(a)) / 86400000);
+        recordCache = null;
+        for (let i = all.length - 1; i >= Math.max(0, all.length - RECORD_KEEP); i--) {
+            for (const low of [true, false]) {
+                let k = i - 1;
+                while (k >= 0 && (low ? all[k].score > all[i].score : all[k].score < all[i].score)) k--;
+                const gap = k >= 0 ? days(all[k].date, all[i].date) : Infinity;
+                if (gap >= RECORD_MIN_DAYS) {
+                    recordCache = { date: all[i].date, score: all[i].score, since: k >= 0 ? all[k].date : null,
+                                    low, limitStart: all[0].date };
+                    return recordCache;
+                }
+            }
+        }
+        return recordCache;
+    }
+    function drawRecord(ctx, pad, plotW, plotH) {
+        if (!isIndexVisible()) return;
+        const rec = scoreRecord();
+        if (!rec || chartHistory.length < 2) return;
+        const total = chartHistory.length;
+        const idxOf = d => chartHistory.findIndex(p => p.date === d);
+        const ri = idxOf(rec.date);
+        if (ri < 0) return;
+        const xr = indexToX(ri, total, pad, plotW), y = scoreToY(rec.score, pad, plotH);
+        const ki = rec.since ? idxOf(rec.since) : -1;
+        const inRange = ki >= 0;
+        const xk = inRange ? indexToX(ki, total, pad, plotW) : pad.left;
+        const ac = CFG.color;
+        const fmt = (d, year) => new Date(d + 'T12:00:00Z').toLocaleDateString('en-US',
+            Object.assign({ month: 'short', day: 'numeric', timeZone: 'UTC' }, year ? { year: 'numeric' } : {}));
+        ctx.save();
+        ctx.strokeStyle = ac; ctx.globalAlpha = 0.85; ctx.lineWidth = 1.2;
+        ctx.setLineDash([2, 3]);
+        ctx.beginPath(); ctx.moveTo(xk, y); ctx.lineTo(xr, y); ctx.stroke();
+        ctx.setLineDash([]); ctx.globalAlpha = 1;
+        if (inRange) { ctx.beginPath(); ctx.arc(xk, y, 3, 0, Math.PI * 2); ctx.fillStyle = ac; ctx.fill(); }
+        ctx.beginPath(); ctx.arc(xr, y, 8, 0, Math.PI * 2);
+        ctx.strokeStyle = ac; ctx.lineWidth = 1.5; ctx.stroke();
+
+        const sticky = rec.date !== chartHistory[total - 1].date;
+        const word = (sticky ? (rec.low ? 'lowest' : 'highest') : (rec.low ? 'Lowest' : 'Highest')) + ' score';
+        let txt = rec.since ? word + ' since ' + fmt(rec.since, true) : word + ' in 5 years';
+        if (sticky) txt = fmt(rec.date) + ' \u00b7 ' + txt;
+        if (!inRange && chartHistory[0].date > rec.limitStart) txt = '\u2190 ' + txt;
+        ctx.font = '600 11px -apple-system, BlinkMacSystemFont, sans-serif';
+        const tw = ctx.measureText(txt).width;
+        let tx = (inRange ? xk : pad.left) + 4;
+        if (tx + tw > xr - 12) tx = Math.max(pad.left, xr - 12 - tw);
+        const ty = rec.low ? y + 17 : y - 9;
+        ctx.fillStyle = 'rgba(10, 10, 20, 0.82)';
+        ctx.fillRect(tx - 4, ty - 11, tw + 8, 15);
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.92)';
+        ctx.textAlign = 'left';
+        ctx.fillText(txt, tx, ty);
+        ctx.restore();
+    }
+
     function drawChart() {
         const canvas = document.getElementById('historyChart');
         const box = canvas.parentElement;
@@ -545,6 +613,8 @@
             ctx.fill();
             ctx.restore();
         }
+
+        drawRecord(ctx, pad, plotW, plotH);
 
         // Price end dot
         if (showPrice && chartHistory.length >= 2) {

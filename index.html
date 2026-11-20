@@ -1370,6 +1370,88 @@
             return chartData;
         }
 
+
+        // "Lowest / highest since" line on the Sentiment curve. Drawn when the
+        // composite is the lowest (or highest) it has been for at least 90 days,
+        // and kept 7 days after that record, anchored to the record day.
+        // Measured on 4 years of history: visible on ~21 % of days, so it marks an
+        // event rather than becoming part of the furniture. The search never goes
+        // further back than this chart's longest range (3Y), so the line never
+        // points at a date nobody can see. Describes the past only — no forecast.
+        const RECORD_MIN_DAYS = 90, RECORD_KEEP = 7, RECORD_LIMIT_DAYS = 1095;
+        function recordLimitStart() {
+            const c = new Date();
+            c.setDate(c.getDate() - RECORD_LIMIT_DAYS);
+            return c.toISOString().slice(0, 10);
+        }
+        let recordCache;
+        function sentimentRecord() {
+            if (recordCache !== undefined) return recordCache;
+            const src = { gold, stocks, crypto, bonds };
+            const maps = Object.keys(src).map(k => new Map(longSeries(k, src[k], history5y?.[k]).map(r => [r.date, r.score])));
+            const limit = recordLimitStart();
+            const dates = [...maps[0].keys()].filter(d => d >= limit && maps.every(m => m.has(d))).sort();
+            const comp = dates.map(d => maps.reduce((s, m) => s + m.get(d), 0) / 4);
+            const days = (a, b) => Math.round((Date.parse(b) - Date.parse(a)) / 86400000);
+            recordCache = null;
+            for (let i = dates.length - 1; i >= Math.max(0, dates.length - RECORD_KEEP); i--) {
+                for (const low of [true, false]) {
+                    let k = i - 1;
+                    while (k >= 0 && (low ? comp[k] > comp[i] : comp[k] < comp[i])) k--;
+                    const gap = k >= 0 ? days(dates[k], dates[i]) : Infinity;
+                    if (gap >= RECORD_MIN_DAYS) {
+                        recordCache = { date: dates[i], score: comp[i], since: k >= 0 ? dates[k] : null, low };
+                        return recordCache;
+                    }
+                }
+            }
+            return recordCache;
+        }
+        function drawRecord(ctx, data, pad, plotW, plotH) {
+            if (!isSeriesVisible('sentiment')) return;
+            const rec = sentimentRecord();
+            if (!rec) return;
+            const total = data.dates.length;
+            const ri = data.dates.indexOf(rec.date);
+            if (ri < 0) return;
+            const xr = indexToX(ri, total, pad, plotW), y = scoreToY(rec.score, pad, plotH);
+            const ki = rec.since ? data.dates.indexOf(rec.since) : -1;
+            const inRange = ki >= 0;
+            const xk = inRange ? indexToX(ki, total, pad, plotW) : pad.left;
+            const fmt = (d, year) => new Date(d + 'T12:00:00Z').toLocaleDateString('en-US',
+                Object.assign({ month: 'short', day: 'numeric', timeZone: 'UTC' }, year ? { year: 'numeric' } : {}));
+            ctx.save();
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.8)';
+            ctx.lineWidth = 1.2;
+            ctx.setLineDash([2, 3]);
+            ctx.beginPath(); ctx.moveTo(xk, y); ctx.lineTo(xr, y); ctx.stroke();
+            ctx.setLineDash([]);
+            if (inRange) {
+                ctx.beginPath(); ctx.arc(xk, y, 3, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255, 255, 255, 0.85)'; ctx.fill();
+            }
+            ctx.beginPath(); ctx.arc(xr, y, 7, 0, Math.PI * 2);
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.75)'; ctx.lineWidth = 1.5; ctx.stroke();
+
+            const sticky = rec.date !== data.dates[total - 1];   // record kept from an earlier day
+            let word = rec.low ? 'Lowest' : 'Highest';
+            if (sticky) word = word.toLowerCase();
+            let txt = rec.since ? word + ' since ' + fmt(rec.since, true) : word + ' in 3 years';
+            if (sticky) txt = fmt(rec.date) + ' · ' + txt;
+            if (!inRange && data.dates[0] > recordLimitStart()) txt = '← ' + txt;
+            ctx.font = '600 11px -apple-system, BlinkMacSystemFont, sans-serif';
+            const tw = ctx.measureText(txt).width;
+            let tx = (inRange ? xk : pad.left) + 4;
+            if (tx + tw > xr - 12) tx = Math.max(pad.left, xr - 12 - tw);
+            const ty = rec.low ? y + 17 : y - 9;
+            ctx.fillStyle = 'rgba(10, 10, 20, 0.8)';
+            ctx.fillRect(tx - 4, ty - 11, tw + 8, 15);
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.9)';
+            ctx.textAlign = 'left';
+            ctx.fillText(txt, tx, ty);
+            ctx.restore();
+        }
+
         function drawChart() {
             const canvas = document.getElementById('historyChart');
             const { ctx, w, h, pad, plotW, plotH } = getChartLayout(canvas);
@@ -1469,6 +1551,8 @@
                     ctx.fill();
                 }
             });
+
+            drawRecord(ctx, data, pad, plotW, plotH);
 
             // Offense / defense strip, just under the plot.
             if (data.mood) {
