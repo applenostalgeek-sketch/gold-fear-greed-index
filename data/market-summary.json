@@ -1,30 +1,30 @@
 {
-  "date": "2026-11-19",
-  "timestamp": "2026-11-19T04:10:15Z",
-  "session": "2026-11-18",
+  "date": "2026-11-20",
+  "timestamp": "2026-11-20T04:09:34Z",
+  "session": "2026-11-19",
   "is_new": true,
   "source": "ai",
-  "summary": "Stocks clawed back some ground Wednesday after last week's NVIDIA leadership shock, but the bounce stayed shallow as VIX held near 25 and a surging dollar near 104 kept real yields elevated, pinning gold to its own fear reading. Bitcoin kept sliding deeper into oversold territory, extending the broad de-risking gripping every asset class this month.",
-  "tweet": "Stocks bounced Wednesday but stayed fragile post-NVIDIA shock, as a surging dollar pinned gold and bitcoin sank deeper into oversold territory.",
+  "summary": "Thursday's close showed broad de-risking accelerate: the VIX jumped to 28.4, more than three standard deviations above its average, as equities fell sharply across the board. A firming dollar near 103.83 pushed real yields higher, pinning gold's rebound, while bitcoin extended its slide to a 26.5% monthly drawdown with RSI near 11, deep capitulation territory. Bonds were the lone beneficiary of the flight to safety.",
+  "tweet": "VIX spiked to 28.4 and the dollar held near 104, crushing gold while equities sank and bitcoin's RSI near 11 signals outright capitulation.",
   "scores": {
     "gold": {
-      "score": 39.2,
+      "score": 34.2,
       "label": "Fear"
     },
     "stocks": {
-      "score": 44.7,
+      "score": 38.6,
       "label": "Fear"
     },
     "crypto": {
-      "score": 28.7,
+      "score": 27.8,
       "label": "Fear"
     },
     "bonds": {
-      "score": 43.8,
-      "label": "Fear"
+      "score": 46.6,
+      "label": "Neutral"
     },
     "sentiment": {
-      "score": 39.1,
+      "score": 36.8,
       "label": "Fear"
     }
   }
