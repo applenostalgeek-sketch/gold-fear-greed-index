@@ -1,11 +1,11 @@
 {
-  "date": "2026-11-21",
-  "timestamp": "2026-11-21T04:08:59Z",
-  "session": "2026-11-20",
+  "date": "2026-11-22",
+  "timestamp": "2026-11-22T04:09:31Z",
+  "session": "2026-11-21",
   "is_new": true,
   "source": "ai",
-  "summary": "Friday's close capped a brutal week of de-risking: the VIX pushed near 36, over four standard deviations above average, as equities and bitcoin extended steep losses into deep capitulation. A firm dollar and elevated real yields kept gold pinned even as stocks fell, leaving bonds as the week's lone safe-haven beneficiary.",
-  "tweet": "VIX near 36, bitcoin in deep capitulation, gold capped by a firm dollar \u2014 bonds were the only refuge as the week's risk-off slide intensified into Friday's close.",
+  "summary": "Crypto was the only asset trading into the weekend close, extending its rout as bitcoin's 30-day drop neared 27% and RSI near 12 signaled deep capitulation. Stocks, bonds and gold simply carried over Friday's levels, still marked by a VIX near 36, a firm dollar and elevated real yields that kept equities and gold in fear while bonds held up as the lone haven.",
+  "tweet": "Crypto alone traded the weekend and kept sliding (BTC -27% in 30d, RSI ~12), while stocks, bonds and gold just carried Friday's fear-soaked closes.",
   "scores": {
     "gold": {
       "score": 30.9,
@@ -16,15 +16,15 @@
       "label": "Fear"
     },
     "crypto": {
-      "score": 20.3,
-      "label": "Extreme Fear"
+      "score": 27.9,
+      "label": "Fear"
     },
     "bonds": {
       "score": 47.4,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 31.5,
+      "score": 33.4,
       "label": "Fear"
     }
   }
