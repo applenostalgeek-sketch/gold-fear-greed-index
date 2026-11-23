@@ -155,18 +155,20 @@ jobs:
         run: |
           python collect_shares.py
 
+      - name: Generate AI context summary
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: |
+          python generate_summary.py
+
+      # After the AI context: the alert email opens with today's short text
+      # (tweet field), so it must exist before the emails go out.
       - name: Check for zone changes and send alerts
         env:
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
           RESEND_AUDIENCE_ID: ${{ secrets.RESEND_AUDIENCE_ID }}
         run: |
           python send_alerts.py
-
-      - name: Generate AI context summary
-        env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-        run: |
-          python generate_summary.py
 
       - name: Generate share card
         run: |
