@@ -85,8 +85,8 @@ exports.handler = async (event) => {
         subject: "You're subscribed to OnOff.Markets alerts",
         html: `<div style="font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;max-width:480px;margin:0 auto;padding:32px;">
   <h2 style="color:#111;font-size:1.2rem;margin-bottom:16px;">You're in.</h2>
-  <p style="line-height:1.6;font-size:0.95rem;color:#333;">You'll receive alerts when sentiment shifts significantly on: <strong>${selectedLabels.join(', ')}</strong>.</p>
-  <p style="line-height:1.6;font-size:0.95rem;color:#333;margin-top:12px;">Expect a few emails per month — only when something meaningful moves.</p>
+  <p style="line-height:1.6;font-size:0.95rem;color:#333;">You'll get an email when sentiment swings sharply or hits a new 6-month high or low on: <strong>${selectedLabels.join(', ')}</strong>.</p>
+  <p style="line-height:1.6;font-size:0.95rem;color:#333;margin-top:12px;">Never more than a few a month.</p>
   <p style="margin-top:24px;font-size:0.85rem;color:#999;">&mdash; <a href="https://onoff.markets" style="color:#666;text-decoration:none;">OnOff.Markets</a></p>
   <p style="margin-top:24px;font-size:0.75rem;color:#999;">To unsubscribe, click Alerts on the site and use the unsubscribe option.</p>
 </div>`,

@@ -8,7 +8,7 @@
             <button class="close-btn" id="alertClose">&times;</button>
             <div id="alertFormView">
                 <h3>Get Market Alerts</h3>
-                <p class="subtitle">Receive alerts when sentiment shifts significantly.</p>
+                <p class="subtitle">Get an email when sentiment swings sharply or hits a new 6-month high or low.</p>
                 <input type="email" id="alertEmail" placeholder="your@email.com" autocomplete="email">
                 <div class="alert-checkboxes">
                     <label><input type="checkbox" name="sentiment" checked> Sentiment</label>
