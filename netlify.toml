@@ -102,3 +102,5 @@
     X-Robots-Tag = "noindex"
     Cache-Control = "public, max-age=300"  # 5 minutes cache
     Content-Type = "application/json"
+    # Open data: any site may read these files from the browser.
+    Access-Control-Allow-Origin = "*"

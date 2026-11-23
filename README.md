@@ -1,10 +1,10 @@
 # OnOff.Markets - Multi-Asset Fear & Greed Indices
 
-Real-time sentiment tracking across **4 major asset classes**: Gold, Bonds, Stocks, and Crypto. Independent, transparent indices with complete methodology disclosure.
+Daily fear & greed scores across **4 major asset classes**: Gold, Bonds, Stocks, and Crypto. Independent, transparent indices with complete methodology disclosure.
 
 ![Status](https://img.shields.io/badge/Status-Live-success)
 ![Python](https://img.shields.io/badge/Python-3.9+-blue)
-![Updated](https://img.shields.io/badge/Updated-Daily%20at%202%3A00%20UTC-blue)
+![Updated](https://img.shields.io/badge/Updated-Daily%20at%2004%3A07%20UTC-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 **Live Site**: [onoff.markets](https://onoff.markets)
@@ -15,7 +15,7 @@ Real-time sentiment tracking across **4 major asset classes**: Gold, Bonds, Stoc
 
 OnOff.Markets provides **transparent Fear & Greed indices** for four markets:
 
-- **Gold** - Safe haven sentiment (5 components)
+- **Gold** - Safe haven sentiment (6 components)
 - **Bonds** - Treasury market sentiment (6 components)
 - **Stocks** - Equity market sentiment (7 components)
 - **Crypto** - Cryptocurrency sentiment (5 components)
@@ -39,7 +39,7 @@ OnOff.Markets was built on the opposite principle:
 
 - **Complete transparency** - All formulas published on each asset page
 - **Open methodology** - Every component weight disclosed
-- **Free data sources** - Yahoo Finance + FRED API only
+- **Free data sources** - Yahoo Finance + FRED (Alpha Vantage as a backup for prices)
 - **Daily updates** - Automated via GitHub Actions
 - **No subscriptions** - Free forever
 
@@ -61,16 +61,36 @@ Below 50 = fear dominates across markets. Above 50 = optimism prevails.
 
 ---
 
+## Open Data (free, no key)
+
+Every number on the site comes from public JSON files, refreshed daily. No account, no key; cross-origin requests are allowed.
+
+| File | Contents |
+|------|----------|
+| [`/data/gold-fear-greed.json`](https://onoff.markets/data/gold-fear-greed.json) | Today's score, label, each component (score, weight, detail) and 365 days of history. Same for `bonds`, `stocks`, `crypto` |
+| [`/data/history-5y-gold.json`](https://onoff.markets/data/history-5y-gold.json) | 5 years of daily `date`, `score`, `label`, `price`. Same for `bonds`, `stocks`, `crypto` |
+| [`/data/market-summary.json`](https://onoff.markets/data/market-summary.json) | The five scores of the day and the short daily context |
+
+Notes:
+- Values before early 2026 were **reconstructed** with the same formulas; they were not published live at the time.
+- Dates: in the live part (since early 2026) an entry dated D describes the close of D-1, since the calculation runs before the market opens; in the reconstructed part it describes the close of D.
+- These scores describe the present. They are not forecasts: tested on 5 years, they do not reliably predict the next move.
+
+If you use the data, a link to [onoff.markets](https://onoff.markets) is appreciated.
+
+---
+
 ## Index Components
 
-### Gold (5 Components)
+### Gold (6 Components)
 | Component | Weight | Description |
 |-----------|--------|-------------|
-| GLD Price Momentum | 30% | Direct 14-day GLD ETF performance (PRIMARY) |
-| RSI & Moving Averages | 25% | Proportional distance-based MA50/MA200 + RSI signal |
-| Dollar Index | 20% | DXY 14-day change with x15 multiplier (inverse correlation) |
-| Real Rates | 15% | 10-Year TIPS yields from FRED (x18.75 scoring) |
-| VIX | 10% | Z-score vs 3-month average (safe haven demand) |
+| GLD Price | 25% | 14-day GLD ETF performance |
+| Momentum | 20% | RSI(14) and position against the 50-day average |
+| Gold vs Stocks | 20% | GLD vs SPY over 14 days |
+| VIX | 15% | Z-score vs its recent average (stock-market fear counts in gold's favor) |
+| Dollar Index | 10% | DXY 14-day change and position vs its 30-day average (inverse) |
+| Real Rates | 10% | 10-Year TIPS yield from FRED vs its average (inverse) |
 
 ### Bonds (6 Components)
 | Component | Weight | Description |
@@ -108,18 +128,16 @@ Full methodology with detailed explanations available on each asset page ([Gold]
 
 ## Data Sources
 
-All data is **100% free** and publicly accessible:
+All data is **free** and publicly accessible:
 
-- **Yahoo Finance** (via yfinance): All price, volume, and technical data
-  - ETFs: GLD, TLT, SPY, SHY, LQD, HYG, RSP, QQQ, XLP, TIP
-  - Indices: ^VIX, DX=F (DXY), ^TNX, ^IRX
+- **Yahoo Finance** (via yfinance): prices, volumes and technical data
+  - ETFs: GLD, TLT, SPY, SHY, LQD, HYG, RSP, QQQ, XLP
+  - Indices and futures: ^VIX, ^TNX, DX-Y.NYB (dollar index), GC=F
   - Crypto: BTC-USD, ETH-USD
+- **FRED** (Federal Reserve): DGS2, DGS10 (yield curve), DFII10 (10-Year TIPS real yield)
+- **Alpha Vantage**: backup source for the published price when Yahoo fails
 
-- **FRED API** (Federal Reserve): Treasury yields and TIPS
-  - DGS2, DGS10 (2Y/10Y Treasury yields)
-  - DFII10 (10-Year TIPS real yields)
-
-**Fallback Strategy**: FRED > Yahoo Finance for weekend/holiday protection (never defaults to neutral 50.0).
+**When a source fails**: real rates fall back from FRED to Yahoo (^TNX), and the published price falls back to Alpha Vantage. A component whose data cannot be fetched at all scores 50 (neutral) for that day, keeping its weight.
 
 ---
 
@@ -147,12 +165,12 @@ gold-fear-greed-index/
 ├── shared.js                   # Shared utilities (chart helpers, mobile menu, logo dots)
 ├── asset-chart.js              # Asset page chart logic (parameterized via ASSET_CONFIG)
 ├── data/
-│   ├── *-fear-greed.json       # Daily F&G data (365 days x 4 assets)
+│   ├── *-fear-greed.json       # Today's score, components and 365 days of history
 │   ├── history-5y-*.json       # 5-year aligned score+price history
 │   └── insights-5y-*.json     # Pre-computed correlation & stats
 ├── .github/
 │   └── workflows/
-│       └── update-index.yml    # Daily automation (2:00 UTC)
+│       └── update-index.yml    # Daily automation (04:07 UTC)
 └── README.md
 ```
 
@@ -239,36 +257,27 @@ python -m http.server 8080
 
 ---
 
-## Deployment (GitHub Pages)
+## Deployment & Automation
 
-The site auto-deploys to GitHub Pages from the `main` branch.
+The site is static and hosted on **Netlify**, which redeploys on every push to `main`.
 
-### Setup
+Once a day at **04:07 UTC**, a Netlify scheduled function starts the GitHub Actions workflow (`update-index.yml`); a GitHub cron at 04:37 UTC is a backup and stands down if the day is already published. The workflow:
 
-1. Go to repo Settings > Pages
-2. Source: Deploy from branch `main`
-3. Folder: `/ (root)`
-4. Add `FRED_API_KEY` to Settings > Secrets and variables > Actions
+1. Calculates the 4 indices (and their published prices)
+2. Appends the day to the 5-year history and recomputes cross-asset correlations
+3. Writes a short daily context with Claude (labelled as AI-generated on the site)
+4. Emails subscribers when an index swings sharply or hits a new 6-month high or low
+5. Commits the JSON files to `main`, which triggers the Netlify deploy
 
-### Automation
-
-GitHub Actions runs **daily at 2:00 UTC**:
-
-1. Calculates all 4 indices
-2. Generates/updates JSON files in `data/`
-3. Commits changes to `main`
-4. GitHub Pages auto-redeploys
-
-**Manual trigger**: Actions tab > "Update Fear & Greed Indices" > Run workflow
+**Manual trigger**: Actions tab > "Update Gold, Stocks, Crypto & Bonds Fear & Greed Indices" > Run workflow
 
 ---
 
 ## Data Update Schedule
 
-- **Calculation**: Daily at 2:00 AM UTC (3:00 AM Paris / 9:00 PM ET)
-- **Market data**: Real-time when script runs
-- **History retention**: 365 days rolling window + 5-year rebuilt history
-- **Methodology**: Documented on each asset page and on [about.html](https://onoff.markets/about.html)
+- **Calculation**: daily at 04:07 UTC, on the previous session's close
+- **History**: 365 days in each `*-fear-greed.json`, 5 years in `history-5y-*.json`
+- **Methodology**: documented on each asset page and on [about.html](https://onoff.markets/about.html)
 
 | Source | Limit | Usage |
 |--------|-------|-------|
@@ -296,7 +305,7 @@ These indices are analytical tools designed to complement, not replace, fundamen
 - Inspired by [Alternative.me's Crypto Fear & Greed Index](https://alternative.me/crypto/fear-and-greed-index/)
 - Data: Yahoo Finance & Federal Reserve Economic Data (FRED)
 - Built with Claude Code
-- Hosted on GitHub Pages
+- Hosted on Netlify
 
 ---
 
