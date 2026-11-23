@@ -1,14 +1,14 @@
 {
-  "date": "2026-11-22",
-  "timestamp": "2026-11-22T04:09:31Z",
-  "session": "2026-11-21",
+  "date": "2026-11-23",
+  "timestamp": "2026-11-23T04:10:55Z",
+  "session": "2026-11-22",
   "is_new": true,
   "source": "ai",
-  "summary": "Crypto was the only asset trading into the weekend close, extending its rout as bitcoin's 30-day drop neared 27% and RSI near 12 signaled deep capitulation. Stocks, bonds and gold simply carried over Friday's levels, still marked by a VIX near 36, a firm dollar and elevated real yields that kept equities and gold in fear while bonds held up as the lone haven.",
-  "tweet": "Crypto alone traded the weekend and kept sliding (BTC -27% in 30d, RSI ~12), while stocks, bonds and gold just carried Friday's fear-soaked closes.",
+  "summary": "Only crypto traded into Sunday's close, and bitcoin's rout eased slightly as its 30-day drop narrowed to 24.3% and RSI lifted off last week's teens to 20, though price stayed 15% below its 200-day average. Stocks, bonds and gold simply carried Friday's levels, still pinned in fear by a VIX near 36, a firm dollar near 104 and 10-year real yields above 2.8%.",
+  "tweet": "Crypto was the only mover this weekend, bitcoin's selloff easing (30d -24.3%, RSI 20) while stocks, bonds and gold held Friday's fear-gripped, VIX-36 levels.",
   "scores": {
     "gold": {
-      "score": 30.9,
+      "score": 31.4,
       "label": "Fear"
     },
     "stocks": {
@@ -16,7 +16,7 @@
       "label": "Fear"
     },
     "crypto": {
-      "score": 27.9,
+      "score": 29.6,
       "label": "Fear"
     },
     "bonds": {
@@ -24,7 +24,7 @@
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 33.4,
+      "score": 34.0,
       "label": "Fear"
     }
   }

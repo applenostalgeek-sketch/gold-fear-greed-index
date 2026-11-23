@@ -1,10 +1,10 @@
 {
   "asset": "crypto",
-  "generated": "2026-11-22T04:07:48Z",
+  "generated": "2026-11-23T04:07:46Z",
   "total_days": 1826,
   "date_range": {
-    "start": "2021-11-23",
-    "end": "2026-11-22"
+    "start": "2021-11-24",
+    "end": "2026-11-23"
   },
   "score_stats": {
     "min": 11.1,
@@ -12,12 +12,6 @@
     "avg": 51.9
   },
   "history": [
-    {
-      "date": "2021-11-23",
-      "score": 46.2,
-      "label": "Neutral",
-      "price": 57569.07
-    },
     {
       "date": "2021-11-24",
       "score": 46.2,
@@ -10967,6 +10961,12 @@
       "score": 27.9,
       "label": "Fear",
       "price": 59384.58
+    },
+    {
+      "date": "2026-11-23",
+      "score": 29.6,
+      "label": "Fear",
+      "price": 61154.44
     }
   ]
 }

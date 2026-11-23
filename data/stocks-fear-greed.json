@@ -1,7 +1,7 @@
 {
   "score": 27.4,
   "label": "Fear",
-  "timestamp": "2026-11-22T04:07:45Z",
+  "timestamp": "2026-11-23T04:07:43Z",
   "components": {
     "price_strength": {
       "score": 0,
@@ -40,6 +40,11 @@
     }
   },
   "history": [
+    {
+      "date": "2026-11-23",
+      "score": 27.4,
+      "price": 689.81
+    },
     {
       "date": "2026-11-22",
       "score": 27.4,
@@ -1859,11 +1864,6 @@
       "date": "2025-11-24",
       "score": 45.9,
       "price": 666.76
-    },
-    {
-      "date": "2025-11-23",
-      "score": 44.9,
-      "price": 657.09
     }
   ]
 }
