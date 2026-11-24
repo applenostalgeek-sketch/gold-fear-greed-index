@@ -69,7 +69,7 @@
                 "name": "Can I access historical data via API?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "All data is available via public JSON endpoints (e.g., /data/bonds-fear-greed.json) updated daily at 02:00 UTC. These files contain current scores, component breakdowns, and 365 days of historical data."
+                    "text": "Yes, freely: no key, no account, and readable from any website (CORS). /data/gold-fear-greed.json holds today's score, each component and 365 days of history; /data/history-5y-gold.json holds 5 years of daily scores and prices. The same files exist for bonds, stocks and crypto, updated daily at 04:07 UTC. Values before early 2026 were reconstructed with the same formulas."
                 }
             },
             {
@@ -85,7 +85,7 @@
                 "name": "Can I use this data in my own tools?",
                 "acceptedAnswer": {
                     "@type": "Answer",
-                    "text": "Yes — all data is open via public JSON endpoints, updated daily. Common use cases: live dashboards, research and backtesting on 365 days of history, and monitoring sentiment zone changes across four asset classes. Note: these indices measure sentiment — they don't tell you when to buy or sell."
+                    "text": "Yes — all data is open via public JSON endpoints, updated daily, with no key. Common use cases: live dashboards, research and backtesting on 5 years of daily history, and your own alerts on zone changes or extremes across four asset classes. Note: these indices measure sentiment — they don't tell you when to buy or sell."
                 }
             }
         ]
@@ -324,7 +324,7 @@
                 First Gold, then Stocks, then Crypto, then Bonds. Once all four were live, I realized I had something unique: a <strong>Market Sentiment Indicator</strong> — the simple average of all four indices — showing the overall mood across asset classes at a glance. That's the core insight behind OnOff.Markets.
             </p>
             <p>
-                <strong>No subscriptions. No paywalls. No proprietary secrets.</strong> Just transparent quantitative analysis, updated every day at 02:00 UTC.
+                <strong>No subscriptions. No paywalls. No proprietary secrets.</strong> Just transparent quantitative analysis, updated every morning at 04:07 UTC.
             </p>
 
             <h3>Who's behind this?</h3>
@@ -340,7 +340,7 @@
         <div class="section" id="what-is">
             <h2>What is Fear & Greed?</h2>
             <p>
-                Markets are driven by two fundamental emotions: <strong>fear</strong> and <strong>greed</strong>. When fear dominates, investors sell aggressively, often creating oversold conditions and buying opportunities. When greed takes over, markets become euphoric and overbought, increasing the risk of corrections.
+                Markets are driven by two fundamental emotions: <strong>fear</strong> and <strong>greed</strong>. When fear dominates, investors sell, cut risk and look for safety. When greed takes over, they chase gains and take on more risk.
             </p>
             <p>
                 Our indices quantify this psychology across four asset classes—Gold (safe haven), Bonds (risk-off), Stocks (growth), and Crypto (speculation)—by analyzing multiple technical and sentiment indicators. Each index scores from 0 to 100:
@@ -378,21 +378,20 @@
                     <strong>Risk-on pattern:</strong> Crypto/Stocks rising + Gold falling = risk appetite returning.
                 </p>
                 <p>
-                    Compare the four asset cards side by side to spot these flows in real-time.
+                    Compare the four asset cards side by side, and the market mood strip under the homepage chart, to see these flows day by day.
                 </p>
             </div>
 
             <div class="component-box crypto">
-                <h4>🔌 API Integration</h4>
-                <p><strong>Programmatic access (available on request):</strong></p>
+                <h4>🔌 Open Data</h4>
+                <p><strong>Free JSON files, no key, no account, readable from any website:</strong></p>
                 <ul>
-                    <li>Algorithmic trading systems (real-time sentiment signals)</li>
-                    <li>Backtesting strategies (365 days of historical data per index)</li>
-                    <li>Portfolio dashboards (embed live sentiment gauges)</li>
-                    <li>Email alerts when sentiment zones change</li>
+                    <li>Dashboards and bots (today's scores and every component)</li>
+                    <li>Research and backtesting (5 years of daily history per index)</li>
+                    <li>Your own alerts (the files refresh every morning)</li>
                 </ul>
                 <p style="margin-top: 12px;">
-                    <strong>Interested in API access?</strong> Email <a href="mailto:contact@onoff.markets" style="color: #F7931A; text-decoration: underline;">contact@onoff.markets</a> to discuss your use case and requirements.
+                    <strong>Documentation:</strong> the <a href="https://github.com/applenostalgeek-sketch/gold-fear-greed-index#open-data-free-no-key" style="color: #F7931A; text-decoration: underline;">Open Data section on GitHub</a>. Something missing? Email <a href="mailto:contact@onoff.markets" style="color: #F7931A; text-decoration: underline;">contact@onoff.markets</a>.
                 </p>
             </div>
         </div>
@@ -404,46 +403,44 @@
 
             <h3>Primary Data Sources</h3>
             <ul>
-                <li><strong>Yahoo Finance (Primary):</strong> All price, volume, and technical data (GC=F, BTC-USD, SPY, GLD, VIX, DXY, RSP, HYG, TLT, LQD, SHY, ETH-USD, ^TNX, ^IRX, TIP, etc.)</li>
+                <li><strong>Yahoo Finance (Primary):</strong> All price, volume, and technical data (GLD, GC=F, SPY, RSP, QQQ, XLP, HYG, LQD, TLT, SHY, ^VIX, ^TNX, ^IRX, the dollar index DX-Y.NYB, BTC-USD, ETH-USD)</li>
                 <li><strong>FRED (Federal Reserve):</strong> Treasury yields (DGS2, DGS10) and TIPS real yields (DFII10)</li>
                 <li><strong>CBOE:</strong> VIX volatility index via Yahoo Finance ticker ^VIX</li>
+                <li><strong>Alpha Vantage:</strong> backup source for the published prices when Yahoo fails</li>
             </ul>
 
             <h3>Data Reliability & Fallback Strategy</h3>
             <div class="component-box" style="border-left-color: #4A90E2; margin-top: 16px;">
-                <h4>🔄 Weekend & Holiday Protection</h4>
+                <h4>🔄 When a Source Fails</h4>
                 <p>
-                    <strong>Problem:</strong> FRED API does not publish data on weekends and holidays, which could cause stale readings or default neutral (50.0) scores.
-                </p>
-                <p>
-                    <strong>Solution:</strong> Intelligent fallback hierarchy ensures real market data is always used:
+                    Each component has its own data source. When one fails, this is what happens:
                 </p>
                 <ul>
-                    <li><strong>Bonds Yield Curve:</strong> FRED (DGS2, DGS10) → Yahoo (^TNX, ^IRX) → Never defaults to 50.0</li>
-                    <li><strong>Bonds Real Rates:</strong> FRED (DFII10) → Yahoo (TIP ETF + ^TNX estimation) → Never defaults to 50.0</li>
-                    <li><strong>Gold Real Rates:</strong> FRED (DFII10) → Yahoo (TIP ETF) → Never defaults to 50.0</li>
+                    <li><strong>Real rates (Gold and Bonds):</strong> FRED (DFII10) → Yahoo 10-year Treasury yield (^TNX) as an approximation</li>
+                    <li><strong>Bonds yield curve:</strong> FRED (10-year minus 2-year) → Yahoo (^TNX minus ^IRX, a rougher approximation)</li>
+                    <li><strong>Any other component:</strong> if its data cannot be fetched at all, it scores 50 (neutral) for that day and keeps its weight. This is rare, and the day's detail says "Data unavailable".</li>
                 </ul>
                 <p style="margin-top: 12px;">
-                    <strong>Coverage:</strong> Yahoo Finance provides real-time market data 24/7 including weekends (last closing price), ensuring indices always reflect actual market conditions rather than stale or neutral defaults.
+                    <strong>Weekends and holidays:</strong> gold, stocks and bonds repeat their last close; crypto trades every day, so its index moves every day.
                 </p>
             </div>
 
             <div class="component-box" style="border-left-color: #f59e0b; margin-top: 24px;">
                 <h4>📡 Price Data Protection</h4>
                 <p>
-                    If Yahoo's Chart API returns incomplete data for the latest trading day, the system automatically falls back to Yahoo's Quote API (real-time price) before dropping the entry. All outputs are sanitized to prevent invalid data from reaching the site.
+                    The price shown next to each index comes from Yahoo's Chart API, then Yahoo's Quote API, then Alpha Vantage. If all three fail, the previous day's price is kept rather than a wrong one published. All outputs are sanitized to prevent invalid data from reaching the site.
                 </p>
             </div>
 
             <div class="component-box" style="border-left-color: #22c55e; margin-top: 24px;">
-                <h4>🔓 Source Code Access</h4>
+                <h4>🔓 Open Source</h4>
                 <p>
-                    Full calculation source code available on request for verification and review. Email <a href="mailto:contact@onoff.markets" style="color: #22c55e; text-decoration: underline; font-weight: 600;">contact@onoff.markets</a> to access complete Python implementation, historical data, and documentation.
+                    The full calculation code is public under the MIT license: <a href="https://github.com/applenostalgeek-sketch/gold-fear-greed-index" style="color: #22c55e; text-decoration: underline; font-weight: 600;">github.com/applenostalgeek-sketch/gold-fear-greed-index</a>. Every formula on this site can be checked line by line.
                 </p>
             </div>
 
             <p style="margin-top: 24px;">
-                <strong>Update Schedule:</strong> All indices updated <strong>daily at 2:00 AM UTC (3:00 AM Paris / 9:00 PM ET)</strong> via automated GitHub Actions workflow. Historical data spanning 365 days is maintained for each index.
+                <strong>Update Schedule:</strong> All indices updated <strong>daily at 04:07 UTC</strong>, on the previous session's close, via an automated GitHub Actions workflow. Each index keeps 365 days of history in its own file, and 5 years in a separate history file.
             </p>
 
             <p style="margin-top: 16px;">
@@ -472,10 +469,10 @@
 
             <h3>Can I access historical data via API?</h3>
             <p>
-                Currently, all data is available via public JSON endpoints (e.g., <code>/data/bonds-fear-greed.json</code>) updated daily at 02:00 UTC. These files contain current scores, component breakdowns, and 365 days of historical data.
+                Yes, freely: no key, no account, and readable from any website. <code>/data/gold-fear-greed.json</code> holds today's score, each component and 365 days of history; <code>/data/history-5y-gold.json</code> holds 5 years of daily scores and prices. The same files exist for bonds, stocks and crypto, updated daily at 04:07 UTC.
             </p>
             <p>
-                <strong>For programmatic API access with authentication, webhooks, and advanced features,</strong> contact us at <a href="mailto:contact@onoff.markets" style="color: #4A90E2; text-decoration: underline;">contact@onoff.markets</a> to discuss your requirements.
+                Values before early 2026 were reconstructed with the same formulas, not published live at the time. Full documentation is in the <a href="https://github.com/applenostalgeek-sketch/gold-fear-greed-index#open-data-free-no-key" style="color: #4A90E2; text-decoration: underline;">Open Data section on GitHub</a>.
             </p>
 
             <h3>Why are there different numbers of components for each index?</h3>
@@ -498,11 +495,11 @@
             </p>
             <ul>
                 <li><strong>Live dashboards:</strong> Embed current scores via the public JSON endpoints</li>
-                <li><strong>Research &amp; backtesting:</strong> 365 days of daily history per index, component breakdowns included</li>
-                <li><strong>Alerting &amp; monitoring:</strong> Track sentiment zone changes across four asset classes</li>
+                <li><strong>Research &amp; backtesting:</strong> 5 years of daily history per index</li>
+                <li><strong>Alerting &amp; monitoring:</strong> Build your own alerts on zone changes or extremes across four asset classes</li>
             </ul>
             <p>
-                Data is accessible via JSON endpoints (e.g., <code>/data/bonds-fear-greed.json</code>), updated daily at 02:00 UTC. One honest note: these indices measure sentiment — they don't tell you when to buy or sell. If you build a strategy on top of them, backtest it thoroughly, and keep in mind that sentiment behaves differently on each asset class.
+                Data is accessible via JSON endpoints (e.g., <code>/data/bonds-fear-greed.json</code>), updated daily at 04:07 UTC. One honest note: these indices measure sentiment — they don't tell you when to buy or sell. If you build a strategy on top of them, backtest it thoroughly, and keep in mind that sentiment behaves differently on each asset class.
             </p>
         </div>
 
