@@ -138,7 +138,9 @@
         // Timestamp
         if (assetData.timestamp) {
             const date = new Date(assetData.timestamp);
-            const timeText = 'Updated: ' + date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }) + ', ' + date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+            // Shown in UTC with the zone written: in the visitor's own zone, New York read
+            // 'Nov 23, 11:10 PM' for the Nov 24 run, as if the data were a day old.
+            const timeText = 'Updated: ' + date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }) + ' \u00b7 ' + date.toLocaleTimeString('en-GB', { hour: '2-digit', minute: '2-digit', timeZone: 'UTC' }) + ' UTC';
             document.getElementById('updated').textContent = timeText;
         }
 
@@ -657,7 +659,7 @@
                 const idx = i === numLabels - 1 ? total - 1 : Math.round(i * (total - 1) / (numLabels - 1));
                 const x = indexToX(idx, total, pad, plotW);
                 const date = new Date(chartHistory[idx].date);
-                const label = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+                const label = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', timeZone: 'UTC' });
                 if (i === 0) ctx.textAlign = 'left';
                 else if (i === numLabels - 1) ctx.textAlign = 'right';
                 else ctx.textAlign = 'center';
@@ -687,7 +689,7 @@
         if (!point) return;
 
         const date = new Date(point.date);
-        document.getElementById('tooltipDate').textContent = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+        document.getElementById('tooltipDate').textContent = date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
 
         let rows = '';
         if (isIndexVisible()) {
