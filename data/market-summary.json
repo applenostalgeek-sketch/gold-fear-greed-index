@@ -1,30 +1,30 @@
 {
-  "date": "2026-11-24",
-  "timestamp": "2026-11-24T04:10:17Z",
-  "session": "2026-11-23",
+  "date": "2026-11-25",
+  "timestamp": "2026-11-25T04:12:47Z",
+  "session": "2026-11-24",
   "is_new": true,
   "source": "ai",
-  "summary": "Monday's rebound traced to one headline: Nvidia reinstating Jensen Huang as CEO triggered a massive relief rally, and the S&P 500 rose +4.73% to 7,237.17, also its best day since April 2025, while the broader market had just closed another brutal session... growing concerns surrounding the AI sector continued to dominate investor sentiment days earlier.",
-  "tweet": "Jensen Huang's reinstatement as Nvidia CEO sparked an AI relief rally, lifting the S&P 500 4.73% out of correction while gold and crypto stayed stuck in fear.",
+  "summary": "Gold's slide deepened as the dollar pushed above 104 and real 10-year yields climbed near 2.8%, stripping away its safe-haven bid. Stocks clawed back some of the prior rout with a sharp one-day bounce, even as volatility stayed elevated. Crypto remained the weak spot, extending its drawdown with bitcoin deeply oversold.",
+  "tweet": "Dollar and real-yield strength hammered gold while stocks bounced off oversold levels and crypto kept sinking.",
   "scores": {
     "gold": {
-      "score": 28.7,
-      "label": "Fear"
+      "score": 24.4,
+      "label": "Extreme Fear"
     },
     "stocks": {
-      "score": 35.3,
+      "score": 42.0,
       "label": "Fear"
     },
     "crypto": {
-      "score": 29.8,
+      "score": 29.0,
       "label": "Fear"
     },
     "bonds": {
-      "score": 51.1,
+      "score": 47.1,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 36.2,
+      "score": 35.6,
       "label": "Fear"
     }
   }
