@@ -1,30 +1,30 @@
 {
-  "date": "2026-11-25",
-  "timestamp": "2026-11-25T04:12:47Z",
-  "session": "2026-11-24",
+  "date": "2026-11-26",
+  "timestamp": "2026-11-26T04:09:21Z",
+  "session": "2026-11-25",
   "is_new": true,
   "source": "ai",
-  "summary": "Gold's slide deepened as the dollar pushed above 104 and real 10-year yields climbed near 2.8%, stripping away its safe-haven bid. Stocks clawed back some of the prior rout with a sharp one-day bounce, even as volatility stayed elevated. Crypto remained the weak spot, extending its drawdown with bitcoin deeply oversold.",
-  "tweet": "Dollar and real-yield strength hammered gold while stocks bounced off oversold levels and crypto kept sinking.",
+  "summary": "Wednesday's close showed a dollar/real-rate squeeze and a stuck-high VIX as the common threads across assets. DXY near 103.8 with 10Y TIPS at 2.79% kept gold pinned despite a bounce, while VIX at 28.3 (vs an 18.2 average) kept equity positioning defensive, with capital rotating into staples over growth. Crypto stayed the weakest link, extending a steep, oversold drawdown.",
+  "tweet": "Dollar strength and real yields capped gold, a still-elevated VIX kept stocks defensive, and crypto stayed oversold into Wednesday's close. Note: I was unable to confirm specific named catalysts (e.g., a particular Fed...",
   "scores": {
     "gold": {
-      "score": 24.4,
-      "label": "Extreme Fear"
+      "score": 27.2,
+      "label": "Fear"
     },
     "stocks": {
-      "score": 42.0,
+      "score": 40.7,
       "label": "Fear"
     },
     "crypto": {
-      "score": 29.0,
+      "score": 28.4,
       "label": "Fear"
     },
     "bonds": {
-      "score": 47.1,
+      "score": 48.6,
       "label": "Neutral"
     },
     "sentiment": {
-      "score": 35.6,
+      "score": 36.2,
       "label": "Fear"
     }
   }
