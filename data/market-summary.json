@@ -1,18 +1,18 @@
 {
-  "date": "2026-11-27",
-  "timestamp": "2026-11-27T04:07:50Z",
-  "session": "2026-11-26",
-  "is_new": false,
+  "date": "2026-11-28",
+  "timestamp": "2026-11-28T04:13:32Z",
+  "session": "2026-11-27",
+  "is_new": true,
   "source": "ai",
-  "summary": "Wednesday's close showed a dollar/real-rate squeeze and a stuck-high VIX as the common threads across assets. DXY near 103.8 with 10Y TIPS at 2.79% kept gold pinned despite a bounce, while VIX at 28.3 (vs an 18.2 average) kept equity positioning defensive, with capital rotating into staples over growth. Crypto stayed the weakest link, extending a steep, oversold drawdown.",
-  "tweet": "Dollar strength and real yields capped gold, a still-elevated VIX kept stocks defensive, and crypto stayed oversold into Wednesday's close. Note: I was unable to confirm specific named catalysts (e.g., a particular Fed...",
+  "summary": "Friday's holiday-shortened session saw the dollar hold near a 14-day high with real yields firm, keeping gold pinned despite its oversold bounce attempt. Volatility stayed stuck above its seasonal average, pushing capital into staples and bonds while growth and crypto absorbed the selling, with bitcoin extending its slide below its 200-day average.",
+  "tweet": "Dollar strength and stuck-high volatility pinned gold and pressured crypto on Black Friday's thin session, while capital rotated into staples and bonds over growth.",
   "scores": {
     "gold": {
-      "score": 26.8,
+      "score": 25.7,
       "label": "Fear"
     },
     "stocks": {
-      "score": 41.7,
+      "score": 44.2,
       "label": "Fear"
     },
     "crypto": {
@@ -20,11 +20,11 @@
       "label": "Fear"
     },
     "bonds": {
-      "score": 48.6,
-      "label": "Neutral"
+      "score": 41.9,
+      "label": "Fear"
     },
     "sentiment": {
-      "score": 37.7,
+      "score": 36.4,
       "label": "Fear"
     }
   }
