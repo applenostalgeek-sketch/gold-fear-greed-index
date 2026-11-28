@@ -22,7 +22,7 @@
 
     var files = { gold: 'data/gold-fear-greed.json', stocks: 'data/stocks-fear-greed.json', bonds: 'data/bonds-fear-greed.json', crypto: 'data/crypto-fear-greed.json' };
     Promise.all(Object.keys(files).map(function (k) {
-        return fetch(files[k]).then(function (r) { return r.json(); }).then(function (d) { return [k, Math.round(d.score)]; });
+        return fetch(files[k]).then(function (r) { return r.json(); }).then(function (d) { return [k, d.score]; });
     })).then(function (entries) {
         var s = {};
         entries.forEach(function (e) { s[e[0]] = e[1]; });
@@ -39,7 +39,8 @@
             var fill = row.querySelector('.mrow-fill');
             requestAnimationFrame(function () { fill.style.setProperty('--score', v + '%'); dot.style.left = v + '%'; });
         }
-        ['gold', 'stocks', 'bonds', 'crypto'].forEach(function (k) { hydrate(k, s[k]); });
+        ['gold', 'stocks', 'bonds', 'crypto'].forEach(function (k) { hydrate(k, Math.round(s[k])); });
+        // Average the raw scores, as the homepage and the logo do (rounding first can differ by 1).
         var comp = Math.round((s.gold + s.stocks + s.bonds + s.crypto) / 4), cc = getColor(comp);
         var foot = root.querySelector('.mrows-foot');
         var fv = foot.querySelector('.foot-val'), fz = foot.querySelector('.foot-zone');
